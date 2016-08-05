@@ -28,6 +28,5 @@
 *.app
 
 # Build
-./bin
-./obj
+./bin/*
 
