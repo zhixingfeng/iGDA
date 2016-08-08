@@ -18,6 +18,7 @@ public:
     virtual ~AlignCoder(){};
     
     virtual bool encode(string alignfile, string outfile)=0;
+    virtual pair<int, char> decode(int code)=0; // int is position, char is base
 };
 
 
