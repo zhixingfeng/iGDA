@@ -15,6 +15,8 @@ TEST_CASE("test AlignCoderSNV::encode")
     
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
     p_aligncoder->encode("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward_encode_snv.txt");
 }
 

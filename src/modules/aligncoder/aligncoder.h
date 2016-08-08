@@ -10,15 +10,22 @@
 #define __iGDA__aligncoder__
 
 #include <headers.h>
+#include "../alignreader/alignreader.h"
+#include "../alignreader/alignreaderm5.h"
 
 class AlignCoder
 {
 public:
-    AlignCoder(){};
+    AlignCoder(){p_alignreader = NULL;};
     virtual ~AlignCoder(){};
     
     virtual bool encode(string alignfile, string outfile)=0;
     virtual pair<int, char> decode(int code)=0; // int is position, char is base
+    
+    inline void setAlignReader(AlignReader * a_p_alignreader){p_alignreader = a_p_alignreader;}
+    
+protected:
+    AlignReader *p_alignreader;
 };
 
 

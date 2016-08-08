@@ -14,7 +14,7 @@
 class AlignCoderSNV : public AlignCoder
 {
 public:
-    AlignCoderSNV(){};
+    AlignCoderSNV() : AlignCoder() {};
     virtual ~AlignCoderSNV(){};
     
     bool encode(string alignfile, string outfile);

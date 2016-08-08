@@ -7,14 +7,18 @@
 //
 
 #include "aligncodersnv.h"
+#include "../alignreader/alignreader.h"
 #include "../alignreader/alignreaderm5.h"
+
+
+// public
 
 bool AlignCoderSNV::encode(string alignfile, string outfile)
 {
+    if (p_alignreader==NULL)
+        throw runtime_error("AlignCoderSNV::encode: p_alignreader has not be set.");
     ofstream p_outfile;
     open_outfile(p_outfile, outfile);
-    AlignReaderM5 alignreaderm5;
-    AlignReader *p_alignreader = &alignreaderm5;
     
     p_alignreader->open(alignfile);
     Align align;
@@ -65,6 +69,8 @@ pair<int, char> AlignCoderSNV::decode(int code)
     }
     return rl;
 }
+
+// private
 int AlignCoderSNV::binary_code(int pos, char base)
 {
     int shift = 0;

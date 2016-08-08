@@ -57,6 +57,9 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             cmd.parse(argv2);
             
+            // set alignreader
+            AlignReaderM5 alignreaderm5;
+            
             // select encoder
             AlignCoderSNV aligncodersnv;
             AlignCoder *p_aligncoder = NULL;
@@ -72,6 +75,8 @@ int main(int argc, const char * argv[])
                     cerr << "Error: invalid argument. -m should be 0 or 1" << endl;
                     return 1;
             }
+            
+            p_aligncoder->setAlignReader(&alignreaderm5);
             p_aligncoder->encode(alignfileArg.getValue(), outfileArg.getValue());
             
             return 0;
