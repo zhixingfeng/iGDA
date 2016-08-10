@@ -11,7 +11,7 @@
 #include <headers.h>
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
-
+#include "./misc/misc.h"
 
 #ifdef _UNITTEST
 
@@ -31,6 +31,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
+    cout << "command=encode, m5tofa" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -79,6 +80,16 @@ int main(int argc, const char * argv[])
             p_aligncoder->setAlignReader(&alignreaderm5);
             p_aligncoder->encode(alignfileArg.getValue(), outfileArg.getValue());
             
+            return 0;
+        }
+        
+        // m5 to fasta
+        if (strcmp(argv[1], "m5tofa")==0) {
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            UnlabeledValueArg<string> fafileArg("fafile", "path of fa file", true, "", "fafile", cmd);
+            cmd.parse(argv2);
+            
+            m5tofa(m5fileArg.getValue(), fafileArg.getValue());
             return 0;
         }
         
