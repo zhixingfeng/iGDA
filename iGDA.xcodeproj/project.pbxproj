@@ -2233,6 +2233,8 @@
 		DC9318461D5527D200640B65 /* XorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XorHandler.h; sourceTree = "<group>"; };
 		DC9318471D5527D200640B65 /* ZshCompletionOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZshCompletionOutput.h; sourceTree = "<group>"; };
 		DC9318481D5527D200640B65 /* tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tools.h; sourceTree = "<group>"; };
+		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
+		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
 		DCFEC5951D5BCD370025E57C /* misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
 		DCFEC5961D5BD12B0025E57C /* test_misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_misc.cpp; sourceTree = "<group>"; };
@@ -2252,6 +2254,7 @@
 		DC930F0C1D55274600640B65 = {
 			isa = PBXGroup;
 			children = (
+				DCB714DE1D62426000666D59 /* data */,
 				DC930F1F1D5527CF00640B65 /* include */,
 				DC930F261D5527CF00640B65 /* src */,
 				DC930F341D5527CF00640B65 /* test */,
@@ -5688,6 +5691,7 @@
 			children = (
 				DCFEC5941D5BCCD30025E57C /* m5tofa.h */,
 				DCFEC5951D5BCD370025E57C /* misc.h */,
+				DCB714DD1D620F4800666D59 /* seqopt.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";
@@ -5799,6 +5803,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					_UNITTEST,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -5810,7 +5815,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-D_UNITTEST";
+				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				SDKROOT = macosx;
 			};
@@ -5848,7 +5853,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-D_UNITTEST";
+				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				SDKROOT = macosx;
 			};

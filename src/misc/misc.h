@@ -8,6 +8,8 @@
 
 #ifndef iGDA_misc_h
 #define iGDA_misc_h
+
 #include "./m5tofa.h"
+#include "./seqopt.h"
 
 #endif

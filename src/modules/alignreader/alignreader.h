@@ -40,12 +40,14 @@ public:
     AlignReader(){}
     virtual ~AlignReader(){}
     
+    /*-----------virtual functions------------*/
     // open align file
     virtual bool open(string filename)=0;
     // read a line of align file
     virtual bool readline(Align &align)=0;
     // close align file
     virtual bool close()=0;
+        
     
 protected:
     string filename;

@@ -10,6 +10,7 @@
 #include "../include/headers.h"
 #include "../src/modules/modules.h"
 
+
 TEST_CASE("test AlignCoderSNV::encode")
 {
     
@@ -19,6 +20,17 @@ TEST_CASE("test AlignCoderSNV::encode")
     p_aligncoder->setAlignReader(&alignreaderm5);
     p_aligncoder->encode("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward_encode_snv.txt");
 }
+
+TEST_CASE("test AlignCoderSNV::encode negative strand")
+{
+    
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->encode("../data/B_10_cons.m5", "../results/B_10_cons.m5_both_strand_encode_snv.txt");
+}
+
 
 TEST_CASE("test AlignCoderSNV::decode")
 {
@@ -35,5 +47,7 @@ TEST_CASE("test AlignCoderSNV::decode")
     
     REQUIRE(p_aligncoder->decode(3894).first==974); REQUIRE(p_aligncoder->decode(3894).second=='C');
     REQUIRE(p_aligncoder->decode(372).first==93);REQUIRE(p_aligncoder->decode(372).second=='T');
+    
+    
     
 }

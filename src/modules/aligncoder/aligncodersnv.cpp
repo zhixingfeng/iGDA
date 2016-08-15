@@ -9,7 +9,7 @@
 #include "aligncodersnv.h"
 #include "../alignreader/alignreader.h"
 #include "../alignreader/alignreaderm5.h"
-
+#include "../../misc/misc.h"
 
 // public
 
@@ -25,10 +25,21 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
     int nline = 0;
     while(p_alignreader->readline(align)){
         ++nline;
+        
+        // expections
         int alen = (int) align.matchPattern.size();
         if ( !(align.qAlignedSeq.size()==alen && align.tAlignedSeq.size()==alen) )
             throw runtime_error("incorrect match patter in line " + to_string(nline));
+        if (align.qStrand != '+')
+            throw runtime_error("qStrand should be + in line " + to_string(nline));
         
+        // reverse alignment if it is aligned to negative strand
+        if (align.tStrand != '+'){
+            align.qAlignedSeq = getrevcomp(align.qAlignedSeq);
+            align.tAlignedSeq = getrevcomp(align.tAlignedSeq);
+        }
+        
+        // encode
         int cur_pos = align.tStart;
         for (int i=0; i<alen; i++){
             if (align.tAlignedSeq[i]!=align.qAlignedSeq[i] && align.tAlignedSeq[i]!='-' && align.qAlignedSeq[i]!='-')
