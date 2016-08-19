@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC7CB6051D6659FB001CA004 /* freqsetminer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */; };
 		DC9318491D5527D200640B65 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F271D5527CF00640B65 /* main.cpp */; };
 		DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2A1D5527CF00640B65 /* aligncoder.cpp */; };
 		DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2C1D5527CF00640B65 /* aligncodersnv.cpp */; };
@@ -39,6 +40,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = freqsetminer.cpp; sourceTree = "<group>"; };
+		DC7CB6041D6659FB001CA004 /* freqsetminer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = freqsetminer.hpp; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC930F201D5527CF00640B65 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		DC930F211D5527CF00640B65 /* data_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_type.h; sourceTree = "<group>"; };
@@ -2251,6 +2254,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC7CB5FF1D66597A001CA004 /* freqsetminer */ = {
+			isa = PBXGroup;
+			children = (
+				DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */,
+				DC7CB6041D6659FB001CA004 /* freqsetminer.hpp */,
+			);
+			path = freqsetminer;
+			sourceTree = "<group>";
+		};
 		DC930F0C1D55274600640B65 = {
 			isa = PBXGroup;
 			children = (
@@ -2297,6 +2309,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DC7CB5FF1D66597A001CA004 /* freqsetminer */,
 				DC930F291D5527CF00640B65 /* aligncoder */,
 				DC930F2E1D5527CF00640B65 /* alignreader */,
 				DC930F331D5527CF00640B65 /* modules.h */,
@@ -5756,6 +5769,7 @@
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
+				DC7CB6051D6659FB001CA004 /* freqsetminer.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,

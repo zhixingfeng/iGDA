@@ -16,7 +16,7 @@
 class AlignCoder
 {
 public:
-    AlignCoder(){p_alignreader = NULL;};
+    AlignCoder(){p_alignreader = NULL;}
     virtual ~AlignCoder(){};
     
     virtual bool encode(string alignfile, string outfile)=0;
