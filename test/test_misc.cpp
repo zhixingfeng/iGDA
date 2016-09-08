@@ -20,3 +20,20 @@ TEST_CASE("Test seqopt, getrevcomp"){
     revseq = getrevcomp(originseq);
     REQUIRE(revseq == "CG--NNACG-ACG");
 }
+
+TEST_CASE("Test cmpreads"){
+    string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    string align_file = "../data/B_10_cons.m5";
+    //string encode_file = "../data/MSSA_61_forward_encode_snv.txt";
+    //string align_file = "../data/MSSA_61_forward.m5";
+    string out_file = "../results/MSSA_61_forward_encode_snv_cmpreads.txt";
+    
+    //vector<vector<int> > encode_data;
+    //loadencodedata(encode_data, encode_file);
+    
+    //vector<ReadRange> reads_range;
+    //loadreadsrange(reads_range, align_file);
+    
+    cmpreads(encode_file, align_file, out_file);
+    
+}

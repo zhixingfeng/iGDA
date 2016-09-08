@@ -11,5 +11,6 @@
 
 #include "./m5tofa.h"
 #include "./seqopt.h"
+#include "./cmpreads.h"
 
 #endif
