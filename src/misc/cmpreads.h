@@ -91,12 +91,18 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
         for (int j=i+1; j<(int)encode_data.size(); j++){
             if (reads_range[i].first >= reads_range[j].second || reads_range[j].first >= reads_range[i].second)
                 continue;
-            p_out_file << i+1 << ',' << j+1 << "\tcode:";
+            
+            
+            vector<int> cur_match;
             for (int k=0; k<(int)encode_data[j].size();k++){
-                if (kh_get(32, cur_variant, encode_data[j][k]) != kh_end(cur_variant)){
-                    p_out_file << encode_data[j][k] << ',';
-                }
+                if (kh_get(32, cur_variant, encode_data[j][k]) != kh_end(cur_variant))
+                    cur_match.push_back(encode_data[j][k]);
             }
+            if (cur_match.size()==0)
+                continue;
+            p_out_file << i+1 << ',' << j+1 << "\t";
+            for (int k=0; k<(int)cur_match.size(); k++)
+                p_out_file << encode_data[j][k] << ',';
             p_out_file << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
             p_out_file << reads_range[j].first << ',' << reads_range[j].second << endl;
         }

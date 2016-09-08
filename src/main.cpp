@@ -31,7 +31,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command=encode, m5tofa" << endl;
+    cout << "command=encode, m5tofa, cmpreads" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -91,6 +91,16 @@ int main(int argc, const char * argv[])
             
             m5tofa(m5fileArg.getValue(), fafileArg.getValue());
             return 0;
+        }
+        
+        // pairwise compare reads
+        if (strcmp(argv[1], "cmpreads")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            cmd.parse(argv2);
+            
+            cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
         }
         
     }
