@@ -102,7 +102,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
                 continue;
             p_out_file << i+1 << ',' << j+1 << "\t";
             for (int k=0; k<(int)cur_match.size(); k++)
-                p_out_file << encode_data[j][k] << ',';
+                p_out_file << cur_match[k] << ',';
             p_out_file << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
             p_out_file << reads_range[j].first << ',' << reads_range[j].second << endl;
         }
