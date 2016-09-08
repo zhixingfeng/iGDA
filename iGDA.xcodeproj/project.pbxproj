@@ -41,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
+		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
 		DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = freqsetminer.cpp; sourceTree = "<group>"; };
 		DC7CB6041D6659FB001CA004 /* freqsetminer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = freqsetminer.hpp; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2353,6 +2354,7 @@
 		DC930F371D5527CF00640B65 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				DC7018CC1D8110F600890781 /* khash.h */,
 				DC930F381D5527CF00640B65 /* boost */,
 				DC93182F1D5527D200640B65 /* tclap */,
 				DC9318481D5527D200640B65 /* tools.h */,

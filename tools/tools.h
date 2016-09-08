@@ -5,6 +5,6 @@
 
 #include "tclap/CmdLine.h"
 #include <boost/filesystem.hpp>
-
+#include "khash.h"
 
 #endif

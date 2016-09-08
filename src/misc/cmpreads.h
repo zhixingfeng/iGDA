@@ -11,7 +11,10 @@
 #define cmpreads_h
 #include "../../include/headers.h"
 #include "../modules/alignreader/alignreaderm5.h"
+#include "../../tools/khash.h"
 
+KHASH_MAP_INIT_INT(32, char)
+//typedef map<int,int> G_Hash;
 typedef unordered_map<int,int> G_Hash;
 typedef pair<int,int> ReadRange;
 
@@ -78,6 +81,28 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
     open_outfile(p_out_file, out_file);
     for (int i=0; i<(int)(encode_data.size()-1); i++){
         if ((i+1)%100==0) cout << i+1 << '\r';
+        // khash the reads to be compared
+        /*khiter_t k_it; int ret;
+        khash_t(32) *cur_variant = kh_init(32);
+        for (int j=0; j<(int)encode_data[i].size(); j++)
+            k_it = kh_put(32, cur_variant, encode_data[i][j], &ret);
+        */
+        // compare other reads to cur_variant
+        /*for (int j=i+1; j<(int)encode_data.size(); j++){
+            if (reads_range[i].first >= reads_range[j].second || reads_range[j].first >= reads_range[i].second)
+                continue;
+            p_out_file << i << ',' << j << "\tcode:";
+            for (int k=0; k<(int)encode_data[j].size();k++){
+                if (kh_get(32, cur_variant, encode_data[j][k]) != kh_end(cur_variant)){
+                    p_out_file << encode_data[j][k] << ',';
+                }
+            }
+            p_out_file << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
+            p_out_file << reads_range[j].first << ',' << reads_range[j].second << endl;
+        }
+        
+        kh_destroy(32, cur_variant);
+        */
         // hash the reads to be compared
         G_Hash cur_variant;
         for (int j=0; j<(int)encode_data[i].size(); j++)
@@ -85,7 +110,9 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
         
         // compare other reads to cur_variant
         for (int j=i+1; j<(int)encode_data.size(); j++){
-            p_out_file << "code:";
+            if (reads_range[i].first >= reads_range[j].second || reads_range[j].first >= reads_range[i].second)
+                continue;
+            p_out_file << i << ',' << j << "\tcode:";
             for (int k=0; k<(int)encode_data[j].size();k++){
                 if (cur_variant.find(encode_data[j][k]) != cur_variant.end()){
                     p_out_file << encode_data[j][k] << ',';
