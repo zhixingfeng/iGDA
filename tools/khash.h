@@ -313,14 +313,6 @@ typedef const char *kh_cstr_t;
 #define KHASH_MAP_INIT_STR(name, khval_t)								\
 	KHASH_INIT(name, kh_cstr_t, khval_t, 1, kh_str_hash_func, kh_str_hash_equal)
 
-/* --------------added in addition to original khash---------------- */
-// shorthand way to get the key from hashtable or defVal if not found
-#define kh_get_val(kname, hash, key, defVal) ({k=kh_get(kname, hash, key);(k!=kh_end(hash)?kh_val(hash,k):defVal);})
-
-// shorthand way to set value in hash with single line command.  Returns value
-// returns 0=replaced existing item, 1=bucket empty (new key), 2-adding element previously deleted
-#define kh_set_val(kname, hash, key, val) ({int ret; k = kh_put(kname, hash,key,&ret); kh_value(hash,k) = val; ret;})
-
 
 
 #endif /* __AC_KHASH_H */

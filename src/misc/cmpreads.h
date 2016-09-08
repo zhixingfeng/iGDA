@@ -82,16 +82,16 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
     for (int i=0; i<(int)(encode_data.size()-1); i++){
         if ((i+1)%100==0) cout << i+1 << '\r';
         // khash the reads to be compared
-        /*khiter_t k_it; int ret;
+        khiter_t k_it; int ret;
         khash_t(32) *cur_variant = kh_init(32);
         for (int j=0; j<(int)encode_data[i].size(); j++)
             k_it = kh_put(32, cur_variant, encode_data[i][j], &ret);
-        */
+        
         // compare other reads to cur_variant
-        /*for (int j=i+1; j<(int)encode_data.size(); j++){
+        for (int j=i+1; j<(int)encode_data.size(); j++){
             if (reads_range[i].first >= reads_range[j].second || reads_range[j].first >= reads_range[i].second)
                 continue;
-            p_out_file << i << ',' << j << "\tcode:";
+            p_out_file << i+1 << ',' << j+1 << "\tcode:";
             for (int k=0; k<(int)encode_data[j].size();k++){
                 if (kh_get(32, cur_variant, encode_data[j][k]) != kh_end(cur_variant)){
                     p_out_file << encode_data[j][k] << ',';
@@ -102,13 +102,11 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
         }
         
         kh_destroy(32, cur_variant);
-        */
-        // hash the reads to be compared
-        G_Hash cur_variant;
+        
+        /*G_Hash cur_variant;
         for (int j=0; j<(int)encode_data[i].size(); j++)
             cur_variant.insert(pair<int,int>(encode_data[i][j],1));
         
-        // compare other reads to cur_variant
         for (int j=i+1; j<(int)encode_data.size(); j++){
             if (reads_range[i].first >= reads_range[j].second || reads_range[j].first >= reads_range[i].second)
                 continue;
@@ -120,7 +118,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file)
             }
             p_out_file << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
             p_out_file << reads_range[j].first << ',' << reads_range[j].second << endl;
-        }
+        }*/
     }
     cout << encode_data.size() << endl;
     p_out_file.close();
