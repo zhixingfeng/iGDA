@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC7CB6051D6659FB001CA004 /* freqsetminer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */; };
+		DC0236061D9997C500E5140C /* freqsetminersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC0236041D9997C500E5140C /* freqsetminersnv.cpp */; };
+		DC0236091D99988100E5140C /* freqsetminer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC0236071D99988100E5140C /* freqsetminer.cpp */; };
 		DC9318491D5527D200640B65 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F271D5527CF00640B65 /* main.cpp */; };
 		DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2A1D5527CF00640B65 /* aligncoder.cpp */; };
 		DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2C1D5527CF00640B65 /* aligncodersnv.cpp */; };
@@ -40,10 +41,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC0236041D9997C500E5140C /* freqsetminersnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = freqsetminersnv.cpp; sourceTree = "<group>"; };
+		DC0236051D9997C500E5140C /* freqsetminersnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freqsetminersnv.h; sourceTree = "<group>"; };
+		DC0236071D99988100E5140C /* freqsetminer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = freqsetminer.cpp; sourceTree = "<group>"; };
+		DC0236081D99988100E5140C /* freqsetminer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freqsetminer.h; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
-		DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = freqsetminer.cpp; sourceTree = "<group>"; };
-		DC7CB6041D6659FB001CA004 /* freqsetminer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = freqsetminer.hpp; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC930F201D5527CF00640B65 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		DC930F211D5527CF00640B65 /* data_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_type.h; sourceTree = "<group>"; };
@@ -2259,8 +2262,10 @@
 		DC7CB5FF1D66597A001CA004 /* freqsetminer */ = {
 			isa = PBXGroup;
 			children = (
-				DC7CB6031D6659FB001CA004 /* freqsetminer.cpp */,
-				DC7CB6041D6659FB001CA004 /* freqsetminer.hpp */,
+				DC0236041D9997C500E5140C /* freqsetminersnv.cpp */,
+				DC0236051D9997C500E5140C /* freqsetminersnv.h */,
+				DC0236071D99988100E5140C /* freqsetminer.cpp */,
+				DC0236081D99988100E5140C /* freqsetminer.h */,
 			);
 			path = freqsetminer;
 			sourceTree = "<group>";
@@ -5769,11 +5774,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC0236091D99988100E5140C /* freqsetminer.cpp in Sources */,
 				DC9318531D5527D200640B65 /* path_traits.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
-				DC7CB6051D6659FB001CA004 /* freqsetminer.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,
@@ -5787,6 +5792,7 @@
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,
 				DC93184E1D5527D200640B65 /* test_AlignCoder.cpp in Sources */,
 				DC9318541D5527D200640B65 /* portability.cpp in Sources */,
+				DC0236061D9997C500E5140C /* freqsetminersnv.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
