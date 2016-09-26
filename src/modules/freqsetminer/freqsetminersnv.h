@@ -9,6 +9,15 @@
 #ifndef __iGDA__freqsetminersnv__
 #define __iGDA__freqsetminersnv__
 
-#include <stdio.h>
+#include "freqsetminer.h"
+
+class FreqSetMinerSNV : public FreqSetMiner
+{
+public:
+    FreqSetMinerSNV() : FreqSetMiner() {}
+    virtual ~FreqSetMinerSNV(){}
+    
+    bool mapEncodetoCmpReads(string encodefile, string cmpreadsfile);
+};
 
 #endif /* defined(__iGDA__freqsetminersnv__) */

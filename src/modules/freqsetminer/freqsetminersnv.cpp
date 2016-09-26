@@ -7,3 +7,18 @@
 //
 
 #include "freqsetminersnv.h"
+
+//naive hash table based approach
+bool FreqSetMinerSNV::mapEncodetoCmpReads(string encodefile, string cmpreadsfile)
+{
+    ifstream fs_encodefile; open_infile(fs_encodefile, encodefile);
+    ifstream fs_contigfile; open_infile(fs_contigfile, cmpreadsfile);
+    
+    
+    
+    fs_encodefile.close();
+    fs_contigfile.close();
+    
+    return true;
+
+}
