@@ -15,20 +15,26 @@
 
 struct CmpReads
 {
-    pair<int, int> readsID;
+    vector<int> readsID;
     vector<int> cons_code;
+    vector<int> range_read1;
+    vector<int> range_read2;
 };
 
 class FreqSetMiner
 {
+    
 public:
+    
     FreqSetMiner(){}
     virtual ~FreqSetMiner(){}
     
     virtual bool mapEncodetoCmpReads(string encodefile, string cmpreadsfile)=0;
 
-    void readLineEncode(const ifstream & fs_encodefile, vector<int> & encode_line);
-    void readLineCmpReads(const ifstream & fs_cmpreadsfile, CmpReads & cmpreads_line);
+protected:
+    
+    void readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line);
+    void readLineCmpReads(ifstream & fs_cmpreadsfile, CmpReads & cmpreads_line);
 };
 
 

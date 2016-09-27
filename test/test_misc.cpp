@@ -26,7 +26,7 @@ TEST_CASE("Test cmpreads"){
     string align_file = "../data/B_10_cons.m5";
     //string encode_file = "../data/MSSA_61_forward_encode_snv.txt";
     //string align_file = "../data/MSSA_61_forward.m5";
-    string out_file = "../results/MSSA_61_forward_encode_snv_cmpreads.txt";
+    string out_file = "../results/B_10_cons_encode_snv_cmpreads.txt";
     
     //vector<vector<int> > encode_data;
     //loadencodedata(encode_data, encode_file);
@@ -34,6 +34,6 @@ TEST_CASE("Test cmpreads"){
     //vector<ReadRange> reads_range;
     //loadreadsrange(reads_range, align_file);
     
-    cmpreads(encode_file, align_file, out_file);
+    //cmpreads(encode_file, align_file, out_file);
     
 }

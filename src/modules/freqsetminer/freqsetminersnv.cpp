@@ -12,12 +12,15 @@
 bool FreqSetMinerSNV::mapEncodetoCmpReads(string encodefile, string cmpreadsfile)
 {
     ifstream fs_encodefile; open_infile(fs_encodefile, encodefile);
-    ifstream fs_contigfile; open_infile(fs_contigfile, cmpreadsfile);
+    ifstream fs_cmpreadsfile; open_infile(fs_cmpreadsfile, cmpreadsfile);
     
-    
+    //vector<int> encode_line;
+    //readLineEncode(fs_encodefile, encode_line);
+    CmpReads cmpreads_line;
+    readLineCmpReads(fs_cmpreadsfile, cmpreads_line);
     
     fs_encodefile.close();
-    fs_contigfile.close();
+    fs_cmpreadsfile.close();
     
     return true;
 
