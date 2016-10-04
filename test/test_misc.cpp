@@ -37,3 +37,12 @@ TEST_CASE("Test cmpreads"){
     //cmpreads(encode_file, align_file, out_file);
     
 }
+
+TEST_CASE("Test pileup")
+{
+    string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    vector<int> pu = pileup(encode_file);
+}
+
+
+

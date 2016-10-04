@@ -2245,6 +2245,7 @@
 		DC9318481D5527D200640B65 /* tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tools.h; sourceTree = "<group>"; };
 		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
 		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
 		DCFEC5951D5BCD370025E57C /* misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
 		DCFEC5961D5BD12B0025E57C /* test_misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_misc.cpp; sourceTree = "<group>"; };
@@ -5717,6 +5718,7 @@
 				DCFEC5951D5BCD370025E57C /* misc.h */,
 				DCB714DD1D620F4800666D59 /* seqopt.h */,
 				DC7018CB1D809C6200890781 /* cmpreads.h */,
+				DCE9486D1DA3334900CD9DCC /* pileup.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";
