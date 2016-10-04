@@ -13,5 +13,6 @@
 #include "./seqopt.h"
 #include "./cmpreads.h"
 #include "./pileup.h"
+#include "./statistics.h"
 
 #endif

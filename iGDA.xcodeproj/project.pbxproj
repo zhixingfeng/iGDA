@@ -49,6 +49,7 @@
 		DC3189E11D9A02EA00FB20EC /* test_FreqSetMiner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_FreqSetMiner.cpp; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
+		DC8AB84C1DA4250F00EE19D1 /* statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC930F201D5527CF00640B65 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		DC930F211D5527CF00640B65 /* data_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_type.h; sourceTree = "<group>"; };
@@ -5719,6 +5720,7 @@
 				DCB714DD1D620F4800666D59 /* seqopt.h */,
 				DC7018CB1D809C6200890781 /* cmpreads.h */,
 				DCE9486D1DA3334900CD9DCC /* pileup.h */,
+				DC8AB84C1DA4250F00EE19D1 /* statistics.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";

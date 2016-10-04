@@ -11,6 +11,7 @@
 
 #include <headers.h>
 #include "../../../tools/tools.h"
+#include "../aligncoder/aligncoder.h"
 
 
 struct CmpReads
@@ -26,15 +27,23 @@ class FreqSetMiner
     
 public:
     
-    FreqSetMiner(){}
+    FreqSetMiner(){ptr_aligncoder=NULL;}
     virtual ~FreqSetMiner(){}
     
-    virtual bool mapEncodetoCmpReads(string encodefile, string cmpreadsfile)=0;
-
+    void setAlignCoder(AlignCoder *a_ptr_aligncoder){ptr_aligncoder = a_ptr_aligncoder;}
+    
+    
+    virtual vector<int> detectVariantsCoarse(string encode_file, string align_file, string cmpreads_file, double p_cutoff)=0;
+    virtual vector<double> detectVariantsSingle(string encode_file, string align_file)=0;
+    
+    
 protected:
     
-    void readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line);
-    void readLineCmpReads(ifstream & fs_cmpreadsfile, CmpReads & cmpreads_line);
+    //void readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line);
+    void readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line);
+
+protected:
+    AlignCoder *ptr_aligncoder;
 };
 
 

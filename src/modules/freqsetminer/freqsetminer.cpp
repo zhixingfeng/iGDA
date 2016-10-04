@@ -8,14 +8,14 @@
 
 #include "freqsetminer.h"
 
-void FreqSetMiner::readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line)
-{
+//void FreqSetMiner::readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line)
+//{
     
-}
-void FreqSetMiner::readLineCmpReads(ifstream & fs_cmpreadsfile, CmpReads & cmpreads_line)
+//}
+void FreqSetMiner::readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line)
 {
     string buf;
-    getline(fs_cmpreadsfile, buf);
+    getline(fs_cmpreads_file, buf);
     vector<string> buf_vec = split(buf, '\t');
     if (buf_vec.size() != 4)
         throw runtime_error("error in readLineCmpReads: buf_vec size if not 4.");

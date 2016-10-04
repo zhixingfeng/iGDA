@@ -41,14 +41,28 @@ TEST_CASE("Test cmpreads"){
 TEST_CASE("Test pileup")
 {
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
-    vector<int> pu = pileup(encode_file);
+    //vector<int> pu = pileup(encode_file);
 }
 
 TEST_CASE("Test getcvg")
 {
     string align_file = "../data/B_10_cons.m5";
-    vector<int> cvg = getcvg(align_file);
+    //vector<int> cvg = getcvg(align_file);
 }
+
+TEST_CASE("Test pnorm")
+{
+    cout << pnorm(-10) << endl;
+    cout << pnorm(-5) << endl;
+    cout << pnorm(-3) << endl;
+    cout << pnorm(-1) << endl;
+    cout << pnorm(0) << endl;
+    cout << pnorm(0.5) << endl;
+    cout << pnorm(2.1) << endl;
+    cout << pnorm(5) << endl;
+    cout << pnorm(10) << endl;
+}
+
 
 
 
