@@ -44,5 +44,9 @@ TEST_CASE("Test pileup")
     vector<int> pu = pileup(encode_file);
 }
 
-
+TEST_CASE("Test getcvg")
+{
+    string align_file = "../data/B_10_cons.m5";
+    vector<int> cvg = getcvg(align_file);
+}
 
