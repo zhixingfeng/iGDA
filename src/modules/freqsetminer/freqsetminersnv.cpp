@@ -29,12 +29,11 @@ vector<int> FreqSetMinerSNV::detectVariantsCoarse(string encode_file, string ali
     vector<double> p_values;
     int n=1;
     while(1){
-        if (n%100000==0)
-            cout << n << '\r';
-        if (fs_cmpreads_file.eof())
-            break;
+        if (n%10000==0)
+            cout << n << endl;
         CmpReads cmpreads_line;
-        readLineCmpReads(fs_cmpreads_file, cmpreads_line);
+        if (readLineCmpReads(fs_cmpreads_file, cmpreads_line)==false)
+            break;
         
         double stat = 0;
         double cvg_sum = 0;

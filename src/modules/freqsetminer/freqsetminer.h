@@ -40,7 +40,7 @@ public:
 protected:
     
     //void readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line);
-    void readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line);
+    bool readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line);
 
 protected:
     AlignCoder *ptr_aligncoder;
