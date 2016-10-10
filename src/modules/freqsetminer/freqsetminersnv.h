@@ -21,6 +21,8 @@ public:
     vector<int> detectVariantsCoarse(string encode_file, string align_file, string cmpreads_file, double p_cutoff);
     
     vector<double> detectVariantsSingle(string encode_file, string align_file);
+    
+    
 };
 
 #endif /* defined(__iGDA__freqsetminersnv__) */

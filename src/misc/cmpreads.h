@@ -9,53 +9,12 @@
 
 #ifndef cmpreads_h
 #define cmpreads_h
-#include "../../include/headers.h"
-#include "../modules/alignreader/alignreaderm5.h"
+
+#include "io.h"
 #include "../../tools/khash.h"
 
 KHASH_MAP_INIT_INT(32, char)
-//typedef map<int,int> G_Hash;
-typedef unordered_map<int,int> G_Hash;
-typedef pair<int,int> ReadRange;
 
-inline bool loadencodedata(vector<vector<int> > &encode_data, string encode_file)
-{
-    ifstream p_encode_file; open_infile(p_encode_file, encode_file);
-    while (true) {
-        string buf;
-        getline(p_encode_file, buf);
-        if (p_encode_file.eof())
-            break;
-        encode_data.push_back(split_int(buf, '\t'));
-    }
-    p_encode_file.close();
-    return true;
-}
-
-// format: m=m5
-inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, char format='m')
-{
-    // setup alignreader
-    AlignReader *p_alignreader;
-    AlignReaderM5 alignreaderm5;
-    switch(format){
-        case 'm':
-            p_alignreader = &alignreaderm5;
-            break;
-        default:
-            throw runtime_error("loadreadsranges: unsupported format.");
-    }
-    
-    // load alignment data
-    Align align;
-    p_alignreader->open(align_file);
-    while(p_alignreader->readline(align))
-        reads_range.push_back(ReadRange(align.tStart, align.tEnd));
-    
-    p_alignreader->close();
-    
-    return true;
-}
 
 inline bool cmpreads(string encode_file, string align_file, string out_file)
 {

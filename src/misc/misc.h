@@ -14,5 +14,6 @@
 #include "./cmpreads.h"
 #include "./pileup.h"
 #include "./statistics.h"
+#include "./condfreq.h"
 
 #endif

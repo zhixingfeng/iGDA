@@ -34,4 +34,13 @@ inline double pnorm(double x)
     return 0.5*(1.0 + sign*y);
 }
 
+inline double binom_log_lr (double x, double n, double p0)
+{
+    double p1 = x/n;
+    double log_lr = x*( log(p1) - log(p0) ) + (n-x)*( log(1-p1) - log(1-p0) );
+    return log_lr;
+}
+
+
+
 #endif

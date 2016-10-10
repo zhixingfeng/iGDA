@@ -37,6 +37,7 @@ public:
     virtual vector<double> detectVariantsSingle(string encode_file, string align_file)=0;
     
     
+    
 protected:
     
     //void readLineEncode(ifstream & fs_encodefile, vector<int> & encode_line);
