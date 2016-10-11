@@ -22,7 +22,10 @@ public:
     
     vector<double> detectVariantsSingle(string encode_file, string align_file);
     
+    vector<int> detect(string encode_file, string align_file, string cmpreads_file,
+                                  vector<double> p0, double log_bf_cutoff);
     
+    void getMarginalFreq(string encode_file, string align_file, string out_file);
 };
 
 #endif /* defined(__iGDA__freqsetminersnv__) */

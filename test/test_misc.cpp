@@ -9,79 +9,6 @@
 #include "../src/misc/misc.h"
 
 
-vector<CondFreq> getcondfreq(vector<int> &candidates, vector<vector<int> > &encode_data,
-                             vector<ReadRange> &reads_range, vector<int> &pu,
-                             vector<double> &p0, string mode="snv")
-{
-    if (candidates.back() > pu.size())
-        throw runtime_error("candidates.back() > pu.size()");
-    if (candidates.back() > p0.size())
-        throw runtime_error("candidates.back() > p0.size()");
-
-    // get marginal frequency for each candidate
-    vector<int> freq_mar(candidates.size(), -1);
-    for (int i=0; i<(int)candidates.size(); i++)
-        freq_mar[i] = pu[candidates[i]-1];
-    
-    // get p0 for candidates
-    vector<double> cand_p0(candidates.size(), -1);
-    for (int i=0; i<(int)candidates.size(); i++)
-        cand_p0[i] = p0[candidates[i]-1];
-    
-    // get binary in the subspace spaned by candidates
-    vector<vector<int> > submat= getsubspace(candidates, encode_data, (int)pu.size(), reads_range);
-    
-    // get conditional freq
-    vector<CondFreq> condfreq(candidates.size(),CondFreq());
-    for (int j=0; j<(int)submat[0].size(); j++){
-        // get index of 1 and -1(missing value) at locus j
-        vector<int> idx_1;
-        vector<int> idx_1n;
-        for (int i=0; i<(int)submat.size(); i++){
-            if (submat[i][j]==1)
-                idx_1.push_back(i);
-            if (submat[i][j]==-1)
-                idx_1n.push_back(i);
-        }
-        if (idx_1.size()==0) continue;
-        
-        // get conditional frquency with locus k
-        for (int k=0; k<(int)submat[0].size(); k++){
-            if (k==j) continue;
-            CondFreq cur_condfreq(0,freq_mar[k]);
-            for (int i=0; i<(int) idx_1.size(); i++)
-                if (submat[idx_1[i]][k]==1)
-                    cur_condfreq.x++;
-            for (int i=0; i<(int) idx_1n.size(); i++)
-                if (submat[idx_1n[i]][k]==1)
-                    cur_condfreq.n--;
-            if (cur_condfreq.x > cur_condfreq.n) throw runtime_error("x>n");
-            if (cur_condfreq.n > 0){
-                cur_condfreq.p = cur_condfreq.x / cur_condfreq.n;
-                if (cur_condfreq.p > p0[j]){
-                    cur_condfreq.log_lr = binom_log_lr(cur_condfreq.x, cur_condfreq.n, p0[j]);
-                }else{
-                    cur_condfreq.log_lr = 0;
-                }
-            }
-            if (cur_condfreq.log_lr > condfreq[j].log_lr){
-                condfreq[j] = cur_condfreq;
-                condfreq[j].idx = k;
-            }
-        }
-    }
-    
-    // douoble check marginal frquency
-    /*for (int j=0; j<(int)submat[0].size(); j++){
-        int cur_mar = 0;
-        for (int i=0; i<(int)submat.size(); i++)
-            if (submat[i][j]==1)
-                cur_mar++;
-        if (cur_mar != freq_mar[j])
-            throw runtime_error("cur_mar != freq_mar[j]");
-    }*/
-    return condfreq;
-}
 
 TEST_CASE("Test m5tofa"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");
@@ -96,13 +23,16 @@ TEST_CASE("Test seqopt, getrevcomp"){
     REQUIRE(revseq == "CG--NNACG-ACG");
 }
 
+TEST_CASE("Test loadencodedata"){
+    string encode_file = "../data/SM_263.code";
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+}
+
 TEST_CASE("Test cmpreads","[hide]"){
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
     string out_file = "../results/B_10_cons_encode_snv_cmpreads.txt";
-    
-    //vector<vector<int> > encode_data;
-    //loadencodedata(encode_data, encode_file);
     
     //vector<ReadRange> reads_range;
     //loadreadsrange(reads_range, align_file);
@@ -111,9 +41,10 @@ TEST_CASE("Test cmpreads","[hide]"){
     
 }
 
-TEST_CASE("Test pileup", "[hide]")
+TEST_CASE("Test pileup")
 {
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    //string encode_file = "../data/SM_263.code";
     vector<int> pu = pileup(encode_file);
 }
 
@@ -136,6 +67,12 @@ TEST_CASE("Test pnorm","[hide]")
     cout << pnorm(10) << endl;
 }
 
+TEST_CASE("Test lgamma")
+{
+    REQUIRE(lgamma(1)==0);REQUIRE(lgamma(2)==0);REQUIRE(lgamma(4)==Approx(1.791759e+00).epsilon(0.00001));
+    REQUIRE(lgamma(64)==Approx(201.0093).epsilon(0.00001));REQUIRE(lgamma(1024)==Approx(6071.28).epsilon(0.00001));
+    REQUIRE(lgamma(65536)==Approx(661276.9).epsilon(0.00001));REQUIRE(lgamma(1048576)==Approx(13487768).epsilon(0.00001));
+}
 
 TEST_CASE("Test condfrq, getsubspace", "[hide]")
 {
@@ -160,13 +97,14 @@ TEST_CASE("Test condfrq, getsubspace", "[hide]")
     
 }
 
-TEST_CASE("Test condfrq, getcondfreq")
+TEST_CASE("Test condfrq, getcondfreq", "[hide]")
 {
     cout <<"Test condfrq, getcondfreq" << endl;
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
     
-    int candidates_[] = {143,557,629,811,848,1073,1297,1455,1491,1729,1742,1790,2091,2118,2576,3000,4000};
+    //int candidates_[] = {143,557,629,811,848,1073,1297,1455,1491,1729,1742,1790,2091,2118,2576,3000,4000};
+    int candidates_[] = {143,557,703,848,1063,1073,1297,1491,1742,1933,2091,2576,3389,3591,3655,3784,3793,4228,4345,4766,4833,4883,5109,5343,5402,5511,6247,6546,7017,7133,7243,7357,7399,7495,8480,9219,9340,9539,9863,10512,10809,11566,12070,12215,12636,12743,12870,13095,13383,13735,13768,13824,14238,14375,14520,14541,14827,15174,15304,15800,16040,16163,16372,16640,17533,17712,18219,18520,18662,19239,19547,19585,19771,19906,20112,20255,20365,20370,20373,20619,20900,21022,22460,22674,22794,22895,22904,23246};
     vector<int> candidates (candidates_, candidates_ + sizeof(candidates_)/sizeof(int));
     
     vector<vector<int> > encode_data;
@@ -186,7 +124,7 @@ TEST_CASE("Test condfrq, getcondfreq")
     ofstream fs_outfile_condfreq;
     open_outfile(fs_outfile_condfreq, outfile_condfreq);
     for (int i=0; i<(int)condfreq.size(); i++)
-        fs_outfile_condfreq << condfreq[i].log_lr << '\t' << condfreq[i].idx + 1 << endl;
+        fs_outfile_condfreq << condfreq[i].log_bf << '\t' << condfreq[i].idx + 1 << endl;
     fs_outfile_condfreq.close();
     
     ofstream fs_outfile_submat;

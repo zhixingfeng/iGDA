@@ -35,8 +35,12 @@ public:
     
     virtual vector<int> detectVariantsCoarse(string encode_file, string align_file, string cmpreads_file, double p_cutoff)=0;
     virtual vector<double> detectVariantsSingle(string encode_file, string align_file)=0;
+    virtual vector<int> detect(string encode_file, string align_file, string cmpreads_file,
+                                vector<double> p0, double log_bf_cutoff)=0;
     
+    virtual void getMarginalFreq(string encode_file, string align_file, string out_file)=0;
     
+    //virtual vector<double> buildNullFromContext(string ref_file)=0;
     
 protected:
     
