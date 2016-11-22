@@ -8,7 +8,7 @@
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
 
-TEST_CASE("Test m5tofa"){
+TEST_CASE("Test m5tofa", "[hide]"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");
 }
 
@@ -21,7 +21,7 @@ TEST_CASE("Test seqopt, getrevcomp"){
     REQUIRE(revseq == "CG--NNACG-ACG");
 }
 
-TEST_CASE("Test cmpreads"){
+TEST_CASE("Test cmpreads","[hide]"){
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
     //string encode_file = "../data/MSSA_61_forward_encode_snv.txt";
@@ -38,19 +38,19 @@ TEST_CASE("Test cmpreads"){
     
 }
 
-TEST_CASE("Test pileup")
+TEST_CASE("Test pileup", "[hide]")
 {
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
-    //vector<int> pu = pileup(encode_file);
+    vector<int> pu = pileup(encode_file);
 }
 
-TEST_CASE("Test getcvg")
+TEST_CASE("Test getcvg", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
-    //vector<int> cvg = getcvg(align_file);
+    vector<int> cvg = getcvg(align_file);
 }
 
-TEST_CASE("Test pnorm")
+TEST_CASE("Test pnorm", "[hide]")
 {
     cout << pnorm(-10) << endl;
     cout << pnorm(-5) << endl;

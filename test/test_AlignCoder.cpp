@@ -11,7 +11,7 @@
 #include "../src/modules/modules.h"
 
 
-TEST_CASE("test AlignCoderSNV::encode")
+TEST_CASE("test AlignCoderSNV::encode", "[hide]")
 {
     
     AlignCoderSNV aligncodersnv;
@@ -21,7 +21,7 @@ TEST_CASE("test AlignCoderSNV::encode")
     p_aligncoder->encode("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward_encode_snv.txt");
 }
 
-TEST_CASE("test AlignCoderSNV::encode negative strand")
+TEST_CASE("test AlignCoderSNV::encode negative strand", "[hide]")
 {
     
     AlignCoderSNV aligncodersnv;
@@ -32,7 +32,7 @@ TEST_CASE("test AlignCoderSNV::encode negative strand")
 }
 
 
-TEST_CASE("test AlignCoderSNV::decode")
+TEST_CASE("test AlignCoderSNV::decode", "[hide]")
 {
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;

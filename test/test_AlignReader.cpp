@@ -10,7 +10,7 @@
 #include "../include/headers.h"
 #include "../src/modules/modules.h"
 
-TEST_CASE("Test AlignReaderM5"){
+TEST_CASE("Test AlignReaderM5", "[hide]"){
     AlignReaderM5 AlignReaderM5_obj;
     AlignReader *p_align = &AlignReaderM5_obj;
     Align align;
