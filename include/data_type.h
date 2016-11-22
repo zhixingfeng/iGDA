@@ -22,6 +22,7 @@
     #define MAX_NMOL 10000000
 #endif
 
+#define GDA_PI 3.1415926535897932384626
 #include "stl.h"
 
 /* ----------------------- global data structure ----------------------------- */

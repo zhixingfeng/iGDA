@@ -12,10 +12,12 @@
 //{
     
 //}
-void FreqSetMiner::readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line)
+bool FreqSetMiner::readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpreads_line)
 {
     string buf;
     getline(fs_cmpreads_file, buf);
+    if (fs_cmpreads_file.eof())
+        return false;
     vector<string> buf_vec = split(buf, '\t');
     if (buf_vec.size() != 4)
         throw runtime_error("error in readLineCmpReads: buf_vec size if not 4.");
@@ -34,6 +36,6 @@ void FreqSetMiner::readLineCmpReads(ifstream & fs_cmpreads_file, CmpReads & cmpr
     if (cmpreads_line.range_read2.size() != 2)
         throw runtime_error("error in readLineCmpReads: cmpreads_line.range_read2 size is not 2");
 
-    
+    return true;
 }
 
