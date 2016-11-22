@@ -58,7 +58,7 @@ TEST_CASE("Test FreqSetMiner::getMarginalFreq","[hide]"){
 }
 
 
-TEST_CASE("Test FreqSetMiner::detect"){
+TEST_CASE("Test FreqSetMiner::detect", "[hide]"){
     string cmpreadsfile = "../results/B_10_cons_encode_snv_cmpreads.txt";
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";

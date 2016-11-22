@@ -8,6 +8,8 @@
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
 
+
+
 TEST_CASE("Test m5tofa", "[hide]"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");
 }
@@ -19,6 +21,12 @@ TEST_CASE("Test seqopt, getrevcomp"){
     originseq = "CGT-CGTNN--CG";
     revseq = getrevcomp(originseq);
     REQUIRE(revseq == "CG--NNACG-ACG");
+}
+
+TEST_CASE("Test loadencodedata", "[]"){
+    string encode_file = "../data/SM_263.code";
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
 }
 
 TEST_CASE("Test cmpreads","[hide]"){
@@ -36,6 +44,7 @@ TEST_CASE("Test cmpreads","[hide]"){
 TEST_CASE("Test pileup", "[hide]")
 {
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    //string encode_file = "../data/SM_263.code";
     vector<int> pu = pileup(encode_file);
 }
 
@@ -45,7 +54,7 @@ TEST_CASE("Test getcvg", "[hide]")
     vector<int> cvg = getcvg(align_file);
 }
 
-TEST_CASE("Test pnorm", "[hide]")
+TEST_CASE("Test pnorm","[hide]")
 {
     cout << pnorm(-10) << endl;
     cout << pnorm(-5) << endl;
