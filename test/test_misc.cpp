@@ -23,7 +23,7 @@ TEST_CASE("Test seqopt, getrevcomp"){
     REQUIRE(revseq == "CG--NNACG-ACG");
 }
 
-TEST_CASE("Test loadencodedata", "[]"){
+TEST_CASE("Test loadencodedata", "[hide]"){
     string encode_file = "../data/SM_263.code";
     vector<vector<int> > encode_data;
     loadencodedata(encode_data, encode_file);
