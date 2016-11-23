@@ -13,7 +13,7 @@
 TEST_CASE("compare speed of hash table vs direct array search"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
     int N = 50000;
-    int n = 10;
+    int n = 20;
     
     // speed of array allocation
     clock_t t_begin = clock();
@@ -56,7 +56,6 @@ TEST_CASE("compare speed of hash table vs direct array search"){
     }
     t_end = clock();
     cout << "time for hash table access : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
-
 }
 
 
