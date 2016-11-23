@@ -26,6 +26,7 @@
 		DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC93182A1D5527D200640B65 /* utf8_codecvt_facet.cpp */; };
 		DC9318571D5527D200640B65 /* windows_file_codecvt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC93182B1D5527D200640B65 /* windows_file_codecvt.cpp */; };
 		DC9318581D5527D200640B65 /* error_code.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC93182E1D5527D200640B65 /* error_code.cpp */; };
+		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
 		DCF9C0491DE4E56900B1D8CB /* fptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF9C0471DE4E56900B1D8CB /* fptree.cpp */; };
 		DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCFEC5961D5BD12B0025E57C /* test_misc.cpp */; };
 /* End PBXBuildFile section */
@@ -2250,6 +2251,7 @@
 		DCD5FC881DAAE74A0062ADEF /* condfreq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = condfreq.h; sourceTree = "<group>"; };
 		DCD5FC891DAAE79F0062ADEF /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
+		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
 		DCF9C0471DE4E56900B1D8CB /* fptree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fptree.cpp; sourceTree = "<group>"; };
 		DCF9C0481DE4E56900B1D8CB /* fptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fptree.h; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
@@ -2363,6 +2365,7 @@
 				DC930F361D5527CF00640B65 /* test_AlignReader.cpp */,
 				DCFEC5961D5BD12B0025E57C /* test_misc.cpp */,
 				DC3189E11D9A02EA00FB20EC /* test_FreqSetMiner.cpp */,
+				DCF4892C1DE53C6300E5E88D /* test_performance.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -5800,6 +5803,7 @@
 			files = (
 				DC0236091D99988100E5140C /* freqsetminer.cpp in Sources */,
 				DC9318531D5527D200640B65 /* path_traits.cpp in Sources */,
+				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
