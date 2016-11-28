@@ -1,6 +1,6 @@
 CC = g++
 INCLUDES = -I include -I tools/boost/include -I tools
-CXX_FLAGS = -std=c++11 -w -O3
+CXX_FLAGS = -std=c++11 -w -O3 -D_UNITTEST
 
 SRC = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/aligncoder/*.cpp)\
