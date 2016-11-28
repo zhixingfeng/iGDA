@@ -17,16 +17,18 @@ TEST_CASE("compare speed of hash table vs direct array search"){
     
     // speed of array allocation
     clock_t t_begin = clock();
-    for (int i=0; i<10000; i++){
-        int *x = new int[N];
-        delete[] x;
+    int t = 0;
+    for (long int i=0; i<100000; i++){
+        vector<int> x(N,0);
+        t = x[N-1];
     }
+    cout << t << endl;
     clock_t t_end = clock();
     cout << "time for array allocation : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     
     // speed of hash table construction
     t_begin = clock();
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<100000; i++){
         unordered_map<int, int> x;
         for (int j=0; j<n; j++)
             x[j] = 0;
@@ -37,12 +39,16 @@ TEST_CASE("compare speed of hash table vs direct array search"){
     // speed of array access
     int *x = new int[N];
     t_begin = clock();
-    for (int i=0; i<10000; i++){
-        for (int j=0; j<n; j++)
+    for (int i=0; i<100000; i++){
+        for (int j=0; j<n; j++){
             int y = x[j];
+            x[j] = 1;
+        }
     }
     t_end = clock();
+    x[0] += 1;
     delete[] x;
+    
     cout << "time for array access : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     
     // speed of hash table access
@@ -50,7 +56,7 @@ TEST_CASE("compare speed of hash table vs direct array search"){
     for (int j=0; j<n; j++)
         z[j] = 0;
     t_begin = clock();
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<100000; i++){
         for (int j=0; j<n; j++)
             int y = z[j];
     }
@@ -68,12 +74,14 @@ TEST_CASE("Compare iteration speed of array and list"){
     
     // access array
     clock_t t_begin = clock();
-    for (int i = 0; i < B; i++){
+    for (long int i = 0; i < B; i++){
         for (int j = 0; j < N; j++){
-            int x = x_arr[i];
+            int x = x_arr[j];
+            x_arr[j] = 1;
         }
     }
     clock_t t_end = clock();
+    x_arr[0] += 1;
     cout << "time to access array : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     
     // create list
