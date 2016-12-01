@@ -24,23 +24,6 @@ inline int which(const vector<T> &data, const T query)
 	return -1;
 }
 
-/*inline int which(const vector<int> &data, const int query)
-{
-        for (int i=0; i<(int)data.size();i++){
-                if (data[i]==query)
-                        return i;
-        }
-        return -1;
-}
-
-inline int which(const vector<string> &data, const string query)
-{
-        for (int i=0; i<(int)data.size();i++){
-                if (data[i]==query) 
-                        return i;
-        }
-        return -1;
-}*/
 
 /* -------------------string operation--------------------- */
 // convert number to string
@@ -90,20 +73,6 @@ inline bool islower(const string &str)
 			return false;
 		}
 	}
-}
-// split string 
-inline vector<NtSeq> split_NtSeq(const string &s, char delim, bool rm_empty=true) {
-    stringstream ss(s);
-    string item;
-    vector<NtSeq> tokens;
-    while (getline(ss, item, delim)) {
-	if (rm_empty){
-        	if (item!="") tokens.push_back(str2NtSeq(item));
-	}else{
-		tokens.push_back(str2NtSeq(item));
-	}
-    }
-    return tokens;
 }
 
 inline vector<string> split(const string &s, char delim, bool rm_empty=true) {

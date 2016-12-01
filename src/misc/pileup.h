@@ -13,7 +13,7 @@
 
 // coverage should NOT exceed range of int
 // pileup mutations
-inline vector<int> pileup(string encode_file)
+inline vector<vector<int> > pileup_var(string encode_file)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -26,10 +26,10 @@ inline vector<int> pileup(string encode_file)
             pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
     
     // pileup
-    vector<int> pu(pu_size, 0);
+    vector<vector<int> > pu(pu_size, vector<int>());
     for (int i=0; i<(int)encode_data.size(); i++)
         for (int j=0; j<(int)encode_data[i].size(); j++)
-            pu[encode_data[i][j]-1]++;
+            pu[encode_data[i][j]-1].push_back(i);
     
     return pu;
 }

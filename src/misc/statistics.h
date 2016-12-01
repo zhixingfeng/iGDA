@@ -35,7 +35,7 @@ inline double pnorm(double x)
     return 0.5*(1.0 + sign*y);
 }
 
-// approximation of Gamma function according to "Gergo Nemes, New asymptotic expansion for the Gamma function, Arch. Math. 95 (2010), 161–169"
+// approximation of log Gamma function according to "Gergo Nemes, New asymptotic expansion for the Gamma function, Arch. Math. 95 (2010), 161–169"
 inline double lgamma(double x)
 {
     if (x<=2)

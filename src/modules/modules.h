@@ -13,6 +13,5 @@
 #include "alignreader/alignreaderm5.h"
 #include "aligncoder/aligncoder.h"
 #include "aligncoder/aligncodersnv.h"
-#include "freqsetminer/freqsetminer.h"
-#include "freqsetminer/freqsetminersnv.h"
+
 #endif
