@@ -11,6 +11,8 @@
 
 #include <headers.h>
 
+
+// position is 1-based and (]
 struct Align
 {
     string qName;

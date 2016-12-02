@@ -10,7 +10,7 @@
 #include "../include/headers.h"
 
 
-TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search"){
+TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search","[hide]"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
     int N = 50000;
     int n = 20;
@@ -86,7 +86,7 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     cout << "time for unordered_set access : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
-TEST_CASE("Compare iteration speed of array and list"){
+TEST_CASE("Compare iteration speed of array and list", "[hide]"){
     int B = 1000;
     int N = 10000;
     

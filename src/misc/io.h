@@ -52,4 +52,5 @@ inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, ch
     return true;
 }
 
+
 #endif /* io_h */
