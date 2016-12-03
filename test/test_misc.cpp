@@ -29,19 +29,16 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads"){
+TEST_CASE("Test cmpreads", "[hide]"){
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
-    string out_file = "../results/B_10_cons_encode_snv_cmpreads_array_method.txt";
+    string out_file = "../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt";
     
     clock_t t_begin = clock();
     cmpreads(encode_file, align_file, out_file, 0);
     clock_t t_end = clock();
     cout << "time for compare reads : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
-
-
-
 
 
 TEST_CASE("Test pnorm","[hide]")

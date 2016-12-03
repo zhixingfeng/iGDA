@@ -84,7 +84,7 @@ KHASH_MAP_INIT_INT(32, char)
     return true;
 }*/
 
-inline bool cmpreads(string encode_file, string align_file, string out_file, double min_overlap = 0.5)
+inline bool cmpreads(string encode_file, string align_file, string out_file, double min_overlap = 0.5, bool is_rm_single=true)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -134,8 +134,13 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
                 if (temp_array[encode_data[j][k]] == i)
                     cur_match.push_back(encode_data[j][k]);
             
-            if (cur_match.size()==0)
-                continue;
+            if (is_rm_single){
+                if (cur_match.size() < 2)
+                    continue;
+            }else{
+                if (cur_match.size() == 0)
+                    continue;
+            }
             
             p_out_file << i+1 << ',' << j+1 << "\t";
             for (int k=0; k<(int)cur_match.size(); k++)

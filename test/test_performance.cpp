@@ -13,14 +13,14 @@
 TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search","[hide]"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
     int N = 50000;
-    int n = 20;
+    int n = 10000;
     
     // speed of array allocation
     clock_t t_begin = clock();
     int t = 0;
     for (long int i=0; i<10000; i++){
         vector<int> x(N,1);
-        //t += x[i];
+        t += x[i];
     }
     cout << t << endl;
     clock_t t_end = clock();
@@ -77,11 +77,16 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     
     // speed of unordered_set access
     unordered_set<int> q(tmp.begin(), tmp.end());
+    unordered_set<int>::iterator y;
     t_begin = clock();
     for (int i=0; i<10000; i++){
-        for (int j=0; j<n; j++)
-            unordered_set<int>::iterator y = q.find(j);
+        for (int j=0; j<n; j++){
+            y = q.find(j);
+        }
     }
+    if (y!=q.end())
+        cout << *y << endl;
+    
     t_end = clock();
     cout << "time for unordered_set access : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
@@ -137,6 +142,39 @@ TEST_CASE("Compare iteration speed of array and list", "[hide]"){
     }
     t_end = clock();
     cout << "time to access list: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+}
+
+bool myfunction (int i,int j) { return (i<j); }
+
+TEST_CASE("test speed of sort of std library", "[hide]")
+{
+    int B = 100000;
+    std::vector<int> myvector;
+    
+    // set some values:
+    for (int i=1; i<100; i++) myvector.push_back(i);   // 1 2 3 4 5 6 7 8 9
+
+    mt19937 r{std::random_device{}()};
+    shuffle(std::begin(myvector), std::end(myvector), r);
+
+    clock_t t_begin = clock();
+    for (int i=0; i<B; i++){
+        shuffle(std::begin(myvector), std::end(myvector), r);
+    }
+    clock_t t_end = clock();
+    clock_t t_shuffle = t_end - t_begin;
+    cout << "time to shuffle vector: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    t_begin = clock();
+    for (int i=0; i<B; i++){
+        sort(myvector.begin(), myvector.end());
+        shuffle(std::begin(myvector), std::end(myvector), r);
+    }
+    t_end = clock();
+    cout << "time to sort: " << double(t_end - t_begin - t_shuffle)/CLOCKS_PER_SEC << endl;
+    
+    
     
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
 		DC9318491D5527D200640B65 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F271D5527CF00640B65 /* main.cpp */; };
 		DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2A1D5527CF00640B65 /* aligncoder.cpp */; };
 		DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2C1D5527CF00640B65 /* aligncodersnv.cpp */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC1B41F41DF2385400093FF3 /* test_dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforest.cpp; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
 		DC8AB84C1DA4250F00EE19D1 /* statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
@@ -2348,6 +2350,7 @@
 				DCFEC5961D5BD12B0025E57C /* test_misc.cpp */,
 				DCF4892C1DE53C6300E5E88D /* test_performance.cpp */,
 				DC95DCB71DEF6E66004282DF /* test_pileup.cpp */,
+				DC1B41F41DF2385400093FF3 /* test_dforest.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -5799,6 +5802,7 @@
 				DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */,
 				DC9318521D5527D200640B65 /* path.cpp in Sources */,
 				DC95DCC11DF0A0C4004282DF /* dforest.cpp in Sources */,
+				DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */,
 				DC9318571D5527D200640B65 /* windows_file_codecvt.cpp in Sources */,
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,
 				DC93184E1D5527D200640B65 /* test_AlignCoder.cpp in Sources */,

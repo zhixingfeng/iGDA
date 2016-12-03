@@ -20,8 +20,7 @@
 #include <cstring>
 #include <utility>
 #include <stdexcept>
-
-//#include <map>
+#include <random>
 
 #if __cplusplus < 201103L
     #error c++11 is not used. try "g++ -std=c++11".

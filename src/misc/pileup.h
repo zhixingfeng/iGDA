@@ -12,15 +12,16 @@
 #include "./cmpreads.h"
 
 // coverage should NOT exceed range of int !!!!!
-// pileup read ID is 0-based
+////////// pileup read ID is 0-based ///////////
 
 
 // pileup variants
-inline vector<vector<int> > pileup_var(string encode_file)
+inline vector<vector<int> > pileup_var(string encode_file, long int &n_reads)
 {
     // load encode data
     vector<vector<int> > encode_data;
     loadencodedata(encode_data, encode_file);
+    n_reads = encode_data.size();
     
     // calculate size of pileup vector
     int pu_size = 0;
@@ -37,10 +38,11 @@ inline vector<vector<int> > pileup_var(string encode_file)
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads_m5(string align_file)
+inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads)
 {
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file, 'm');
+    n_reads = reads_range.size();
     
     // get size of pileup vector
     int pu_size=0;
@@ -55,11 +57,11 @@ inline vector<vector<int> > pileup_reads_m5(string align_file)
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads(string align_file, char format = 'm')
+inline vector<vector<int> > pileup_reads(string align_file, long int &n_reads, char format = 'm')
 {
     switch (format) {
         case 'm':
-            return pileup_reads_m5(align_file);
+            return pileup_reads_m5(align_file, n_reads);
             break;
             
         default:
