@@ -87,22 +87,22 @@ int AlignCoderSNV::binary_code(int pos, char base)
     int shift = 0;
     switch(base){
         case 'A':
-            shift = 1;
+            shift = 0;
             break;
         case 'C':
-            shift = 2;
+            shift = 1;
             break;
         case 'G':
-            shift = 3;
+            shift = 2;
             break;
         case 'T':
-            shift = 4;
+            shift = 3;
             break;
         default:
             throw runtime_error("AlignCoderSNV::binary_code: incorrect base");
     }
     
-    return 4*(pos-1) + shift;
+    return 4*pos + shift;
 }
 
 

@@ -31,6 +31,9 @@ struct Result{
     
 };
 
+// define DForest model. Note that all the locus stored in the files are 1-based
+// pileup read ID is 0-based
+
 class DForest {
     
 public:
@@ -77,11 +80,40 @@ protected:
     string out_file;
     
 public:
-    inline void build_tree(const vector<int> &cand_loci, int locus_y, Result &rl, int min_reads, int max_depth, vector<int> &temp_vec_var, vector<int> & temp_vec_read)
+    inline void build_tree(const vector<int> &cand_loci, vector<Result> &rl, vector<int> &temp_vec_var, vector<int> & temp_vec_read, int min_reads, int max_depth)
     {
-        // calculate joint frequency of variants
+        // each of the locus in cand_loci is used as response y
+        for (int i = 0; i < cand_loci.size(); i++){
+            // NOTE: cand_loci[i] is response y. Let fill in temp_vec_var and temp_vec_read
+            // by reponse y.
+            int y_locus = cand_loci[i];
+            int y_read_locus = int (y_locus / 4);
+            
+            for (int j = 0; j < pu_var[y_locus].size(); j++)
+                temp_vec_var[pu_var[y_locus][j]] = y_locus;
+            
+            for (int j = 0; j < pu_read[y_read_locus].size(); j++)
+                temp_vec_read[pu_read[y_read_locus][j]] = y_read_locus;
+            
+            // calculate joint frequency of variants
+            vector<int> p_y_x(cand_loci.size(), -1);
+            for (int j = 0; j < cand_loci.size(); j++){
+                // avoid self comparison. p_y_x will be reused, so give it -1 instead of skipping
+                // if we can not get a meaning value;
+                if (j == i){
+                    p_y_x[j] = -1;
+                    continue;
+                }
+                
+                // calculate p_y_x by filling temp_vec_var
+                for (int k = 0; k < pu_var[cand_loci[j]].size(); j++){
+                    //if ()
+                }
+                    
+            }
+            
+        }
         
-        // calculate marginal frequency of predictors
         
     }
     

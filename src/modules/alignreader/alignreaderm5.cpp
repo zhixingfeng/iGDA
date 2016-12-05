@@ -26,13 +26,13 @@ bool AlignReaderM5::readline(Align &align) {
     
     align.qName = buf_vec[0];
     align.qLength = stod(buf_vec[1]);
-    align.qStart = stod(buf_vec[2]) + 1;    // range in m5 is (], real start position should add 1
-    align.qEnd = stod(buf_vec[3]);
+    align.qStart = stod(buf_vec[2]);    // range in m5 is (], use 0-based position
+    align.qEnd = stod(buf_vec[3]) - 1;
     align.qStrand = buf_vec[4][0];
     align.tName = buf_vec[5];
     align.tLength = stod(buf_vec[6]);
-    align.tStart = stod(buf_vec[7]) + 1;    // range in m5 is (], real start position should add 1
-    align.tEnd = stod(buf_vec[8]);
+    align.tStart = stod(buf_vec[7]);    // range in m5 is (], use 0-based position
+    align.tEnd = stod(buf_vec[8]) - 1;
     align.tStrand = buf_vec[9][0];
     align.score = stod(buf_vec[10]);
     align.numMatch = stod(buf_vec[11]);

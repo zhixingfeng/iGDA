@@ -29,7 +29,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads", "[hide]"){
+TEST_CASE("Test cmpreads"){
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
     string out_file = "../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt";

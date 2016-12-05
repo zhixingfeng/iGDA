@@ -24,11 +24,11 @@ TEST_CASE("test DForest::build_tree()")
     
     
     vector<int> cand_loci({143,557,629,703,819});
-    Result rl;
+    vector<Result> rl;
     vector<int> temp_vec_var(forest.get_n_reads(), -1);
     vector<int> temp_vec_read(forest.get_n_reads(), -1);
 
-    forest.build_tree(cand_loci, 143, rl, 10, 10, temp_vec_var, temp_vec_read);
+    forest.build_tree(cand_loci, rl, temp_vec_var, temp_vec_read, 10, 10);
     
 }
 

@@ -12,7 +12,7 @@
 #include "./cmpreads.h"
 
 // coverage should NOT exceed range of int !!!!!
-////////// pileup read ID is 0-based ///////////
+////////// pileup read ID and locus are 0-based ///////////
 
 
 // pileup variants
