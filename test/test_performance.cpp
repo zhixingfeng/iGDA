@@ -174,9 +174,5 @@ TEST_CASE("test speed of sort of std library", "[hide]")
     t_end = clock();
     cout << "time to sort: " << double(t_end - t_begin - t_shuffle)/CLOCKS_PER_SEC << endl;
     
-    
-    
 }
-
-
 

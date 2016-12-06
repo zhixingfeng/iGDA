@@ -83,9 +83,11 @@ public:
     inline void build_tree(const vector<int> &cand_loci, vector<Result> &rl, vector<int> &temp_vec_var, vector<int> & temp_vec_read, int min_reads, int max_depth)
     {
         // each of the locus in cand_loci is used as response y
+        vector<double> p_y_x(cand_loci.size(), -1);
         for (int i = 0; i < cand_loci.size(); i++){
-            // NOTE: cand_loci[i] is response y. Let fill in temp_vec_var and temp_vec_read
-            // by reponse y.
+            // NOTE: cand_loci[i] is response y. Let's fill in temp_vec_var and temp_vec_read
+            // by reponse y. pu_var is 4 times larger pu_read because of binary coding so
+            // we have to devide 4 to access pu_read
             int y_locus = cand_loci[i];
             int y_read_locus = int (y_locus / 4);
             
@@ -95,8 +97,7 @@ public:
             for (int j = 0; j < pu_read[y_read_locus].size(); j++)
                 temp_vec_read[pu_read[y_read_locus][j]] = y_read_locus;
             
-            // calculate joint frequency of variants
-            vector<int> p_y_x(cand_loci.size(), -1);
+            // calculate joint frequency of neighbor variants
             for (int j = 0; j < cand_loci.size(); j++){
                 // avoid self comparison. p_y_x will be reused, so give it -1 instead of skipping
                 // if we can not get a meaning value;
@@ -105,15 +106,23 @@ public:
                     continue;
                 }
                 
-                // calculate p_y_x by filling temp_vec_var
-                for (int k = 0; k < pu_var[cand_loci[j]].size(); j++){
-                    //if ()
+                // calculate p_y_x by filling temp_vec_var and calculate p_x by filling temp_vec_read
+                int n_y_x = 0;
+                int n_x = 0;
+                for (int k = 0; k < pu_var[cand_loci[j]].size(); k++){
+                    if (temp_vec_var[ pu_var[cand_loci[j]][k] ] == y_locus)
+                        ++n_y_x;
+                    if (temp_vec_read[ pu_var[cand_loci[j]][k] ] == y_read_locus)
+                        ++n_x;
                 }
-                    
+                if (n_y_x==0)
+                    p_y_x[j] = 0;
+                else
+                    p_y_x[j] = double(n_y_x) / n_x;
             }
+            // sort p_y_x 
             
         }
-        
         
     }
     

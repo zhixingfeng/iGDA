@@ -43,6 +43,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC0FEE821DF63561002B05FB /* sort_order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort_order.h; sourceTree = "<group>"; };
+		DC0FEE831DF6580E002B05FB /* basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basic.h; sourceTree = "<group>"; };
 		DC1B41F41DF2385400093FF3 /* test_dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforest.cpp; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
@@ -5726,6 +5728,8 @@
 				DC8AB84C1DA4250F00EE19D1 /* statistics.h */,
 				DCD5FC881DAAE74A0062ADEF /* condfreq.h */,
 				DCD5FC891DAAE79F0062ADEF /* io.h */,
+				DC0FEE821DF63561002B05FB /* sort_order.h */,
+				DC0FEE831DF6580E002B05FB /* basic.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";

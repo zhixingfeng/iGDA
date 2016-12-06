@@ -28,12 +28,13 @@ inline vector<vector<int> > pileup_var(string encode_file, long int &n_reads)
     for (int i=0; i<(int)encode_data.size(); i++)
         for (int j=0; j<(int)encode_data[i].size(); j++)
             pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
+    pu_size++;
     
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());
     for (int i=0; i<(int)encode_data.size(); i++)
         for (int j=0; j<(int)encode_data[i].size(); j++)
-            pu[encode_data[i][j]-1].push_back(i);
+            pu[encode_data[i][j]].push_back(i);
     
     return pu;
 }
@@ -48,12 +49,12 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads
     int pu_size=0;
     for (int i=0; i<(int)reads_range.size(); i++)
         pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
-
+    pu_size++;
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());
     for (int i=0; i<(int)reads_range.size(); i++)
         for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
-            pu[j-1].push_back(i);
+            pu[j].push_back(i);
     return pu;
 }
 

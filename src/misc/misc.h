@@ -15,5 +15,8 @@
 #include "./pileup.h"
 #include "./statistics.h"
 #include "./condfreq.h"
+#include "./sort_order.h"
+#include "./basic.h"
+
 
 #endif

@@ -29,7 +29,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads"){
+TEST_CASE("Test cmpreads", "[hide]"){
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
     string out_file = "../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt";
@@ -61,6 +61,43 @@ TEST_CASE("Test lgamma")
     REQUIRE(lgamma(65536)==Approx(661276.9).epsilon(0.00001));REQUIRE(lgamma(1048576)==Approx(13487768).epsilon(0.00001));
 }
 
+TEST_CASE("Test sort_order","[hide]")
+{
+    vector<int> x_int = {7,4,7,3,1,5,6,2,3,6};
+    vector<int> idx_int_inc = sort_order(x_int, false);
+    vector<int> idx_int_dec = sort_order(x_int, true);
+    
+    vector<double> x_double = {7.0, 4.0, 7.0, 3.0, 1.0, 5.0, 6.0, 2.5, 3.0, 6.0};
+    vector<int> idx_double_inc = sort_order(x_double, false);
+    vector<int> idx_double_dec = sort_order(x_double, true);
+    
+    cout << "x_int: " << x_int << endl;
+    cout << "idx_int_inc (increasing): " << idx_int_inc << endl;
+    cout << "sorted x_int (increasing): ";
+    for (int i=0; i < idx_int_inc.size(); i++)
+        cout << x_int[idx_int_inc[i]] << ',';
+    cout << endl;
+    
+    cout << "idx_int_dec (decreasing): " << idx_int_dec << endl;
+    cout << "sorted x_int (decreasing): ";
+    for (int i=0; i < idx_int_dec.size(); i++)
+        cout << x_int[idx_int_dec[i]] << ',';
+    cout << endl;
+    
+    cout << "x_double: " << x_double << endl;
+    cout << "idx_double_inc (increasing): " << idx_double_inc << endl;
+    cout << "sorted x_double (increasing): ";
+    for (int i=0; i < idx_double_inc.size(); i++)
+        cout << x_int[idx_double_inc[i]] << ',';
+    cout << endl;
+    
+    cout << "idx_double_dec (decreasing): " << idx_double_dec << endl;
+    cout << "sorted x_double (decreasing): ";
+    for (int i=0; i < idx_double_dec.size(); i++)
+        cout << x_double[idx_double_dec[i]] << ',';
+    cout << endl;
+    
+}
 
 
 
