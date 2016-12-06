@@ -18,7 +18,7 @@
 #define dforest_h
 
 #include "../../../include/headers.h"
-#include "../../misc/pileup.h"
+#include "../../misc/misc.h"
 #include "../alignreader/alignreaderm5.h"
 #include "../aligncoder/aligncodersnv.h"
 
@@ -121,7 +121,8 @@ public:
                     p_y_x[j] = double(n_y_x) / n_x;
             }
             // sort p_y_x 
-            
+            vector<int> idx_p_y_x = sort_order(p_y_x, true); 
+            // to be continued
         }
         
     }

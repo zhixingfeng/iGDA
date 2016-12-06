@@ -61,7 +61,7 @@ TEST_CASE("Test lgamma")
     REQUIRE(lgamma(65536)==Approx(661276.9).epsilon(0.00001));REQUIRE(lgamma(1048576)==Approx(13487768).epsilon(0.00001));
 }
 
-TEST_CASE("Test sort_order","[hide]")
+TEST_CASE("Test sort_order", "[hide]")
 {
     vector<int> x_int = {7,4,7,3,1,5,6,2,3,6};
     vector<int> idx_int_inc = sort_order(x_int, false);
@@ -88,7 +88,7 @@ TEST_CASE("Test sort_order","[hide]")
     cout << "idx_double_inc (increasing): " << idx_double_inc << endl;
     cout << "sorted x_double (increasing): ";
     for (int i=0; i < idx_double_inc.size(); i++)
-        cout << x_int[idx_double_inc[i]] << ',';
+        cout << x_double[idx_double_inc[i]] << ',';
     cout << endl;
     
     cout << "idx_double_dec (decreasing): " << idx_double_dec << endl;

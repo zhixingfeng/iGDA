@@ -12,7 +12,7 @@
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforest.h"
 
-TEST_CASE("test DForest::build_tree()","[hide]")
+TEST_CASE("test DForest::build_tree()")
 {
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
     string align_file = "../data/B_10_cons.m5";
