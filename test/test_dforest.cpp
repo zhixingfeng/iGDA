@@ -23,12 +23,14 @@ TEST_CASE("test DForest::build_tree()")
     forest.call_pileup_reads(align_file);
     
     vector<int> cand_loci({142,556,628,702,818});
-    vector<Result> rl;
+    vector<vector<Result> > rl(forest.get_pileup_var().size(), vector<Result>() );
     vector<int> temp_vec_var(forest.get_n_reads(), -1);
+    vector<int> temp_vec_var_lock(forest.get_n_reads(), -1);
     vector<int> temp_vec_read(forest.get_n_reads(), -1);
+    vector<int> temp_vec_read_lock(forest.get_n_reads(), -1);
 
     clock_t t_begin = clock();
-    forest.build_tree(cand_loci, rl, temp_vec_var, temp_vec_read, 8, 10);
+    forest.build_tree(cand_loci, rl, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, 8, 10);
     clock_t t_end = clock();
     cout << "time for build_tree : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
