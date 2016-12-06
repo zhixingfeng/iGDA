@@ -26,6 +26,7 @@
 		DC9318581D5527D200640B65 /* error_code.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC93182E1D5527D200640B65 /* error_code.cpp */; };
 		DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC95DCB71DEF6E66004282DF /* test_pileup.cpp */; };
 		DC95DCC11DF0A0C4004282DF /* dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC95DCBF1DF0A0C4004282DF /* dforest.cpp */; };
+		DCC3160C1DF7817000CEED79 /* dforestsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */; };
 		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
 		DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCFEC5961D5BD12B0025E57C /* test_misc.cpp */; };
 /* End PBXBuildFile section */
@@ -2248,6 +2249,8 @@
 		DC95DCC01DF0A0C4004282DF /* dforest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforest.h; sourceTree = "<group>"; };
 		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
 		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnv.cpp; sourceTree = "<group>"; };
+		DCC3160B1DF7817000CEED79 /* dforestsnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnv.h; sourceTree = "<group>"; };
 		DCD5FC881DAAE74A0062ADEF /* condfreq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = condfreq.h; sourceTree = "<group>"; };
 		DCD5FC891DAAE79F0062ADEF /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
@@ -5713,6 +5716,8 @@
 			children = (
 				DC95DCBF1DF0A0C4004282DF /* dforest.cpp */,
 				DC95DCC01DF0A0C4004282DF /* dforest.h */,
+				DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */,
+				DCC3160B1DF7817000CEED79 /* dforestsnv.h */,
 			);
 			path = dforest;
 			sourceTree = "<group>";
@@ -5801,6 +5806,7 @@
 				DC9318491D5527D200640B65 /* main.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
+				DCC3160C1DF7817000CEED79 /* dforestsnv.cpp in Sources */,
 				DC93184F1D5527D200640B65 /* test_AlignReader.cpp in Sources */,
 				DC93184D1D5527D200640B65 /* alignreaderm5.cpp in Sources */,
 				DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */,

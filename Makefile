@@ -5,8 +5,7 @@ CXX_FLAGS = -std=c++11 -w -O3 -D_UNITTEST
 SRC = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/aligncoder/*.cpp)\
 	$(wildcard src/modules/alignreader/*.cpp)\
-	$(wildcard src/modules/freqsetminer/*.cpp)\
-	$(wildcard src/modules/fptree/*.cpp)\
+	$(wildcard src/modules/dforest/*.cpp)\
 	$(wildcard test/*.cpp) \
 	$(wildcard tools/boost/src/filesystem/*.cpp) \
 	$(wildcard tools/boost/src/system/*.cpp) 
