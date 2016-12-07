@@ -176,3 +176,30 @@ TEST_CASE("test speed of sort of std library", "[hide]")
     
 }
 
+TEST_CASE("test file reading speed")
+{
+    clock_t t_begin = clock();
+    std::ifstream in("../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt", std::ios::in | std::ios::binary);
+    std::string contents;
+    if (in)
+    {
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+    }
+    clock_t t_end = clock();
+    cout << "time to read: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    cout << "size of file: " << contents.size() << endl;
+}
+
+
+
+
+
+
+
+
+
+
