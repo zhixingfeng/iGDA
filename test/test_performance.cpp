@@ -8,7 +8,7 @@
 
 #include "../include/catch.hpp"
 #include "../include/headers.h"
-
+#include "../src/misc/misc.h"
 
 TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search","[hide]"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
@@ -176,10 +176,10 @@ TEST_CASE("test speed of sort of std library", "[hide]")
     
 }
 
-TEST_CASE("test file reading speed")
+TEST_CASE("test file reading speed","[hide]")
 {
     clock_t t_begin = clock();
-    std::ifstream in("../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt", std::ios::in | std::ios::binary);
+    std::ifstream in("../results/MSSA_61_forward_encode_snv_cmpreads.txt", std::ios::in | std::ios::binary);
     std::string contents;
     if (in)
     {
@@ -190,11 +190,45 @@ TEST_CASE("test file reading speed")
         in.close();
     }
     clock_t t_end = clock();
-    cout << "time to read: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     cout << "size of file: " << contents.size() << endl;
+    cout << "time of read(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    t_begin = clock();
+    in.open("../results/MSSA_61_forward_encode_snv_cmpreads.txt", std::ios::in | std::ios::binary);
+    while (!in.eof()){
+        getline(in, contents);
+    }
+    t_end = clock();
+    cout << "time of getline(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
 
+TEST_CASE("Test size of data type")
+{
+    cout << "char : " << sizeof(char) << endl;
+    cout << "int : " << sizeof(int) << endl;
+    cout << "long : " << sizeof(long) << endl;
+    cout << "long int : " << sizeof(long int) << endl;
+    cout << "double : " << sizeof(double) << endl;
+    
+}
+
+
+TEST_CASE("Test convert to binary file")
+{
+    ifstream in; ofstream out;
+    open_infile(in, "../results/MSSA_61_forward_encode_snv_cmpreads_col2.txt");
+    open_outfile(out,  "../results/MSSA_61_forward_encode_snv_cmpreads_col2.bin");
+    string buf;
+    while(!in.eof()){
+        getline(in, buf);
+        vector<int> x = split_int(buf, ' ');
+        
+    }
+    
+    
+    in.close();
+}
 
 
 
