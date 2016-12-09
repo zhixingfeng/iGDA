@@ -12,9 +12,20 @@
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnv.h"
 
+
+TEST_CASE("test DForest::run()")
+{
+    string encode_file = "../results/B_10_cons.encode";
+    string align_file = "../data/B_10_cons.m5";
+    AlignReaderM5 alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNV forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+}
 TEST_CASE("test DForest::build_tree()", "[hide]")
 {
-    string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
@@ -23,7 +34,7 @@ TEST_CASE("test DForest::build_tree()", "[hide]")
     ptr_forest->call_pileup_var(encode_file);
     ptr_forest->call_pileup_reads(align_file);
     
-    vector<int> cand_loci({142,556,628,702,818});
+    vector<int> cand_loci({142,556,628,702,818,1001, 1003, 1050, 10000});
     vector<vector<Result> > rl(ptr_forest->get_pileup_var().size(), vector<Result>() );
     vector<int> temp_vec_var(ptr_forest->get_n_reads(), -1);
     vector<int> temp_vec_var_lock(ptr_forest->get_n_reads(), -1);

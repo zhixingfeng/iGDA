@@ -114,7 +114,7 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<vector<Result> 
             ++depth; 
         }
         
-        cur_rl.p_y_xp = double(n_y_xp) / n_xp;
+        //cur_rl.p_y_xp = double(n_y_xp) / n_xp;
         
         rl[y_locus].push_back(cur_rl);
         
