@@ -98,9 +98,11 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
+            SwitchArg istextArg("t", "text", "output text file", cmd, false);
             cmd.parse(argv2);
             
-            cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
+            cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
         }
         
     }

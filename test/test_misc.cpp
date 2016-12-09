@@ -30,14 +30,20 @@ TEST_CASE("Test loadencodedata", "[hide]"){
 }
 
 TEST_CASE("Test cmpreads", "[hide]"){
-    string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
+    string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
-    string out_file = "../results/B_10_cons_encode_snv_cmpreads_array_method_rm_single.txt";
+    string out_txtfile = "../results/B_10_cons_cmpreads.txt";
+    string out_binfile = "../results/B_10_cons_cmpreads.bin";
     
     clock_t t_begin = clock();
-    cmpreads(encode_file, align_file, out_file, 0);
+    cmpreads(encode_file, align_file, out_txtfile, 0, true, false);
     clock_t t_end = clock();
-    cout << "time for compare reads : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    cout << "time for compare reads (text output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    t_begin = clock();
+    cmpreads(encode_file, align_file, out_binfile, 0, true, true);
+    t_end = clock();
+    cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
 
