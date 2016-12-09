@@ -176,10 +176,10 @@ TEST_CASE("test speed of sort of std library", "[hide]")
     
 }
 
-TEST_CASE("test file reading speed","[hide]")
+TEST_CASE("test file reading speed")
 {
     clock_t t_begin = clock();
-    std::ifstream in("../results/MSSA_61_forward_encode_snv_cmpreads.txt", std::ios::in | std::ios::binary);
+    std::ifstream in("../results/MSSA_61_forward_encode_snv_cmpreads_col2.txt", std::ios::in | std::ios::binary);
     std::string contents;
     if (in)
     {
@@ -194,16 +194,17 @@ TEST_CASE("test file reading speed","[hide]")
     cout << "time of read(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     
     t_begin = clock();
-    in.open("../results/MSSA_61_forward_encode_snv_cmpreads.txt", std::ios::in | std::ios::binary);
+    in.open("../results/MSSA_61_forward_encode_snv_cmpreads_col2.txt", std::ios::in | std::ios::binary);
     while (!in.eof()){
         getline(in, contents);
+        vector<int> cur_data = split_int(contents,',');
     }
     t_end = clock();
     cout << "time of getline(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
 
-TEST_CASE("Test size of data type")
+TEST_CASE("Test size of data type","[hide]")
 {
     cout << "char : " << sizeof(char) << endl;
     cout << "int : " << sizeof(int) << endl;
@@ -214,22 +215,53 @@ TEST_CASE("Test size of data type")
 }
 
 
-TEST_CASE("Test convert to binary file")
+TEST_CASE("Test convert to binary file","[hide]")
 {
-    ifstream in; ofstream out;
+    ifstream in; 
     open_infile(in, "../results/MSSA_61_forward_encode_snv_cmpreads_col2.txt");
-    open_outfile(out,  "../results/MSSA_61_forward_encode_snv_cmpreads_col2.bin");
+    FILE * p_outfile = fopen("../results/MSSA_61_forward_encode_snv_cmpreads_col2.bin", "wb");
+    if (p_outfile==NULL)
+        runtime_error("fail to open outfile");
+    
     string buf;
     while(!in.eof()){
         getline(in, buf);
-        vector<int> x = split_int(buf, ' ');
-        
+        if (in.eof())
+            break;
+        vector<int> x = split_int(buf, ',');
+        int y = (int)x.size();
+        fwrite(&y, sizeof(int), 1, p_outfile);
+        fwrite(&x[0], sizeof(int), (int)x.size(), p_outfile);
     }
-    
-    
     in.close();
+    fclose(p_outfile);
 }
 
+
+TEST_CASE("Test read binary file")
+{
+    clock_t t_begin = clock();
+    FILE *p_infile = fopen("../results/MSSA_61_forward_encode_snv_cmpreads_col2.bin", "rb");
+    if (p_infile==NULL)
+        runtime_error("fail to open infile");
+    while(1){
+        int cur_size ;
+    
+        fread(&cur_size, sizeof(int), 1, p_infile);
+        int *cur_data = new int[cur_size];
+        fread(cur_data, sizeof(int), cur_size, p_infile);
+        //vector<int> cur_data_vec(cur_data, cur_data+cur_size);
+        delete [] cur_data;
+        
+        if (feof(p_infile))
+            break;
+    }
+    
+    fclose(p_infile);
+    clock_t t_end = clock();
+    cout << "time of read binary(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+
+}
 
 
 
