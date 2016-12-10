@@ -9,9 +9,7 @@
 #ifndef iGDA_modules_h
 #define iGDA_modules_h
 
-#include "alignreader/alignreader.h"
 #include "alignreader/alignreaderm5.h"
-#include "aligncoder/aligncoder.h"
 #include "aligncoder/aligncodersnv.h"
 
 #endif

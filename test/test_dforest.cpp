@@ -15,13 +15,16 @@
 
 TEST_CASE("test DForest::run()")
 {
-    string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
+    string encode_file = "../results/B_10_cons.encode";
+    string cmpreads_file = "../results/B_10_cons_cmpreads.bin";
+    string out_file = "../results/B_10_cons_out.txt";
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
     DForestSNV forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
+    ptr_forest->run(align_file, encode_file, cmpreads_file, out_file, 8, 5);
 }
 TEST_CASE("test DForest::build_tree()", "[hide]")
 {
@@ -34,8 +37,8 @@ TEST_CASE("test DForest::build_tree()", "[hide]")
     ptr_forest->call_pileup_var(encode_file);
     ptr_forest->call_pileup_reads(align_file);
     
-    vector<int> cand_loci({142,556,628,702,818,1001, 1003, 1050, 10000});
-    vector<vector<Result> > rl(ptr_forest->get_pileup_var().size(), vector<Result>() );
+    vector<int> cand_loci({142, 556, 628, 702, 818, 1001, 1003, 1050, 10000});
+    vector<vector<Result> > rl(ptr_forest->get_pileup_var().size(), vector<Result>());
     vector<int> temp_vec_var(ptr_forest->get_n_reads(), -1);
     vector<int> temp_vec_var_lock(ptr_forest->get_n_reads(), -1);
     vector<int> temp_vec_read(ptr_forest->get_n_reads(), -1);

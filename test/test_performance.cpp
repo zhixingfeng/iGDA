@@ -9,6 +9,7 @@
 #include "../include/catch.hpp"
 #include "../include/headers.h"
 #include "../src/misc/misc.h"
+#include "../src/modules/dforest/dforestsnv.h"
 
 TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search","[hide]"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
@@ -203,7 +204,35 @@ TEST_CASE("test file reading speed","[hide]")
     cout << "time of getline(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
+TEST_CASE("Test file writing speed", "[hide]"){
+    // fprintf is > 5 times faster than "<<" on my MacPro (both true for -O3 and non-optimized version)
+    Result rl;
+    string outfile_c = "../results/test_output_c.txt";
+    string outfile_cpp = "../results/test_output_cpp.txt";
+    
+    int B = 1000000;
+    // C style writing
+    clock_t t_begin = clock();
+    FILE *p_c = fopen(outfile_c.c_str(), "w");
+    if (p_c == NULL)
+        throw runtime_error("unable to open outfile_c");
+    for (int i = 0; i < B; i++){
+        fprintf(p_c, "%lf,%lf,%d,%d\n", rl.bf, rl.p_y_xp, rl.n_y_xp, rl.n_xp);
+    }
+    fclose(p_c);
+    clock_t t_end = clock();
+    cout << "time of c style writing: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    // Cpp stype writing 
+    t_begin = clock();
+    ofstream p_cpp; open_outfile(p_cpp, outfile_cpp);
+    for (int i = 0; i < B; i++)
+        p_cpp<<rl.bf <<',' << rl.p_y_xp <<',' << rl.n_y_xp <<',' << rl.n_xp << endl;
+    p_cpp.close();
+    t_end = clock();
+    cout << "time of cpp style writing: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 
+}
 TEST_CASE("Test size of data type","[hide]")
 {
     cout << "char : " << sizeof(char) << endl;
@@ -215,7 +244,7 @@ TEST_CASE("Test size of data type","[hide]")
 }
 
 
-TEST_CASE("Test convert to binary file","[hide]")
+TEST_CASE("Test convert text to binary file","[hide]")
 {
     ifstream in; 
     open_infile(in, "../results/MSSA_61_forward_encode_snv_cmpreads_col2.txt");

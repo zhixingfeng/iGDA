@@ -7,9 +7,59 @@
 //
 
 #include "dforestsnv.h"
-bool DForestSNV::run(string cmpreads_file, string out_file, int min_reads, int max_depth)
+bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file, string out_file, int min_reads, int max_depth)
 {
+    cout << "load encode_file" << endl;
+    call_pileup_var(encode_file);
+    cout << "load align_file" << endl;
+    call_pileup_reads(align_file);
     
+    // prepare buff of results and template 
+    vector<vector<Result> > rl(this->pu_var.size(), vector<Result>());
+    vector<int> temp_vec_var(this->n_reads, -1);
+    vector<int> temp_vec_var_lock(this->n_reads, -1);
+    vector<int> temp_vec_read(this->n_reads, -1);
+    vector<int> temp_vec_read_lock(this->n_reads, -1);
+
+    // scan cmpreads_file for each candidate subset
+    int k = 1;
+    FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
+    if (p_cmpreads_file == NULL)
+        throw runtime_error("DForestSNV::run(): fail to open cmpreads_file");
+    while(1){
+        if (k%10000==0)
+            printf("poccessed # of candidates : %d\n", k);
+        // load candidate subset
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (feof(p_cmpreads_file))
+            break;
+        
+        // build tree 
+        build_tree(cand_loci, rl, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, min_reads, max_depth);
+        
+        k++;
+    }
+    printf("poccessed # of candidates : %d\n", k);
+    fclose(p_cmpreads_file);
+    
+    // write results
+    printf("write results to %s\n",out_file.c_str());
+    FILE *p_outfile = fopen(out_file.c_str(), "w");
+    if (p_outfile == NULL)
+        throw runtime_error("unable to open out_file");
+    for (int i = 0; i < (int)rl.size(); i++){
+        for (int j = 0; j < (int)rl[i].size(); j++){
+            fprintf(p_outfile, "%lf, %lf, %d, %d,", rl[i][j].bf, rl[i][j].p_y_xp, rl[i][j].n_y_xp, rl[i][j].n_xp);
+            for (int k = 0; k < rl[i][j].link_loci.size(); k++)
+                fprintf(p_outfile, "%d:",rl[i][j].link_loci[k]);
+            fprintf(p_outfile, "\t");
+        }
+        fprintf(p_outfile, "\n");
+    }
+    fclose(p_outfile);
     return true;
 }
 
