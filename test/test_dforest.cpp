@@ -13,7 +13,7 @@
 #include "../src/modules/dforest/dforestsnv.h"
 
 
-TEST_CASE("test DForest::run()")
+TEST_CASE("test DForest::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";

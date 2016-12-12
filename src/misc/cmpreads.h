@@ -98,6 +98,45 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
     return true;
 }
 
+// convert binary cmpreadsfile to text file 
 
+inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile)
+{
+    // open binary file
+    FILE *p_binfile = fopen(cmpreads_binfile.c_str(), "rb");
+    if (p_binfile == NULL)
+        runtime_error("fail to open cmpreads_binfile");
+    
+    // open text file to be written
+    FILE *p_txtfile = fopen(cmpreads_txtfile.c_str(), "wb");
+    if (p_txtfile == NULL)
+        runtime_error("fail to open cmpreads_txtfile");   
+    
+    // scan binary file and convert
+    while(1){
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_binfile);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+        if (feof(p_binfile))
+            break;
+        for (int i = 0; i < cand_loci_size; i++)
+            fprintf(p_txtfile, "%d,", cand_loci[i]);
+        fprintf(p_txtfile, "\n");
+    }
+
+    
+    fclose(p_binfile);
+    fclose(p_txtfile);
+    
+}
 
 #endif /* cmpreads_h */
+
+
+
+
+
+
+
+

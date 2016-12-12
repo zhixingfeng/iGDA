@@ -46,6 +46,13 @@ TEST_CASE("Test cmpreads", "[hide]"){
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
+TEST_CASE("Test cmpreads_bin2txt")
+{
+    string cmpreads_binfile = "../results/B_10_cons_cmpreads.bin";
+    string cmpreads_txtfile = "../results/B_10_cons_cmpreads.bin2txt";
+    cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile);
+}
+
 
 TEST_CASE("Test pnorm","[hide]")
 {

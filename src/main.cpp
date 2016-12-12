@@ -31,7 +31,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command=encode, m5tofa, cmpreads" << endl;
+    cout << "command=encode, m5tofa, cmpreads, bin2txt" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -103,6 +103,16 @@ int main(int argc, const char * argv[])
             
             cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
         }
+        
+        // convert binary cmpreadsfile to text
+        if (strcmp(argv[1], "bin2txt")==0) {
+            UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
+            UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
+            cmd.parse(argv2);
+            
+            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue());
+        }
+
         
     }
     catch(const std::overflow_error& e) {
