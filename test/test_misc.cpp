@@ -44,6 +44,11 @@ TEST_CASE("Test cmpreads", "[hide]"){
     cmpreads(encode_file, align_file, out_binfile, 0, true, true);
     t_end = clock();
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    //t_begin = clock();
+    //cmpreads(encode_file, align_file, "../results/B_10_cons_cmpreads_single.bin", 0, false, true);
+    //t_end = clock();
+    //cout << "time for compare reads (binary output not rm single): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
 TEST_CASE("Test cmpreads_bin2txt")
