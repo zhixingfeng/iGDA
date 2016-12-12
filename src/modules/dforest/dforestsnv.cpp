@@ -51,8 +51,9 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
     if (p_outfile == NULL)
         throw runtime_error("unable to open out_file");
     for (int i = 0; i < (int)rl.size(); i++){
+        fprintf(p_outfile,"%d\t", i);
         for (int j = 0; j < (int)rl[i].size(); j++){
-            fprintf(p_outfile, "%lf, %lf, %d, %d,", rl[i][j].bf, rl[i][j].p_y_xp, rl[i][j].n_y_xp, rl[i][j].n_xp);
+            fprintf(p_outfile, "%lf,%lf,%d,%d,", rl[i][j].bf, rl[i][j].p_y_xp, rl[i][j].n_y_xp, rl[i][j].n_xp);
             for (int k = 0; k < rl[i][j].link_loci.size(); k++)
                 fprintf(p_outfile, "%d:",rl[i][j].link_loci[k]);
             fprintf(p_outfile, "\t");
