@@ -60,19 +60,19 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
 pair<int, char> AlignCoderSNV::decode(int code)
 {
     pair<int, char> rl;
-    rl.first = int ((code-1) / 4) + 1;
+    rl.first = int (code / 4);
     int shift = code % 4;
     switch(shift){
-        case 1:
+        case 0:
             rl.second = 'A';
             break;
-        case 2:
+        case 1:
             rl.second = 'C';
             break;
-        case 3:
+        case 2:
             rl.second = 'G';
             break;
-        case 0:
+        case 3:
             rl.second = 'T';
             break;
         default:
