@@ -112,6 +112,16 @@ int main(int argc, const char * argv[])
             
             cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue());
         }
+        
+        // convert text cmpreadsfile to binary
+        if (strcmp(argv[1], "txt2bin")==0) {
+            UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
+            UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue());
+        }
 
         
         

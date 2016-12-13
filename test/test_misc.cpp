@@ -29,7 +29,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads"){
+TEST_CASE("Test cmpreads", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     string out_txtfile = "../results/B_10_cons_cmpreads.txt";
@@ -56,6 +56,14 @@ TEST_CASE("Test cmpreads_bin2txt", "[hide]")
     string cmpreads_binfile = "../results/B_10_cons_cmpreads.bin";
     string cmpreads_txtfile = "../results/B_10_cons_cmpreads.bin2txt";
     cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile);
+}
+
+TEST_CASE("Test cmpreads_txt2bin")
+{
+    cout << "Test cmpreads_txt2bin";
+    string cmpreads_txtfile = "../results/B_10_cons_cmpreads.txt";
+    string cmpreads_binfile = "../results/B_10_cons_cmpreads.txt2bin";
+    cmpreads_txt2bin(cmpreads_txtfile, cmpreads_binfile);
 }
 
 

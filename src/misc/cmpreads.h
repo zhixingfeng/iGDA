@@ -142,6 +142,34 @@ inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile)
     
 }
 
+// convert text cmpreadsfile to binary file  
+inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile)
+{
+    // open text file
+    ifstream p_txtfile;
+    open_infile(p_txtfile, cmpreads_txtfile);
+    // open binary file
+    FILE *p_binfile = fopen(cmpreads_binfile.c_str(), "wb");
+    if (p_binfile == NULL)
+        runtime_error("fail to open cmpreads_binfile");
+    
+    while(1){
+        // read text file
+        string buf;
+        getline(p_txtfile, buf);
+        if (p_txtfile.eof())
+            break;
+        vector<int> cur_data = split_int(buf, ',');
+        
+        // write binary file
+        int cur_data_size = (int)cur_data.size();
+        fwrite(&cur_data_size, sizeof(int), 1, p_binfile);
+        fwrite(&cur_data[0], sizeof(int), cur_data_size, p_binfile);
+    }
+    p_txtfile.close();
+    fclose(p_binfile);
+}
+
 #endif /* cmpreads_h */
 
 
