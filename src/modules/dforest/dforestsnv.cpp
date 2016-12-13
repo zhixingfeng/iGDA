@@ -7,15 +7,16 @@
 //
 
 #include "dforestsnv.h"
-bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file, string out_file, int min_reads, int max_depth)
+bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)
 {
     cout << "load encode_file" << endl;
     call_pileup_var(encode_file);
     cout << "load align_file" << endl;
     call_pileup_reads(align_file);
     
+    out_file = a_out_file;
+    
     // prepare buff of results and template 
-    vector<vector<Result> > rl(this->pu_var.size(), vector<Result>());
     vector<int> temp_vec_var(this->n_reads, -1);
     vector<int> temp_vec_var_lock(this->n_reads, -1);
     vector<int> temp_vec_read(this->n_reads, -1);
@@ -26,6 +27,10 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
         throw runtime_error("DForestSNV::run(): fail to open cmpreads_file");
+
+    p_outfile = fopen(out_file.c_str(), "w");
+    if (p_outfile == NULL)
+        throw runtime_error("unable to open out_file");
     while(1){
         if (k%10000==0)
             printf("poccessed # of candidates : %d\n", k);
@@ -38,33 +43,17 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
             break;
         
         // build tree 
-        build_tree(cand_loci, rl, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, min_reads, max_depth);
+        build_tree(cand_loci, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, min_reads, max_depth);
         
         k++;
     }
     printf("poccessed # of candidates : %d\n", k);
     fclose(p_cmpreads_file);
-    
-    // write results
-    printf("write results to %s\n",out_file.c_str());
-    FILE *p_outfile = fopen(out_file.c_str(), "w");
-    if (p_outfile == NULL)
-        throw runtime_error("unable to open out_file");
-    for (int i = 0; i < (int)rl.size(); i++){
-        fprintf(p_outfile,"%d\t", i);
-        for (int j = 0; j < (int)rl[i].size(); j++){
-            fprintf(p_outfile, "%lf,%lf,%d,%d,", rl[i][j].bf, rl[i][j].p_y_xp, rl[i][j].n_y_xp, rl[i][j].n_xp);
-            for (int k = 0; k < rl[i][j].link_loci.size(); k++)
-                fprintf(p_outfile, "%d:",rl[i][j].link_loci[k]);
-            fprintf(p_outfile, "\t");
-        }
-        fprintf(p_outfile, "\n");
-    }
     fclose(p_outfile);
     return true;
 }
 
-void DForestSNV::build_tree(const vector<int> &cand_loci, vector<vector<Result> > &rl, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth)
+void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -165,10 +154,12 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<vector<Result> 
             ++depth; 
         }
         
-        //cur_rl.p_y_xp = double(n_y_xp) / n_xp;
-        
-        rl[y_locus].push_back(cur_rl);
-        
+        // write results (unordered) to outfile
+        fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
+        for (int j = 0; j < cur_rl.link_loci.size(); j++)
+            fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
+        fprintf(p_outfile, "\n");
+            
     }
     
 }

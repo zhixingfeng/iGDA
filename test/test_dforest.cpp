@@ -13,7 +13,7 @@
 #include "../src/modules/dforest/dforestsnv.h"
 
 
-TEST_CASE("test DForest::run()", "[hide]")
+TEST_CASE("test DForest::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -26,7 +26,8 @@ TEST_CASE("test DForest::run()", "[hide]")
     
     ptr_forest->run(align_file, encode_file, cmpreads_file, out_file, 8, 5);
 }
-TEST_CASE("test DForest::build_tree()", "[hide]")
+
+/*TEST_CASE("test DForest::build_tree()", "[hide]")
 {
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
@@ -46,11 +47,11 @@ TEST_CASE("test DForest::build_tree()", "[hide]")
 
     clock_t t_begin = clock();
     for (int i=0; i<1000; i++)
-        ptr_forest->build_tree(cand_loci, rl, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, 8, 10);
+        ptr_forest->build_tree(cand_loci, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, 8, 10);
     clock_t t_end = clock();
     cout << "time for build_tree : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
-
+*/
 
 
 

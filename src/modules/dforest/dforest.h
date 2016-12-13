@@ -39,7 +39,7 @@ struct Result{
 class DForest {
     
 public:
-    DForest(){p_alignreader = NULL; p_aligncoder = NULL;}
+    DForest(){p_alignreader = NULL; p_aligncoder = NULL;p_outfile=NULL;}
     DForest(AlignReader *a_p_alignreader, AlignCoder *a_p_aligncoder){
         p_alignreader = a_p_alignreader;
         p_aligncoder = a_p_aligncoder;
@@ -66,9 +66,9 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     
-    virtual bool run(string align_file, string encode_file, string cmpreads_file, string out_file, int min_reads, int max_depth)=0;
+    virtual bool run(string align_file, string encode_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)=0;
     
-    virtual void build_tree(const vector<int> &cand_loci, vector<vector<Result> > &rl, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth) = 0;
+    virtual void build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth) = 0;
     
 protected:
     AlignReader *p_alignreader;
@@ -80,6 +80,9 @@ protected:
     long int n_reads;
     
     string out_file;
+    
+    FILE *p_outfile;
+    
     
     
 };

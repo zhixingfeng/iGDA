@@ -20,9 +20,9 @@ public:
     
     virtual ~DForestSNV(){}
     
-    bool run(string align_file, string encode_file, string cmpreads_file, string out_file, int min_reads, int max_depth);
+    bool run(string align_file, string encode_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth);
     
-    void build_tree(const vector<int> &cand_loci, vector<vector<Result> > &rl, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth);
+    void build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth);
 };
 
 
