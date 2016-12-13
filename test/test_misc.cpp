@@ -58,7 +58,7 @@ TEST_CASE("Test cmpreads_bin2txt", "[hide]")
     cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile);
 }
 
-TEST_CASE("Test cmpreads_txt2bin")
+TEST_CASE("Test cmpreads_txt2bin", "[hide]")
 {
     cout << "Test cmpreads_txt2bin";
     string cmpreads_txtfile = "../results/B_10_cons_cmpreads.txt";

@@ -122,6 +122,17 @@ int main(int argc, const char * argv[])
             
             cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue());
         }
+        
+        // sort output
+        if (strcmp(argv[1], "sort")==0) {
+            UnlabeledValueArg<string> fileArg("outputfile", "", true, "", "outfile", cmd);
+            cmd.parse(argv2);
+            string sortfile = fileArg.getValue() + ".sorted";
+            
+            string shell_cmd = "sort -k1,1n -k3,3nr " + fileArg.getValue() + " > " + sortfile;
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+        }
 
         
         

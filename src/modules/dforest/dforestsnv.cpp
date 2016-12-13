@@ -142,7 +142,7 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_
             if (n_xp < min_reads) break;
             
             double p_y_xp = (double)n_y_xp / n_xp;
-            if (p_y_xp < cur_rl.p_y_xp)
+            if (p_y_xp <= cur_rl.p_y_xp)
                 break;
             
             // record result
