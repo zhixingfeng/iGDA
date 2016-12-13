@@ -39,11 +39,19 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
     
     // pairwise comparison
     FILE *p_out_binfile = NULL;
-    ofstream p_out_textfile;
-    if (is_binary)
+    FILE *p_out_textfile = NULL;
+    if (is_binary){
         p_out_binfile = fopen(out_file.c_str(), "wb");
-    else
-        open_outfile(p_out_textfile, out_file);
+        if (p_out_binfile==NULL)
+            throw runtime_error("fail to open out_file");
+    }
+    else{
+        p_out_textfile = fopen(out_file.c_str(), "wb");
+        if (p_out_textfile==NULL)
+            throw runtime_error("fail to open out_file");
+
+    }
+    
     
     for (int i=0; i<(int)(encode_data.size()-1); i++){
         if ((i+1)%100==0) cout << i+1 << '\r';
@@ -79,11 +87,14 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
                 fwrite(&cur_match_size, sizeof(int), 1, p_out_binfile);
                 fwrite(&cur_match[0], sizeof(int), cur_match_size, p_out_binfile);
             }else{
-                p_out_textfile << i+1 << ',' << j+1 << "\t";
+                //p_out_textfile << i+1 << ',' << j+1 << "\t";
                 for (int k=0; k<(int)cur_match.size(); k++)
-                    p_out_textfile << cur_match[k] << ',';
-                p_out_textfile << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
-                p_out_textfile << reads_range[j].first << ',' << reads_range[j].second << endl;
+                    fprintf(p_out_textfile, "%d,", cur_match[k]);
+                fprintf(p_out_textfile, "\n");
+                    //p_out_textfile << cur_match[k] << ',';
+                
+                //p_out_textfile << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
+                //p_out_textfile << reads_range[j].first << ',' << reads_range[j].second << endl;
             }
         }
                 
@@ -93,7 +104,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
     if (is_binary)
         fclose(p_out_binfile);
     else
-        p_out_textfile.close();
+        fclose(p_out_textfile);
     
     return true;
 }

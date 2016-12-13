@@ -29,7 +29,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads", "[hide]"){
+TEST_CASE("Test cmpreads"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     string out_txtfile = "../results/B_10_cons_cmpreads.txt";
@@ -51,7 +51,7 @@ TEST_CASE("Test cmpreads", "[hide]"){
     //cout << "time for compare reads (binary output not rm single): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
-TEST_CASE("Test cmpreads_bin2txt")
+TEST_CASE("Test cmpreads_bin2txt", "[hide]")
 {
     string cmpreads_binfile = "../results/B_10_cons_cmpreads.bin";
     string cmpreads_txtfile = "../results/B_10_cons_cmpreads.bin2txt";
