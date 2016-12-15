@@ -66,9 +66,9 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     
-    virtual bool run(string align_file, string encode_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)=0;
+    virtual bool run(string encode_file, string align_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)=0;
     
-    virtual void build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth) = 0;
+    virtual void build_tree(const vector<int> &cand_loci, long long &counter, vector<long long> &temp_vec_var, vector<long long> &temp_vec_read, int min_reads, int max_depth) = 0;
     
 protected:
     AlignReader *p_alignreader;

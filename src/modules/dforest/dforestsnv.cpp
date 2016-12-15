@@ -7,7 +7,7 @@
 //
 
 #include "dforestsnv.h"
-bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)
+bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)
 {
     cout << "load encode_file" << endl;
     call_pileup_var(encode_file);
@@ -17,12 +17,10 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
     out_file = a_out_file;
     
     // prepare buff of results and template 
-    vector<int> temp_vec_var(this->n_reads, -1);
-    vector<int> temp_vec_var_lock(this->n_reads, -1);
-    vector<int> temp_vec_read(this->n_reads, -1);
-    vector<int> temp_vec_read_lock(this->n_reads, -1);
+    vector<long long> temp_vec_var(this->n_reads, -1);
+    vector<long long> temp_vec_read(this->n_reads, -1);
 
-    // scan cmpreads_file for each candidate subset
+    // open cmpreads_file for each candidate subset, and output file
     int k = 1;
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
@@ -31,6 +29,10 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
     p_outfile = fopen(out_file.c_str(), "w");
     if (p_outfile == NULL)
         throw runtime_error("unable to open out_file");
+    
+    // set counter
+    long long counter = 0;
+
     while(1){
         if (k%10000==0)
             printf("poccessed # of candidates : %d\n", k);
@@ -43,7 +45,7 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
             break;
         
         // build tree 
-        build_tree(cand_loci, temp_vec_var, temp_vec_var_lock, temp_vec_read, temp_vec_read_lock, min_reads, max_depth);
+        build_tree(cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth);
         
         k++;
     }
@@ -53,7 +55,7 @@ bool DForestSNV::run(string align_file, string encode_file, string cmpreads_file
     return true;
 }
 
-void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_var, vector<int> &temp_vec_var_lock, vector<int> &temp_vec_read, vector<int> &temp_vec_read_lock, int min_reads, int max_depth)
+void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, vector<long long> &temp_vec_var, vector<long long> &temp_vec_read, int min_reads, int max_depth)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -67,10 +69,11 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_
         
         // fill in temp_vec_var and temp_vec_read by response y
         for (int j = 0; j < pu_var[y_locus].size(); j++)
-            temp_vec_var[pu_var[y_locus][j]] = y_locus;
+            temp_vec_var[pu_var[y_locus][j]] = counter;
         
         for (int j = 0; j < pu_read[y_read_locus].size(); j++)
-            temp_vec_read[pu_read[y_read_locus][j]] = y_read_locus;
+            temp_vec_read[pu_read[y_read_locus][j]] = counter;
+        ++counter;
         
         // calculate joint frequency of neighbor variants
         for (int j = 0; j < cand_loci.size(); j++){
@@ -84,9 +87,9 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_
             // calculate p_y_x by filling temp_vec_var and calculate p_x by filling temp_vec_read
             int n_y_x = 0; int n_x = 0;
             for (int k = 0; k < pu_var[cand_loci[j]].size(); k++){
-                if (temp_vec_var[ pu_var[cand_loci[j]][k] ] == y_locus)
+                if (temp_vec_var[ pu_var[cand_loci[j]][k] ] == counter - 1)
                     ++n_y_x;
-                if (temp_vec_read[ pu_var[cand_loci[j]][k] ] == y_read_locus)
+                if (temp_vec_read[ pu_var[cand_loci[j]][k] ] == counter - 1)
                     ++n_x;
             }
             
@@ -113,31 +116,18 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, vector<int> &temp_vec_
             
             // calculate n_y_xp and n_xp
             n_y_xp = 0; n_xp = 0;
-            if (j == 0) {
-                for (int k = 0; k < pu_var[cur_locus].size(); k++){
-                    if (temp_vec_var[ pu_var[cur_locus][k] ] == y_locus){
-                        temp_vec_var_lock[ pu_var[cur_locus][k] ] = cur_locus;
-                        ++n_y_xp;
-                    }
-                    if (temp_vec_read[ pu_var[cur_locus][k] ] == y_read_locus){ 
-                        temp_vec_read_lock[ pu_var[cur_locus][k] ] = cur_locus;
-                        ++n_xp;
-                    }
+            for (int k = 0; k < pu_var[cur_locus].size(); k++){
+                if (temp_vec_var[ pu_var[cur_locus][k] ] == counter - 1){
+                    temp_vec_var[ pu_var[cur_locus][k] ] = counter;
+                    ++n_y_xp;
                 }
-            }else{
-                for (int k = 0; k < pu_var[cur_locus].size(); k++){
-                    if (temp_vec_var[ pu_var[cur_locus][k] ] == y_locus &&
-                        temp_vec_var_lock[ pu_var[cur_locus][k] ] == cand_loci[idx_p_y_x[j-1]]){
-                        temp_vec_var_lock[ pu_var[cur_locus][k] ] = cur_locus;
-                        ++n_y_xp;
-                    }
-                    if (temp_vec_read[ pu_var[cur_locus][k] ] == y_read_locus &&
-                        temp_vec_read_lock[ pu_var[cur_locus][k] ] == cand_loci[idx_p_y_x[j-1]]){ 
-                        temp_vec_read_lock[ pu_var[cur_locus][k] ] = cur_locus;
-                        ++n_xp;
-                    }
+                if (temp_vec_read[ pu_var[cur_locus][k] ] == counter - 1){
+                    temp_vec_read[ pu_var[cur_locus][k] ] = counter;
+                    ++n_xp;
                 }
             }
+            ++counter;
+            
             
             if (n_xp < min_reads) break;
             

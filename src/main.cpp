@@ -11,6 +11,7 @@
 #include <headers.h>
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
+#include "../src/modules/dforest/dforestsnv.h"
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -31,7 +32,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command=encode, m5tofa, cmpreads, bin2txt, txt2bin" << endl;
+    cout << "command=encode, m5tofa, cmpreads, bin2txt, txt2bin, dforest, sort" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -123,6 +124,26 @@ int main(int argc, const char * argv[])
             cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue());
         }
         
+        // dforest algorithm
+        if (strcmp(argv[1], "dforest")==0){
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 8", false , 8, "minreads", cmd);
+            ValueArg<int> maxdepthArg("d","maxdepth","maximal depth of a tree, default: 5", false , 5, "maxdepth", cmd);
+            
+            cmd.parse(argv2);
+            
+            AlignReaderM5 alignreader;
+            AlignCoderSNV aligncoder;
+            DForestSNV forestsnv(&alignreader, &aligncoder);
+            DForest *ptr_forest = &forestsnv;
+            
+            ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), minreadsArg.getValue(), maxdepthArg.getValue());
+        }
+        
         // sort output
         if (strcmp(argv[1], "sort")==0) {
             UnlabeledValueArg<string> fileArg("outputfile", "", true, "", "outfile", cmd);
@@ -134,7 +155,7 @@ int main(int argc, const char * argv[])
             system(shell_cmd.c_str());
         }
 
-        
+    
         
         
     }

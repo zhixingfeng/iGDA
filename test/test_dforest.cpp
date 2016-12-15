@@ -26,7 +26,7 @@ TEST_CASE("test DForest::run()")
     DForestSNV forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
-    ptr_forest->run(align_file, encode_file, cmpreads_file, out_file, 8, 5);
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, 8, 5);
 }
 
 /*TEST_CASE("test DForest::build_tree()", "[hide]")
