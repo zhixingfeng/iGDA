@@ -147,12 +147,22 @@ int main(int argc, const char * argv[])
         // sort output
         if (strcmp(argv[1], "sort")==0) {
             UnlabeledValueArg<string> fileArg("outputfile", "", true, "", "outfile", cmd);
+            
             cmd.parse(argv2);
             string sortfile = fileArg.getValue() + ".sorted";
+            string maxfile = fileArg.getValue() + ".max";
             
-            string shell_cmd = "sort -k1,1n -k3,3nr " + fileArg.getValue() + " > " + sortfile;
+            string shell_cmd;
+            
+            shell_cmd = "sort -k1,1n -k3,3nr " + fileArg.getValue() + " > " + sortfile;
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
+            
+            shell_cmd = "sort -u -k1,1n " + sortfile + " > " + maxfile;
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+
+            
         }
 
     
