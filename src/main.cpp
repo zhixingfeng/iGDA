@@ -32,7 +32,8 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command=encode, m5tofa, cmpreads, bin2txt, txt2bin, dforest, sort" << endl;
+    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort" << endl;
+    cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -50,6 +51,32 @@ int main(int argc, const char * argv[])
         }
         
         CmdLine cmd("iGDA", ' ', "0.1");
+        
+        // bam to fasta
+        if (strcmp(argv[1], "bamtofa")==0) {
+            UnlabeledValueArg<string> bamfileArg("bamfile", "path of bam file", true, "", "bamfile", cmd);
+            UnlabeledValueArg<string> fafileArg("fafile", "path of fa file", true, "", "fafile", cmd);
+            UnlabeledValueArg<string> chrArg("chr", "chromosome", false, "", "chr", cmd);
+            
+            cmd.parse(argv2);
+            
+            string shell_cmd = "samtools view " + bamfileArg.getValue() + " " + chrArg.getValue() + 
+                                " | cut -f 1,10 | awk \'{print \">\"$1; print $2}\' " ;
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+            return 0;
+        }
+
+        
+        // m5 to fasta
+        if (strcmp(argv[1], "m5tofa")==0) {
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            UnlabeledValueArg<string> fafileArg("fafile", "path of fa file", true, "", "fafile", cmd);
+            cmd.parse(argv2);
+            
+            m5tofa(m5fileArg.getValue(), fafileArg.getValue());
+            return 0;
+        }
         
         // encode alignment file
         if (strcmp(argv[1], "encode")==0){
@@ -80,16 +107,6 @@ int main(int argc, const char * argv[])
             p_aligncoder->setAlignReader(&alignreaderm5);
             p_aligncoder->encode(alignfileArg.getValue(), outfileArg.getValue());
             
-            return 0;
-        }
-        
-        // m5 to fasta
-        if (strcmp(argv[1], "m5tofa")==0) {
-            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
-            UnlabeledValueArg<string> fafileArg("fafile", "path of fa file", true, "", "fafile", cmd);
-            cmd.parse(argv2);
-            
-            m5tofa(m5fileArg.getValue(), fafileArg.getValue());
             return 0;
         }
         
