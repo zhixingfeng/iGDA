@@ -62,7 +62,7 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, ve
     for (int i = 0; i < cand_loci.size(); i++){
         Result cur_rl;
         // NOTE: cand_loci[i] is response y. Let's fill in temp_vec_var and temp_vec_read
-        // by reponse y. pu_var is 4 times larger pu_read because of binary coding so
+        // by reponse y. pu_var is 4 times larger than pu_read because of binary coding so
         // we have to devide 4 to access pu_read
         int y_locus = cand_loci[i];
         int y_read_locus = int (y_locus / 4);
@@ -97,7 +97,10 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, ve
                 p_y_x[j] = -1;
                 continue;
             }
-            p_y_x[j] = double(n_y_x) / n_x;
+            if (n_x == 0)
+                p_y_x[j];
+            else
+                p_y_x[j] = double(n_y_x) / n_x;
         }
         
         // sort p_y_x in descending order, and get index idx_p_y_x, i.e. p_y_x[idx_p_y_x[0]] is the maximum, 
@@ -110,7 +113,7 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, ve
         for (int j = 0; j < idx_p_y_x.size(); j++){
             if (cand_loci[ idx_p_y_x[j] ] == y_locus)
                 continue;
-            if (depth > max_depth) break;
+            if (depth >= max_depth) break;
             
             int cur_locus = cand_loci[idx_p_y_x[j]];
             
@@ -145,6 +148,8 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, ve
         }
         
         // write results (unordered) to outfile
+        if (cur_rl.link_loci.size() == 0)
+            break;
         fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
         for (int j = 0; j < cur_rl.link_loci.size(); j++)
             fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
