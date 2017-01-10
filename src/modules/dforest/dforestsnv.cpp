@@ -148,13 +148,12 @@ void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, ve
         }
         
         // write results (unordered) to outfile
-        if (cur_rl.link_loci.size() == 0)
-            break;
-        fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
-        for (int j = 0; j < cur_rl.link_loci.size(); j++)
-            fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
-        fprintf(p_outfile, "\n");
-            
+        if (cur_rl.link_loci.size() > 0){
+            fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
+            for (int j = 0; j < cur_rl.link_loci.size(); j++)
+                fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
+            fprintf(p_outfile, "\n");
+        }
     }
     
 }
