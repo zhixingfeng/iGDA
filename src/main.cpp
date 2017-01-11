@@ -171,11 +171,11 @@ int main(int argc, const char * argv[])
             
             string shell_cmd;
             
-            shell_cmd = "sort -k1,1n -k3,3nr " + fileArg.getValue() + " > " + sortfile;
+            shell_cmd = "sort -s -k1,1n -k3,3nr " + fileArg.getValue() + " > " + sortfile;
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
             
-            shell_cmd = "sort -u -k1,1n " + sortfile + " > " + maxfile;
+            shell_cmd = "sort -s -u -k1,1n " + sortfile + " > " + maxfile;
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
 
