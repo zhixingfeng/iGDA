@@ -30,9 +30,10 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     if (p_outfile == NULL)
         throw runtime_error("unable to open out_file");
     
-    // set counter
+    // set counter and scan the candidates
+    cout << "start to scan the candidates" << endl;
+    
     long long counter = 0;
-
     while(1){
         if (k%10000==0)
             printf("poccessed # of candidates : %d\n", k);
