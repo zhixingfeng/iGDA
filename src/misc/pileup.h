@@ -56,6 +56,9 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads
     // pileup
     cout << "pileup reads." << endl;
     vector<vector<int> > pu(pu_size, vector<int>());
+    cout << "reads_range.size = " << reads_range.size() << endl;
+    cout << "reads_range[0].fisrt = " << reads_range[0].first << endl;
+    cout << "reads_range[0].second = " << reads_range[0].second << endl;
     for (int i=0; i<(int)reads_range.size(); i++)
         for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
             pu[j].push_back(i);

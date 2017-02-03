@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>3FB13788-24C5-461E-84A3-D7DC351171C2</string>
 	<key>IDESourceControlProjectName</key>
-	<string>iGDA</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>88EA45855202FFD1C1A4876D0C7717A05C985BD3</key>
 		<string>https://github.com/zhixingfeng/iGDA.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>iGDA.xcodeproj</string>
+	<string>iGDA.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>88EA45855202FFD1C1A4876D0C7717A05C985BD3</key>
