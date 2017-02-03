@@ -9,9 +9,9 @@
 #include "dforestsnv.h"
 bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)
 {
-    cout << "load encode_file" << endl;
+    cout << "pileup encode_file" << endl;
     call_pileup_var(encode_file);
-    cout << "load align_file" << endl;
+    cout << "pileup align_file" << endl;
     call_pileup_reads(align_file);
     
     out_file = a_out_file;
