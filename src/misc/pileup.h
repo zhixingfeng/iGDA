@@ -41,16 +41,20 @@ inline vector<vector<int> > pileup_var(string encode_file, long int &n_reads)
 
 inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads)
 {
+    cout << "load reads range." << endl;
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file, 'm');
     n_reads = reads_range.size();
     
+    cout << "get size of pileup vector." << endl;
     // get size of pileup vector
     int pu_size=0;
     for (int i=0; i<(int)reads_range.size(); i++)
         pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
     pu_size++;
+    
     // pileup
+    cout << "pileup reads." << endl;
     vector<vector<int> > pu(pu_size, vector<int>());
     for (int i=0; i<(int)reads_range.size(); i++)
         for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
