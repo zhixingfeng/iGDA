@@ -16,7 +16,7 @@
 
 
 // pileup variants
-inline vector<vector<int> > pileup_var(string encode_file, long int &n_reads)
+inline vector<vector<int> > pileup_var(string encode_file, int64_t &n_reads)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -39,7 +39,7 @@ inline vector<vector<int> > pileup_var(string encode_file, long int &n_reads)
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads)
+inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads)
 {
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file, 'm');
@@ -59,7 +59,7 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, long int &n_reads
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads(string align_file, long int &n_reads, char format = 'm')
+inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, char format = 'm')
 {
     switch (format) {
         case 'm':

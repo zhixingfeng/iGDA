@@ -15,7 +15,7 @@ TEST_CASE("test pileup_var()", "[hide]")
 {
     clock_t t_begin = clock();
     string encode_file = "../results/B_10_cons.m5_both_strand_encode_snv.txt";
-    long int n_reads;
+    int64_t n_reads;
     vector<vector<int> > pu_var = pileup_var(encode_file, n_reads);
     clock_t t_end = clock();
     cout << "time for pileup_var() : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
@@ -34,7 +34,7 @@ TEST_CASE("test pileup_reads()", "[hide]")
 {
     clock_t t_begin = clock();
     string align_file = "../results/B_10_cons_sorted.m5";
-    long int n_reads;
+    int64_t n_reads;
     vector<vector<int> > pu_read = pileup_reads(align_file, n_reads, 'm');
     clock_t t_end = clock();
     cout << "time for pileup_reads() : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;

@@ -22,6 +22,7 @@
 #include "../../misc/misc.h"
 #include "../alignreader/alignreaderm5.h"
 #include "../aligncoder/aligncodersnv.h"
+#include <thread>
 
 // define final result.
 struct Result{
@@ -40,7 +41,7 @@ struct Result{
 class DForest {
     
 public:
-    DForest(){p_alignreader = NULL; p_aligncoder = NULL;p_outfile=NULL;}
+    DForest(){p_alignreader = NULL; p_aligncoder = NULL;}
     DForest(AlignReader *a_p_alignreader, AlignCoder *a_p_aligncoder){
         p_alignreader = a_p_alignreader;
         p_aligncoder = a_p_aligncoder;
@@ -52,12 +53,12 @@ public:
         pu_var = pileup_var(encode_file, n_reads);
     }
     inline void call_pileup_reads(string align_file, char format = 'm'){
-        long int cur_n_reads;
+        int64_t cur_n_reads;
         pu_read = pileup_reads(align_file, cur_n_reads, format);
         if (cur_n_reads != n_reads)
             throw runtime_error("number of reads in align_file and encode_file are different");
     }
-    inline long int get_n_reads(){return n_reads;}
+    inline int64_t get_n_reads(){return n_reads;}
     inline vector<vector<int> > get_pileup_var(){return pu_var;}
     inline vector<vector<int> > get_pileup_reads(){return pu_read;}
     
@@ -67,9 +68,9 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     
-    virtual bool run(string encode_file, string align_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)=0;
+    virtual bool run(string encode_file, string align_file, string cmpreads_file, string out_file, int min_reads, int max_depth, int n_thread=1)=0;
     
-    virtual void build_tree(const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth) = 0;
+    virtual void build_tree(FILE * p_cmpreads_file, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth) = 0;
     
 protected:
     AlignReader *p_alignreader;
@@ -78,11 +79,9 @@ protected:
     vector<vector<int> > pu_var;
     vector<vector<int> > pu_read;
     
-    long int n_reads;
+    int64_t n_reads;
     
-    string out_file;
     
-    FILE *p_outfile;
     
     
     
