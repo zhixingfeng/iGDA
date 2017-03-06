@@ -17,8 +17,8 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     out_file = a_out_file;
     
     // prepare buff of results and template 
-    vector<long long> temp_vec_var(this->n_reads, -1);
-    vector<long long> temp_vec_read(this->n_reads, -1);
+    vector<int64_t> temp_vec_var(this->n_reads, -1);
+    vector<int64_t> temp_vec_read(this->n_reads, -1);
 
     // open cmpreads_file for each candidate subset, and output file
     int k = 1;
@@ -33,7 +33,7 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     // set counter and scan the candidates
     cout << "start to scan the candidates" << endl;
     
-    long long counter = 0;
+    int64_t counter = 0;
     while(1){
         if (k%10000==0)
             printf("poccessed # of candidates : %d\n", k);
@@ -56,7 +56,7 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     return true;
 }
 
-void DForestSNV::build_tree(const vector<int> &cand_loci, long long &counter, vector<long long> &temp_vec_var, vector<long long> &temp_vec_read, int min_reads, int max_depth)
+void DForestSNV::build_tree(const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);

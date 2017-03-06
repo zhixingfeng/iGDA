@@ -21,14 +21,14 @@ TEST_CASE("test AlignCoderSNV::encode", "[hide]")
     p_aligncoder->encode("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward_encode_snv.txt");
 }
 
-TEST_CASE("test AlignCoderSNV::encode negative strand", "[hide]")
+TEST_CASE("test AlignCoderSNV::encode negative strand","[hide]")
 {
     
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;
     AlignReaderM5 alignreaderm5;
     p_aligncoder->setAlignReader(&alignreaderm5);
-    p_aligncoder->encode("../data/B_10_cons.m5", "../results/B_10_cons.m5_both_strand_encode_snv.txt");
+    p_aligncoder->encode("../data/B_10_cons.m5", "../results/B_10_cons.encode");
 }
 
 

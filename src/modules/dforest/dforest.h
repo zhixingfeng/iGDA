@@ -17,6 +17,7 @@
 #ifndef dforest_h
 #define dforest_h
 
+
 #include "../../../include/headers.h"
 #include "../../misc/misc.h"
 #include "../alignreader/alignreaderm5.h"
@@ -68,7 +69,7 @@ public:
     
     virtual bool run(string encode_file, string align_file, string cmpreads_file, string a_out_file, int min_reads, int max_depth)=0;
     
-    virtual void build_tree(const vector<int> &cand_loci, long long &counter, vector<long long> &temp_vec_var, vector<long long> &temp_vec_read, int min_reads, int max_depth) = 0;
+    virtual void build_tree(const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth) = 0;
     
 protected:
     AlignReader *p_alignreader;
