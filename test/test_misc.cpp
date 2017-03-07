@@ -66,6 +66,12 @@ TEST_CASE("Test cmpreads_txt2bin", "[hide]")
     cmpreads_txt2bin(cmpreads_txtfile, cmpreads_binfile);
 }
 
+TEST_CASE("Test cmpreads_split")
+{
+    string cmpreads_binfile = "../results/B_10_cons_cmpreads.bin";
+    cmpreads_split(cmpreads_binfile, "../results/B_10_cons_cmpreads.bin.part", 5);
+}
+
 
 TEST_CASE("Test pnorm","[hide]")
 {

@@ -170,6 +170,64 @@ inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile)
     fclose(p_binfile);
 }
 
+inline map<string, vector<int64_t> > cmpreads_split(string cmpreads_binfile, string prefix, int n_parts)
+{
+    map<string, vector<int64_t> > rl;
+    // open binary file
+    FILE *p_binfile = fopen(cmpreads_binfile.c_str(), "rb");
+    if (p_binfile == NULL)
+        runtime_error("fail to open cmpreads_binfile");
+    
+    // get number of candidates
+    int64_t n_cand = 0;
+    while(1){
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_binfile);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+        if (feof(p_binfile))
+            break;
+        n_cand++;
+    }
+    fclose(p_binfile);
+    
+    cout << "n_cand: " << n_cand << endl;
+    
+    
+    // calculate size of each part
+    vector<int64_t> part_sizes(n_parts, (int64_t) n_cand / n_parts);
+    part_sizes[0] = (int64_t) n_cand / n_parts + (int64_t) n_cand % n_parts;
+    
+    // get start location of the file for each part
+    p_binfile = fopen(cmpreads_binfile.c_str(), "rb");
+    if (p_binfile == NULL)
+        runtime_error("fail to open cmpreads_binfile");
+    
+    for (int i=0; i<(int)part_sizes.size(); i++){
+        string outfile = prefix + "_" + to_string(i);
+        FILE *p_outfile = fopen(outfile.c_str(), "wb");
+        if (p_outfile == NULL)
+            runtime_error("fail to open outfile");
+        for (int j=0; j<part_sizes[i]; j++){
+            // read a candidate
+            int cand_loci_size;
+            fread(&cand_loci_size, sizeof(int), 1, p_binfile);
+            vector<int> cand_loci(cand_loci_size,-1);
+            fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+            if (feof(p_binfile))
+                break;
+            
+            // write the candidate
+            fwrite(&cand_loci_size, sizeof(int), 1, p_outfile);
+            fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_outfile);
+        }
+        
+        fclose(p_outfile);
+    }
+    
+    fclose(p_binfile);
+    return rl;
+}
 #endif /* cmpreads_h */
 
 

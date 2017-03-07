@@ -13,7 +13,7 @@
 #include "../src/modules/dforest/dforestsnv.h"
 
 
-TEST_CASE("test DForest::run()")
+TEST_CASE("test DForest::run()","[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -26,7 +26,7 @@ TEST_CASE("test DForest::run()")
     DForestSNV forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
-    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, 8, 5);
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);
 }
 
 /*TEST_CASE("test DForest::build_tree()", "[hide]")

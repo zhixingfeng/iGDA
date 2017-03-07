@@ -9,16 +9,32 @@
 #include "dforestsnv.h"
 
 
-bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, int min_reads, int max_depth, int n_thread)
+bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread)
 {
     cout << "number of threads: " << n_thread << endl;
     
+    // load encode and alignment files
     cout << "pileup encode_file" << endl;
     call_pileup_var(encode_file);
     cout << "pileup align_file" << endl;
     call_pileup_reads(align_file);
     
-    run_thread(cmpreads_file, out_file, min_reads, max_depth);
+    // single thread
+    if (n_thread==1){
+        run_thread(cmpreads_file, out_file, min_reads, max_depth);
+        return true;
+    }
+    
+    // multiple threads
+    // split the cmpreads_file
+    string tmp_prefix = tmp_dir + "/cmpreads_file_part"; 
+    cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
+    
+    // run with multiple threads
+    //vector<thread> threads;
+    //for (int i=0; i<(int)threads.size(); i++){
+        //threads.push_back(thread(run_thread, cmpreads_file, out_file, min_reads, max_depth));
+    //}
     return true;
     
 }
