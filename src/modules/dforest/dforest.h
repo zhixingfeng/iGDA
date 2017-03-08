@@ -23,6 +23,7 @@
 #include "../alignreader/alignreaderm5.h"
 #include "../aligncoder/aligncodersnv.h"
 #include <thread>
+#include <mutex>
 
 // define final result.
 struct Result{

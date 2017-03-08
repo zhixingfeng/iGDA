@@ -7,7 +7,7 @@
 //
 
 #include "dforestsnv.h"
-
+mutex mtx;
 
 bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread)
 {
@@ -31,10 +31,24 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
     
     // run with multiple threads
-    //vector<thread> threads;
-    //for (int i=0; i<(int)threads.size(); i++){
-        //threads.push_back(thread(run_thread, cmpreads_file, out_file, min_reads, max_depth));
-    //}
+    cout << "run threads" << endl;
+    vector<thread> threads;
+    for (int i=0; i<n_thread; i++){
+        string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
+        string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".dforest";
+        threads.push_back(thread(&DForestSNV::run_thread, this, tmp_cmpreads_file, tmp_out_file, min_reads, max_depth));
+    }
+    
+    for (int i=0; i<n_thread; i++)
+        threads[i].join();
+    
+    // combine results
+    string cmd = "cat ";
+    for (int i=0; i<n_thread; i++){
+        cmd += tmp_dir + "/tmp_out_" + to_string(i) + ".dforest ";
+    }
+    cmd += "> " + out_file;
+    system(cmd.c_str());
     return true;
     
 }
@@ -89,8 +103,9 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
         
         // sort p_y_x in descending order, and get index idx_p_y_x, i.e. p_y_x[idx_p_y_x[0]] is the maximum, 
         // p_y_x[idx_p_y_x[1]] is the second maximum and so on.
+        mtx.lock();
         vector<int> idx_p_y_x = sort_order(p_y_x, true); 
-        
+        mtx.unlock();
         // calculate conditional probability 
         int n_y_xp = 0; int n_xp = 0;
         int depth = 0;
@@ -148,6 +163,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);
     vector<int64_t> temp_vec_read(this->n_reads, -1);
+   
     
     // open cmpreads_file for each candidate subset, and output file
     int k = 1;
@@ -159,9 +175,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
     if (p_outfile == NULL)
         throw runtime_error("unable to open out_file");
     
-    // set counter and scan the candidates
-    cout << "start to scan the candidates" << endl;
-    
+    // set counter and scan the candidates    
     int64_t counter = 0;
     while(1){
         if (k%10000==0)
@@ -175,7 +189,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
             break;
         
         // build tree
-        build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth);
+        this->build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth);
         
         k++;
     }

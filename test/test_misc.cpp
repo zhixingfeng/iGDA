@@ -7,7 +7,7 @@
 //
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
-
+#include <thread>
 
 
 TEST_CASE("Test m5tofa", "[hide]"){
@@ -66,7 +66,7 @@ TEST_CASE("Test cmpreads_txt2bin", "[hide]")
     cmpreads_txt2bin(cmpreads_txtfile, cmpreads_binfile);
 }
 
-TEST_CASE("Test cmpreads_split")
+TEST_CASE("Test cmpreads_split", "[hide]")
 {
     string cmpreads_binfile = "../results/B_10_cons_cmpreads.bin";
     cmpreads_split(cmpreads_binfile, "../results/B_10_cons_cmpreads.bin.part", 5);
@@ -93,7 +93,7 @@ TEST_CASE("Test lgamma")
     REQUIRE(lgamma(65536)==Approx(661276.9).epsilon(0.00001));REQUIRE(lgamma(1048576)==Approx(13487768).epsilon(0.00001));
 }
 
-TEST_CASE("Test sort_order", "[hide]")
+TEST_CASE("Test sort_order")
 {
     vector<int> x_int = {7,4,7,3,1,5,6,2,3,6};
     vector<int> idx_int_inc = sort_order(x_int, false);
@@ -131,7 +131,10 @@ TEST_CASE("Test sort_order", "[hide]")
     
 }
 
-
+TEST_CASE("Test number of cores")
+{
+    cout << "cores available: " << thread::hardware_concurrency() << endl;
+}
 
 
 
