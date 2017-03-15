@@ -166,7 +166,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
    
     
     // open cmpreads_file for each candidate subset, and output file
-    int k = 1;
+    int64_t k = 1;
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
         throw runtime_error("DForestSNV::run(): fail to open cmpreads_file");
@@ -179,7 +179,8 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
     int64_t counter = 0;
     while(1){
         if (k%10000==0)
-            printf("poccessed # of candidates : %d\n", k);
+            cout << "poccessed # of candidates : " << k << endl;
+            //printf("poccessed # of candidates : %d\n", k);
         // load candidate subset
         int cand_loci_size;
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
@@ -193,7 +194,8 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
         
         k++;
     }
-    printf("poccessed # of candidates : %d\n", k);
+    cout << "poccessed # of candidates : " << k << endl;
+    //printf("poccessed # of candidates : %d\n", k);
     fclose(p_cmpreads_file);
     fclose(p_outfile);
     return true;
