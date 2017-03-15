@@ -9,7 +9,7 @@
 #include "dforestsnv.h"
 mutex mtx;
 
-bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread)
+bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq)
 {
     cout << "number of threads: " << n_thread << endl;
     
@@ -21,7 +21,7 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     
     // single thread
     if (n_thread==1){
-        run_thread(cmpreads_file, out_file, min_reads, max_depth);
+        run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq);
         return true;
     }
     
@@ -36,7 +36,7 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     for (int i=0; i<n_thread; i++){
         string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
         string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".dforest";
-        threads.push_back(thread(&DForestSNV::run_thread, this, tmp_cmpreads_file, tmp_out_file, min_reads, max_depth));
+        threads.push_back(thread(&DForestSNV::run_thread, this, tmp_cmpreads_file, tmp_out_file, min_reads, max_depth, minfreq));
     }
     
     for (int i=0; i<n_thread; i++)
@@ -53,7 +53,7 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     
 }
 
-void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth)
+void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -147,7 +147,7 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
         }
         
         // write results (unordered) to outfile
-        if (cur_rl.link_loci.size() > 0){
+        if (cur_rl.link_loci.size() > 0 && cur_rl.p_y_xp >= minfreq){
             fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
             for (int j = 0; j < cur_rl.link_loci.size(); j++)
                 fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
@@ -157,7 +157,7 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
     
 }
 
-bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth)
+bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
 {
     
     // prepare buff of results and template
@@ -189,7 +189,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
             break;
         
         // build tree
-        this->build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth);
+        this->build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
         
         k++;
     }
