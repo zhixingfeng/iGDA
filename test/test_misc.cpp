@@ -93,7 +93,7 @@ TEST_CASE("Test lgamma")
     REQUIRE(lgamma(65536)==Approx(661276.9).epsilon(0.00001));REQUIRE(lgamma(1048576)==Approx(13487768).epsilon(0.00001));
 }
 
-TEST_CASE("Test sort_order")
+TEST_CASE("Test sort_order", "[hide]")
 {
     vector<int> x_int = {7,4,7,3,1,5,6,2,3,6};
     vector<int> idx_int_inc = sort_order(x_int, false);

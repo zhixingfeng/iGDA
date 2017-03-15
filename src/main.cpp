@@ -32,7 +32,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort" << endl;
+    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -182,11 +182,28 @@ int main(int argc, const char * argv[])
             shell_cmd = "sort -s -u -k1,1n " + sortfile + " > " + maxfile;
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
-
-            
         }
 
-    
+        // filter output
+        if (strcmp(argv[1], "filter")==0) {
+            UnlabeledValueArg<string> dforestfileArg("dforestfile", "path of dforest output file", true, "", "dforestfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
+            
+            cmd.parse(argv2);
+            
+            string shell_cmd = "awk -F'\\t' '{if ($3>=" + to_string(minfreqArg.getValue()) + ") print}' " + 
+                                dforestfileArg.getValue() + " > " + outfileArg.getValue();
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+            
+            /*AlignReaderM5 alignreader;
+            AlignCoderSNV aligncoder;
+            DForestSNV forestsnv(&alignreader, &aligncoder);
+            DForest *ptr_forest = &forestsnv;
+            
+            ptr_forest->filter(dforestfileArg.getValue(), outfileArg.getValue(), minfreqArg.getValue());*/
+        }
         
         
     }

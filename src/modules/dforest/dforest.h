@@ -73,6 +73,7 @@ public:
     
     virtual void build_tree(FILE * p_cmpreads_file, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq) = 0;
     
+    void filter(string dforest_file, string out_file, double minfreq);
 protected:
     AlignReader *p_alignreader;
     AlignCoder *p_aligncoder;

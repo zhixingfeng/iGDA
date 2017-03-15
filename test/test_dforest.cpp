@@ -29,6 +29,19 @@ TEST_CASE("test DForest::run()","[hide]")
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);
 }
 
+TEST_CASE("test DForest::filter()")
+{
+    string dforest_file = "../results/B_10_cons.dforest";
+    string out_file = "../results/B_10_cons.dforest.f0.5.filter";
+    
+    AlignReaderM5 alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNV forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    ptr_forest->filter(dforest_file, out_file, 0.5);
+}
+
+
 /*TEST_CASE("test DForest::build_tree()", "[hide]")
 {
     string encode_file = "../results/B_10_cons.encode";
