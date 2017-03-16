@@ -117,9 +117,37 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
             SwitchArg istextArg("t", "text", "output text file", cmd, false);
+            SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
             cmd.parse(argv2);
             
-            cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
+            if (!isdupArg.getValue()){
+                string tmpoutfile = outfileArg.getValue() + ".tmp";
+                cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile, overlapArg.getValue(), true, false);
+                if (istextArg.getValue()){
+                    string shell_cmd = "awk '!seen[$0]++' " +  tmpoutfile + " > " + outfileArg.getValue();
+                    cout << shell_cmd << endl;
+                    system(shell_cmd.c_str());
+                }else{
+                    string shell_cmd = "awk '!seen[$0]++' " +  tmpoutfile + " > " + outfileArg.getValue() + ".uniq";
+                    cout << shell_cmd << endl;
+                    system(shell_cmd.c_str());
+                    
+                    shell_cmd = "igda txt2bin " + outfileArg.getValue() + ".uniq " + outfileArg.getValue();
+                    cout << shell_cmd << endl;
+                    system(shell_cmd.c_str());
+                    
+                    shell_cmd = "rm " + outfileArg.getValue() + ".uniq";
+                    cout << shell_cmd << endl;
+                    system(shell_cmd.c_str());
+                }
+                
+                string shell_cmd = "rm " + tmpoutfile;
+                cout << shell_cmd << endl;
+                system(shell_cmd.c_str());
+
+            }else{
+                cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
+            }
         }
         
         // convert binary cmpreadsfile to text
@@ -197,12 +225,6 @@ int main(int argc, const char * argv[])
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
             
-            /*AlignReaderM5 alignreader;
-            AlignCoderSNV aligncoder;
-            DForestSNV forestsnv(&alignreader, &aligncoder);
-            DForest *ptr_forest = &forestsnv;
-            
-            ptr_forest->filter(dforestfileArg.getValue(), outfileArg.getValue(), minfreqArg.getValue());*/
         }
         
         
