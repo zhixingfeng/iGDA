@@ -10,7 +10,7 @@
 
 TEST_CASE("test ErrorModelSNV::learn()")
 {
-    string align_file = "../data/B_10_cons.m5";
+    string align_file = "../data/B_10_cons_forward.m5";
     ErrorModelSNV model;
     model.learn(align_file, "../results/B_10_cons");
 }

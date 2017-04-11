@@ -12,6 +12,7 @@
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
 #include "../src/modules/dforest/dforestsnv.h"
+#include "../src/modules/errormodel/errormodelsnv.h"
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -32,7 +33,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter" << endl;
+    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -227,6 +228,16 @@ int main(int argc, const char * argv[])
             
         }
         
+        // learn context effect
+        if (strcmp(argv[1], "contexteffect")==0) {
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outprefixArg("outprefix", "prefix of output files", true, "", "outprefix", cmd);
+            
+            cmd.parse(argv2);
+            ErrorModelSNV errormodel;
+            errormodel.learn(alignfileArg.getValue(), outprefixArg.getValue());
+        }
+
         
     }
     catch(const std::overflow_error& e) {
