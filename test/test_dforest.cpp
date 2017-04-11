@@ -29,7 +29,7 @@ TEST_CASE("test DForest::run()","[hide]")
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);
 }
 
-TEST_CASE("test DForest::filter()")
+TEST_CASE("test DForest::filter()", "[hide]")
 {
     string dforest_file = "../results/B_10_cons.dforest";
     string out_file = "../results/B_10_cons.dforest.f0.5.filter";

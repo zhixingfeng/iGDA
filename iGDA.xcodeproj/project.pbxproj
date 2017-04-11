@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
+		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
+		DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */; };
+		DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */; };
 		DC9318491D5527D200640B65 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F271D5527CF00640B65 /* main.cpp */; };
 		DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2A1D5527CF00640B65 /* aligncoder.cpp */; };
 		DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2C1D5527CF00640B65 /* aligncodersnv.cpp */; };
@@ -49,6 +52,11 @@
 		DC1B41F41DF2385400093FF3 /* test_dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforest.cpp; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
+		DC85626E1E9C04B5005AE6EB /* errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errormodel.cpp; sourceTree = "<group>"; };
+		DC85626F1E9C04B5005AE6EB /* errormodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errormodel.h; sourceTree = "<group>"; };
+		DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errormodelsnv.cpp; sourceTree = "<group>"; };
+		DC8562721E9C1A5F005AE6EB /* errormodelsnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errormodelsnv.h; sourceTree = "<group>"; };
+		DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_errormodel.cpp; sourceTree = "<group>"; };
 		DC8AB84C1DA4250F00EE19D1 /* statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC930F201D5527CF00640B65 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
@@ -2271,6 +2279,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC85626D1E9BFCA5005AE6EB /* errormodel */ = {
+			isa = PBXGroup;
+			children = (
+				DC85626E1E9C04B5005AE6EB /* errormodel.cpp */,
+				DC85626F1E9C04B5005AE6EB /* errormodel.h */,
+				DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */,
+				DC8562721E9C1A5F005AE6EB /* errormodelsnv.h */,
+			);
+			path = errormodel;
+			sourceTree = "<group>";
+		};
 		DC930F0C1D55274600640B65 = {
 			isa = PBXGroup;
 			children = (
@@ -2317,6 +2336,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DC85626D1E9BFCA5005AE6EB /* errormodel */,
 				DC95DCBE1DF0A0C4004282DF /* dforest */,
 				DC930F291D5527CF00640B65 /* aligncoder */,
 				DC930F2E1D5527CF00640B65 /* alignreader */,
@@ -2356,6 +2376,7 @@
 				DCF4892C1DE53C6300E5E88D /* test_performance.cpp */,
 				DC95DCB71DEF6E66004282DF /* test_pileup.cpp */,
 				DC1B41F41DF2385400093FF3 /* test_dforest.cpp */,
+				DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -5799,14 +5820,17 @@
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
+				DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,
 				DC9318491D5527D200640B65 /* main.cpp in Sources */,
+				DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DCC3160C1DF7817000CEED79 /* dforestsnv.cpp in Sources */,
+				DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */,
 				DC93184F1D5527D200640B65 /* test_AlignReader.cpp in Sources */,
 				DC93184D1D5527D200640B65 /* alignreaderm5.cpp in Sources */,
 				DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */,
