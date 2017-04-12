@@ -39,7 +39,6 @@ void print_usage()
 
 int main(int argc, const char * argv[])
 {
-    
     try{
         if (argc == 1) { print_usage(); return 0; }
         
