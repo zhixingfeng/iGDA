@@ -76,7 +76,7 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             
             string shell_cmd = "samtools view " + bamfileArg.getValue() + " " + chrArg.getValue() + 
-                                " | cut -f 1,10 | awk \'{print \">\"$1; print $2}\' > " +  fafileArg.getValue();
+                                " | awk \'{print \">\"$1; print $10}\' > " +  fafileArg.getValue();
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
             return 0;
