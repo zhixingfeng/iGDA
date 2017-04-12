@@ -124,12 +124,14 @@ void ErrorModelSNV::print_pileup(string out_file, const vector<BaseFreq> &pileup
     ofstream fs_out;
     open_outfile(fs_out, out_file);
     for (int i=0; i<(int)pileup.size(); i++){
-        fs_out << i+1 << "\t" << pileup[i].context.first << "," << pileup[i].context.second << '\t';
+        if (pileup[i].context.first=="" || pileup[i].context.second=="" || pileup[i].ref=='$')
+            continue;
+        fs_out << i+1 << '\t' << pileup[i].context.first << '\t' << pileup[i].context.second << '\t';
         fs_out << pileup[i].ref << '\t';
-        fs_out << "A:" << pileup[i].nvar[0] << ',';
-        fs_out << "C:" << pileup[i].nvar[1] << ',';
-        fs_out << "G:" << pileup[i].nvar[2] << ',';
-        fs_out << "T:" << pileup[i].nvar[3] << '\t';
+        fs_out << pileup[i].nvar[0] << '\t';  // A
+        fs_out << pileup[i].nvar[1] << '\t';  // C
+        fs_out << pileup[i].nvar[2] << '\t';  // G
+        fs_out << pileup[i].nvar[3] << '\t';  // T
         fs_out << pileup[i].cvg << endl;
     }
     fs_out.close();
