@@ -33,7 +33,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -51,6 +51,21 @@ int main(int argc, const char * argv[])
         }
         
         CmdLine cmd("iGDA", ' ', "0.1");
+        
+        // sam to fasta
+        if (strcmp(argv[1], "samtofa")==0) {
+            UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
+            UnlabeledValueArg<string> fafileArg("fafile", "path of fa file", true, "", "fafile", cmd);
+            
+            cmd.parse(argv2);
+            
+            string shell_cmd = "samtools view " + samfileArg.getValue() +
+            " |  awk \'{print \">\"$1; print $10}\' > " +  fafileArg.getValue();
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+            return 0;
+        }
+
         
         // bam to fasta
         if (strcmp(argv[1], "bamtofa")==0) {
