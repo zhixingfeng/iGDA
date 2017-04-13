@@ -35,6 +35,45 @@ void ErrorModelSNV::learn(string align_file, string out_prefix)
     
 }
 
+void ErrorModelSNV::merge(vector<string> &context_files)
+{
+    // merge context effect
+    ContextEffect context_effect;
+    for (int i=0; i<(int)context_files.size(); i++){
+        ifstream fs_in;
+        open_infile(fs_in, context_files[i]);
+        while (1){
+            BaseFreq buf;
+            fs_in >> buf.context.first >> buf.context.second;
+            fs_in >> buf.nvar[0] >> buf.nvar[1] >> buf.nvar[2] >> buf.nvar[3];
+            fs_in >> buf.cvg;
+            if (fs_in.eof())
+                break;
+            context_effect[buf.context.first][buf.context.second].cvg += buf.cvg;
+            context_effect[buf.context.first][buf.context.second].nvar[0] += buf.nvar[0];
+            context_effect[buf.context.first][buf.context.second].nvar[1] += buf.nvar[1];
+            context_effect[buf.context.first][buf.context.second].nvar[2] += buf.nvar[2];
+            context_effect[buf.context.first][buf.context.second].nvar[3] += buf.nvar[3];
+        }
+        fs_in.close();
+    }
+    
+    // print context effect
+    unordered_map<string, unordered_map<string, BaseFreq > >::iterator it_1;
+    unordered_map<string, BaseFreq >::iterator it_2;
+    for (it_1=context_effect.begin(); it_1!=context_effect.end(); it_1++){
+        for (it_2 = it_1->second.begin(); it_2!=it_1->second.end(); it_2++){
+            cout << it_1->first << '\t' << it_2->first << '\t';
+            cout << it_2->second.nvar[0] << '\t';
+            cout << it_2->second.nvar[1] << '\t';
+            cout << it_2->second.nvar[2] << '\t';
+            cout << it_2->second.nvar[3] << '\t';
+            cout << it_2->second.cvg << endl;
+        }
+    }
+
+}
+
 int ErrorModelSNV::get_genomesize(string align_file){
     // tEnd in align is 0-based, should add 1 in the end!
     int g_size = -1;

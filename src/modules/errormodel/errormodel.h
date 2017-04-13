@@ -21,7 +21,8 @@ public:
     virtual ~ErrorModel(){}
     
     virtual void learn(string align_file, string out_prefix)=0;
-
+    virtual void merge(vector<string> &context_files)=0;
+    
 protected:
     
 

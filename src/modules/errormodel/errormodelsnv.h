@@ -32,6 +32,7 @@ public:
     virtual ~ErrorModelSNV() {}
     
     void learn(string align_file, string out_prefix);
+    void merge(vector<string> &context_files);
         
 protected:
     int get_genomesize(string align_file);

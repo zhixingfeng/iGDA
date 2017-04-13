@@ -33,7 +33,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -251,7 +251,19 @@ int main(int argc, const char * argv[])
             ErrorModelSNV errormodel;
             errormodel.learn(alignfileArg.getValue(), outprefixArg.getValue());
         }
-
+        
+        // merge context effect
+        if (strcmp(argv[1], "merge")==0) {
+            cmd.parse(argv2);
+            vector<string> context_files;
+            string buf;
+            while (getline(cin, buf)) {
+                context_files.push_back(buf);
+            }
+                        
+            ErrorModelSNV errormodel;
+            errormodel.merge(context_files);
+        }
         
     }
     catch(const std::overflow_error& e) {
