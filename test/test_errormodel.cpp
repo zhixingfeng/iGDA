@@ -8,7 +8,7 @@
 #include "../include/catch.hpp"
 #include "../src/modules/errormodel/errormodelsnv.h"
 
-TEST_CASE("test ErrorModelSNV::learn()")
+TEST_CASE("test ErrorModelSNV::learn()", "[hide]")
 {
     string align_file = "../data/B_10_cons_forward.m5";
     ErrorModelSNV model;

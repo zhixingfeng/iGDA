@@ -20,7 +20,6 @@ public:
     bool encode(string alignfile, string outfile);
     pair<int, char> decode(int code);
     
-private:
     // code formula: shift is A=+0, C=+1, G=+2, T=+3, code=4*(pos-1) + shift
     int binary_code(int pos, char base); 
 

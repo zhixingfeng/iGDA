@@ -21,6 +21,7 @@
 #include <utility>
 #include <stdexcept>
 #include <random>
+#include <limits>
 
 #if __cplusplus < 201103L
     #error c++11 is not used. try "g++ -std=c++11".

@@ -13,6 +13,7 @@
 #include "../src/modules/modules.h"
 #include "../src/modules/dforest/dforestsnv.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
+#include "../src/modules/hclust/hclust.h"
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -263,6 +264,32 @@ int main(int argc, const char * argv[])
                         
             ErrorModelSNV errormodel;
             errormodel.merge(context_files);
+        }
+        // mask encode file
+        if (strcmp(argv[1], "mask")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> regionfileArg("regionfile", "path of region file", true, "", "regionfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            SwitchArg is0basedArg("b", "0based", "is 0-based", cmd, false);
+            
+            cmd.parse(argv2);
+            
+            AlignCoderSNV aligncodersnv;
+            HClust hclust(&aligncodersnv);
+            hclust.mask(encodefileArg.getValue(), regionfileArg.getValue(), outfileArg.getValue(), is0basedArg.getValue());
+            
+        }
+        // calculate pairwise distance of reads
+        if (strcmp(argv[1], "dist")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            SwitchArg isnmissArg("n", "nmiss", "is ouput number of mismatches", cmd, false);
+            
+            cmd.parse(argv2);
+            
+            HClust hclust;
+            hclust.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), isnmissArg.getValue());
         }
         
     }

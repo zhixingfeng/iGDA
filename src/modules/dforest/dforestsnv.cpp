@@ -72,6 +72,8 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
         for (int j = 0; j < pu_read[y_read_locus].size(); j++)
             temp_vec_read[pu_read[y_read_locus][j]] = counter;
         ++counter;
+        if (counter >= numeric_limits<int64_t>::max()-1)
+            throw runtime_error("counter exceeds maximal int64_t");
         
         // calculate joint frequency of neighbor variants
         for (int j = 0; j < cand_loci.size(); j++){
@@ -129,7 +131,8 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
                 }
             }
             ++counter;
-            
+            if (counter >= numeric_limits<int64_t>::max()-1)
+                throw runtime_error("counter exceeds maximal int64_t");
             
             if (n_xp < min_reads) break;
             

@@ -6,7 +6,8 @@ SRC = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/aligncoder/*.cpp)\
 	$(wildcard src/modules/alignreader/*.cpp)\
 	$(wildcard src/modules/dforest/*.cpp)\
-    $(wildcard src/modules/errormodel/*.cpp)\
+    	$(wildcard src/modules/errormodel/*.cpp)\
+	$(wildcard src/modules/hclust/*.cpp)\
 	$(wildcard test/*.cpp) \
 	$(wildcard tools/boost/src/filesystem/*.cpp) \
 	$(wildcard tools/boost/src/system/*.cpp) 

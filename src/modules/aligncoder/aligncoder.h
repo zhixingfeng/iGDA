@@ -21,6 +21,7 @@ public:
     
     virtual bool encode(string alignfile, string outfile)=0;
     virtual pair<int, char> decode(int code)=0; // int is position, char is base
+    virtual int binary_code(int pos, char base)=0; 
     
     inline void setAlignReader(AlignReader * a_p_alignreader){p_alignreader = a_p_alignreader;}
     
