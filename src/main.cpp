@@ -206,6 +206,10 @@ int main(int argc, const char * argv[])
             DForestSNV forestsnv(&alignreader, &aligncoder);
             DForest *ptr_forest = &forestsnv;
             
+            string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+            
             ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(), minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue());
         }
         
