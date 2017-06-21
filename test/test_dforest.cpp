@@ -11,19 +11,20 @@
 #include "../src/modules/alignreader/alignreaderm5.h"
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnv.h"
+#include "../src/modules/dforest/dforestsnvfast.h"
 
 
-TEST_CASE("test DForest::run()","[hide]")
+TEST_CASE("test DForest::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
     string cmpreads_file = "../results/B_10_cons_cmpreads.bin";
-    //string cmpreads_file = "../results/dummy_cmpreads.bin";
     string out_file = "../results/B_10_cons_out.txt";
     //string out_file = "../results/dummy_cmpreads_out.txt";
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNV forestsnv(&alignreader, &aligncoder);
+    //DForestSNV forestsnv(&alignreader, &aligncoder);
+    DForestSNVFAST forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);

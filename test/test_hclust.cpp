@@ -9,7 +9,7 @@
 #include "../include/catch.hpp"
 #include "../src/modules/hclust/hclust.h"
 
-TEST_CASE("test HClust")
+TEST_CASE("test HClust", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";

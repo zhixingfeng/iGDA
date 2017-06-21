@@ -98,7 +98,7 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
                 continue;
             }
             if (n_x == 0)
-                p_y_x[j];
+                p_y_x[j] = 0;
             else
                 p_y_x[j] = double(n_y_x) / n_x;
         }
@@ -198,10 +198,10 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
         k++;
     }
     cout << "poccessed # of candidates : " << k << endl;
-    //printf("poccessed # of candidates : %d\n", k);
+
     fclose(p_cmpreads_file);
     fclose(p_outfile);
-    return true;
+
     return true;
 }
 

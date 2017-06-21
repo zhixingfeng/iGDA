@@ -13,6 +13,7 @@
 		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
 		DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */; };
 		DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */; };
+		DC92500F1EFAF721005B440D /* dforestsnvfast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC92500D1EFAF721005B440D /* dforestsnvfast.cpp */; };
 		DC9318491D5527D200640B65 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F271D5527CF00640B65 /* main.cpp */; };
 		DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2A1D5527CF00640B65 /* aligncoder.cpp */; };
 		DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC930F2C1D5527CF00640B65 /* aligncodersnv.cpp */; };
@@ -63,6 +64,8 @@
 		DC8562721E9C1A5F005AE6EB /* errormodelsnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errormodelsnv.h; sourceTree = "<group>"; };
 		DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_errormodel.cpp; sourceTree = "<group>"; };
 		DC8AB84C1DA4250F00EE19D1 /* statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
+		DC92500D1EFAF721005B440D /* dforestsnvfast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvfast.cpp; sourceTree = "<group>"; };
+		DC92500E1EFAF721005B440D /* dforestsnvfast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnvfast.h; sourceTree = "<group>"; };
 		DC930F151D55274600640B65 /* iGDA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iGDA; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC930F201D5527CF00640B65 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		DC930F211D5527CF00640B65 /* data_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_type.h; sourceTree = "<group>"; };
@@ -5755,6 +5758,8 @@
 				DC95DCC01DF0A0C4004282DF /* dforest.h */,
 				DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */,
 				DCC3160B1DF7817000CEED79 /* dforestsnv.h */,
+				DC92500D1EFAF721005B440D /* dforestsnvfast.cpp */,
+				DC92500E1EFAF721005B440D /* dforestsnvfast.h */,
 			);
 			path = dforest;
 			sourceTree = "<group>";
@@ -5839,6 +5844,7 @@
 				DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
+				DC92500F1EFAF721005B440D /* dforestsnvfast.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,
 				DC9318491D5527D200640B65 /* main.cpp in Sources */,
