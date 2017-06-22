@@ -24,7 +24,7 @@ TEST_CASE("test DForest::run()")
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
     //DForestSNV forestsnv(&alignreader, &aligncoder);
-    DForestSNVFAST forestsnv(&alignreader, &aligncoder);
+    DForestSNVFast forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);
