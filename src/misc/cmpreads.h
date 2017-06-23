@@ -176,7 +176,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
     
     
     for (int i=0; i<(int)(encode_data.size()-1); i++){
-        if ((i+1)%100==0) cout << i+1 << '\r';
+        if ((i+1)%1000==0) cout << i+1 << endl;
         
         // fill the template array by the variants in the ith read
         for (int j = 0; j < encode_data[i].size(); j++)
