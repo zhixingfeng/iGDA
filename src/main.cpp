@@ -132,6 +132,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<int> topnArg("p","topn","select top n candidates of each reads, default: 10", false , 0, "topn", cmd);
             ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
             SwitchArg istextArg("t", "text", "output text file", cmd, false);
             SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
@@ -139,7 +140,11 @@ int main(int argc, const char * argv[])
             
             if (!isdupArg.getValue()){
                 string tmpoutfile = outfileArg.getValue() + ".tmp";
-                cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile, overlapArg.getValue(), true, false);
+                if (topnArg.getValue() > 0)
+                    cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile,
+                                  topnArg.getValue(), overlapArg.getValue(), true, false);
+                else
+                    cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile, overlapArg.getValue(), true, false);
                 if (istextArg.getValue()){
                     string shell_cmd = "awk '!seen[$0]++' " +  tmpoutfile + " > " + outfileArg.getValue();
                     cout << shell_cmd << endl;
@@ -163,7 +168,12 @@ int main(int argc, const char * argv[])
                 system(shell_cmd.c_str());
 
             }else{
-                cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
+                if (topnArg.getValue() > 0)
+                    cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                                  topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
+                else
+                    cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                             overlapArg.getValue(), true, !istextArg.getValue());
             }
         }
         

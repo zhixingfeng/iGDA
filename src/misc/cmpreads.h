@@ -12,6 +12,128 @@
 
 #include "io.h"
 
+struct ReadMatch
+{
+    ReadMatch():match_rate(0),n_overlap(0){}
+    vector<int> matches;
+    double match_rate;
+    int n_overlap;
+};
+
+/*inline bool operator < (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate < dr.match_rate;}
+inline bool operator <= (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate <= dr.match_rate;}
+inline bool operator > (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;}
+inline bool operator >= (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate >= dr.match_rate;}
+inline bool operator == (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate == dr.match_rate;}
+*/
+
+inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
+                     bool is_rm_single=true, bool is_binary=true)
+{
+    // load encode data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load reads range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("cmpreads: size of encode_data and reads_range do not match.");
+    
+    cout << encode_data.size() << endl;
+    
+    // get the right-most variant location to determing size of template array
+    int temp_array_size = 0;
+    for (int i = 0; i < encode_data.size(); i++)
+        for (int j = 0; j < encode_data[i].size(); j++)
+            if (encode_data[i][j] > temp_array_size)
+                temp_array_size = encode_data[i][j];
+    temp_array_size++;
+    vector<int> temp_array(temp_array_size, -1);
+
+    // open output file
+    FILE *p_out_file = NULL;
+    if (is_binary){
+        p_out_file = fopen(out_file.c_str(), "wb");
+        if (p_out_file==NULL)
+            throw runtime_error("fail to open out_file");
+    }
+    else{
+        p_out_file = fopen(out_file.c_str(), "w");
+        if (p_out_file==NULL)
+            throw runtime_error("fail to open out_file");
+        
+    }
+    
+    // pairwise comparison
+    for (int i=0; i<(int)encode_data.size(); i++){
+        if ((i+1)%1000==0) cout << i+1 << endl;
+        
+        // fill the template array by the variants in the ith read
+        for (int j = 0; j < encode_data[i].size(); j++)
+            temp_array[encode_data[i][j]] = i;
+        
+        // store matches of the jth read to the ith read
+        vector<ReadMatch> the_matches (encode_data.size(), ReadMatch());
+        
+        // compare other reads to cur_variant
+        for (int j=0; j<(int)encode_data.size(); j++){
+            if (j == i)
+                continue;
+            
+            int n_overlap = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second -
+            reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first + 1;
+            if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) && n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
+                continue;
+            vector<int> cur_match;
+            for (int k = 0; k < encode_data[j].size(); k++)
+                if (temp_array[encode_data[j][k]] == i)
+                    cur_match.push_back(encode_data[j][k]);
+            
+            the_matches[j].matches = cur_match;
+            the_matches[j].n_overlap = n_overlap;
+            the_matches[j].match_rate = (double) cur_match.size() / n_overlap;
+        }
+        
+        // sort the_matches according to match_rate
+        sort(the_matches.begin(), the_matches.end(), [](const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;});
+        
+        // print topn matches
+        int cur_size = topn <= the_matches.size() ? topn : (int)the_matches.size();
+        for (int j=0; j<cur_size; j++){
+            // skip matches with size < 2 if is_rm_single is true
+            if (is_rm_single){
+                if (the_matches[j].matches.size() < 2)
+                    continue;
+            }else{
+                if (the_matches[j].matches.size() == 0)
+                    continue;
+            }
+            // print results
+            if (is_binary){
+                int cur_match_size = (int)the_matches[j].matches.size();
+                fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
+                fwrite(&the_matches[j].matches[0], sizeof(int), cur_match_size, p_out_file);
+            }else{
+                for (int k=0; k<(int)the_matches[j].matches.size(); k++)
+                    fprintf(p_out_file, "%d,", the_matches[j].matches[k]);
+                fprintf(p_out_file, "\n");
+            }
+
+            
+        }
+        
+    }
+    cout << encode_data.size() << endl;
+    
+    fclose(p_out_file);
+    
+    return true;
+}
+
+
+
 inline bool cmpreads(string encode_file, string align_file, string out_file, double min_overlap = 0.25,
                      bool is_rm_single=true, bool is_binary=true)
 {
@@ -46,7 +168,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
             throw runtime_error("fail to open out_file");
     }
     else{
-        p_out_textfile = fopen(out_file.c_str(), "wb");
+        p_out_textfile = fopen(out_file.c_str(), "w");
         if (p_out_textfile==NULL)
             throw runtime_error("fail to open out_file");
 
@@ -87,14 +209,9 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
                 fwrite(&cur_match_size, sizeof(int), 1, p_out_binfile);
                 fwrite(&cur_match[0], sizeof(int), cur_match_size, p_out_binfile);
             }else{
-                //p_out_textfile << i+1 << ',' << j+1 << "\t";
                 for (int k=0; k<(int)cur_match.size(); k++)
                     fprintf(p_out_textfile, "%d,", cur_match[k]);
                 fprintf(p_out_textfile, "\n");
-                    //p_out_textfile << cur_match[k] << ',';
-                
-                //p_out_textfile << '\t' << reads_range[i].first << ',' << reads_range[i].second << '\t';
-                //p_out_textfile << reads_range[j].first << ',' << reads_range[j].second << endl;
             }
         }
                 
@@ -109,8 +226,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
     return true;
 }
 
-// convert binary cmpreadsfile to text file 
-
+// convert binary cmpreadsfile to text file
 inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile)
 {
     // open binary file
