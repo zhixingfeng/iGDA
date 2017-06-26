@@ -38,7 +38,7 @@ void DForestSNVFast::build_tree(FILE * p_outfile, const vector<int> &cand_loci, 
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
     for (int i = 0; i < cand_loci.size(); i++){
-        Result cur_rl;
+        DforestResult cur_rl;
         // NOTE: cand_loci[i] is response y. Let's fill in temp_vec_var and temp_vec_read
         // by reponse y. pu_var is 4 times larger than pu_read because of binary coding so
         // we have to devide 4 to access pu_read

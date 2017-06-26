@@ -13,6 +13,7 @@
 #include "../src/modules/modules.h"
 #include "../src/modules/dforest/dforestsnv.h"
 #include "../src/modules/dforest/dforestsnvfast.h"
+#include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/hclust/hclust.h"
 #include "./misc/misc.h"
@@ -209,21 +210,27 @@ int main(int argc, const char * argv[])
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
-            SwitchArg isfastArg("q", "fasta", "use fast algorithm to run dforest", cmd, false);
+            SwitchArg isfastArg("q", "fast", "use fast algorithm to run dforest", cmd, false);
+            SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
             
             cmd.parse(argv2);
             
             AlignReaderM5 alignreader;
             AlignCoderSNV aligncoder;
+            DForestSNVMax forestsnvmax(&alignreader, &aligncoder);
             DForestSNV forestsnv(&alignreader, &aligncoder);
             DForestSNVFast forestsnvfast(&alignreader, &aligncoder);
             
             DForest *ptr_forest;
-            if (isfastArg.getValue())
+            if (isfastArg.getValue()){
                 ptr_forest = &forestsnvfast;
-            else 
-                ptr_forest = &forestsnv;
-            
+            }else{ 
+                if (!isinterArg.getValue()){
+                    ptr_forest = &forestsnvmax;
+                }else{
+                    ptr_forest = &forestsnv;
+                }
+            }
             string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());

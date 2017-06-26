@@ -206,7 +206,7 @@ TEST_CASE("test file reading speed","[hide]")
 
 TEST_CASE("Test file writing speed", "[hide]"){
     // fprintf is > 5 times faster than "<<" on my MacPro (both true for -O3 and non-optimized version)
-    Result rl;
+    DforestResult rl;
     string outfile_c = "../results/test_output_c.txt";
     string outfile_cpp = "../results/test_output_cpp.txt";
     

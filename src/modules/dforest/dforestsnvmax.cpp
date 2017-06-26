@@ -1,16 +1,17 @@
 //
-//  dforestsnv.cpp
+//  dforestsnvmax.cpp
 //  iGDA
 //
-//  Created by Zhixing Feng on 16/12/6.
-//  Copyright © 2016年 Zhixing Feng. All rights reserved.
+//  Created by Zhixing Feng on 17/6/26.
+//  Copyright © 2017年 Zhixing Feng. All rights reserved.
 //
 
-#include "dforestsnv.h"
-mutex mtx;
+#include "dforestsnvmax.h"
+mutex mtx_snvmax;
 
-bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq)
+bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq)
 {
+    this->result.clear();
     cout << "number of threads: " << n_thread << endl;
     
     // load encode and alignment files
@@ -22,38 +23,43 @@ bool DForestSNV::run(string encode_file, string align_file, string cmpreads_file
     // single thread
     if (n_thread==1){
         run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq);
-        return true;
+    }else {
+        // multiple threads
+        // split the cmpreads_file
+        string tmp_prefix = tmp_dir + "/cmpreads_file_part"; 
+        cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
+    
+        // run with multiple threads
+        cout << "run threads" << endl;
+        vector<thread> threads;
+        for (int i=0; i<n_thread; i++){
+            string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
+            string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".dforest";
+            threads.push_back(thread(&DForestSNVMax::run_thread, this, tmp_cmpreads_file, tmp_out_file, min_reads, max_depth, minfreq));
+        }
+    
+        for (int i=0; i<n_thread; i++)
+            threads[i].join();
     }
     
-    // multiple threads
-    // split the cmpreads_file
-    string tmp_prefix = tmp_dir + "/cmpreads_file_part"; 
-    cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
-    
-    // run with multiple threads
-    cout << "run threads" << endl;
-    vector<thread> threads;
-    for (int i=0; i<n_thread; i++){
-        string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
-        string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".dforest";
-        threads.push_back(thread(&DForestSNV::run_thread, this, tmp_cmpreads_file, tmp_out_file, min_reads, max_depth, minfreq));
+    // write results (unordered) to outfile
+    ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
+    for (it = result.begin(); it!=result.end(); ++it){
+        if (it->second.link_loci.size() > 0 && it->second.p_y_xp >= minfreq){
+            fs_outfile << it->second.focal_locus << '\t' << it->second.bf << '\t' 
+                        << it->second.p_y_xp << '\t' << it->second.n_y_xp << '\t'
+                        << it->second.n_xp << '\t' << it->second.link_loci.size() << '\t';
+            for (int j = 0; j < it->second.link_loci.size(); j++)
+                fs_outfile << it->second.link_loci[j] << ',';
+            fs_outfile << endl;
+        }
     }
-    
-    for (int i=0; i<n_thread; i++)
-        threads[i].join();
-    
-    // combine results
-    string cmd = "cat ";
-    for (int i=0; i<n_thread; i++){
-        cmd += tmp_dir + "/tmp_out_" + to_string(i) + ".dforest ";
-    }
-    cmd += "> " + out_file;
-    system(cmd.c_str());
+    fs_outfile.close();
     return true;
     
 }
 
-void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq)
+void DForestSNVMax::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -105,9 +111,10 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
         
         // sort p_y_x in descending order, and get index idx_p_y_x, i.e. p_y_x[idx_p_y_x[0]] is the maximum, 
         // p_y_x[idx_p_y_x[1]] is the second maximum and so on.
-        mtx.lock();
+        mtx_snvmax.lock();
         vector<int> idx_p_y_x = sort_order(p_y_x, true); 
-        mtx.unlock();
+        mtx_snvmax.unlock();
+        
         // calculate conditional probability 
         int n_y_xp = 0; int n_xp = 0;
         int depth = 0;
@@ -141,38 +148,59 @@ void DForestSNV::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int6
                 break;
             
             // record result
+            cur_rl.focal_locus = y_locus;
             cur_rl.link_loci.push_back(cur_locus);
             cur_rl.n_y_xp = n_y_xp;
             cur_rl.n_xp = n_xp;
             cur_rl.p_y_xp = p_y_xp;
             
+            mtx_snvmax.lock();
+            it = result.find(cur_rl.focal_locus);
+            if (it != result.end()){
+                // store cur_rl with larger p_y_xp 
+                if (cur_rl.p_y_xp > it->second.p_y_xp){
+                    it->second = cur_rl;
+                }else{
+                    if (cur_rl.p_y_xp == it->second.p_y_xp){
+                        // if p_y_xp equals, then prefer larger n_xp
+                        if (cur_rl.n_xp > it->second.n_xp){
+                            it->second = cur_rl;
+                        }else{
+                            // if p_y_xp and n_xp equal, then prefer smaller link_loci size
+                            if (cur_rl.n_xp == it->second.n_xp){
+                                if (cur_rl.link_loci.size() < it->second.link_loci.size()){
+                                    it->second = cur_rl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                result[cur_rl.focal_locus] = cur_rl;
+            }
+            mtx_snvmax.unlock();
             ++depth; 
+            
         }
         
-        // write results (unordered) to outfile
-        if (cur_rl.link_loci.size() > 0 && cur_rl.p_y_xp >= minfreq){
-            fprintf(p_outfile, "%d\t%lf\t%lf\t%d\t%d\t%d\t", y_locus, cur_rl.bf, cur_rl.p_y_xp, cur_rl.n_y_xp, cur_rl.n_xp, (int)cur_rl.link_loci.size());
-            for (int j = 0; j < cur_rl.link_loci.size(); j++)
-                fprintf(p_outfile, "%d,", cur_rl.link_loci[j]);
-            fprintf(p_outfile, "\n");
-        }
     }
     
 }
 
-bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
+bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
 {
     
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);
     vector<int64_t> temp_vec_read(this->n_reads, -1);
-   
+    
     
     // open cmpreads_file for each candidate subset, and output file
     int64_t k = 1;
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
-        throw runtime_error("DForestSNV::run(): fail to open cmpreads_file");
+        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
     
     FILE *p_outfile = fopen(out_file.c_str(), "w");
     if (p_outfile == NULL)
@@ -183,7 +211,7 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
     while(1){
         if (k%10000==0)
             cout << "poccessed # of candidates : " << k << endl;
-            //printf("poccessed # of candidates : %d\n", k);
+        //printf("poccessed # of candidates : %d\n", k);
         // load candidate subset
         int cand_loci_size;
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
@@ -198,11 +226,9 @@ bool DForestSNV::run_thread(string cmpreads_file, string out_file, int min_reads
         k++;
     }
     cout << "poccessed # of candidates : " << k << endl;
-
+    
     fclose(p_cmpreads_file);
     fclose(p_outfile);
-
+    
     return true;
 }
-
-

@@ -25,9 +25,10 @@
 #include <thread>
 #include <mutex>
 
-// define final result.
-struct Result{
-    Result():bf(0),p_y_xp(0),n_y_xp(0),n_xp(0){}
+// define final result. (locus here means coded locus)
+struct DforestResult{
+    DforestResult():focal_locus(-1),bf(0),p_y_xp(0),n_y_xp(0),n_xp(0){}
+    int focal_locus; 
     double bf;
     double p_y_xp;
     int n_y_xp;

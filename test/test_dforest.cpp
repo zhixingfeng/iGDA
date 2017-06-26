@@ -12,22 +12,28 @@
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnv.h"
 #include "../src/modules/dforest/dforestsnvfast.h"
+#include "../src/modules/dforest/dforestsnvmax.h"
 
+#include <ctime>
 
 TEST_CASE("test DForest::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
     string cmpreads_file = "../results/B_10_cons_cmpreads_topn.bin";
-    string out_file = "../results/B_10_cons_out_topn_n4.txt";
+    string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.txt";
     //string out_file = "../results/dummy_cmpreads_out.txt";
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNV forestsnv(&alignreader, &aligncoder);
+    //DForestSNV forestsnv(&alignreader, &aligncoder);
     //DForestSNVFast forestsnv(&alignreader, &aligncoder);
+    DForestSNVMax forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
-    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 4);
+    int start_time= (int)clock();
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results" , 8, 5, 1);
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }
 
 TEST_CASE("test DForest::filter()", "[hide]")
