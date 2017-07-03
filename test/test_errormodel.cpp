@@ -14,3 +14,15 @@ TEST_CASE("test ErrorModelSNV::learn()", "[hide]")
     ErrorModelSNV model;
     model.learn(align_file, "../results/B_10_cons");
 }
+
+
+TEST_CASE("test ErrorModelSNV::merge_all()")
+{
+    ErrorModelSNV model;
+    vector<string> context_effect_all_files;
+    context_effect_all_files.push_back("../results/contexteffect/ERR718769.context.all");
+    context_effect_all_files.push_back("../results/contexteffect/ERR768072.context.all");
+    context_effect_all_files.push_back("../results/contexteffect/ERR768076.context.all");
+    model.merge_all(context_effect_all_files);
+    
+}

@@ -74,6 +74,42 @@ void ErrorModelSNV::merge(vector<string> &context_files)
 
 }
 
+void ErrorModelSNV::merge_all(vector<string> &context_all_files)
+{
+    // merge context effect all 
+    ContextEffectAll context_effect_all;
+    for (int i=0; i<(int)context_all_files.size(); i++){
+        ifstream fs_infile;
+        open_infile(fs_infile, context_all_files[i]);
+
+        while (1){
+            if (!readline_context_effect_all(context_effect_all, fs_infile))
+                break;
+        }
+        
+        fs_infile.close();
+    }
+    
+    // print context effect all 
+    unordered_map<string, unordered_map<string, vector<BaseFreq> > >::iterator it_1;
+    unordered_map<string, vector<BaseFreq> >::iterator it_2;
+    for (it_1=context_effect_all.begin(); it_1!=context_effect_all.end(); it_1++){
+        for (it_2 = it_1->second.begin(); it_2!=it_1->second.end(); it_2++){
+            cout << it_1->first << "," << it_2->first << '\t';
+            for (int i=0; i<(int)it_2->second.size(); i++){
+                cout << "A:" << it_2->second[i].nvar[0] << ',';
+                cout << "C:" << it_2->second[i].nvar[1] << ',';
+                cout << "G:" << it_2->second[i].nvar[2] << ',';
+                cout << "T:" << it_2->second[i].nvar[3] << ',';
+                cout << "cvg:" << it_2->second[i].cvg << '\t';
+            }
+            cout << endl;
+        }
+    }
+
+}
+
+
 int ErrorModelSNV::get_genomesize(string align_file){
     // tEnd in align is 0-based, should add 1 in the end!
     int g_size = -1;
@@ -284,6 +320,67 @@ bool ErrorModelSNV::get_context_m5(int i, int left, int right, const string &tAl
     }
     context.first = context_left;
     context.second = context_right;
+    return true;
+}
+
+bool ErrorModelSNV::readline_context_effect_all(ContextEffectAll &context_effect_all, ifstream & fs_infile)
+{
+    string buf;
+    getline(fs_infile, buf);
+    if (fs_infile.eof())
+        return false;
+    vector<string> buf_split = split(buf, '\t');
+    if (buf_split.size()<2)
+        throw runtime_error("readline_context_effect_all: incorrect format");
+    
+    // get context
+    vector<string> cur_context = split(buf_split[0], ',');
+    if (cur_context.size()!=2)
+        throw runtime_error("incorrect cur_context");
+
+    // add positions with the same context
+    for (int i=1; i<(int)buf_split.size(); i++){
+        vector<string> cur_freq_list = split(buf_split[i], ',');
+        if (cur_freq_list.size()!=5)
+            throw runtime_error("incorrect format cur_freq_list");
+        BaseFreq cur_freq;
+        vector<string> tmp;
+        
+        // load freq of A
+        tmp = split(cur_freq_list[0],':');
+        if (tmp.size()!=2)
+            throw runtime_error("incorrect format cur_freq_list[0]");
+        cur_freq.nvar[0] = stoi(tmp[1]);
+        
+        // load freq of C
+        tmp = split(cur_freq_list[1],':');
+        if (tmp.size()!=2)
+            throw runtime_error("incorrect format cur_freq_list[1]");
+        cur_freq.nvar[1] = stoi(tmp[1]);
+        
+        // load freq of G
+        tmp = split(cur_freq_list[2],':');
+        if (tmp.size()!=2)
+            throw runtime_error("incorrect format cur_freq_list[2]");
+        cur_freq.nvar[2] = stoi(tmp[1]);
+        
+        // load freq of T
+        tmp = split(cur_freq_list[3],':');
+        if (tmp.size()!=2)
+            throw runtime_error("incorrect format cur_freq_list[3]");
+        cur_freq.nvar[3] = stoi(tmp[1]);
+        
+        // load cvg 
+        tmp = split(cur_freq_list[4],':');
+        if (tmp.size()!=2)
+            throw runtime_error("incorrect format cur_freq_list[4]");
+        cur_freq.cvg = stoi(tmp[1]);
+
+        // add cur_freq to context_effect_all
+        context_effect_all[cur_context[0]][cur_context[1]].push_back(cur_freq);
+    }
+    
+    
     return true;
 }
 

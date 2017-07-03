@@ -32,7 +32,10 @@ public:
     virtual ~ErrorModelSNV() {}
     
     void learn(string align_file, string out_prefix);
+    
     void merge(vector<string> &context_files);
+    
+    void merge_all(vector<string> &context_all_files);
         
 protected:
     int get_genomesize(string align_file);
@@ -49,6 +52,7 @@ protected:
 
     bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
     
+    bool readline_context_effect_all(ContextEffectAll &context_effect_all, ifstream & fs_infile);
     
 protected:
     
