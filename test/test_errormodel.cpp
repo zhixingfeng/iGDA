@@ -16,7 +16,7 @@ TEST_CASE("test ErrorModelSNV::learn()", "[hide]")
 }
 
 
-TEST_CASE("test ErrorModelSNV::merge_all()")
+TEST_CASE("test ErrorModelSNV::merge_all()","[hide]")
 {
     ErrorModelSNV model;
     vector<string> context_effect_all_files;
