@@ -21,10 +21,17 @@ public:
     virtual ~SClust(){}
     
     void run(string encode_file, string align_file, string cmpreads_file, 
-             string out_file, string tmp_dir, int min_cvg, int n_thread);
+             string out_file, string tmp_dir, int min_ratio, int min_count, int min_cvg, int n_thread);
     
 protected:
-    bool run_thread(string cmpreads_file, string out_file, int min_cvg);
+    bool run_thread(string cmpreads_file, string out_file, int min_ratio, int min_count, int min_cvg);
+    
+protected:
+    // pileup variants and reads
+    vector<vector<int> > pu_var;
+    vector<vector<int> > pu_read;
+    
+    // 
     
 };
 

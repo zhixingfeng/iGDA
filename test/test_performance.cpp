@@ -11,16 +11,16 @@
 #include "../src/misc/misc.h"
 #include "../src/modules/dforest/dforestsnv.h"
 
-TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search","[hide]"){
+TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
-    int N = 50000;
-    int n = 10000;
+    int N = 10;
+    int n = 1048576;
     
     // speed of array allocation
     clock_t t_begin = clock();
     int t = 0;
-    for (long int i=0; i<10000; i++){
-        vector<int> x(N,1);
+    for (long int i=0; i<N; i++){
+        vector<int> x(n,1);
         t += x[i];
     }
     cout << t << endl;
@@ -29,7 +29,7 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     
     // speed of unordered_map construction
     t_begin = clock();
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<N; i++){
         unordered_map<int, int> x;
         for (int j=0; j<n; j++)
             x[j] = 0;
@@ -37,11 +37,11 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     t_end = clock();
     cout << "time for hash table construction : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
     
-    // speed of unordered_map construction
+    // speed of unordered_set construction
     vector<int> tmp(n,1);
     t_begin = clock();
     t = 0;
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<N; i++){
         unordered_set <int> x(tmp.begin(), tmp.end());
     }
     t_end = clock();
@@ -49,10 +49,10 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
 
     
     // speed of array access
-    int *x = new int[N];
+    int *x = new int[n];
     t_begin = clock();
     
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<N; i++){
         for (int j=0; j<n; j++){
             int y = x[j];
             x[j] = 1;
@@ -69,7 +69,7 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     for (int j=0; j<n; j++)
         z[j] = 0;
     t_begin = clock();
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<N; i++){
         for (int j=0; j<n; j++)
             int y = z[j];
     }
@@ -80,7 +80,7 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     unordered_set<int> q(tmp.begin(), tmp.end());
     unordered_set<int>::iterator y;
     t_begin = clock();
-    for (int i=0; i<10000; i++){
+    for (int i=0; i<N; i++){
         for (int j=0; j<n; j++){
             y = q.find(j);
         }
