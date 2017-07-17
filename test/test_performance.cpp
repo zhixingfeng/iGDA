@@ -11,9 +11,9 @@
 #include "../src/misc/misc.h"
 #include "../src/modules/dforest/dforestsnv.h"
 
-TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search"){
+TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search", "[hide]"){
     // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
-    int N = 10;
+    int N = 1;
     int n = 1048576;
     
     // speed of array allocation
@@ -91,6 +91,60 @@ TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array searc
     t_end = clock();
     cout << "time for unordered_set access : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
+
+TEST_CASE("compare array and unordered_set iteration","[hide]")
+{
+    int n = 100000;
+
+    // array iteration
+    vector<int> x_vec(n,0);
+    int y;
+    clock_t t_begin = clock();
+    for (int i=0; i<n; i++){
+        x_vec[i] = i;
+    }
+    clock_t t_end = clock();
+    cout << "time for array iteration : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+
+    // unordered_set construction
+    t_begin = clock();
+    unordered_set<int> x_set;
+    for (int i=1; i < n; i++)
+        x_set.insert(i);
+    t_end = clock();
+    cout << "time for unordered_set construction : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    // unordered_set iteration
+    t_begin = clock();
+    unordered_set<int>::iterator it;
+    for (it=x_set.begin(); it!=x_set.end(); it++)
+        y = *it;
+    t_end = clock();
+    cout << "time for unordered_set iteration : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+
+}
+
+TEST_CASE("sparse vetor iteration"){
+    int n = 1000000;
+    // array iteration
+    vector<int> x_vec(n,0);
+    x_vec[n/4] = 1;
+    x_vec[2*n/4] = 2;
+    x_vec[3*n/4] = 3;
+    x_vec[n-1] = 4;
+    
+    vector<int> y_vec;
+    clock_t t_begin = clock();
+    for (int i=0; i<n; i++){
+        if (x_vec[i]!=0)
+            x_vec[i]++;
+        //y_vec.push_back(x_vec[i]);
+    }
+    clock_t t_end = clock();
+    cout << "time for array iteration : " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+}
+
+
 
 TEST_CASE("Compare iteration speed of array and list", "[hide]"){
     int B = 1000;
@@ -296,6 +350,29 @@ TEST_CASE("Test read binary file", "[hide]")
 }
 
 
+TEST_CASE("bit shift vs multiply","[hide]")
+{
+    int N = 1000000000;
+    
+    clock_t t_begin = clock();
+    int x = 10;
+    int y = 0;
+    for (int i=0; i<N; i++){
+        y = x << 6;
+    }
+    clock_t t_end = clock();
+    cout << "time of bit shift: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    cout << "y bit shift: " << y << endl;
+    
+    t_begin = clock();
+    x = 10;
+    for (int i=0; i<N; i++){
+        y = x * 64;
+    }
+    t_end = clock();
+    cout << "time of multiply: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    cout << "y multiply: " << y << endl;
+}
 
 
 

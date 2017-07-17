@@ -99,7 +99,7 @@ TEST_CASE("Test pnorm","[hide]")
     cout << pnorm(10) << endl;
 }
 
-TEST_CASE("Test lgamma")
+TEST_CASE("Test lgamma","[hide]")
 {
     REQUIRE(lgamma(1)==0);REQUIRE(lgamma(2)==0);REQUIRE(lgamma(4)==Approx(1.791759e+00).epsilon(0.00001));
     REQUIRE(lgamma(64)==Approx(201.0093).epsilon(0.00001));REQUIRE(lgamma(1024)==Approx(6071.28).epsilon(0.00001));

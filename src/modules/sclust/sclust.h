@@ -31,8 +31,7 @@ protected:
     vector<vector<int> > pu_var;
     vector<vector<int> > pu_read;
     
-    // 
-    
+    int64_t nreads;
 };
 
 

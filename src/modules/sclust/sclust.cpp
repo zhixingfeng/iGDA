@@ -15,7 +15,10 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
     int64_t nreads_pu_var, nreads_pu_read;
     pu_var = pileup_var(encode_file, nreads_pu_var);
     pu_read = pileup_reads(align_file, nreads_pu_read);
+    if (nreads_pu_var != nreads_pu_read)
+        throw runtime_error("encode_file and align_file don't match.");
     
+    nreads = nreads_pu_var;
     // run the subpace clustering algorithm
     if (n_thread == 1){
         // single thread
@@ -27,6 +30,10 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
 }
 
 bool SClust::run_thread(string cmpreads_file, string out_file, int min_ratio, int min_count, int min_cvg){
+    
+    vector<int64_t> temp_id_var(this->nreads, -1);
+    vector<int64_t> temp_id_read(this->nreads, -1);
+    
     
     return true;
 }
