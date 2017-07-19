@@ -124,7 +124,7 @@ TEST_CASE("compare array and unordered_set iteration","[hide]")
 
 }
 
-TEST_CASE("sparse vetor iteration"){
+TEST_CASE("sparse vetor iteration", "[hide]"){
     int n = 1000000;
     // array iteration
     vector<int> x_vec(n,0);
