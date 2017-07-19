@@ -16,6 +16,7 @@
 #include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/hclust/hclust.h"
+#include "../src/modules/sclust/sclust.h"
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -36,7 +37,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -177,9 +178,30 @@ int main(int argc, const char * argv[])
                              overlapArg.getValue(), true, !istextArg.getValue());
             }
         }
-        
+        if (strcmp(argv[1], "sclust") == 0){
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
+            
+            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
+            ValueArg<double> mincondprobArg("p","mincondprob","minimal conditional probability, default: 0.2", false , 0.2, "mincondprob", cmd);
+            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
+            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 20", false , 20, "mincvg", cmd);
+            ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
+            
+            cmd.parse(argv2);
+            
+            SClust sclust;
+            sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),
+                       outfileArg.getValue(), tmpdirArg.getValue(), maxsubdimArg.getValue(),
+                       mincondprobArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
+                       nthreadArg.getValue());
+
+        }
         // convert binary cmpreadsfile to text
-        if (strcmp(argv[1], "bin2txt")==0) {
+        if (strcmp(argv[1], "bin2txt") == 0) {
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
             UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
             cmd.parse(argv2);

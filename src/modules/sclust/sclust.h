@@ -21,12 +21,12 @@ public:
     virtual ~SClust(){}
     
     void run(string encode_file, string align_file, string cmpreads_file, 
-             string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
+             string out_file, string tmp_dir, int max_cand_size, int min_condprob, 
              int min_count, int min_cvg, int n_thread);
     
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                    int min_ratio, int min_count, int min_cvg);
+                    int min_condprob, int min_count, int min_cvg);
     
     void count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_all,
                     const vector<int> &cand_loci, vector<int32_t> &temp_id_var, 

@@ -9,7 +9,7 @@
 #include "sclust.h"
 mutex mtx_sclust;
 void SClust::run(string encode_file, string align_file, string cmpreads_file, 
-                 string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
+                 string out_file, string tmp_dir, int max_cand_size, int min_condprob, 
                  int min_count, int min_cvg, int n_thread)
 {
     // initialize bit shift vector 
@@ -19,16 +19,18 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
 
     // pileup reads 
     int64_t nreads_pu_var, nreads_pu_read;
+    cout << "pileup reads" << endl;
     pu_var = pileup_var(encode_file, nreads_pu_var);
     pu_read = pileup_reads(align_file, nreads_pu_read);
     if (nreads_pu_var != nreads_pu_read)
         throw runtime_error("encode_file and align_file don't match.");
     
+    cout << "subspace clustering" << endl;
     nreads = nreads_pu_var;
     // run the subpace clustering algorithm
     if (n_thread == 1){
         // single thread
-        run_thread(cmpreads_file, out_file, max_cand_size, min_ratio, min_cvg, min_cvg);
+        run_thread(cmpreads_file, out_file, max_cand_size, min_condprob, min_cvg, min_cvg);
     }else{
         // multiple threads
         
@@ -36,7 +38,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
 }
 
 bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                        int min_ratio, int min_count, int min_cvg)
+                        int min_condprob, int min_count, int min_cvg)
 {
     // initialize templates
     vector<int32_t> temp_id_var(this->nreads, 0);
@@ -56,7 +58,7 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
     int64_t k = 1;
     while(1){
         if (k%10000==0)
-            cout << "poccessed # of candidates : " << k << endl;
+            cout << "poccessed # of subspaces : " << k << endl;
 
         // load candidate subset
         int cand_loci_size;
