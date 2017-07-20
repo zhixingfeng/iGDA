@@ -188,7 +188,8 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
             ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            ValueArg<double> minratioArg("r","mincondprob","minimal conditional probability, default: 0.2", false , 0.2, "mincondprob", cmd);
+            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 0.2",
+                                         false , 0.2, "minratio", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 20", false , 20, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
