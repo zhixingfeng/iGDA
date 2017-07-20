@@ -9,7 +9,7 @@
 #include "sclust.h"
 mutex mtx_sclust;
 void SClust::run(string encode_file, string align_file, string cmpreads_file, 
-                 string out_file, string tmp_dir, int max_cand_size, int min_condprob, 
+                 string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
                  int min_count, int min_cvg, int n_thread)
 {
     // initialize bit shift vector 
@@ -30,7 +30,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
     // run the subpace clustering algorithm
     if (n_thread == 1){
         // single thread
-        run_thread(cmpreads_file, out_file, max_cand_size, min_condprob, min_cvg, min_cvg);
+        run_thread(cmpreads_file, out_file, max_cand_size, min_ratio, min_cvg, min_cvg);
     }else{
         // multiple threads
         
@@ -38,7 +38,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
 }
 
 bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                        int min_condprob, int min_count, int min_cvg)
+                        int min_ratio, int min_count, int min_cvg)
 {
     // initialize templates
     vector<int32_t> temp_id_var(this->nreads, 0);
@@ -70,20 +70,28 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
         
         // count frequency of variant combinations
         if (cand_loci.size() <= max_cand_size){
-            // count 
+            // count frequency of pattern
             unordered_set<uint32_t> pattern; 
             int32_t nreads_cover_all = 0;
             this->count_freq(pattern, nreads_cover_all, cand_loci, temp_id_var, temp_id_read, temp_count_var);
             
-            // print frequency of pattern
-            print_freq(p_outfile, cand_loci, pattern, nreads_cover_all, temp_count_var);
+            // skip if only few reads covering cand_loci
+            if (nreads_cover_all >= min_cvg){
+                // test each pattern for significance
+                vector<uint32_t> rl_pattern;
+                vector<int> rl_count;
+                vector<double> rl_ratio;
+                this->test_pattern(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, rl_pattern, rl_ratio, rl_count);
             
+                // print frequency of pattern
+                print_pattern(p_outfile, cand_loci, rl_pattern, rl_ratio, rl_count, nreads_cover_all);
+                //print_freq(p_outfile, cand_loci, pattern, nreads_cover_all, temp_count_var);
+            }
             // clear temp_count_var
             unordered_set<uint32_t>::iterator it;
             for (it=pattern.begin(); it!=pattern.end(); ++it){
                 temp_count_var[*it] = 0;
             }
-            
             
         }
         k++;
@@ -147,6 +155,45 @@ void SClust::count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_
     }
 
 }
+
+void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+                  int min_ratio, int min_count, vector<uint32_t> &rl_pattern, vector<double> &rl_ratio, vector<int> &rl_count)
+{
+    for (auto it = pattern.begin(); it != pattern.end(); ++it){
+        if (temp_count_var[*it] >= min_count){
+            double cur_min_ratio = 1000000000000 - 1;
+            bool is_conditioned = false;
+            for (auto it2 = pattern.begin(); it2 != pattern.end(); ++it2){
+                if ((*it & *it2) == *it2 && *it > *it2){
+                    is_conditioned = true;
+                    double cur_ratio = double(nreads_cover_all * temp_count_var[*it]) /
+                                    ( double(temp_count_var[*it2] + temp_count_var[*it]) * double(temp_count_var[*it-*it2] + temp_count_var[*it]));
+                    if (cur_ratio < cur_min_ratio)
+                        cur_min_ratio = cur_ratio;
+                }
+            }
+            if (!is_conditioned)
+                cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
+            
+            if (cur_min_ratio >= min_ratio){
+                rl_pattern.push_back(*it);
+                rl_ratio.push_back(cur_min_ratio);
+                rl_count.push_back(temp_count_var[*it]);
+            }
+        }
+    }
+}
+
+void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+                   vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
+{
+    for (int i=0; i<(int)rl_pattern.size(); ++i){
+        for (int j=0; j<(int)cand_loci.size(); ++j)
+            fprintf(p_outfile, "%d,", cand_loci[j]);
+        fprintf(p_outfile, "\t%u\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_count[i], nreads_cover_all);
+    }
+}
+
 
 void SClust::print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
                 int32_t nreads_cover_all, vector<int32_t> &temp_count_var)

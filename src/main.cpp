@@ -178,6 +178,8 @@ int main(int argc, const char * argv[])
                              overlapArg.getValue(), true, !istextArg.getValue());
             }
         }
+        
+        // subspace clustering
         if (strcmp(argv[1], "sclust") == 0){
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
@@ -186,7 +188,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
             ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            ValueArg<double> mincondprobArg("p","mincondprob","minimal conditional probability, default: 0.2", false , 0.2, "mincondprob", cmd);
+            ValueArg<double> minratioArg("r","mincondprob","minimal conditional probability, default: 0.2", false , 0.2, "mincondprob", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 20", false , 20, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
@@ -196,7 +198,7 @@ int main(int argc, const char * argv[])
             SClust sclust;
             sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),
                        outfileArg.getValue(), tmpdirArg.getValue(), maxsubdimArg.getValue(),
-                       mincondprobArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
+                       minratioArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
                        nthreadArg.getValue());
 
         }

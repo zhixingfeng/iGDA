@@ -20,5 +20,5 @@ TEST_CASE("test sclust::run()")
     string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.sclust";
     
     SClust sclust;
-    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
+    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 10, 10, 1);
 }

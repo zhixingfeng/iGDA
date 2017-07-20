@@ -14,6 +14,8 @@
 #include <thread>
 #include <mutex>
 
+
+
 class SClust
 {
 public:
@@ -21,17 +23,24 @@ public:
     virtual ~SClust(){}
     
     void run(string encode_file, string align_file, string cmpreads_file, 
-             string out_file, string tmp_dir, int max_cand_size, int min_condprob, 
+             string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
              int min_count, int min_cvg, int n_thread);
     
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                    int min_condprob, int min_count, int min_cvg);
+                    int min_ratio, int min_count, int min_cvg);
     
     void count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_all,
                     const vector<int> &cand_loci, vector<int32_t> &temp_id_var, 
                     vector<int32_t> &temp_id_read, vector<int32_t> &temp_count_var);
     
+    void test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+                      int min_ratio, int min_count, vector<uint32_t> &rl_pattern, vector<double> &rl_ratio, vector<int> &rl_count);
+    
+    void print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+                       vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all);
+    
+    // legacy
     void print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
                     int32_t nreads_cover_all, vector<int32_t> &temp_count_var);
     
