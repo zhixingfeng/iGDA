@@ -154,3 +154,11 @@ TEST_CASE("Test range of int64_t")
     cout << "maximum of int64_t: " << numeric_limits<int64_t>::max() << endl;
 }
 
+
+
+TEST_CASE("Test bitcount")
+{
+    cout << bitcount(3) << endl;
+}
+
+

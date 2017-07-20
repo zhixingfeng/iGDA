@@ -175,7 +175,7 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
             if (!is_conditioned)
                 cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
             
-            if (cur_min_ratio >= min_ratio){
+            if (cur_min_ratio >= min_ratio && bitcount(*it)==1){
                 rl_pattern.push_back(*it);
                 rl_ratio.push_back(cur_min_ratio);
                 rl_count.push_back(temp_count_var[*it]);

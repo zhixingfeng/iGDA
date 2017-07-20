@@ -12,7 +12,7 @@
 
 #include <ctime>
 
-TEST_CASE("test sclust::run()")
+TEST_CASE("test sclust::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
