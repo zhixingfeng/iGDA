@@ -160,6 +160,11 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
                   int min_ratio, int min_count, vector<uint32_t> &rl_pattern, vector<double> &rl_ratio, vector<int> &rl_count)
 {
     for (auto it = pattern.begin(); it != pattern.end(); ++it){
+        // ignore single variants
+        if (bitcount(*it)<=1)
+            continue;
+        
+        // get significance of variant combinations
         if (temp_count_var[*it] >= min_count){
             double cur_min_ratio = 1000000000000 - 1;
             bool is_conditioned = false;
@@ -175,7 +180,7 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
             if (!is_conditioned)
                 cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
             
-            if (cur_min_ratio >= min_ratio && bitcount(*it)>1){
+            if (cur_min_ratio >= min_ratio){
                 rl_pattern.push_back(*it);
                 rl_ratio.push_back(cur_min_ratio);
                 rl_count.push_back(temp_count_var[*it]);
