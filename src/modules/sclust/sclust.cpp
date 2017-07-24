@@ -81,18 +81,18 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
                 vector<uint32_t> rl_pattern;
                 vector<int> rl_count;
                 vector<double> rl_ratio;
-                this->test_pattern(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, rl_pattern, rl_ratio, rl_count);
+                vector<double> rl_logLR;
+                this->test_pattern(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, 
+                                   rl_pattern, rl_logLR, rl_ratio, rl_count);
             
                 // print frequency of pattern
-                print_pattern(p_outfile, cand_loci, rl_pattern, rl_ratio, rl_count, nreads_cover_all);
+                print_pattern(p_outfile, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
                 //print_freq(p_outfile, cand_loci, pattern, nreads_cover_all, temp_count_var);
             }
             // clear temp_count_var
             unordered_set<uint32_t>::iterator it;
-            for (it=pattern.begin(); it!=pattern.end(); ++it){
-                temp_count_var[*it] = 0;
-            }
-            
+            for (it=pattern.begin(); it!=pattern.end(); ++it)
+                temp_count_var[*it] = 0;            
         }
         k++;
     }
@@ -157,7 +157,8 @@ void SClust::count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_
 }
 
 void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
-                  int min_ratio, int min_count, vector<uint32_t> &rl_pattern, vector<double> &rl_ratio, vector<int> &rl_count)
+                          int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
+                          vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count)
 {
     for (auto it = pattern.begin(); it != pattern.end(); ++it){
         // ignore single variants
@@ -166,23 +167,33 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
         
         // get significance of variant combinations
         if (temp_count_var[*it] >= min_count){
-            double cur_min_ratio = 1000000000000 - 1;
-            bool is_conditioned = false;
+            double cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
+            double cur_min_logLR = cal_logLR(temp_count_var[*it], 0, 0, nreads_cover_all);
+            //bool is_conditioned = false;
             for (auto it2 = pattern.begin(); it2 != pattern.end(); ++it2){
                 if ((*it & *it2) == *it2 && *it > *it2){
-                    is_conditioned = true;
+                    //is_conditioned = true;
+                    // get ratio between joint probability and product of marginal probability 
                     double cur_ratio = double(nreads_cover_all * temp_count_var[*it]) /
                                     ( double(temp_count_var[*it2] + temp_count_var[*it]) * double(temp_count_var[*it-*it2] + temp_count_var[*it]));
                     if (cur_ratio < cur_min_ratio)
                         cur_min_ratio = cur_ratio;
+                    
+                    // get likelihood ratio
+                    double cur_logLR = cal_logLR(temp_count_var[*it], temp_count_var[*it2], temp_count_var[*it-*it2], nreads_cover_all);
+                    if (cur_logLR < cur_min_logLR)
+                        cur_min_logLR = cur_logLR;
                 }
             }
-            if (!is_conditioned)
+            /*if (!is_conditioned){
                 cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
+                //cur_min_logLR = 
+            }*/
             
             if (cur_min_ratio >= min_ratio){
                 rl_pattern.push_back(*it);
                 rl_ratio.push_back(cur_min_ratio);
+                rl_logLR.push_back(cur_min_logLR);
                 rl_count.push_back(temp_count_var[*it]);
             }
         }
@@ -190,12 +201,13 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
 }
 
 void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
-                   vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
+                   vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
 {
     for (int i=0; i<(int)rl_pattern.size(); ++i){
         for (int j=0; j<(int)cand_loci.size(); ++j)
             fprintf(p_outfile, "%d,", cand_loci[j]);
-        fprintf(p_outfile, "\t%u\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_count[i], nreads_cover_all);
+        fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
+                                                    rl_count[i], nreads_cover_all);
     }
 }
 
@@ -210,4 +222,11 @@ void SClust::print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered
         fprintf(p_outfile, "\t%u\t%d\t%d\n", *it, temp_count_var[*it], nreads_cover_all);
     }
 }
+
+
+
+
+
+
+
 

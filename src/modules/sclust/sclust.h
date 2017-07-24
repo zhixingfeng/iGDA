@@ -35,14 +35,43 @@ protected:
                     vector<int32_t> &temp_id_read, vector<int32_t> &temp_count_var);
     
     void test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
-                      int min_ratio, int min_count, vector<uint32_t> &rl_pattern, vector<double> &rl_ratio, vector<int> &rl_count);
+                      int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
+                      vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count);
     
     void print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
-                       vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all);
+                       vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
+                       int32_t nreads_cover_all);
     
     // legacy
     void print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
                     int32_t nreads_cover_all, vector<int32_t> &temp_count_var);
+    
+protected:
+    inline double cal_logLR(double n_11, double n_10, double n_01, double N)
+    {
+        double n_00 = N - n_11 - n_10 - n_01;
+        if ( N*n_11 > (n_11 + n_10)*(n_11 + n_01) ){
+            return cal_logL_H1(n_11, n_10, n_01, n_00, N) - cal_logL_H0(n_11, n_10, n_01, n_00, N);
+        }else{
+            return 0;
+        }
+    }
+    inline double cal_logL_H0(double n_11, double n_10, double n_01, double n_00, double N)
+    {
+        double n_1x = n_11 + n_10; double n_0x = n_01 + n_00;
+        double n_x1 = n_11 + n_01; double n_x0 = n_10 + n_00;
+        return cal_nlogn(n_1x) + cal_nlogn(n_0x) + cal_nlogn(n_x1) + cal_nlogn(n_x0) - 2*cal_nlogn(N);
+    }
+    inline double cal_logL_H1(double n_11, double n_10, double n_01, double n_00, double N)
+    {
+        return cal_nlogn(n_11) + cal_nlogn(n_10) + cal_nlogn(n_01) + cal_nlogn(n_00) - cal_nlogn(N);
+    }
+    inline double cal_nlogn(double x)
+    {
+        if (int(x) == 0)
+            return 0;
+        return x*log(x);
+    }
     
 protected:
     // pileup variants and reads
