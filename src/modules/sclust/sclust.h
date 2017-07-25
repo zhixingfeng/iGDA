@@ -46,7 +46,8 @@ protected:
     void print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
                     int32_t nreads_cover_all, vector<int32_t> &temp_count_var);
     
-protected:
+//protected:
+public:
     inline double cal_logLR(double n_11, double n_10, double n_01, double N)
     {
         double n_00 = N - n_11 - n_10 - n_01;

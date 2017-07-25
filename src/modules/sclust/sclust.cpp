@@ -115,7 +115,6 @@ void SClust::count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_
         pattern_cover_all += bit_shift[i];
     
     // scan candidate loci to find patterns of each read
-    // reverse scan candidate loci because of binary encoding of pattern
     for (int i=0; i<(int)cand_loci.size(); ++i){
         // pu_var is 4 times larger than pu_read because of binary coding so we have to devide 4 to access pu_read
         int var_locus = cand_loci[i];
@@ -132,8 +131,8 @@ void SClust::count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_
                 // only consider reads covering all the candidate loci
                 if (temp_id_read[pu_read[var_read_locus][j]] == pattern_cover_all){
                     if (temp_id_var[pu_read[var_read_locus][j]] != 0){
-                        ++temp_count_var[temp_id_var[ pu_read[var_read_locus][j]]];
-                        pattern.insert(temp_id_var[ pu_read[var_read_locus][j]]);
+                        ++temp_count_var[temp_id_var[pu_read[var_read_locus][j]]];
+                        pattern.insert(temp_id_var[pu_read[var_read_locus][j]]);
                     }
                     ++nreads_cover_all;
                 }                

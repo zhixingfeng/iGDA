@@ -20,7 +20,7 @@ std::ostream& operator<<(std::ostream& s, std::vector<T> t) {
     return s;
 }
 
-
+// count the number of 1s in binary representation of the integer
 inline int bitcount(uint32_t u)
 {
     uint32_t uCount;

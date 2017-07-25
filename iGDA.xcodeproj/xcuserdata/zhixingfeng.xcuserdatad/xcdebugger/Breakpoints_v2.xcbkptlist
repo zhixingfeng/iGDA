@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "522608829.120355"
+            timestampString = "522718420.109075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_ratio, int min_count, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "522608876.484794"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "SClust::test_pattern(unordered_set&lt;uint32_t&gt; &amp;pattern, int32_t nreads_cover_all, vector&lt;int32_t&gt; &amp;temp_count_var, int min_ratio, int min_count, vector&lt;uint32_t&gt; &amp;rl_pattern, vector&lt;double&gt; rl_logLR, vector&lt;double&gt; &amp;rl_ratio, vector&lt;int&gt; &amp;rl_count)"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "SClust::count_freq(unordered_set&lt;uint32_t&gt; &amp;pattern, int32_t &amp;nreads_cover_all, const vector&lt;int&gt; &amp;cand_loci, vector&lt;int32_t&gt; &amp;temp_id_var, vector&lt;int32_t&gt; &amp;temp_id_read, vector&lt;int32_t&gt; &amp;temp_count_var)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
