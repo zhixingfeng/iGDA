@@ -42,6 +42,7 @@ protected:
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
                        int32_t nreads_cover_all);
     
+    
     // legacy
     void print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
                     int32_t nreads_cover_all, vector<int32_t> &temp_count_var);

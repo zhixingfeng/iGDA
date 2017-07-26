@@ -202,9 +202,21 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
 void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                    vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
 {
+    
     for (int i=0; i<(int)rl_pattern.size(); ++i){
+        // decode rl_pattern[i]
+        bitset<32> pattern_bit(rl_pattern[i]);
         for (int j=0; j<(int)cand_loci.size(); ++j)
             fprintf(p_outfile, "%d,", cand_loci[j]);
+        fprintf(p_outfile, "\t");
+        // print pattern_bit
+        if (bitcount(rl_pattern[i])>cand_loci.size())
+            throw runtime_error("incorrect # of 1s in rl_pattern");
+        for (int j=0; j<(int)cand_loci.size(); ++j){
+            if (pattern_bit[j]==1)
+                fprintf(p_outfile, "%d,", cand_loci[j]);
+        }
+            
         fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
                                                     rl_count[i], nreads_cover_all);
     }
