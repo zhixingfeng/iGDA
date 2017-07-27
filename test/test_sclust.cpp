@@ -58,6 +58,18 @@ TEST_CASE("test sclust::run()")
     sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
 }
 
+TEST_CASE("test sclust::run(), multithread")
+{
+    string align_file = "../data/B_10_cons.m5";
+    string encode_file = "../results/B_10_cons.encode";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.bin";
+    string out_file = "../results/B_10_cons_out_topn_dforestmax_n4.sclust";
+    
+    SClust sclust;
+    sclust.run(encode_file, align_file, cmpreads_file, out_file, "../results/tmp", 15, 0, 0, 0, 4);
+}
+
+
 TEST_CASE("test sclust::cal_logLR()","[hide]")
 {
     SClust sclust;

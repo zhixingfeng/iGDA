@@ -181,6 +181,7 @@ int main(int argc, const char * argv[])
         
         // subspace clustering
         if (strcmp(argv[1], "sclust") == 0){
+            // parse arguments
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
@@ -195,6 +196,12 @@ int main(int argc, const char * argv[])
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
             cmd.parse(argv2);
+            
+            // make temporary directory 
+            string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
+            cout << shell_cmd << endl;
+            system(shell_cmd.c_str());
+            
             
             SClust sclust;
             sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),

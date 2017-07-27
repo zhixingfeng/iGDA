@@ -33,8 +33,34 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
         run_thread(cmpreads_file, out_file, max_cand_size, min_ratio, min_cvg, min_cvg);
     }else{
         // multiple threads
+        // split the cmpreads_file
+        cout << "split subspace" << endl;
+        string tmp_prefix = tmp_dir + "/cmpreads_file_part"; 
+        cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
         
+        // run with multiple threads
+        cout << "run threads" << endl;
+        vector<thread> threads;
+        for (int i=0; i<n_thread; i++){
+            string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
+            string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".sclust";
+            threads.push_back(thread(&SClust::run_thread, this, tmp_cmpreads_file, tmp_out_file,
+                                     max_cand_size, min_ratio, min_cvg, min_cvg));
+        }
+        for (int i=0; i<n_thread; i++)
+            threads[i].join();
+
+        // combine results
+        string cmd = "cat ";
+        for (int i=0; i<n_thread; i++){
+            cmd += tmp_dir + "/tmp_out_" + to_string(i) + ".sclust ";
+        }
+        cmd += "> " + out_file;
+        cout << cmd << endl;
+        system(cmd.c_str());
+
     }
+    
 }
 
 bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, 
