@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "522718420.109075"
+            timestampString = "522816403.212342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "SClust::count_freq(unordered_set&lt;uint32_t&gt; &amp;pattern, int32_t &amp;nreads_cover_all, const vector&lt;int&gt; &amp;cand_loci, vector&lt;int32_t&gt; &amp;temp_id_var, vector&lt;int32_t&gt; &amp;temp_id_read, vector&lt;int32_t&gt; &amp;temp_count_var)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "522780148.77466"
+            timestampString = "522875828.255832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "SClust::print_pattern(FILE *p_outfile, const vector&lt;int&gt; &amp;cand_loci, vector&lt;uint32_t&gt; &amp;rl_pattern, vector&lt;double&gt; &amp;rl_logLR, vector&lt;double&gt; &amp;rl_ratio, vector&lt;int&gt; &amp;rl_count, int32_t nreads_cover_all)"
             landmarkType = "7">
          </BreakpointContent>

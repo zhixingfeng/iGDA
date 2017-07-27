@@ -210,16 +210,22 @@ void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector
         for (int j=0; j<(int)cand_loci.size(); ++j)
             fprintf(p_outfile, "%d,", cand_loci[j]);
         fprintf(p_outfile, "\t");
+        
+        // print pattern length
+        int rl_pattern_len = bitcount(rl_pattern[i]);
+        fprintf(p_outfile, "%d\t", rl_pattern_len);
+        
         // print pattern_bit
-        if (bitcount(rl_pattern[i])>cand_loci.size())
+        if (rl_pattern_len > cand_loci.size())
             throw runtime_error("incorrect # of 1s in rl_pattern");
         for (int j=0; j<(int)cand_loci.size(); ++j){
             if (pattern_bit[j]==1)
                 fprintf(p_outfile, "%d,", cand_loci[j]);
         }
-            
-        fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
-                                                    rl_count[i], nreads_cover_all);
+        fprintf(p_outfile, "\t%lf\t%lf\t%d\t%d\n", rl_ratio[i], rl_logLR[i], rl_count[i], nreads_cover_all);
+    
+        //fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
+        //                                            rl_count[i], nreads_cover_all);
     }
 }
 
