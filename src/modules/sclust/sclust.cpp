@@ -86,8 +86,9 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
                                    rl_pattern, rl_logLR, rl_ratio, rl_count);
             
                 // print frequency of pattern
+                mtx_sclust.lock();
                 print_pattern(p_outfile, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
-                //print_freq(p_outfile, cand_loci, pattern, nreads_cover_all, temp_count_var);
+                mtx_sclust.unlock();
             }
             // clear temp_count_var
             unordered_set<uint32_t>::iterator it;
