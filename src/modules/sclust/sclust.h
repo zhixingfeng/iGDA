@@ -26,6 +26,8 @@ public:
              string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
              int min_count, int min_cvg, int n_thread);
     
+    void eval_pattern(string pattern_file, string true_snp_file, string out_file);
+
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
                     int min_ratio, int min_count, int min_cvg);
@@ -41,12 +43,7 @@ protected:
     void print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
                        int32_t nreads_cover_all);
-    
-    
-    // legacy
-    void print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
-                    int32_t nreads_cover_all, vector<int32_t> &temp_count_var);
-    
+        
 //protected:
 public:
     inline double cal_logLR(double n_11, double n_10, double n_01, double N)

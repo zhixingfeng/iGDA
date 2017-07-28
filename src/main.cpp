@@ -37,7 +37,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -189,8 +189,8 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
             ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 0.2",
-                                         false , 0.2, "minratio", cmd);
+            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 1",
+                                         false , 1, "minratio", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 20", false , 20, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
@@ -210,6 +210,17 @@ int main(int argc, const char * argv[])
                        nthreadArg.getValue());
 
         }
+        if (strcmp(argv[1], "eval") == 0){
+            UnlabeledValueArg<string> patternfileArg("patternfile", "path of pattern file", true, "", "patternfile", cmd);
+            UnlabeledValueArg<string> snpfileArg("snpfile", "path of snp file", true, "", "snpfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            string out_file = patternfileArg.getValue() + ".eval";
+            SClust sclust;
+            sclust.eval_pattern(patternfileArg.getValue(), snpfileArg.getValue(), out_file);
+        }
+        
         // convert binary cmpreadsfile to text
         if (strcmp(argv[1], "bin2txt") == 0) {
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);

@@ -47,7 +47,7 @@ double test_cal_logLR(double n_11, double n_10, double n_01, double n_00){
     return test_cal_logL_H1(n_11, n_10, n_01, n_00) - test_cal_logL_H0(n_11, n_10, n_01, n_00);
 }
 
-TEST_CASE("test sclust::run()")
+TEST_CASE("test sclust::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -58,7 +58,7 @@ TEST_CASE("test sclust::run()")
     sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
 }
 
-TEST_CASE("test sclust::run(), multithread")
+TEST_CASE("test sclust::run(), multithread", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -67,6 +67,15 @@ TEST_CASE("test sclust::run(), multithread")
     
     SClust sclust;
     sclust.run(encode_file, align_file, cmpreads_file, out_file, "../results/tmp", 15, 0, 0, 0, 4);
+}
+
+TEST_CASE("test sclust::eval_pattern")
+{
+    string pattern_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8.summary.pattern.uniq.100";
+    string true_snp_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.true.snp";
+    string out_file = pattern_file + ".eval";
+    SClust sclust;
+    sclust.eval_pattern(pattern_file, true_snp_file, out_file);
 }
 
 

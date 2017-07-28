@@ -256,19 +256,58 @@ void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector
 }
 
 
-void SClust::print_freq(FILE *p_outfile, const vector<int> &cand_loci, unordered_set<uint32_t> &pattern,
-                int32_t nreads_cover_all, vector<int32_t> &temp_count_var)
+// evaluate detected pattern
+void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_file)
 {
-    unordered_set<uint32_t>::iterator it;
-    for (it=pattern.begin(); it!=pattern.end(); ++it){
-        for (int i=0; i<(int)cand_loci.size(); ++i)
-            fprintf(p_outfile, "%d,", cand_loci[i]);
-        fprintf(p_outfile, "\t%u\t%d\t%d\n", *it, temp_count_var[*it], nreads_cover_all);
+    // load true snp file
+    vector<unordered_set<int> > true_snp_data;
+    ifstream fs_infile;
+    open_infile(fs_infile, true_snp_file);
+    int max_code = 0;
+    while(1){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof()) break;
+        vector<int> buf_vec = split_int(buf, ',');
+        unordered_set<int> buf_vec_set;
+        for (int i=0; i<(int)buf_vec.size(); ++i){
+            if (buf_vec[i] > max_code)
+                max_code = buf_vec[i];
+        }
+        buf_vec_set.insert(buf_vec.begin(), buf_vec.end());
+        true_snp_data.push_back(buf_vec_set);
     }
+    fs_infile.close();
+    
+    // initialize template vector
+    vector<int> temp_vec(max_code + 1, 0);
+    
+    // scan pattern_file
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, out_file);
+    open_infile(fs_infile, pattern_file);
+    while(1){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof()) break;
+        vector<int> buf_vec = split_int(buf, ',');
+        
+        bool is_true = true;
+        for (int i=0; i<(int)buf_vec.size(); ++i){
+            bool is_in = false;
+            for (int j=0; j<(int)true_snp_data.size(); ++j){
+                if (true_snp_data[j].find(buf_vec[i]) != true_snp_data[j].end())
+                    is_in = true;
+            }
+            if (!is_in)
+                is_true = false;
+        }
+        fs_outfile << buf << '\t' << is_true << endl;
+    }
+    fs_infile.close();
+    fs_outfile.close();
+    
 }
-
-
-
 
 
 
