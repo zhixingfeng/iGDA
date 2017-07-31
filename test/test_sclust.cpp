@@ -69,7 +69,7 @@ TEST_CASE("test sclust::run(), multithread", "[hide]")
     sclust.run(encode_file, align_file, cmpreads_file, out_file, "../results/tmp", 15, 0, 0, 0, 4);
 }
 
-TEST_CASE("test sclust::eval_pattern")
+TEST_CASE("test sclust::eval_pattern", "[hide]")
 {
     string pattern_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8.summary.pattern.uniq.100";
     string true_snp_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.true.snp";
@@ -88,4 +88,21 @@ TEST_CASE("test sclust::cal_logLR()","[hide]")
     cout << "log LR: " << logLR << endl;
     cout << "test log LR: " << test_logLR << endl;
 }
+
+TEST_CASE("Test sclust::summary()")
+{
+    string pattern_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8";
+    string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8.pattern.uniq.summary";
+    SClust sclust;
+    sclust.summary(pattern_file, out_file, 1);
+
+}
+
+
+
+
+
+
+
+
 

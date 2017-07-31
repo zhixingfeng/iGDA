@@ -27,23 +27,30 @@ public:
              int min_count, int min_cvg, int n_thread);
     
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
+    
+    // merge similar patterns
+    void summary(string pattern_file, string out_file, int min_overlap);
 
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
                     int min_ratio, int min_count, int min_cvg);
     
+    // count frequency of patterns
     void count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_all,
                     const vector<int> &cand_loci, vector<int32_t> &temp_id_var, 
                     vector<int32_t> &temp_id_read, vector<int32_t> &temp_count_var);
     
+    // test significance of patterns
     void test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
                       int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
                       vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count);
     
+    // output pattern
     void print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
                        int32_t nreads_cover_all);
-        
+    
+    
 //protected:
 public:
     inline double cal_logLR(double n_11, double n_10, double n_01, double N)

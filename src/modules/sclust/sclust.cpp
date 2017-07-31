@@ -310,6 +310,22 @@ void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_
 }
 
 
+void SClust::summary(string pattern_file, string out_file, int min_overlap)
+{
+    ifstream fs_infile;
+    open_infile(fs_infile, pattern_file);
+    while(1){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof()) break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=7)
+            throw runtime_error("incorrect format in pattern_file");
+        
+        vector<int> pattern = split_int(buf_vec[2], ',');
+        
+    }
+}
 
 
 
