@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523252644.333889"
+            timestampString = "523294800.618538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
-            landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap)"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/sclust/sclust.cpp"
+            timestampString = "523294800.618538"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

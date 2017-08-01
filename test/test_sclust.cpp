@@ -94,7 +94,7 @@ TEST_CASE("Test sclust::summary()")
     string pattern_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8";
     string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8.summary";
     SClust sclust;
-    sclust.summary(pattern_file, out_file, 1);
+    sclust.summary(pattern_file, out_file, 1, 20);
 
 }
 

@@ -214,11 +214,13 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> sclustfileArg("sclustfile", "path of sclust file", true, "", "sclustfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             ValueArg<int> minoverlapArg("l","minoverlap","minimal overlap : 1", false , 1, "minoverlap", cmd);
+            ValueArg<double> minlogLRArg("r","minlogLR","minimal logLR : 10", false , 10, "minlogLR", cmd);
             
             cmd.parse(argv2);
             
             SClust sclust;
-            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), minoverlapArg.getValue());
+            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), 
+                           minoverlapArg.getValue(), minlogLRArg.getValue());
         }
         
         if (strcmp(argv[1], "eval") == 0){

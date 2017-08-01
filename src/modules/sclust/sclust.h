@@ -29,7 +29,7 @@ public:
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
     
     // merge similar patterns
-    void summary(string sclust_file, string out_file, int min_overlap);
+    void summary(string sclust_file, string out_file, int min_overlap, double min_logLR);
 
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 

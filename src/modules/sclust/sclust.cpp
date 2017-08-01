@@ -310,7 +310,7 @@ void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_
 }
 
 
-void SClust::summary(string sclust_file, string out_file, int min_overlap)
+void SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)
 {    
     ifstream fs_infile;    
     // scan the sclust file to get maximal code
@@ -347,7 +347,8 @@ void SClust::summary(string sclust_file, string out_file, int min_overlap)
         vector<string> buf_vec = split(buf, '\t');
         if (buf_vec.size()!=7)
             throw runtime_error("incorrect format in pattern_file");
-        
+        if (stod(buf_vec[4]) < min_logLR)
+            continue;
         vector<int> pattern = split_int(buf_vec[2], ',');
         
         if (subspaces.size()==0){
