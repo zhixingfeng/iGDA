@@ -210,6 +210,17 @@ int main(int argc, const char * argv[])
                        nthreadArg.getValue());
 
         }
+        if (strcmp(argv[1], "summary") == 0){
+            UnlabeledValueArg<string> sclustfileArg("sclustfile", "path of sclust file", true, "", "sclustfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<int> minoverlapArg("l","minoverlap","minimal overlap : 1", false , 1, "minoverlap", cmd);
+            
+            cmd.parse(argv2);
+            
+            SClust sclust;
+            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), minoverlapArg.getValue());
+        }
+        
         if (strcmp(argv[1], "eval") == 0){
             UnlabeledValueArg<string> patternfileArg("patternfile", "path of pattern file", true, "", "patternfile", cmd);
             UnlabeledValueArg<string> snpfileArg("snpfile", "path of snp file", true, "", "snpfile", cmd);

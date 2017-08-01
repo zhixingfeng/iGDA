@@ -310,10 +310,36 @@ void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_
 }
 
 
-void SClust::summary(string pattern_file, string out_file, int min_overlap)
-{
-    ifstream fs_infile;
-    open_infile(fs_infile, pattern_file);
+void SClust::summary(string sclust_file, string out_file, int min_overlap)
+{    
+    ifstream fs_infile;    
+    // scan the sclust file to get maximal code
+    int max_code = 0;
+    open_infile(fs_infile, sclust_file);
+    while(1){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof()) break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=7)
+            throw runtime_error("incorrect format in pattern_file");
+        
+        vector<int> pattern = split_int(buf_vec[2], ',');
+        for (int i=0; i<(int)pattern.size(); ++i)
+                if (pattern[i] > max_code)
+                    max_code = pattern[i];
+    }
+    fs_infile.close();
+    
+    // the resulting subspaces 
+    vector<vector<int> > subspaces; 
+    
+    // template to compare subspace and pattern
+    vector<bool> temp_overlap(max_code, false);  
+    vector<bool> temp_overlap_2(max_code, false);
+    
+    // scan the sclust file again 
+    open_infile(fs_infile, sclust_file);
     while(1){
         string buf;
         getline(fs_infile, buf);
@@ -324,7 +350,61 @@ void SClust::summary(string pattern_file, string out_file, int min_overlap)
         
         vector<int> pattern = split_int(buf_vec[2], ',');
         
+        if (subspaces.size()==0){
+            // if subspaces is empty then add pattern as a new subspace
+            subspaces.push_back(pattern);
+        }else{
+            // fill pattern to temp_overlap to compare it to subspaces
+            for (int i=0; i<(int)pattern.size(); ++i)
+                temp_overlap[pattern[i]] = true;
+            
+            // scan subspaces 
+            bool is_exist = false;
+            for (int i=0; i<(int)subspaces.size(); ++i){
+                                    
+                // count number of overlap
+                int n_overlap = 0;
+                for (int j=0; j<(int)subspaces[i].size(); ++j){
+                    if (temp_overlap[subspaces[i][j]])
+                        ++n_overlap;
+                    temp_overlap_2[subspaces[i][j]] = true;
+                }
+                    
+                // merge pattern and current subspace
+                if (n_overlap >= min_overlap){
+                    for (int j=0; j<(int)pattern.size(); ++j){
+                        if (!temp_overlap_2[pattern[j]])
+                            subspaces[i].push_back(pattern[j]);
+                    }
+                    is_exist = true;
+                }
+                
+                // clear temp_overlap_2
+                for (int j=0; j<(int)subspaces[i].size(); ++j)
+                    temp_overlap_2[subspaces[i][j]] = false;
+                
+            }
+            
+            if (!is_exist)
+                subspaces.push_back(pattern);
+            
+            // clear temp_overlap
+            for (int i=0; i<(int)pattern.size(); ++i)
+                temp_overlap[pattern[i]] = false;
+        }
     }
+    fs_infile.close();
+
+    // output 
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, out_file);
+    for (int i=0; i<(int)subspaces.size(); ++i){
+        for (int j=0; j<(int)subspaces[i].size(); ++j)
+            fs_outfile << subspaces[i][j] << ",";
+        fs_outfile << endl;
+    }
+    fs_outfile.close();
+    
 }
 
 

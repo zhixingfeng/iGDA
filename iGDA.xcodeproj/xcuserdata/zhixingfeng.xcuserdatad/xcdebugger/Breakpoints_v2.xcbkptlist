@@ -10,77 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523231706.818573"
+            timestampString = "523252644.333889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "SClust::summary(string pattern_file, string out_file, int min_overlap)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523231702.02922"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
-            landmarkName = "SClust::summary(string pattern_file, string out_file, int min_overlap)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SClust::summary(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, int)"
-                  moduleName = "iGDA"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhixingfeng/Google%20Drive/dev/iGDA/src/modules/sclust/sclust.cpp"
-                  timestampString = "523231765.584149"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "327"
-                  endingLineNumber = "327"
-                  offsetFromSymbolStart = "1628">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SClust::summary(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, int)"
-                  moduleName = "iGDA"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhixingfeng/Google%20Drive/dev/iGDA/src/modules/sclust/sclust.cpp"
-                  timestampString = "523231765.584307"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "327"
-                  endingLineNumber = "327"
-                  offsetFromSymbolStart = "1645">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523231717.445302"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
-            landmarkName = "SClust::summary(string pattern_file, string out_file, int min_overlap)"
-            landmarkType = "5">
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
