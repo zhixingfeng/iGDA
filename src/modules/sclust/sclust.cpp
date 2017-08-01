@@ -339,6 +339,7 @@ void SClust::summary(string sclust_file, string out_file, int min_overlap, doubl
     vector<bool> temp_overlap_2(max_code, false);
     
     // scan the sclust file again 
+    int64_t n_lines = 0;
     open_infile(fs_infile, sclust_file);
     while(1){
         string buf;
@@ -347,6 +348,11 @@ void SClust::summary(string sclust_file, string out_file, int min_overlap, doubl
         vector<string> buf_vec = split(buf, '\t');
         if (buf_vec.size()!=7)
             throw runtime_error("incorrect format in pattern_file");
+        
+        ++n_lines;
+        if (n_lines%100000 == 0)
+            cout << "n_line: " << n_lines << endl;
+
         if (stod(buf_vec[4]) < min_logLR)
             continue;
         vector<int> pattern = split_int(buf_vec[2], ',');
@@ -395,7 +401,8 @@ void SClust::summary(string sclust_file, string out_file, int min_overlap, doubl
         }
     }
     fs_infile.close();
-
+    cout << "n_line: " << n_lines << endl;
+    
     // output 
     ofstream fs_outfile;
     open_outfile(fs_outfile, out_file);
