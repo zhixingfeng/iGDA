@@ -29,6 +29,31 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
+TEST_CASE("Test cmpreads_topn with read_id"){
+    string encode_file = "../results/B_10_cons.encode";
+    string align_file = "../data/B_10_cons.m5";
+    string out_txtfile = "../results/B_10_cons_cmpreads_topn_readid.txt";
+    string out_binfile = "../results/B_10_cons_cmpreads_topn_readid.bin";
+    
+    clock_t t_begin = clock();
+    cmpreads_topn(encode_file, align_file, out_txtfile, 10, 0, true, false, true);
+    clock_t t_end = clock();
+    cout << "time for compare reads (text output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    
+    t_begin = clock();
+    cmpreads_topn(encode_file, align_file, out_binfile, 10, 0, true, true, true);
+    t_end = clock();
+    cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+}
+
+TEST_CASE("Test cmpreads_bin2txt with read_id")
+{
+    string cmpreads_binfile = "../results/B_10_cons_cmpreads_topn_readid.bin";
+    string cmpreads_txtfile = "../results/B_10_cons_cmpreads_topn_readid.bin.totxt";
+    cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile , true);
+}
+
+
 TEST_CASE("Test cmpreads_topn","[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
@@ -63,6 +88,7 @@ TEST_CASE("Test cmpreads","[hide]"){
     t_end = clock();
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
+
 
 TEST_CASE("Test cmpreads_bin2txt", "[hide]")
 {

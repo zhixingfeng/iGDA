@@ -136,11 +136,18 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             ValueArg<int> topnArg("p","topn","select top n candidates of each reads, default: 10", false , 0, "topn", cmd);
             ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
-            SwitchArg istextArg("t", "text", "output text file", cmd, false);
-            SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
+            SwitchArg istextArg("t", "text", "is output text file", cmd, false);
+            SwitchArg isrmIDArg("r", "rmreadsID", "is remove reads ID", cmd, false);
+            //SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
+            
             cmd.parse(argv2);
             
-            if (!isdupArg.getValue()){
+            cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                          topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
+                          !isrmIDArg.getValue());
+            
+            
+            /*if (!isdupArg.getValue()){
                 string tmpoutfile = outfileArg.getValue() + ".tmp";
                 if (topnArg.getValue() > 0)
                     cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile,
@@ -176,7 +183,7 @@ int main(int argc, const char * argv[])
                 else
                     cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
                              overlapArg.getValue(), true, !istextArg.getValue());
-            }
+            }*/
         }
         
         // subspace clustering
@@ -238,9 +245,11 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "bin2txt") == 0) {
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
             UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
+            SwitchArg isrmIDArg("r", "rmreadsID", "is remove reads ID", cmd, false);
+            
             cmd.parse(argv2);
             
-            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue());
+            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), isrmIDArg.getValue());
         }
         
         // convert text cmpreadsfile to binary

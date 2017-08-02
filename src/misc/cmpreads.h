@@ -28,7 +28,7 @@ inline bool operator == (const ReadMatch & dl, const ReadMatch & dr) {return dl.
 */
 
 inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
-                     bool is_rm_single=true, bool is_binary=true)
+                     bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -113,9 +113,12 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             // print results
             if (is_binary){
                 int cur_match_size = (int)the_matches[j].matches.size();
+                fwrite(&i, sizeof(int), 1, p_out_file);
                 fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
                 fwrite(&the_matches[j].matches[0], sizeof(int), cur_match_size, p_out_file);
             }else{
+                if (is_print_read_id)
+                    fprintf(p_out_file, "%d\t", i);
                 for (int k=0; k<(int)the_matches[j].matches.size(); k++)
                     fprintf(p_out_file, "%d,", the_matches[j].matches[k]);
                 fprintf(p_out_file, "\n");
@@ -227,7 +230,7 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
 }
 
 // convert binary cmpreadsfile to text file
-inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile)
+inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, bool is_read_id=true)
 {
     // open binary file
     FILE *p_binfile = fopen(cmpreads_binfile.c_str(), "rb");
@@ -240,18 +243,35 @@ inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile)
         runtime_error("fail to open cmpreads_txtfile");   
     
     // scan binary file and convert
-    while(1){
-        int cand_loci_size;
-        fread(&cand_loci_size, sizeof(int), 1, p_binfile);
-        vector<int> cand_loci(cand_loci_size,-1);
-        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
-        if (feof(p_binfile))
-            break;
-        for (int i = 0; i < cand_loci_size; i++)
-            fprintf(p_txtfile, "%d,", cand_loci[i]);
-        fprintf(p_txtfile, "\n");
+    if (is_read_id){
+        while(1){
+            int cand_loci_size;
+            int read_id;
+            fread(&read_id, sizeof(int), 1, p_binfile);
+            fread(&cand_loci_size, sizeof(int), 1, p_binfile);
+            vector<int> cand_loci(cand_loci_size,-1);
+            fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+            if (feof(p_binfile))
+                break;
+            
+            fprintf(p_txtfile, "%d\t", read_id);
+            for (int i = 0; i < cand_loci_size; i++)
+                fprintf(p_txtfile, "%d,", cand_loci[i]);
+            fprintf(p_txtfile, "\n");
+        }
+    }else{
+        while(1){
+            int cand_loci_size;
+            fread(&cand_loci_size, sizeof(int), 1, p_binfile);
+            vector<int> cand_loci(cand_loci_size,-1);
+            fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+            if (feof(p_binfile))
+                break;
+            for (int i = 0; i < cand_loci_size; i++)
+                fprintf(p_txtfile, "%d,", cand_loci[i]);
+            fprintf(p_txtfile, "\n");
+        }   
     }
-
     
     fclose(p_binfile);
     fclose(p_txtfile);

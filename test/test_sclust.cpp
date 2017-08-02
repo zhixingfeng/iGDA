@@ -89,7 +89,7 @@ TEST_CASE("test sclust::cal_logLR()","[hide]")
     cout << "test log LR: " << test_logLR << endl;
 }
 
-TEST_CASE("Test sclust::summary()")
+TEST_CASE("Test sclust::summary()", "[hide]")
 {
     string pattern_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8";
     string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n8.summary";
