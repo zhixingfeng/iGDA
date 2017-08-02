@@ -88,6 +88,8 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
 
         // load candidate subset
         int cand_loci_size;
+        int read_id;
+        fread(&read_id, sizeof(int), 1, p_cmpreads_file);
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
         vector<int> cand_loci(cand_loci_size,-1);
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
@@ -113,7 +115,7 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
             
                 // print frequency of pattern
                 mtx_sclust.lock();
-                print_pattern(p_outfile, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
+                print_pattern(p_outfile, read_id, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
                 mtx_sclust.unlock();
             }
             // clear temp_count_var
@@ -226,13 +228,19 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
     }
 }
 
-void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                    vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
 {
     
     for (int i=0; i<(int)rl_pattern.size(); ++i){
+        
+        // print read id
+        fprintf(p_outfile, "%d\t", read_id);
+        
         // decode rl_pattern[i]
         bitset<32> pattern_bit(rl_pattern[i]);
+        
+        // print subspace
         for (int j=0; j<(int)cand_loci.size(); ++j)
             fprintf(p_outfile, "%d,", cand_loci[j]);
         fprintf(p_outfile, "\t");
@@ -244,6 +252,7 @@ void SClust::print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector
         // print pattern_bit
         if (rl_pattern_len > cand_loci.size())
             throw runtime_error("incorrect # of 1s in rl_pattern");
+        
         for (int j=0; j<(int)cand_loci.size(); ++j){
             if (pattern_bit[j]==1)
                 fprintf(p_outfile, "%d,", cand_loci[j]);

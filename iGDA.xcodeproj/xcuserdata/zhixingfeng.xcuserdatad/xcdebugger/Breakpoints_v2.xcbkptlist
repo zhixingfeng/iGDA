@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523301141.517025"
+            timestampString = "523402620.492214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "523301141.517025"
+            timestampString = "523402620.492214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)"
             landmarkType = "7">
          </BreakpointContent>

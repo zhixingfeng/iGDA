@@ -46,7 +46,7 @@ protected:
                       vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count);
     
     // output pattern
-    void print_pattern(FILE *p_outfile, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
                        int32_t nreads_cover_all);
     

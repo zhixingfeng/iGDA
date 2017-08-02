@@ -29,7 +29,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
     loadencodedata(encode_data, encode_file);
 }
 
-TEST_CASE("Test cmpreads_topn with read_id is_condprob = true"){
+TEST_CASE("Test cmpreads_topn with read_id is_condprob = true", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     string out_txtfile = "../results/B_10_cons_cmpreads_topn_readid_condprob.txt";
@@ -48,7 +48,7 @@ TEST_CASE("Test cmpreads_topn with read_id is_condprob = true"){
 }
 
 
-TEST_CASE("Test cmpreads_topn with read_id"){
+TEST_CASE("Test cmpreads_topn with read_id", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     string out_txtfile = "../results/B_10_cons_cmpreads_topn_readid.txt";
@@ -67,7 +67,7 @@ TEST_CASE("Test cmpreads_topn with read_id"){
     
 }
 
-TEST_CASE("Test cmpreads_bin2txt with read_id")
+TEST_CASE("Test cmpreads_bin2txt with read_id","[hide]")
 {
     string cmpreads_binfile = "../results/B_10_cons_cmpreads_topn_readid.bin";
     string cmpreads_txtfile = "../results/B_10_cons_cmpreads_topn_readid.bin.totxt";
