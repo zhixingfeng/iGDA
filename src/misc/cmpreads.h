@@ -28,7 +28,7 @@ inline bool operator == (const ReadMatch & dl, const ReadMatch & dr) {return dl.
 */
 
 inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
-                     bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false)
+                     bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -81,19 +81,31 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
         for (int j=0; j<(int)encode_data.size(); j++){
             if (j == i)
                 continue;
-            
+            // get size of overlap of the two reads
             int n_overlap = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second -
-            reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first + 1;
-            if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) && n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
+                            reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first + 1;
+            if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) && 
+                n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
                 continue;
+            
+            // get intersection between two reads
             vector<int> cur_match;
             for (int k = 0; k < encode_data[j].size(); k++)
                 if (temp_array[encode_data[j][k]] == i)
                     cur_match.push_back(encode_data[j][k]);
             
+            
             the_matches[j].matches = cur_match;
             the_matches[j].n_overlap = n_overlap;
-            the_matches[j].match_rate = (double) cur_match.size() / n_overlap;
+            
+            if (is_condprob){
+                if (encode_data[j].size() > 0)
+                    the_matches[j].match_rate = (double) cur_match.size() / encode_data[j].size();
+                else    
+                    the_matches[j].match_rate = 0;
+            }else{
+                the_matches[j].match_rate = (double) cur_match.size() / n_overlap;
+            }
         }
         
         // sort the_matches according to match_rate

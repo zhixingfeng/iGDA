@@ -138,13 +138,15 @@ int main(int argc, const char * argv[])
             ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
             SwitchArg istextArg("t", "text", "is output text file", cmd, false);
             SwitchArg isrmIDArg("r", "rmreadsID", "is remove reads ID", cmd, false);
+            SwitchArg isnocondprobArg("c", "condprob", "is use conditional probability", cmd, false);
+            
             //SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
             
             cmd.parse(argv2);
             
             cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
                           topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
-                          !isrmIDArg.getValue());
+                          !isrmIDArg.getValue(), !isnocondprobArg.getValue());
             
             
             /*if (!isdupArg.getValue()){
@@ -249,7 +251,7 @@ int main(int argc, const char * argv[])
             
             cmd.parse(argv2);
             
-            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), isrmIDArg.getValue());
+            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), !isrmIDArg.getValue());
         }
         
         // convert text cmpreadsfile to binary
