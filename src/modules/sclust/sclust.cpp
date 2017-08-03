@@ -9,7 +9,7 @@
 #include "sclust.h"
 mutex mtx_sclust;
 void SClust::run(string encode_file, string align_file, string cmpreads_file, 
-                 string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
+                 string out_file, string tmp_dir, int max_cand_size, double min_ratio, 
                  int min_count, int min_cvg, int n_thread)
 {
     // initialize bit shift vector 
@@ -318,8 +318,71 @@ void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_
     
 }
 
+void SClust::summary(string sclust_file, string out_file, double min_ratio, double min_logLR,
+             int min_count, int min_cvg)
+{
+    cout << "summary" << endl;
+    ifstream fs_sclust_file;
+    ofstream fs_out_file;
+    open_infile(fs_sclust_file, sclust_file);
+    open_outfile(fs_out_file, out_file);
+    
+    int cur_read_id = -1;
+    set<int> cur_pattern_pool;
+    while(1){
+        // read sclust_file
+        string buf;
+        getline(fs_sclust_file, buf);
+        if (fs_sclust_file.eof()) break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=8)
+            throw runtime_error("incorrect format in sclust_file");
+        
+        // parse sclust_file
+        int read_id = stoi(buf_vec[0]);
+        vector<int> pattern = split_int(buf_vec[3], ',');
+        double ratio = stod(buf_vec[4]);
+        double logLR = stod(buf_vec[5]);
+        int count = stoi(buf_vec[6]);
+        int cvg = stoi(buf_vec[7]);
+        
+        
+        if (read_id != cur_read_id){
+            // if it is a new read, print current pattern pool
+            if (cur_read_id >=0 && cur_pattern_pool.size() > 0){
+                fs_out_file << cur_read_id << '\t';
+                for (auto it = cur_pattern_pool.begin(); it != cur_pattern_pool.end(); ++it)
+                    fs_out_file << *it << ',';
+                fs_out_file << endl;
+            }
+            cur_pattern_pool.clear();
+            cur_read_id = read_id;
+            if (ratio >= min_ratio && logLR >= min_logLR && 
+                count >= min_count && cvg >= min_cvg){
+                cur_pattern_pool = set<int>(pattern.begin(), pattern.end());
+            }
+        }else{
+            // if it is the same read, pool pattern
+            if (ratio >= min_ratio && logLR >= min_logLR && 
+                count >= min_count && cvg >= min_cvg){
+                for (int i=0; i<(int)pattern.size(); ++i)
+                    cur_pattern_pool.insert(pattern[i]);
+            }
+        }
+        
+    }
+    if (cur_read_id >=0 && cur_pattern_pool.size() > 0){
+        fs_out_file << cur_read_id << '\t';
+        for (auto it = cur_pattern_pool.begin(); it != cur_pattern_pool.end(); ++it)
+            fs_out_file << *it << ',';
+        fs_out_file << endl;
+    }
 
-void SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)
+    
+    fs_sclust_file.close();
+    fs_out_file.close();
+}
+/*void SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)
 {    
     ifstream fs_infile;    
     // scan the sclust file to get maximal code
@@ -422,7 +485,7 @@ void SClust::summary(string sclust_file, string out_file, int min_overlap, doubl
     }
     fs_outfile.close();
     
-}
+}*/
 
 
 

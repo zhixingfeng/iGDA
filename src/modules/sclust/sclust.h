@@ -23,13 +23,14 @@ public:
     virtual ~SClust(){}
     
     void run(string encode_file, string align_file, string cmpreads_file, 
-             string out_file, string tmp_dir, int max_cand_size, int min_ratio, 
+             string out_file, string tmp_dir, int max_cand_size, double min_ratio, 
              int min_count, int min_cvg, int n_thread);
     
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
     
     // merge similar patterns
-    void summary(string sclust_file, string out_file, int min_overlap, double min_logLR);
+    void summary(string sclust_file, string out_file, double min_ratio, double min_logLR, 
+                 int min_count, int min_cvg);
 
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
