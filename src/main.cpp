@@ -201,7 +201,7 @@ int main(int argc, const char * argv[])
             ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 1",
                                          false , 1, "minratio", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
-            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 20", false , 20, "mincvg", cmd);
+            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
             cmd.parse(argv2);
@@ -222,14 +222,20 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "summary") == 0){
             UnlabeledValueArg<string> sclustfileArg("sclustfile", "path of sclust file", true, "", "sclustfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<int> minoverlapArg("l","minoverlap","minimal overlap : 1", false , 1, "minoverlap", cmd);
-            ValueArg<double> minlogLRArg("r","minlogLR","minimal logLR : 10", false , 10, "minlogLR", cmd);
+            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 1",
+                                         false , 1, "minratio", cmd);
+            ValueArg<double> minlogLRArg("l","minlogLR","minimal logLR between joint and marigional probability, default: 0",
+                                         false , 0, "minlogLR", cmd);
+            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
+            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
+            
             
             cmd.parse(argv2);
             
             SClust sclust;
             sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), 
-                           minoverlapArg.getValue(), minlogLRArg.getValue());
+                           minratioArg.getValue(), minlogLRArg.getValue(),
+                           mincountArg.getValue(), mincvgArg.getValue());
         }
         
         if (strcmp(argv[1], "eval") == 0){
