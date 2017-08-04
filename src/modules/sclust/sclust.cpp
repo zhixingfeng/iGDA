@@ -382,6 +382,8 @@ void SClust::summary(string sclust_file, string out_file, double min_ratio, doub
     fs_sclust_file.close();
     fs_out_file.close();
 }
+
+
 /*void SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)
 {    
     ifstream fs_infile;    
