@@ -198,8 +198,8 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
             ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 1",
-                                         false , 1, "minratio", cmd);
+            ValueArg<double> minlogLRArg("l","minlogLR","minimal logLR between joint and marigional probability, default: 10",
+                                         false , 10, "minlogLR", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
@@ -215,15 +215,13 @@ int main(int argc, const char * argv[])
             SClust sclust;
             sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),
                        outfileArg.getValue(), tmpdirArg.getValue(), maxsubdimArg.getValue(),
-                       minratioArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
+                       minlogLRArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
                        nthreadArg.getValue());
 
         }
         if (strcmp(argv[1], "summary") == 0){
             UnlabeledValueArg<string> sclustfileArg("sclustfile", "path of sclust file", true, "", "sclustfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<double> minratioArg("r","minratio","minimal ratio between joint and marigional probability, default: 1",
-                                         false , 1, "minratio", cmd);
             ValueArg<double> minlogLRArg("l","minlogLR","minimal logLR between joint and marigional probability, default: 0",
                                          false , 0, "minlogLR", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
@@ -233,8 +231,7 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             
             SClust sclust;
-            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), 
-                           minratioArg.getValue(), minlogLRArg.getValue(),
+            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), minlogLRArg.getValue(),
                            mincountArg.getValue(), mincvgArg.getValue());
         }
         

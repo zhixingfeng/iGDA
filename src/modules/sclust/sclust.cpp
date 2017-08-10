@@ -9,7 +9,7 @@
 #include "sclust.h"
 mutex mtx_sclust;
 void SClust::run(string encode_file, string align_file, string cmpreads_file, 
-                 string out_file, string tmp_dir, int max_cand_size, double min_ratio, 
+                 string out_file, string tmp_dir, int max_cand_size, double min_logLR, 
                  int min_count, int min_cvg, int n_thread)
 {
     // initialize bit shift vector 
@@ -30,7 +30,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
     // run the subpace clustering algorithm
     if (n_thread == 1){
         // single thread
-        run_thread(cmpreads_file, out_file, max_cand_size, min_ratio, min_cvg, min_cvg);
+        run_thread(cmpreads_file, out_file, max_cand_size, min_logLR, min_cvg, min_cvg);
     }else{
         // multiple threads
         // split the cmpreads_file
@@ -45,7 +45,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
             string tmp_cmpreads_file = tmp_prefix + "_" + to_string(i);
             string tmp_out_file = tmp_dir + "/tmp_out_" + to_string(i) + ".sclust";
             threads.push_back(thread(&SClust::run_thread, this, tmp_cmpreads_file, tmp_out_file,
-                                     max_cand_size, min_ratio, min_cvg, min_cvg));
+                                     max_cand_size, min_logLR, min_cvg, min_cvg));
         }
         for (int i=0; i<n_thread; i++)
             threads[i].join();
@@ -64,7 +64,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
 }
 
 bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                        int min_ratio, int min_count, int min_cvg)
+                        int min_logLR, int min_count, int min_cvg)
 {
     // initialize templates
     vector<int32_t> temp_id_var(this->nreads, 0);
@@ -103,20 +103,36 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
             int32_t nreads_cover_all = 0;
             this->count_freq(pattern, nreads_cover_all, cand_loci, temp_id_var, temp_id_read, temp_count_var);
             
-            // skip if only few reads covering cand_loci
-            if (nreads_cover_all >= min_cvg){
-                // test each pattern for significance
-                vector<uint32_t> rl_pattern;
-                vector<int> rl_count;
-                vector<double> rl_ratio;
-                vector<double> rl_logLR;
-                this->test_pattern(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, 
-                                   rl_pattern, rl_logLR, rl_ratio, rl_count);
+            // get maximum pattern frequency
+            int32_t max_count = get_max_count(pattern, temp_count_var);
             
+            // skip if only few reads covering cand_loci
+            if (nreads_cover_all >= min_cvg && max_count >= min_count){
+                // test pairwise independence 
+                vector<vector<double> > pairwise_logLR;
+                this->pairwise_test(pairwise_logLR, cand_loci, temp_id_var, temp_id_read);
+                
+                // test each pattern for significance
+                vector<uint32_t> rl_pattern; vector<int> rl_count; vector<double> rl_logLR;
+                
+                test_pattern(pairwise_logLR, pattern, nreads_cover_all, temp_count_var, 
+                             min_count, min_logLR, rl_pattern, rl_logLR, rl_count);
+                
                 // print frequency of pattern
                 mtx_sclust.lock();
-                print_pattern(p_outfile, read_id, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
+                this->print_pattern(p_outfile, read_id, cand_loci, rl_pattern, rl_logLR, rl_count, nreads_cover_all);
                 mtx_sclust.unlock();
+                
+                // test each pattern for significance
+                /*vector<uint32_t> rl_pattern;
+                vector<int> rl_count; vector<double> rl_ratio; vector<double> rl_logLR;
+                this->test_pattern_old(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, 
+                                   rl_pattern, rl_logLR, rl_ratio, rl_count);
+                
+                // print frequency of pattern
+                mtx_sclust.lock();
+                this->print_pattern_old(p_outfile, read_id, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
+                mtx_sclust.unlock();*/
             }
             // clear temp_count_var
             unordered_set<uint32_t>::iterator it;
@@ -184,7 +200,204 @@ void SClust::count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_
 
 }
 
-void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+void SClust::pairwise_test(vector<vector<double> > &pairwise_logLR, const vector<int> &cand_loci,
+                   vector<int32_t> &temp_id_var, vector<int32_t> &temp_id_read)
+{
+    // initialize
+    for (int i=0; i<(int)cand_loci.size(); ++i)
+        pairwise_logLR.push_back(vector<double> (cand_loci.size(), 0));
+    
+    // calculate pairwise_logLR
+    for (int i=0; i<(int)cand_loci.size()-1; ++i){
+        // pu_var is 4 times larger than pu_read because of binary coding so we have to devide 4 to access pu_read
+        int x_var_locus = cand_loci[i];
+        int x_read_locus = int (x_var_locus / 4);
+        
+        // scan the ith locus to get variants and reads covering it
+        for (int k=0; k<(int)pu_var[x_var_locus].size(); ++k)
+            temp_id_var[pu_var[x_var_locus][k]] += 1;
+        
+        for (int k=0; k<(int)pu_read[x_read_locus].size(); ++k)
+            temp_id_read[pu_read[x_read_locus][k]] += 1;
+        
+        // scan the jth locus
+        for (int j=i+1; j<(int)cand_loci.size(); ++j){
+            // count 
+            vector<int32_t> cur_count(4,0);
+            int32_t read_cvg = 0;
+            int y_var_locus = cand_loci[j];
+            int y_read_locus = int (y_var_locus / 4);
+            
+            for (int k=0; k<(int)pu_var[y_var_locus].size(); ++k)
+                temp_id_var[pu_var[y_var_locus][k]] += 2;
+            
+            for (int k=0; k<(int)pu_read[y_read_locus].size(); ++k){
+                temp_id_read[pu_read[y_read_locus][k]] += 2;
+            
+                if (temp_id_read[pu_read[y_read_locus][k]] == 3)
+                    ++cur_count[temp_id_var[pu_read[y_read_locus][k]]];
+                
+                ++read_cvg;
+            }
+            
+            // test independence
+            pairwise_logLR[i][j] = cal_logLR(cur_count[3], cur_count[1], cur_count[2], read_cvg);
+            pairwise_logLR[j][i] = pairwise_logLR[i][j];
+            
+            // clean temp_id_var and temp_id_read
+            for (int k=0; k<(int)pu_var[y_var_locus].size(); ++k)
+                temp_id_var[pu_var[y_var_locus][k]] -= 2;
+            
+            for (int k=0; k<(int)pu_read[y_read_locus].size(); ++k)
+                temp_id_read[pu_read[y_read_locus][k]] -= 2;
+        }
+        
+        // clean temp_id_var and temp_id_read 
+        for (int k=0; k<(int)pu_var[x_var_locus].size(); ++k)
+            temp_id_var[pu_var[x_var_locus][k]] -= 1;
+        
+        for (int k=0; k<(int)pu_read[x_read_locus].size(); ++k)
+            temp_id_read[pu_read[x_read_locus][k]] -= 1;
+        
+    }
+
+}
+
+void SClust::test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
+                  int32_t nreads_cover_all, const vector<int32_t> &temp_count_var, int min_count, double min_logLR,
+                  vector<uint32_t> &rl_pattern, vector<double> &rl_logLR, vector<int> &rl_count)
+{
+    for (auto it = pattern.begin(); it!=pattern.end(); ++it){
+        // ignore single or low frequency pattern
+        if (bitcount(*it)<=1 || temp_count_var[*it] < min_count)
+            continue;
+        
+        // decode pattern
+        bitset<32> pattern_bit(*it);
+        vector<int> pattern_vec;
+        for (int i=0; i<(int) pattern_bit.size(); ++i)
+            if (pattern_bit[i] == 1) 
+                pattern_vec.push_back(i);
+        
+        // get minimal pairwise_logLR
+        double cur_min_logLR = 1000000;
+        for (int i=0; i<(int)pattern_vec.size()-1; ++i){
+            for (int j=i+1; j<(int)pattern_vec.size(); ++j){
+                if (pairwise_logLR[pattern_vec[i]][pattern_vec[j]] < cur_min_logLR)
+                    cur_min_logLR = pairwise_logLR[pattern_vec[i]][pattern_vec[j]];
+            }
+        }
+        
+        // record results
+        if (cur_min_logLR >= min_logLR){
+            rl_pattern.push_back(*it);
+            rl_logLR.push_back(cur_min_logLR);
+            rl_count.push_back(temp_count_var[*it]);
+        }
+        
+    }
+}
+
+void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+                   vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all)
+{
+    for (int i=0; i<(int)rl_pattern.size(); ++i){
+        
+        // print read id
+        fprintf(p_outfile, "%d\t", read_id);
+        
+        // decode rl_pattern[i]
+        bitset<32> pattern_bit(rl_pattern[i]);
+        
+        // print subspace
+        for (int j=0; j<(int)cand_loci.size(); ++j)
+            fprintf(p_outfile, "%d,", cand_loci[j]);
+        fprintf(p_outfile, "\t");
+        
+        // print pattern length
+        int rl_pattern_len = bitcount(rl_pattern[i]);
+        fprintf(p_outfile, "%d\t", rl_pattern_len);
+        
+        // print pattern_bit
+        if (rl_pattern_len > cand_loci.size())
+            throw runtime_error("incorrect # of 1s in rl_pattern");
+        
+        for (int j=0; j<(int)cand_loci.size(); ++j){
+            if (pattern_bit[j]==1)
+                fprintf(p_outfile, "%d,", cand_loci[j]);
+        }
+        fprintf(p_outfile, "\t%lf\t%d\t%d\n", rl_logLR[i], rl_count[i], nreads_cover_all);
+        
+        //fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
+        //                                            rl_count[i], nreads_cover_all);
+    }
+}
+
+
+void SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)
+{
+    cout << "summary" << endl;
+    ifstream fs_sclust_file;
+    ofstream fs_out_file;
+    open_infile(fs_sclust_file, sclust_file);
+    open_outfile(fs_out_file, out_file);
+    
+    int cur_read_id = -1;
+    set<int> cur_pattern_pool;
+    while(1){
+        // read sclust_file
+        string buf;
+        getline(fs_sclust_file, buf);
+        if (fs_sclust_file.eof()) break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=7)
+            throw runtime_error("incorrect format in sclust_file");
+        
+        // parse sclust_file
+        int read_id = stoi(buf_vec[0]);
+        vector<int> pattern = split_int(buf_vec[3], ',');
+        double logLR = stod(buf_vec[4]);
+        int count = stoi(buf_vec[5]);
+        int cvg = stoi(buf_vec[6]);
+        
+        
+        if (read_id != cur_read_id){
+            // if it is a new read, print current pattern pool
+            if (cur_read_id >=0 && cur_pattern_pool.size() > 0){
+                fs_out_file << cur_read_id << '\t';
+                for (auto it = cur_pattern_pool.begin(); it != cur_pattern_pool.end(); ++it)
+                    fs_out_file << *it << ',';
+                fs_out_file << endl;
+            }
+            cur_pattern_pool.clear();
+            cur_read_id = read_id;
+            if (logLR >= min_logLR && count >= min_count && cvg >= min_cvg){
+                cur_pattern_pool = set<int>(pattern.begin(), pattern.end());
+            }
+        }else{
+            // if it is the same read, pool pattern
+            if (logLR >= min_logLR && count >= min_count && cvg >= min_cvg){
+                for (int i=0; i<(int)pattern.size(); ++i)
+                    cur_pattern_pool.insert(pattern[i]);
+            }
+        }
+        
+    }
+    if (cur_read_id >=0 && cur_pattern_pool.size() > 0){
+        fs_out_file << cur_read_id << '\t';
+        for (auto it = cur_pattern_pool.begin(); it != cur_pattern_pool.end(); ++it)
+            fs_out_file << *it << ',';
+        fs_out_file << endl;
+    }
+    
+    
+    fs_sclust_file.close();
+    fs_out_file.close();
+}
+
+
+
+void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
                           int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
                           vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count)
 {
@@ -228,7 +441,7 @@ void SClust::test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover
     }
 }
 
-void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+void SClust::print_pattern_old(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                    vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
 {
     
@@ -263,6 +476,8 @@ void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int>
         //                                            rl_count[i], nreads_cover_all);
     }
 }
+
+
 
 
 // evaluate detected pattern
@@ -318,7 +533,7 @@ void SClust::eval_pattern(string pattern_file, string true_snp_file, string out_
     
 }
 
-void SClust::summary(string sclust_file, string out_file, double min_ratio, double min_logLR,
+void SClust::summary_old(string sclust_file, string out_file, double min_ratio, double min_logLR,
              int min_count, int min_cvg)
 {
     cout << "summary" << endl;
@@ -382,112 +597,6 @@ void SClust::summary(string sclust_file, string out_file, double min_ratio, doub
     fs_sclust_file.close();
     fs_out_file.close();
 }
-
-
-/*void SClust::summary(string sclust_file, string out_file, int min_overlap, double min_logLR)
-{    
-    ifstream fs_infile;    
-    // scan the sclust file to get maximal code
-    int max_code = 0;
-    open_infile(fs_infile, sclust_file);
-    while(1){
-        string buf;
-        getline(fs_infile, buf);
-        if (fs_infile.eof()) break;
-        vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size()!=7)
-            throw runtime_error("incorrect format in pattern_file");
-        
-        vector<int> pattern = split_int(buf_vec[2], ',');
-        for (int i=0; i<(int)pattern.size(); ++i)
-                if (pattern[i] > max_code)
-                    max_code = pattern[i];
-    }
-    fs_infile.close();
-    
-    // the resulting subspaces 
-    vector<vector<int> > subspaces; 
-    
-    // template to compare subspace and pattern
-    vector<bool> temp_overlap(max_code, false);  
-    vector<bool> temp_overlap_2(max_code, false);
-    
-    // scan the sclust file again 
-    int64_t n_lines = 0;
-    open_infile(fs_infile, sclust_file);
-    while(1){
-        string buf;
-        getline(fs_infile, buf);
-        if (fs_infile.eof()) break;
-        vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size()!=7)
-            throw runtime_error("incorrect format in pattern_file");
-        
-        ++n_lines;
-        if (n_lines%100000 == 0)
-            cout << "n_line: " << n_lines << endl;
-
-        if (stod(buf_vec[4]) < min_logLR)
-            continue;
-        vector<int> pattern = split_int(buf_vec[2], ',');
-        
-        if (subspaces.size()==0){
-            // if subspaces is empty then add pattern as a new subspace
-            subspaces.push_back(pattern);
-        }else{
-            // fill pattern to temp_overlap to compare it to subspaces
-            for (int i=0; i<(int)pattern.size(); ++i)
-                temp_overlap[pattern[i]] = true;
-            
-            // scan subspaces 
-            bool is_exist = false;
-            for (int i=0; i<(int)subspaces.size(); ++i){
-                                    
-                // count number of overlap
-                int n_overlap = 0;
-                for (int j=0; j<(int)subspaces[i].size(); ++j){
-                    if (temp_overlap[subspaces[i][j]])
-                        ++n_overlap;
-                    temp_overlap_2[subspaces[i][j]] = true;
-                }
-                    
-                // merge pattern and current subspace
-                if (n_overlap >= min_overlap){
-                    for (int j=0; j<(int)pattern.size(); ++j){
-                        if (!temp_overlap_2[pattern[j]])
-                            subspaces[i].push_back(pattern[j]);
-                    }
-                    is_exist = true;
-                }
-                
-                // clear temp_overlap_2
-                for (int j=0; j<(int)subspaces[i].size(); ++j)
-                    temp_overlap_2[subspaces[i][j]] = false;
-                
-            }
-            
-            if (!is_exist)
-                subspaces.push_back(pattern);
-            
-            // clear temp_overlap
-            for (int i=0; i<(int)pattern.size(); ++i)
-                temp_overlap[pattern[i]] = false;
-        }
-    }
-    fs_infile.close();
-    cout << "n_line: " << n_lines << endl;
-    
-    // output 
-    ofstream fs_outfile;
-    open_outfile(fs_outfile, out_file);
-    for (int i=0; i<(int)subspaces.size(); ++i){
-        for (int j=0; j<(int)subspaces[i].size(); ++j)
-            fs_outfile << subspaces[i][j] << ",";
-        fs_outfile << endl;
-    }
-    fs_outfile.close();
-    
-}*/
 
 
 

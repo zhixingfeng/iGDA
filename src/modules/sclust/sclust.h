@@ -23,31 +23,46 @@ public:
     virtual ~SClust(){}
     
     void run(string encode_file, string align_file, string cmpreads_file, 
-             string out_file, string tmp_dir, int max_cand_size, double min_ratio, 
+             string out_file, string tmp_dir, int max_cand_size, double min_logLR, 
              int min_count, int min_cvg, int n_thread);
     
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
     
     // merge similar patterns
-    void summary(string sclust_file, string out_file, double min_ratio, double min_logLR, 
+    void summary(string sclust_file, string out_file,double min_logLR, int min_count, int min_cvg);
+
+    // merge similar patterns (legacy)
+    void summary_old(string sclust_file, string out_file, double min_ratio, double min_logLR, 
                  int min_count, int min_cvg);
 
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
-                    int min_ratio, int min_count, int min_cvg);
+                    int min_logLR, int min_count, int min_cvg);
     
     // count frequency of patterns
     void count_freq(unordered_set<uint32_t> &pattern, int32_t &nreads_cover_all,
                     const vector<int> &cand_loci, vector<int32_t> &temp_id_var, 
                     vector<int32_t> &temp_id_read, vector<int32_t> &temp_count_var);
     
-    // test significance of patterns
-    void test_pattern(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+    // pairwise test indepence 
+    void pairwise_test(vector<vector<double> > &pairwise_logLR, const vector<int> &cand_loci,
+                       vector<int32_t> &temp_id_var, vector<int32_t> &temp_id_read);
+    
+    void test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
+                      int32_t nreads_cover_all, const vector<int32_t> &temp_count_var, 
+                      int min_count, double min_logLR,
+                      vector<uint32_t> &rl_pattern, vector<double> &rl_logLR, vector<int> &rl_count);
+
+    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+                           vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all);
+    
+    // test significance of patterns (legacy)
+    void test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
                       int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
                       vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count);
     
-    // output pattern
-    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+    // output pattern (legacy)
+    void print_pattern_old(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
                        int32_t nreads_cover_all);
     
@@ -78,6 +93,16 @@ public:
         if (int(x) == 0)
             return 0;
         return x*log(x);
+    }
+    
+    inline int32_t get_max_count(unordered_set<uint32_t> &pattern, vector<int32_t> &temp_count_var)
+    {
+        int32_t max_count = 0;
+        for (auto it=pattern.begin(); it!=pattern.end(); ++it){
+            if (temp_count_var[*it] > max_count && bitcount(*it)>=2)
+                max_count = temp_count_var[*it];
+        }
+        return max_count;
     }
     
 protected:

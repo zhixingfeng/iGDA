@@ -55,7 +55,8 @@ TEST_CASE("test sclust::run()","[hide]")
     string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.sclust";
     
     SClust sclust;
-    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
+    //sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
+    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 10, 10, 1);
 }
 
 TEST_CASE("test sclust::run(), multithread", "[hide]")
@@ -94,7 +95,7 @@ TEST_CASE("Test sclust::summary()")
     string sclust_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000";
     string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000.summary";
     SClust sclust;
-    sclust.summary(sclust_file, out_file, 1, 20, 10, 10);
+    sclust.summary(sclust_file, out_file, 20, 10, 10);
     //sclust.summary(pattern_file, out_file, 1, 20);
 
 }
