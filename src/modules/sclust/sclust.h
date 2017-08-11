@@ -28,10 +28,13 @@ public:
     
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
     
-    // merge similar patterns
+    // merge pattern of the same read
     void summary(string sclust_file, string out_file,double min_logLR, int min_count, int min_cvg);
-
-    // merge similar patterns (legacy)
+    
+    // split long subspaces
+    void split_subspace(string cmpreads_file, string out_file, int max_cand_size);
+    
+    // merge pattern of the same read (legacy)
     void summary_old(string sclust_file, string out_file, double min_ratio, double min_logLR, 
                  int min_count, int min_cvg);
 

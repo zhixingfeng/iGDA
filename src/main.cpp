@@ -188,6 +188,19 @@ int main(int argc, const char * argv[])
             }*/
         }
         
+        // split cmpreads_file
+        if (strcmp(argv[1], "split") == 0){
+            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
+            
+            cmd.parse(argv2);
+            
+            SClust sclust;
+            sclust.split_subspace(cmpreadsfileArg.getValue(), outfileArg.getValue(), maxsubdimArg.getValue());
+        }
+
+        
         // subspace clustering
         if (strcmp(argv[1], "sclust") == 0){
             // parse arguments

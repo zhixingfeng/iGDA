@@ -90,7 +90,7 @@ TEST_CASE("test sclust::cal_logLR()","[hide]")
     cout << "test log LR: " << test_logLR << endl;
 }
 
-TEST_CASE("Test sclust::summary()")
+TEST_CASE("Test sclust::summary()", "[hide]")
 {
     string sclust_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000";
     string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000.summary";
@@ -101,7 +101,14 @@ TEST_CASE("Test sclust::summary()")
 }
 
 
-
+TEST_CASE("Test sclust::split_subspace()")
+{
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
+    string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    SClust sclust;
+    sclust.split_subspace(cmpreads_file, out_file, 15);
+    
+}
 
 
 

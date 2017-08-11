@@ -598,5 +598,58 @@ void SClust::summary_old(string sclust_file, string out_file, double min_ratio, 
     fs_out_file.close();
 }
 
+void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_size)
+{
+    FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
+    if (p_cmpreads_file == NULL)
+        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+    
+    FILE * p_out_file = fopen(out_file.c_str(), "wb");
+    if (p_out_file == NULL)
+        throw runtime_error("DForestSNVMax::run(): fail to open out_file");
+
+    
+    int64_t k = 1;
+    while(1){
+        if (k%10000==0)
+            cout << "poccessed # of subspaces : " << k << endl;
+        
+        // load subspace
+        int cand_loci_size;
+        int read_id;
+        fread(&read_id, sizeof(int), 1, p_cmpreads_file);
+        fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (feof(p_cmpreads_file))
+            break;
+        
+        // split subspace if its size exceeds max_cand_size
+        if (cand_loci.size() > max_cand_size){
+            for (int i=0; i<(int)cand_loci.size()-max_cand_size+1; ++i){
+                fwrite(&read_id, sizeof(int), 1, p_out_file);
+                fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
+                fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
+            }
+        }else{
+            fwrite(&read_id, sizeof(int), 1, p_out_file);
+            fwrite(&cand_loci_size, sizeof(int), 1, p_out_file);
+            fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_out_file);
+        }
+        k++;
+    }
+    cout << "poccessed # of candidates : " << k << endl;
+    fclose(p_cmpreads_file);
+    fclose(p_out_file);
+    
+}
+
+
+
+
+
+
+
+
 
 
