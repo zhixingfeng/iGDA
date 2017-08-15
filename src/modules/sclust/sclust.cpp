@@ -103,12 +103,24 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
             int32_t nreads_cover_all = 0;
             this->count_freq(pattern, nreads_cover_all, cand_loci, temp_id_var, temp_id_read, temp_count_var);
             
-            // get maximum pattern frequency
+            // skip if only few reads covering cand_loci
+            if (nreads_cover_all >= min_cvg){
+                // significance test for each locus in cand_loci
+                vector<double> rl_logLR(cand_loci.size(), 0);
+                vector<int> rl_count(cand_loci.size(), 0);
+                test_pattern(pattern, nreads_cover_all, cand_loci, temp_count_var, min_count, min_logLR, rl_logLR, rl_count);
+                
+                // print results
+                print_pattern(p_outfile, read_id, cand_loci, rl_logLR, rl_count, nreads_cover_all);
+            }
+            
+            
+            /*// get maximum pattern frequency
             int32_t max_count = get_max_count(pattern, temp_count_var);
             
             // skip if only few reads covering cand_loci
             if (nreads_cover_all >= min_cvg && max_count >= min_count){
-                // test pairwise independence 
+                // test pairwise independence
                 vector<vector<double> > pairwise_logLR;
                 this->pairwise_test(pairwise_logLR, cand_loci, temp_id_var, temp_id_read);
                 
@@ -124,7 +136,7 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
                 mtx_sclust.unlock();
                 
                 // test each pattern for significance
-                /*vector<uint32_t> rl_pattern;
+                vector<uint32_t> rl_pattern;
                 vector<int> rl_count; vector<double> rl_ratio; vector<double> rl_logLR;
                 this->test_pattern_old(pattern, nreads_cover_all, temp_count_var, min_ratio, min_count, 
                                    rl_pattern, rl_logLR, rl_ratio, rl_count);
@@ -132,12 +144,15 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
                 // print frequency of pattern
                 mtx_sclust.lock();
                 this->print_pattern_old(p_outfile, read_id, cand_loci, rl_pattern, rl_logLR, rl_ratio, rl_count, nreads_cover_all);
-                mtx_sclust.unlock();*/
-            }
+                mtx_sclust.unlock();
+            }*/
+            
             // clear temp_count_var
             unordered_set<uint32_t>::iterator it;
             for (it=pattern.begin(); it!=pattern.end(); ++it)
                 temp_count_var[*it] = 0;            
+        }else{
+            throw runtime_error("subspace dimnesion >= max_cand_size");
         }
         k++;
     }
@@ -262,8 +277,34 @@ void SClust::pairwise_test(vector<vector<double> > &pairwise_logLR, const vector
     }
 
 }
+void SClust::test_pattern(const unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, const vector<int> &cand_loci, const vector<int32_t> &temp_count_var,
+                          int min_count, double min_logLR, vector<double> &rl_logLR, vector<int> &rl_count)
+{
+    for (auto it = pattern.begin(); it != pattern.end(); ++it){
+        // ignore single variants
+        if (bitcount(*it)<=1)
+            continue;
+        
+        // get significance of variant combinations
+        if (temp_count_var[*it] >= min_count){
+            bitset<32> pattern_bit(*it);
+            for (int i=0; i<(int) cand_loci.size(); ++i){
+                if (pattern_bit[i]){
+                    uint32_t focal_bit = bit_shift[i];
+                    double cur_logLR = cal_logLR(temp_count_var[*it], temp_count_var[focal_bit], temp_count_var[*it-focal_bit], nreads_cover_all);
+                    if (cur_logLR > rl_logLR[i]){
+                        rl_logLR[i] = cur_logLR;
+                        rl_count[i] = temp_count_var[*it];
+                    }
+                }
+            }
+        }
+    }
 
-void SClust::test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
+}
+
+
+/*void SClust::test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
                   int32_t nreads_cover_all, const vector<int32_t> &temp_count_var, int min_count, double min_logLR,
                   vector<uint32_t> &rl_pattern, vector<double> &rl_logLR, vector<int> &rl_count)
 {
@@ -296,9 +337,37 @@ void SClust::test_pattern(const vector<vector<double> > &pairwise_logLR, const u
         }
         
     }
+}*/
+
+void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci,
+                           vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all)
+{
+    // print read id
+    fprintf(p_outfile, "%d\t", read_id);
+    
+    // print subspace
+    for (int j=0; j<(int)cand_loci.size(); ++j)
+        fprintf(p_outfile, "%d,", cand_loci[j]);
+    fprintf(p_outfile, "\t");
+
+    // print number of reads covering the whole subspace
+    fprintf(p_outfile, "%d\t", nreads_cover_all);
+    
+    // print logLR
+    for (int i=0; i<(int)cand_loci.size(); ++i)
+        fprintf(p_outfile, "%lf,", rl_logLR[i]);
+    fprintf(p_outfile, "\t");
+    
+    // print rl_count
+    for (int i=0; i<(int)cand_loci.size(); ++i)
+        fprintf(p_outfile, "%d,", rl_count[i]);
+    fprintf(p_outfile, "\n");
+
+    
 }
 
-void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+
+/*void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                    vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all)
 {
     for (int i=0; i<(int)rl_pattern.size(); ++i){
@@ -331,7 +400,7 @@ void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int>
         //fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
         //                                            rl_count[i], nreads_cover_all);
     }
-}
+}*/
 
 
 void SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)
@@ -397,7 +466,7 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
 
 
 
-void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+/*void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
                           int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
                           vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count)
 {
@@ -426,10 +495,10 @@ void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_c
                         cur_min_logLR = cur_logLR;
                 }
             }
-            /*if (!is_conditioned){
-                cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
-                //cur_min_logLR = 
-            }*/
+            //if (!is_conditioned){
+            //    cur_min_ratio = double(nreads_cover_all) / temp_count_var[*it];
+            //    cur_min_logLR =
+            //}
             
             if (cur_min_ratio >= min_ratio){
                 rl_pattern.push_back(*it);
@@ -439,9 +508,9 @@ void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_c
             }
         }
     }
-}
+}*/
 
-void SClust::print_pattern_old(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+/*void SClust::print_pattern_old(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                    vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, int32_t nreads_cover_all)
 {
     
@@ -475,7 +544,7 @@ void SClust::print_pattern_old(FILE *p_outfile, const int read_id, const vector<
         //fprintf(p_outfile, "\t%u\t%lf\t%lf\t%d\t%d\n", rl_pattern[i], rl_ratio[i], rl_logLR[i],
         //                                            rl_count[i], nreads_cover_all);
     }
-}
+}*/
 
 
 

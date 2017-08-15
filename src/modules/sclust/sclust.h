@@ -38,6 +38,7 @@ public:
     void summary_old(string sclust_file, string out_file, double min_ratio, double min_logLR, 
                  int min_count, int min_cvg);
 
+    
 protected:
     bool run_thread(string cmpreads_file, string out_file, int max_cand_size, 
                     int min_logLR, int min_count, int min_cvg);
@@ -51,23 +52,30 @@ protected:
     void pairwise_test(vector<vector<double> > &pairwise_logLR, const vector<int> &cand_loci,
                        vector<int32_t> &temp_id_var, vector<int32_t> &temp_id_read);
     
-    void test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
+    void test_pattern(const unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, const vector<int> &cand_loci,
+                      const vector<int32_t> &temp_count_var, int min_count, double min_logLR,
+                      vector<double> &rl_logLR, vector<int> &rl_count);
+    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci,
+                       vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all);
+
+    
+    /*void test_pattern(const vector<vector<double> > &pairwise_logLR, const unordered_set<uint32_t> &pattern,
                       int32_t nreads_cover_all, const vector<int32_t> &temp_count_var, 
                       int min_count, double min_logLR,
-                      vector<uint32_t> &rl_pattern, vector<double> &rl_logLR, vector<int> &rl_count);
+                      vector<uint32_t> &rl_pattern, vector<double> &rl_logLR, vector<int> &rl_count);*/
 
-    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
-                           vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all);
+    //void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
+    //                       vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all);
     
     // test significance of patterns (legacy)
-    void test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
+    /*void test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,
                       int min_ratio, int min_count, vector<uint32_t> &rl_pattern, 
                       vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count);
     
     // output pattern (legacy)
     void print_pattern_old(FILE *p_outfile, const int read_id, const vector<int> &cand_loci, vector<uint32_t> &rl_pattern,
                        vector<double> &rl_logLR, vector<double> &rl_ratio, vector<int> &rl_count, 
-                       int32_t nreads_cover_all);
+                       int32_t nreads_cover_all);*/
     
     
 //protected:

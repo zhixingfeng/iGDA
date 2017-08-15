@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524025530.632707"
+            timestampString = "524528286.579678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "SClust::pairwise_test(vector&lt;vector&lt;double&gt; &gt; &amp;pairwise_logLR, const vector&lt;int&gt; &amp;cand_loci, vector&lt;int32_t&gt; &amp;temp_id_var, vector&lt;int32_t&gt; &amp;temp_id_read)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,13 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524025530.632707"
+            timestampString = "524528286.579678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "SClust::pairwise_test(vector&lt;vector&lt;double&gt; &gt; &amp;pairwise_logLR, const vector&lt;int&gt; &amp;cand_loci, vector&lt;int32_t&gt; &amp;temp_id_var, vector&lt;int32_t&gt; &amp;temp_id_read)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524025530.632707"
+            timestampString = "524527987.086585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,13 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524004836.880977"
+            timestampString = "524527987.086585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524025530.632707"
+            timestampString = "524527987.086585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -90,13 +90,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.h"
-            timestampString = "524095628.444827"
+            timestampString = "524527867.267545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "get_max_count(unordered_set&lt;uint32_t&gt; &amp;pattern, vector&lt;int32_t&gt; &amp;temp_count_var)"
-            landmarkType = "7">
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,13 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524025530.632707"
+            timestampString = "524528286.579678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
-            landmarkName = "SClust::test_pattern(const vector&lt;vector&lt;double&gt; &gt; &amp;pairwise_logLR, const unordered_set&lt;uint32_t&gt; &amp;pattern, int32_t nreads_cover_all, const vector&lt;int32_t&gt; &amp;temp_count_var, int min_count, double min_logLR, vector&lt;uint32_t&gt; &amp;rl_pattern, vector&lt;double&gt; &amp;rl_logLR, vector&lt;int&gt; &amp;rl_count)"
-            landmarkType = "7">
+            startingLineNumber = "307"
+            endingLineNumber = "307">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,13 +120,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524026456.773293"
+            timestampString = "524528286.579678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
-            landmarkType = "7">
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/sclust/sclust.cpp"
+            timestampString = "524527987.086585"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/sclust/sclust.cpp"
+            timestampString = "524527987.086585"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
