@@ -47,7 +47,7 @@ double test_cal_logLR(double n_11, double n_10, double n_01, double n_00){
     return test_cal_logL_H1(n_11, n_10, n_01, n_00) - test_cal_logL_H0(n_11, n_10, n_01, n_00);
 }
 
-TEST_CASE("test sclust::run()", "[hide]")
+TEST_CASE("test sclust::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -102,7 +102,7 @@ TEST_CASE("Test sclust::summary()", "[hide]")
 }
 
 
-TEST_CASE("Test sclust::split_subspace()")
+TEST_CASE("Test sclust::split_subspace()","[hide]")
 {
     string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
     string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
