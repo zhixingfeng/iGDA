@@ -707,7 +707,7 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
         }
         k++;
     }
-    cout << "poccessed # of candidates : " << k << endl;
+    cout << "poccessed # of subspaces : " << k << endl;
     fclose(p_cmpreads_file);
     fclose(p_out_file);
     
