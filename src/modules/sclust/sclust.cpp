@@ -402,8 +402,109 @@ void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int>
     }
 }*/
 
-
 void SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)
+{
+    cout << "summary" << endl;
+    ifstream fs_sclust_file;
+    ofstream fs_out_file;
+    open_infile(fs_sclust_file, sclust_file);
+    open_outfile(fs_out_file, out_file);
+    
+    int cur_read_id = -1;
+    //set<int> cur_pattern_pool;
+    map<int, pair<double, int> > pattern_info;
+    
+    while(1){
+        // read sclust_file
+        string buf;
+        getline(fs_sclust_file, buf);
+        if (fs_sclust_file.eof()) break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=5)
+            throw runtime_error("incorrect format in sclust_file");
+        
+        // parse sclust_file
+        int read_id = stoi(buf_vec[0]);
+        vector<int> pattern = split_int(buf_vec[1], ',');
+        int cvg = stoi(buf_vec[2]);
+        vector<double> logLR = split_double(buf_vec[3], ',');
+        vector<int> count = split_int(buf_vec[4], ',');
+        if ( !(pattern.size() == logLR.size() && pattern.size() == count.size()))
+            throw runtime_error("incorrect format: size of pattern, logLR and count don't match.");
+        
+        if (cvg < min_cvg)
+            continue;
+        
+        // merge pattern of the same read
+        if (read_id != cur_read_id){
+            // if it is a new read, print current pattern pool
+            if (cur_read_id >=0 && pattern_info.size() > 0){
+                fs_out_file << cur_read_id << '\t';
+                for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+                    fs_out_file << it->first << ',';
+                fs_out_file << '\t';
+                for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+                    fs_out_file << fixed << setprecision(3) << it->second.first << ',';
+                fs_out_file << '\t';
+                for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+                    fs_out_file << it->second.second << ',';
+                fs_out_file << endl;
+            }
+            
+            // clean pattern_info and add new info
+            pattern_info.clear();
+            cur_read_id = read_id;
+            for (int i=0; i<(int)pattern.size(); ++i){
+                if (logLR[i] < min_logLR || count[i] < min_count)
+                    continue;
+                auto it = pattern_info.find(pattern[i]);
+                if (it == pattern_info.end()){
+                    pattern_info[pattern[i]].first = logLR[i];
+                    pattern_info[pattern[i]].second = count[i];
+                }else{
+                    if (it->second.first < logLR[i]){
+                        it->second.first = logLR[i];
+                        it->second.second = count[i];
+                    }
+                }
+            }
+        }else{
+            // if it is the same read, pool pattern
+            for (int i=0; i<(int)pattern.size(); ++i){
+                if (logLR[i] < min_logLR || count[i] < min_count)
+                    continue;
+                auto it = pattern_info.find(pattern[i]);
+                if (it == pattern_info.end()){
+                    pattern_info[pattern[i]].first = logLR[i];
+                    pattern_info[pattern[i]].second = count[i];
+                }else{
+                    if (it->second.first < logLR[i]){
+                        it->second.first = logLR[i];
+                        it->second.second = count[i];
+                    }
+                }
+            }
+        }
+    }
+    // print the last pattern_info
+    if (cur_read_id >=0 && pattern_info.size() > 0){
+        fs_out_file << cur_read_id << '\t';
+        for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+            fs_out_file << it->first << ',';
+        fs_out_file << '\t';
+        for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+            fs_out_file << fixed << setprecision(3) << it->second.first << ',';
+        fs_out_file << '\t';
+        for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
+            fs_out_file << it->second.second << ',';
+        fs_out_file << endl;
+    }
+
+    fs_sclust_file.close();
+    fs_out_file.close();
+}
+
+/*void SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)
 {
     cout << "summary" << endl;
     ifstream fs_sclust_file;
@@ -463,7 +564,7 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
     fs_sclust_file.close();
     fs_out_file.close();
 }
-
+*/
 
 
 /*void SClust::test_pattern_old(unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, vector<int32_t> &temp_count_var,

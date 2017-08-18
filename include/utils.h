@@ -100,6 +100,19 @@ inline vector<int> split_int(const string &s, char delim) {
     return tokens;
 }
 
+inline vector<double> split_double(const string &s, char delim) {
+    stringstream ss(s);
+    string item;
+    vector<double> tokens;
+    while (getline(ss, item, delim)) {
+        if (item!="")
+            tokens.push_back(stod(item));
+    }
+    return tokens;
+}
+
+
+
 // count 
 
 inline map<string, int> strcount(const vector<string> &str_vec, string empty_key="-", bool ignore_case=true, bool is_prob=false)
