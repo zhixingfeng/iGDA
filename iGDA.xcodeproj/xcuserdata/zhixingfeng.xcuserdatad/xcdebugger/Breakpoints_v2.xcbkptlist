@@ -110,7 +110,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "307"
-            endingLineNumber = "307">
+            endingLineNumber = "307"
+            landmarkName = "SClust::test_pattern(const unordered_set&lt;uint32_t&gt; &amp;pattern, int32_t nreads_cover_all, const vector&lt;int&gt; &amp;cand_loci, const vector&lt;int32_t&gt; &amp;temp_count_var, int min_count, double min_logLR, vector&lt;double&gt; &amp;rl_logLR, vector&lt;int&gt; &amp;rl_count)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -120,11 +122,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524768050.044704"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508">
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -166,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524765988.661447"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -182,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524763871.443074"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -198,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524773979.487961"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -214,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524774109.725086"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "477"
+            endingLineNumber = "477"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -230,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "524775014.950882"
+            timestampString = "525136243.336229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
             landmarkName = "SClust::summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>

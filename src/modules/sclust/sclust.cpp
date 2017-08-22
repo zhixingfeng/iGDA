@@ -415,6 +415,8 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
     open_outfile(fs_out_file, out_file);
     
     int cur_read_id = -1;
+    int cur_start = -1;
+    int cur_end = -1;
     //set<int> cur_pattern_pool;
     map<int, pair<double, int> > pattern_info;
     
@@ -424,15 +426,17 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
         getline(fs_sclust_file, buf);
         if (fs_sclust_file.eof()) break;
         vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size()!=5)
+        if (buf_vec.size()!=7)
             throw runtime_error("incorrect format in sclust_file");
         
         // parse sclust_file
         int read_id = stoi(buf_vec[0]);
-        vector<int> pattern = split_int(buf_vec[1], ',');
-        int cvg = stoi(buf_vec[2]);
-        vector<double> logLR = split_double(buf_vec[3], ',');
-        vector<int> count = split_int(buf_vec[4], ',');
+        int start = stoi(buf_vec[1]);
+        int end = stoi(buf_vec[2]);
+        vector<int> pattern = split_int(buf_vec[3], ',');
+        int cvg = stoi(buf_vec[4]);
+        vector<double> logLR = split_double(buf_vec[5], ',');
+        vector<int> count = split_int(buf_vec[6], ',');
         if ( !(pattern.size() == logLR.size() && pattern.size() == count.size()))
             throw runtime_error("incorrect format: size of pattern, logLR and count don't match.");
         
@@ -444,6 +448,8 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
             // if it is a new read, print current pattern pool
             if (cur_read_id >=0 && pattern_info.size() > 0){
                 fs_out_file << cur_read_id << '\t';
+                fs_out_file << cur_start << '\t';
+                fs_out_file << cur_end << '\t';
                 for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
                     fs_out_file << it->first << ',';
                 fs_out_file << '\t';
@@ -458,6 +464,8 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
             // clean pattern_info and add new info
             pattern_info.clear();
             cur_read_id = read_id;
+            cur_start = start;
+            cur_end = end;
             for (int i=0; i<(int)pattern.size(); ++i){
                 if (logLR[i] < min_logLR || count[i] < min_count)
                     continue;
@@ -474,6 +482,10 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
             }
         }else{
             // if it is the same read, pool pattern
+            if (start < cur_start)
+                cur_start = start;
+            if (end > cur_end)
+                cur_end = end;
             for (int i=0; i<(int)pattern.size(); ++i){
                 if (logLR[i] < min_logLR || count[i] < min_count)
                     continue;
@@ -493,6 +505,8 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
     // print the last pattern_info
     if (cur_read_id >=0 && pattern_info.size() > 0){
         fs_out_file << cur_read_id << '\t';
+        fs_out_file << cur_start << '\t';
+        fs_out_file << cur_end << '\t';
         for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
             fs_out_file << it->first << ',';
         fs_out_file << '\t';
