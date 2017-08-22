@@ -55,7 +55,7 @@ protected:
     void test_pattern(const unordered_set<uint32_t> &pattern, int32_t nreads_cover_all, const vector<int> &cand_loci,
                       const vector<int32_t> &temp_count_var, int min_count, double min_logLR,
                       vector<double> &rl_logLR, vector<int> &rl_count);
-    void print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci,
+    void print_pattern(FILE *p_outfile, const int read_id, const int start, const int end, const vector<int> &cand_loci,
                        vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all);
 
     

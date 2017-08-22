@@ -81,11 +81,13 @@ TEST_CASE("Test cmpreads_bin2txt with read_id","[hide]")
 }
 
 
-TEST_CASE("Test cmpreads_topn","[hide]"){
+TEST_CASE("Test cmpreads_topn", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
-    string out_txtfile = "../results/B_10_cons_cmpreads_topn.txt";
-    string out_binfile = "../results/B_10_cons_cmpreads_topn.bin";
+    //string out_txtfile = "../results/B_10_cons_cmpreads_topn.txt";
+    //string out_binfile = "../results/B_10_cons_cmpreads_topn.bin";
+    string out_txtfile = "../results/B_10_cons_cmpreads_topn.range.txt";
+    string out_binfile = "../results/B_10_cons_cmpreads_topn.range.bin";
     
     clock_t t_begin = clock();
     cmpreads_topn(encode_file, align_file, out_txtfile, 10, 0, true, false);

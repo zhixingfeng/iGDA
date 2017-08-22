@@ -18,6 +18,8 @@ struct ReadMatch
     vector<int> matches;
     double match_rate;
     int n_overlap;
+    int start;
+    int end;
 };
 
 /*inline bool operator < (const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate < dr.match_rate;}
@@ -81,12 +83,15 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
         for (int j=0; j<(int)encode_data.size(); j++){
             if (j == i)
                 continue;
+            
             // get size of overlap of the two reads
-            int n_overlap = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second -
-                            reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first + 1;
+            the_matches[j].start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            the_matches[j].end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = the_matches[j].end - the_matches[j].start + 1;
             if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) && 
                 n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
                 continue;
+            
             
             // get intersection between two reads
             vector<int> cur_match;
@@ -126,11 +131,15 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             if (is_binary){
                 int cur_match_size = (int)the_matches[j].matches.size();
                 fwrite(&i, sizeof(int), 1, p_out_file);
+                fwrite(&the_matches[j].start, sizeof(int), 1, p_out_file);
+                fwrite(&the_matches[j].end, sizeof(int), 1, p_out_file);
                 fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
                 fwrite(&the_matches[j].matches[0], sizeof(int), cur_match_size, p_out_file);
             }else{
-                if (is_print_read_id)
-                    fprintf(p_out_file, "%d\t", i);
+                //if (is_print_read_id)
+                fprintf(p_out_file, "%d\t", i);
+                fprintf(p_out_file, "%d\t", the_matches[j].start);
+                fprintf(p_out_file, "%d\t", the_matches[j].end);
                 for (int k=0; k<(int)the_matches[j].matches.size(); k++)
                     fprintf(p_out_file, "%d,", the_matches[j].matches[k]);
                 fprintf(p_out_file, "\n");
@@ -259,7 +268,11 @@ inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, b
         while(1){
             int cand_loci_size;
             int read_id;
+            int start;
+            int end;
             fread(&read_id, sizeof(int), 1, p_binfile);
+            fread(&start, sizeof(int), 1, p_binfile);
+            fread(&end, sizeof(int), 1, p_binfile);
             fread(&cand_loci_size, sizeof(int), 1, p_binfile);
             vector<int> cand_loci(cand_loci_size,-1);
             fread(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
@@ -267,6 +280,8 @@ inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, b
                 break;
             
             fprintf(p_txtfile, "%d\t", read_id);
+            fprintf(p_txtfile, "%d\t", start);
+            fprintf(p_txtfile, "%d\t", end);
             for (int i = 0; i < cand_loci_size; i++)
                 fprintf(p_txtfile, "%d,", cand_loci[i]);
             fprintf(p_txtfile, "\n");

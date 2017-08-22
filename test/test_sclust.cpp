@@ -47,13 +47,15 @@ double test_cal_logLR(double n_11, double n_10, double n_01, double n_00){
     return test_cal_logL_H1(n_11, n_10, n_01, n_00) - test_cal_logL_H0(n_11, n_10, n_01, n_00);
 }
 
-TEST_CASE("test sclust::run()", "[hide]")
+TEST_CASE("test sclust::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
     //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
-    string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.1_vs_rest.sclust";
+    //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.range.split.bin";
+    
+    string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.1_vs_rest.range.sclust";
     
     SClust sclust;
     //sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
@@ -91,7 +93,7 @@ TEST_CASE("test sclust::cal_logLR()","[hide]")
     cout << "test log LR: " << test_logLR << endl;
 }
 
-TEST_CASE("Test sclust::summary()")
+TEST_CASE("Test sclust::summary()", "[hide]")
 {
     //string sclust_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000";
     //string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.10000.summary";
@@ -104,10 +106,12 @@ TEST_CASE("Test sclust::summary()")
 }
 
 
-TEST_CASE("Test sclust::split_subspace()","[hide]")
+TEST_CASE("Test sclust::split_subspace()", "[hide]")
 {
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
-    string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
+    //string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.range.bin";
+    string out_file = "../results/B_10_cons_cmpreads_topn.range.split.bin";
     SClust sclust;
     sclust.split_subspace(cmpreads_file, out_file, 15);
     

@@ -89,7 +89,11 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
         // load candidate subset
         int cand_loci_size;
         int read_id;
+        int start; 
+        int end;
         fread(&read_id, sizeof(int), 1, p_cmpreads_file);
+        fread(&start, sizeof(int), 1, p_cmpreads_file);
+        fread(&end, sizeof(int), 1, p_cmpreads_file);
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
         vector<int> cand_loci(cand_loci_size,-1);
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
@@ -111,7 +115,7 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
                 test_pattern(pattern, nreads_cover_all, cand_loci, temp_count_var, min_count, min_logLR, rl_logLR, rl_count);
                 
                 // print results
-                print_pattern(p_outfile, read_id, cand_loci, rl_logLR, rl_count, nreads_cover_all);
+                print_pattern(p_outfile, read_id, start, end, cand_loci, rl_logLR, rl_count, nreads_cover_all);
             }
             
             
@@ -339,11 +343,11 @@ void SClust::test_pattern(const unordered_set<uint32_t> &pattern, int32_t nreads
     }
 }*/
 
-void SClust::print_pattern(FILE *p_outfile, const int read_id, const vector<int> &cand_loci,
+void SClust::print_pattern(FILE *p_outfile, const int read_id, const int start, const int end, const vector<int> &cand_loci,
                            vector<double> &rl_logLR, vector<int> &rl_count, int32_t nreads_cover_all)
 {
-    // print read id
-    fprintf(p_outfile, "%d\t", read_id);
+    // print read id, start and end
+    fprintf(p_outfile, "%d\t%d\t%d\t", read_id, start, end);
     
     // print subspace
     for (int j=0; j<(int)cand_loci.size(); ++j)
@@ -787,7 +791,11 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
         // load subspace
         int cand_loci_size;
         int read_id;
+        int start;
+        int end;
         fread(&read_id, sizeof(int), 1, p_cmpreads_file);
+        fread(&start, sizeof(int), 1, p_cmpreads_file);
+        fread(&end, sizeof(int), 1, p_cmpreads_file);
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
         vector<int> cand_loci(cand_loci_size,-1);
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
@@ -798,11 +806,15 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
         if (cand_loci.size() > max_cand_size){
             for (int i=0; i<(int)cand_loci.size()-max_cand_size+1; ++i){
                 fwrite(&read_id, sizeof(int), 1, p_out_file);
+                fwrite(&start, sizeof(int), 1, p_out_file);
+                fwrite(&end, sizeof(int), 1, p_out_file);
                 fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
                 fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
             }
         }else{
             fwrite(&read_id, sizeof(int), 1, p_out_file);
+            fwrite(&start, sizeof(int), 1, p_out_file);
+            fwrite(&end, sizeof(int), 1, p_out_file);
             fwrite(&cand_loci_size, sizeof(int), 1, p_out_file);
             fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_out_file);
         }
