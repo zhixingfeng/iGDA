@@ -419,7 +419,7 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
     int cur_end = -1;
     //set<int> cur_pattern_pool;
     map<int, pair<double, int> > pattern_info;
-    
+    set<int> subspace;
     while(1){
         // read sclust_file
         string buf;
@@ -450,6 +450,9 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
                 fs_out_file << cur_read_id << '\t';
                 fs_out_file << cur_start << '\t';
                 fs_out_file << cur_end << '\t';
+                for (auto it=subspace.begin(); it!=subspace.end(); ++it)
+                    fs_out_file << *it << ',';
+                fs_out_file << '\t';
                 for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
                     fs_out_file << it->first << ',';
                 fs_out_file << '\t';
@@ -463,10 +466,12 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
             
             // clean pattern_info and add new info
             pattern_info.clear();
+            subspace.clear();
             cur_read_id = read_id;
             cur_start = start;
             cur_end = end;
             for (int i=0; i<(int)pattern.size(); ++i){
+                subspace.insert(pattern[i]);
                 if (logLR[i] < min_logLR || count[i] < min_count)
                     continue;
                 auto it = pattern_info.find(pattern[i]);
@@ -487,6 +492,7 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
             if (end > cur_end)
                 cur_end = end;
             for (int i=0; i<(int)pattern.size(); ++i){
+                subspace.insert(pattern[i]);
                 if (logLR[i] < min_logLR || count[i] < min_count)
                     continue;
                 auto it = pattern_info.find(pattern[i]);
@@ -507,6 +513,9 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
         fs_out_file << cur_read_id << '\t';
         fs_out_file << cur_start << '\t';
         fs_out_file << cur_end << '\t';
+        for (auto it=subspace.begin(); it!=subspace.end(); ++it)
+            fs_out_file << *it << ',';
+        fs_out_file << '\t';
         for (auto it=pattern_info.begin(); it!=pattern_info.end(); ++it)
             fs_out_file << it->first << ',';
         fs_out_file << '\t';
