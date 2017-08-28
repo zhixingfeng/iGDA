@@ -323,12 +323,23 @@ inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile)
         getline(p_txtfile, buf);
         if (p_txtfile.eof())
             break;
-        vector<int> cur_data = split_int(buf, ',');
+        vector<string> cur_data = split(buf, '\t');
+        if(cur_data.size() != 4)
+            throw runtime_error("incorrect format in cmpreads_txtfile");
+        
+        int read_id = stoi(cur_data[0]);
+        int start = stoi(cur_data[1]);
+        int end = stoi(cur_data[2]);
+        vector<int> cand_loci = split_int(cur_data[3], ',');
+        int cand_loci_size = (int) cand_loci.size();
+        
         
         // write binary file
-        int cur_data_size = (int)cur_data.size();
-        fwrite(&cur_data_size, sizeof(int), 1, p_binfile);
-        fwrite(&cur_data[0], sizeof(int), cur_data_size, p_binfile);
+        fwrite(&read_id, sizeof(int), 1, p_binfile);
+        fwrite(&start, sizeof(int), 1, p_binfile);
+        fwrite(&end, sizeof(int), 1, p_binfile);
+        fwrite(&cand_loci_size, sizeof(int), 1, p_binfile);
+        fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
     }
     p_txtfile.close();
     fclose(p_binfile);
