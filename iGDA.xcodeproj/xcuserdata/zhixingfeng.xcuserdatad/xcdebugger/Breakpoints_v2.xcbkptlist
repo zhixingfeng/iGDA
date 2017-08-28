@@ -250,12 +250,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/sclust/sclust.cpp"
-            timestampString = "525632468.722592"
+            timestampString = "525640945.843004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "705"
-            endingLineNumber = "705"
+            startingLineNumber = "723"
+            endingLineNumber = "723"
             landmarkName = "SClust::assemble(string summary_file, string out_file, int min_count, int min_cvg)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/sclust/sclust.cpp"
+            timestampString = "525641204.04552"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size, int min_logLR, int min_count, int min_cvg)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
