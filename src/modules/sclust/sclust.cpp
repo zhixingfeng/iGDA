@@ -674,7 +674,54 @@ void SClust::summary(string sclust_file, string out_file, double min_logLR, int 
     }
 }*/
 
+// assembly corrected reads
+void SClust::assemble(string summary_file, string out_file, int min_count, int min_cvg)
+{
+    // scan summary_file and get set of all variants
+    set<uint32_t> node_set;
+    ifstream fs_infile;
+    open_infile(fs_infile, summary_file);
+    while(1){
+        // read line
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=7)
+            throw runtime_error("incorrect format in sclust_file");
+        
+        // parse line
+        vector<int> pattern = split_int(buf_vec[4], ',');
+        for (int i=0; i<(int)pattern.size(); ++i)
+            node_set.insert(pattern[i]);
+    }
+    fs_infile.close();
+    
+    // initialize assembly graph
+    AssemblyGraph assemblygraph(node_set.size(), vector<AssemblyNode>(4, AssemblyNode(4,0) ));
+    
+    // construct assembly graph
+    open_infile(fs_infile, summary_file);
+    while(1){
+        // read line
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=7)
+            throw runtime_error("incorrect format in sclust_file");
+        
+        // parse line 
+        
+    }
 
+    
+    fs_infile.close();
+    
+    
+}
 
 
 // evaluate detected pattern

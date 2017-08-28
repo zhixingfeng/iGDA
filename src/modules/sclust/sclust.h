@@ -15,6 +15,9 @@
 #include <mutex>
 
 
+typedef vector<uint32_t> AssemblyNode;
+typedef vector<vector<AssemblyNode> > AssemblyGraph;
+
 
 class SClust
 {
@@ -29,7 +32,11 @@ public:
     void eval_pattern(string pattern_file, string true_snp_file, string out_file);
     
     // merge pattern of the same read
-    void summary(string sclust_file, string out_file,double min_logLR, int min_count, int min_cvg);
+    void summary(string sclust_file, string out_file, double min_logLR, int min_count, int min_cvg);
+    
+    // assembly corrected reads
+    void assemble(string summary_file, string out_file, int min_count, int min_cvg);
+
     
     // split long subspaces
     void split_subspace(string cmpreads_file, string out_file, int max_cand_size);
