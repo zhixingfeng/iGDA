@@ -10,6 +10,8 @@
 		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
 		DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */; };
 		DC1F870F1EA6E01300D7CDD2 /* test_hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */; };
+		DC2A18891F55E22B001830AE /* assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A18871F55E22B001830AE /* assembler.cpp */; };
+		DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A188A1F55E257001830AE /* test_assembler.cpp */; };
 		DC3AA6C91F18120D005D0DB1 /* sclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC3AA6C71F18120D005D0DB1 /* sclust.cpp */; };
 		DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */; };
 		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
@@ -59,6 +61,9 @@
 		DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hclust.cpp; sourceTree = "<group>"; };
 		DC1F870C1EA6AD2100D7CDD2 /* hclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hclust.h; sourceTree = "<group>"; };
 		DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_hclust.cpp; sourceTree = "<group>"; };
+		DC2A18871F55E22B001830AE /* assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assembler.cpp; sourceTree = "<group>"; };
+		DC2A18881F55E22B001830AE /* assembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assembler.h; sourceTree = "<group>"; };
+		DC2A188A1F55E257001830AE /* test_assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_assembler.cpp; sourceTree = "<group>"; };
 		DC3AA6C71F18120D005D0DB1 /* sclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sclust.cpp; sourceTree = "<group>"; };
 		DC3AA6C81F18120D005D0DB1 /* sclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sclust.h; sourceTree = "<group>"; };
 		DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvmax.cpp; sourceTree = "<group>"; };
@@ -2304,6 +2309,15 @@
 			path = hclust;
 			sourceTree = "<group>";
 		};
+		DC2A18861F55E212001830AE /* assemble */ = {
+			isa = PBXGroup;
+			children = (
+				DC2A18871F55E22B001830AE /* assembler.cpp */,
+				DC2A18881F55E22B001830AE /* assembler.h */,
+			);
+			path = assemble;
+			sourceTree = "<group>";
+		};
 		DC3AA6C61F1811EE005D0DB1 /* sclust */ = {
 			isa = PBXGroup;
 			children = (
@@ -2370,6 +2384,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DC2A18861F55E212001830AE /* assemble */,
 				DC3AA6C61F1811EE005D0DB1 /* sclust */,
 				DC1F870A1EA6ACF200D7CDD2 /* hclust */,
 				DC85626D1E9BFCA5005AE6EB /* errormodel */,
@@ -2415,6 +2430,7 @@
 				DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */,
 				DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */,
 				DCB29D901F1D2F3100705577 /* test_sclust.cpp */,
+				DC2A188A1F55E257001830AE /* test_assembler.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -5860,6 +5876,7 @@
 			files = (
 				DC9318531D5527D200640B65 /* path_traits.cpp in Sources */,
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
+				DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
 				DCB29D911F1D2F3100705577 /* test_sclust.cpp in Sources */,
@@ -5867,6 +5884,7 @@
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
 				DC3AA6C91F18120D005D0DB1 /* sclust.cpp in Sources */,
+				DC2A18891F55E22B001830AE /* assembler.cpp in Sources */,
 				DC92500F1EFAF721005B440D /* dforestsnvfast.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,

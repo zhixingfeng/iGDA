@@ -47,7 +47,7 @@ double test_cal_logLR(double n_11, double n_10, double n_01, double n_00){
     return test_cal_logL_H1(n_11, n_10, n_01, n_00) - test_cal_logL_H0(n_11, n_10, n_01, n_00);
 }
 
-TEST_CASE("test sclust::run(), debug")
+TEST_CASE("test sclust::run(), debug", "[hide]")
 {
     string align_file = "../results/sclust/align/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.clean.m5";
     string encode_file = "../results/sclust/encode/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.encode";
@@ -120,7 +120,7 @@ TEST_CASE("Test sclust::summary()", "[hide]")
 
 }
 
-TEST_CASE("Test sclust::assemble()")
+TEST_CASE("Test sclust::assemble()", "[hide]")
 {
     string summary_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.1_vs_rest.summary.l50";
     string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.1_vs_rest.summary.l50.assembly";

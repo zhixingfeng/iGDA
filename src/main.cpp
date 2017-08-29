@@ -17,6 +17,7 @@
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/hclust/hclust.h"
 #include "../src/modules/sclust/sclust.h"
+#include "../src/modules/assemble/assembler.h"
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -338,6 +339,18 @@ int main(int argc, const char * argv[])
             shell_cmd = "sort -s -u -k1,1n " + sortfile + " > " + maxfile;
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
+        }
+        
+        // get all variants
+        if (strcmp(argv[1], "getvar")==0) {
+            UnlabeledValueArg<string> dforestfileArg("dforestfile", "path of dforest file", true, "", "dforestfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            ValueArg<double> mincondprobArg("c","condprob","minimal conditional probability, default: 0.8", false , 0.8, "condprob", cmd);
+            
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            assembler.get_variants(dforestfileArg.getValue(), outfileArg.getValue(), mincondprobArg.getValue());
         }
 
         // filter output
