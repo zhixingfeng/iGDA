@@ -20,6 +20,7 @@ public:
     
 public:
     void get_variants(string dforest_file, string out_file, double min_condprob);
+    void reduce_dim(string encode_file, string var_file, string out_file);
     
     
 };

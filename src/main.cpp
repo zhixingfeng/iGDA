@@ -352,7 +352,17 @@ int main(int argc, const char * argv[])
             Assembler assembler;
             assembler.get_variants(dforestfileArg.getValue(), outfileArg.getValue(), mincondprobArg.getValue());
         }
-
+        
+        // remove variants out of var_file to reduce dimension
+        if (strcmp(argv[1], "rdim")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> varfileArg("varfile", "path of var file", true, "", "varfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of out file", true, "", "outfile", cmd);
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            assembler.reduce_dim(encodefileArg.getValue(), varfileArg.getValue(), outfileArg.getValue());
+        }
         // filter output
         if (strcmp(argv[1], "filter")==0) {
             UnlabeledValueArg<string> dforestfileArg("dforestfile", "path of dforest output file", true, "", "dforestfile", cmd);
