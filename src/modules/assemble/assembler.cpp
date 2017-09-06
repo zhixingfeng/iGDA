@@ -102,5 +102,61 @@ void Assembler::reduce_dim(string encode_file, string var_file, string out_file)
 
 }
 
-
+void Assembler::dist(string encode_file, string align_file, string out_file)
+{
+    // load encode_file
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load align_file (m5 format)
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file, 'm');
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("size of encode_data and reads_range are different");
+    
+    // scan encode_data to determine size of temp_array
+    int temp_array_size = 0;
+    for (int i = 0; i < encode_data.size(); i++)
+        for (int j = 0; j < encode_data[i].size(); j++)
+            if (encode_data[i][j] > temp_array_size)
+                temp_array_size = encode_data[i][j];
+    temp_array_size++;
+    vector<int> temp_array(temp_array_size, -1);
+    
+    // pairwise comparison
+    ofstream fs_out;
+    open_outfile(fs_out, out_file);
+    for (int i=0; i<(int)encode_data.size(); i++){
+        if ((i+1)%1000==0)
+            cout << "processed " << i+1 << " reads" <<endl;
+        
+        // fill the template array by the variants in the ith read
+        for (int k = 0; k < encode_data[i].size(); k++)
+            temp_array[encode_data[i][k]] = i;
+        
+        
+        // compare other reads to cur_variant
+        for (int j=0; j<(int)encode_data.size(); j++){
+            if (i==j)
+                continue;
+            int n_overlap = (reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second) -
+                 (reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first) + 1;
+            
+            if (n_overlap <= 0)
+                continue;
+            
+            int n_miss = (int)encode_data[i].size();
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (temp_array[encode_data[j][k]] == i)
+                    n_miss--;
+                else
+                    n_miss++;
+            }
+            
+            fs_out << i <<',' << j << ',' <<(double)n_miss / n_overlap << ',' << n_miss << ',' << n_overlap << endl;
+        }
+    }
+    cout << "processed " << encode_data.size() << " reads" <<endl;
+    fs_out.close();
+}
 
