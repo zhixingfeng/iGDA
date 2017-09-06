@@ -29,7 +29,7 @@ TEST_CASE("test assembler::reduce_dim()", "[hide]")
     assembler.reduce_dim(encode_file, var_file, out_file);
 }
 
-TEST_CASE("test assembler::dist()")
+TEST_CASE("test assembler::dist()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -38,7 +38,14 @@ TEST_CASE("test assembler::dist()")
     assembler.dist(encode_file, m5_file, out_file);
 }
 
-
+TEST_CASE("test assembler::jaccard_index()")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string out_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.jaccard";
+    Assembler assembler;
+    assembler.jaccard_index(encode_file, m5_file, out_file);
+}
 
 
 

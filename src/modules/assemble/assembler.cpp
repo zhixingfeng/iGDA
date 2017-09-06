@@ -160,3 +160,88 @@ void Assembler::dist(string encode_file, string align_file, string out_file)
     fs_out.close();
 }
 
+void Assembler::jaccard_index(string encode_file, string align_file, string out_file)
+{
+    // load encode_file
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load align_file (m5 format)
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file, 'm');
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("size of encode_data and reads_range are different");
+    
+    // scan encode_data to determine size of temp_array
+    int temp_array_size = 0;
+    for (int i = 0; i < encode_data.size()-1; i++)
+        for (int j = 0; j < encode_data[i].size(); j++)
+            if (encode_data[i][j] > temp_array_size)
+                temp_array_size = encode_data[i][j];
+    temp_array_size++;
+    vector<int> temp_array(temp_array_size, -1);
+    
+    // pairwise comparison
+    ofstream fs_out;
+    open_outfile(fs_out, out_file);
+    for (int i=0; i<(int)encode_data.size(); i++){
+        if ((i+1)%1000==0)
+            cout << "processed " << i+1 << " reads" <<endl;
+        
+        // fill the template array by the variants in the ith read
+        for (int k = 0; k < encode_data[i].size(); k++)
+            temp_array[encode_data[i][k]] = i;
+        
+        
+        // compare other reads to cur_variant
+        for (int j=i+1; j<(int)encode_data.size(); j++){
+            //if (i==j) continue;
+            
+            int start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            int end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = end - start + 1;
+            
+            int code_start = 4*start;
+            int code_end = 4*end + 3;
+            
+            if (n_overlap <= 0)
+                continue;
+            
+            int n_intersect = 0;
+            int n_union = 0;
+            for (int k = 0; k < encode_data[i].size(); k++){
+                if (encode_data[i][k]>=code_start && encode_data[i][k]<=code_end)
+                    ++n_union;
+            }
+            
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (encode_data[j][k] < code_start || encode_data[j][k] > code_end)
+                    continue;
+                if (temp_array[encode_data[j][k]] == i)
+                    ++n_intersect;
+                else
+                    ++n_union;
+            }
+            
+            double jaccard_index = n_union==0 ? 0 : (double)n_intersect / n_union;
+            
+            fs_out << i <<',' << j << ',' << jaccard_index << ',';
+            fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';
+            fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;
+            
+            fs_out << j <<',' << i << ',' << jaccard_index << ',';
+            fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';
+            fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;
+
+        }
+    }
+    cout << "processed " << encode_data.size() << " reads" <<endl;
+    fs_out.close();
+}
+
+
+
+
+
+
+
