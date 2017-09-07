@@ -131,16 +131,19 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             // print results
             if (is_binary){
                 int cur_match_size = (int)the_matches[j].matches.size();
-                fwrite(&i, sizeof(int), 1, p_out_file);
-                fwrite(&the_matches[j].start, sizeof(int), 1, p_out_file);
-                fwrite(&the_matches[j].end, sizeof(int), 1, p_out_file);
+                if (is_print_read_id){
+                    fwrite(&i, sizeof(int), 1, p_out_file);
+                    fwrite(&the_matches[j].start, sizeof(int), 1, p_out_file);
+                    fwrite(&the_matches[j].end, sizeof(int), 1, p_out_file);
+                }
                 fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
                 fwrite(&the_matches[j].matches[0], sizeof(int), cur_match_size, p_out_file);
             }else{
-                //if (is_print_read_id)
-                fprintf(p_out_file, "%d\t", i);
-                fprintf(p_out_file, "%d\t", the_matches[j].start);
-                fprintf(p_out_file, "%d\t", the_matches[j].end);
+                if (is_print_read_id){
+                    fprintf(p_out_file, "%d\t", i);
+                    fprintf(p_out_file, "%d\t", the_matches[j].start);
+                    fprintf(p_out_file, "%d\t", the_matches[j].end);
+                }
                 for (int k=0; k<(int)the_matches[j].matches.size(); k++)
                     fprintf(p_out_file, "%d,", the_matches[j].matches[k]);
                 fprintf(p_out_file, "\n");
@@ -159,7 +162,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
 
 
 
-inline bool cmpreads(string encode_file, string align_file, string out_file, double min_overlap = 0.25,
+/*inline bool cmpreads(string encode_file, string align_file, string out_file, double min_overlap = 0.25,
                      bool is_rm_single=true, bool is_binary=true)
 {
     // load encode data
@@ -249,10 +252,10 @@ inline bool cmpreads(string encode_file, string align_file, string out_file, dou
         fclose(p_out_textfile);
     
     return true;
-}
+}*/
 
 // convert binary cmpreadsfile to text file
-inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, bool is_read_id=true)
+inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, bool is_read_id=false)
 {
     // open binary file
     FILE *p_binfile = fopen(cmpreads_binfile.c_str(), "rb");
@@ -307,7 +310,7 @@ inline void cmpreads_bin2txt(string cmpreads_binfile, string cmpreads_txtfile, b
 }
 
 // convert text cmpreadsfile to binary file  
-inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile)
+inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile, bool is_read_id=false)
 {
     // open text file
     ifstream p_txtfile;
@@ -323,23 +326,32 @@ inline void cmpreads_txt2bin(string cmpreads_txtfile, string cmpreads_binfile)
         getline(p_txtfile, buf);
         if (p_txtfile.eof())
             break;
-        vector<string> cur_data = split(buf, '\t');
-        if(cur_data.size() != 4)
-            throw runtime_error("incorrect format in cmpreads_txtfile");
         
-        int read_id = stoi(cur_data[0]);
-        int start = stoi(cur_data[1]);
-        int end = stoi(cur_data[2]);
-        vector<int> cand_loci = split_int(cur_data[3], ',');
-        int cand_loci_size = (int) cand_loci.size();
+        if (is_read_id){
+            vector<string> cur_data = split(buf, '\t');
+            if(cur_data.size() != 4)
+                throw runtime_error("incorrect format in cmpreads_txtfile");
+            
+            int read_id = stoi(cur_data[0]);
+            int start = stoi(cur_data[1]);
+            int end = stoi(cur_data[2]);
+            vector<int> cand_loci = split_int(cur_data[3], ',');
+            int cand_loci_size = (int) cand_loci.size();
         
-        
-        // write binary file
-        fwrite(&read_id, sizeof(int), 1, p_binfile);
-        fwrite(&start, sizeof(int), 1, p_binfile);
-        fwrite(&end, sizeof(int), 1, p_binfile);
-        fwrite(&cand_loci_size, sizeof(int), 1, p_binfile);
-        fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+            // write binary file
+            fwrite(&read_id, sizeof(int), 1, p_binfile);
+            fwrite(&start, sizeof(int), 1, p_binfile);
+            fwrite(&end, sizeof(int), 1, p_binfile);
+            fwrite(&cand_loci_size, sizeof(int), 1, p_binfile);
+            fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+        }else{
+            vector<int> cand_loci = split_int(buf, ',');
+            int cand_loci_size = (int) cand_loci.size();
+            
+            // write binary file
+            fwrite(&cand_loci_size, sizeof(int), 1, p_binfile);
+            fwrite(&cand_loci[0], sizeof(int), cand_loci_size, p_binfile);
+        }
     }
     p_txtfile.close();
     fclose(p_binfile);

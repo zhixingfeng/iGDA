@@ -138,7 +138,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> topnArg("p","topn","select top n candidates of each reads, default: 10", false , 0, "topn", cmd);
             ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
             SwitchArg istextArg("t", "text", "is output text file", cmd, false);
-            SwitchArg isrmIDArg("r", "rmreadsID", "is remove reads ID", cmd, false);
+            SwitchArg isreadIDArg("r", "readID", "is print reads ID", cmd, false);
             SwitchArg isnocondprobArg("c", "condprob", "not use conditional probability", cmd, false);
             
             //SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
@@ -147,7 +147,7 @@ int main(int argc, const char * argv[])
             
             cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
                           topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
-                          !isrmIDArg.getValue(), !isnocondprobArg.getValue());
+                          isreadIDArg.getValue(), !isnocondprobArg.getValue());
             
             
             /*if (!isdupArg.getValue()){
@@ -264,21 +264,22 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "bin2txt") == 0) {
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
             UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
-            SwitchArg isrmIDArg("r", "rmreadsID", "is remove reads ID", cmd, false);
+            SwitchArg isreadIDArg("r", "readID", "is use reads ID", cmd, false);
             
             cmd.parse(argv2);
             
-            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), !isrmIDArg.getValue());
+            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), isreadIDArg.getValue());
         }
         
         // convert text cmpreadsfile to binary
         if (strcmp(argv[1], "txt2bin")==0) {
             UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
+            SwitchArg isreadIDArg("r", "readID", "is use reads ID", cmd, false);
             
             cmd.parse(argv2);
             
-            cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue());
+            cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue(), isreadIDArg.getValue());
         }
         
         // dforest algorithm
