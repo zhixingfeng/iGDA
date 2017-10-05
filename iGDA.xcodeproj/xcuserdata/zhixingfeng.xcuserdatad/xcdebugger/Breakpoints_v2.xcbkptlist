@@ -288,7 +288,7 @@
             startingLineNumber = "61"
             endingLineNumber = "61"
             landmarkName = "Assembler::reduce_dim(string encode_file, string var_file, string out_file)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

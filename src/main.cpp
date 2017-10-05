@@ -442,6 +442,18 @@ int main(int argc, const char * argv[])
             HClust hclust;
             hclust.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), isnmissArg.getValue());
         }
+        // calculate pairwise jaccard index of reads
+        if (strcmp(argv[1], "jaccard")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            assembler.jaccard_index(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
+        }
+
         
     }
     catch(const std::overflow_error& e) {

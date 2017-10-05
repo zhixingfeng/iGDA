@@ -81,7 +81,7 @@ TEST_CASE("Test cmpreads_bin2txt with read_id","[hide]")
 }
 
 
-TEST_CASE("Test cmpreads_topn"){
+TEST_CASE("Test cmpreads_topn", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     //string out_txtfile = "../results/B_10_cons_cmpreads_topn.txt";
