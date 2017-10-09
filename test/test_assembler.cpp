@@ -29,7 +29,7 @@ TEST_CASE("test assembler::reduce_dim()", "[hide]")
     assembler.reduce_dim(encode_file, var_file, out_file);
 }
 
-TEST_CASE("test assembler::dist()", "[hide]")
+TEST_CASE("test assembler::dist()")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";

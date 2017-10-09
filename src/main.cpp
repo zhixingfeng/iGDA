@@ -435,12 +435,14 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
-            SwitchArg isnmissArg("n", "nmiss", "is ouput number of mismatches", cmd, false);
+            //SwitchArg isnmissArg("n", "nmiss", "is ouput number of mismatches", cmd, false);
             
             cmd.parse(argv2);
             
-            HClust hclust;
-            hclust.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), isnmissArg.getValue());
+            Assembler assembler;
+            assembler.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
+            //HClust hclust;
+            //hclust.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), isnmissArg.getValue());
         }
         // calculate pairwise jaccard index of reads
         if (strcmp(argv[1], "jaccard")==0) {
