@@ -139,20 +139,37 @@ void Assembler::dist(string encode_file, string align_file, string out_file)
         for (int j=0; j<(int)encode_data.size(); j++){
             if (i==j)
                 continue;
-            int n_overlap = (reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second) -
-                 (reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first) + 1;
+            int overlap_start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            int overlap_end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = overlap_end - overlap_start + 1;
+            //int n_overlap = (reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second) -
+            //     (reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first) + 1;
             
             if (n_overlap <= 0)
                 continue;
             
-            int n_miss = (int)encode_data[i].size();
-            for (int k = 0; k < encode_data[j].size(); k++){
-                if (temp_array[encode_data[j][k]] == i)
-                    n_miss--;
-                else
-                    n_miss++;
+            // scan read i, only retain variants in [overlap_start, overlap_end]
+            int n_miss = 0;
+            for (int k = 0; k < encode_data[i].size(); k++){
+                if (encode_data[i][k] >= overlap_start*4 &&
+                    encode_data[i][k] <= overlap_end*4 + 3){
+                    ++n_miss;
+                }
             }
             
+            // scan read j, only retain variants in [overlap_start, overlap_end]
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (encode_data[j][k] >= overlap_start*4 &&
+                    encode_data[j][k] <= overlap_end*4 + 3){
+                    if (temp_array[encode_data[j][k]] == i)
+                        --n_miss;
+                    else
+                        ++n_miss;
+                    
+                }
+            }
+            
+            // print results
             fs_out << i <<',' << j << ',' <<(double)n_miss / n_overlap << ',' << n_miss << ',' << n_overlap << endl;
         }
     }
