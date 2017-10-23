@@ -177,6 +177,115 @@ void Assembler::dist(string encode_file, string align_file, string out_file)
     fs_out.close();
 }
 
+
+void Assembler::dist_rdim(string encode_file, string align_file, string var_file, string out_file)
+{
+    // load encode_file
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load align_file (m5 format)
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file, 'm');
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("size of encode_data and reads_range are different");
+    
+    // get maximal genome posotion
+    int genome_size = 0;
+    for (int i=0; i<(int)reads_range.size(); ++i)
+        genome_size = genome_size < reads_range[i].second ? reads_range[i].second : genome_size;
+    
+    ++genome_size;
+    
+    // cumulated cdf of var
+    ifstream fs_var_file;
+    open_infile(fs_var_file, var_file);
+    vector<int> cdf_var(genome_size, 0);
+    int cur_count = 0;
+    int pre_pos = 0;
+    while (1){
+        string buf;
+        getline(fs_var_file, buf);
+        if (fs_var_file.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=9)
+            throw runtime_error("incorrect format in var_file");
+        int cur_pos = stod(buf_vec[0]);
+        ++cur_count;
+        for (int i=pre_pos; i<=cur_pos; ++i)
+            cdf_var[i] = cur_count;
+        pre_pos = cur_pos + 1;
+    }
+    fs_var_file.close();
+    
+    // scan encode_data to determine size of temp_array
+    int temp_array_size = 0;
+    for (int i = 0; i < encode_data.size(); i++)
+        for (int j = 0; j < encode_data[i].size(); j++)
+            if (encode_data[i][j] > temp_array_size)
+                temp_array_size = encode_data[i][j];
+    temp_array_size++;
+    vector<int> temp_array(temp_array_size, -1);
+    
+    // pairwise comparison
+    ofstream fs_out;
+    open_outfile(fs_out, out_file);
+    for (int i=0; i<(int)encode_data.size(); i++){
+        if ((i+1)%1000==0)
+            cout << "processed " << i+1 << " reads" <<endl;
+        
+        // fill the template array by the variants in the ith read
+        for (int k = 0; k < encode_data[i].size(); k++)
+            temp_array[encode_data[i][k]] = i;
+        
+        
+        // compare other reads to cur_variant
+        for (int j=0; j<(int)encode_data.size(); j++){
+            if (i==j)
+                continue;
+            int overlap_start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            int overlap_end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = overlap_end - overlap_start + 1;
+           
+            // calculate number of variants in [overlap_start, overlap_end]
+            int n_var = cdf_var[overlap_end] - cdf_var[overlap_start];
+
+            if (n_overlap <= 0 || cdf_var[overlap_end] - cdf_var[overlap_start] <=0)
+                continue;
+            
+            // scan read i, only retain variants in [overlap_start, overlap_end]
+            int n_miss = 0;
+            for (int k = 0; k < encode_data[i].size(); k++){
+                if (encode_data[i][k] >= overlap_start*4 &&
+                    encode_data[i][k] <= overlap_end*4 + 3){
+                    ++n_miss;
+                }
+            }
+            
+            // scan read j, only retain variants in [overlap_start, overlap_end]
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (encode_data[j][k] >= overlap_start*4 &&
+                    encode_data[j][k] <= overlap_end*4 + 3){
+                    if (temp_array[encode_data[j][k]] == i)
+                        --n_miss;
+                    else
+                        ++n_miss;
+                    
+                }
+            }
+            
+            // print results
+            fs_out << i <<',' << j << ',' <<(double)n_miss / n_var << ',' << n_miss << ',' << n_var << ',' << n_overlap << endl;
+        }
+    }
+    cout << "processed " << encode_data.size() << " reads" <<endl;
+    fs_out.close();
+
+}
+
+
+
 void Assembler::jaccard_index(string encode_file, string align_file, string out_file)
 {
     // load encode_file

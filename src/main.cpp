@@ -435,14 +435,23 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
-            //SwitchArg isnmissArg("n", "nmiss", "is ouput number of mismatches", cmd, false);
+            UnlabeledValueArg<string> varfileArg("varfile", "path of var file", false, "", "varfile", cmd, true);
             
             cmd.parse(argv2);
             
+            cout << "encodefile: " << encodefileArg.getValue() << endl;
+            cout << "alignfile: " << alignfileArg.getValue() << endl;
+            cout << "outfile: " << outfileArg.getValue() << endl;
+            if (varfileArg.getValue()=="")
+                cout << "no varfile provided" << endl;
+            else
+                cout << "varfile: " << varfileArg.getValue() << endl;
             Assembler assembler;
-            assembler.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
-            //HClust hclust;
-            //hclust.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), isnmissArg.getValue());
+            if (varfileArg.getValue()=="")
+                assembler.dist(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
+            else
+                assembler.dist_rdim(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue());
+            
         }
         // calculate pairwise jaccard index of reads
         if (strcmp(argv[1], "jaccard")==0) {
