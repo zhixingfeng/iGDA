@@ -276,7 +276,7 @@ void Assembler::dist_rdim(string encode_file, string align_file, string var_file
             }
             
             // print results
-            fs_out << i <<',' << j << ',' <<(double)n_miss / n_var << ',' << n_miss << ',' << n_var << ',' << n_overlap << endl;
+            fs_out << i <<',' << j << ',' <<(double)n_miss / n_var << ',' << n_miss << ',' << n_overlap <<',' << n_var<< endl;
         }
     }
     cout << "processed " << encode_data.size() << " reads" <<endl;
