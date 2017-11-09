@@ -366,6 +366,84 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 }
 
 
+void Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
+                               vector<int> &centroid, vector<int> &idx_on, vector<int> &idx_off)
+{
+    // setup template vector for centroid
+    int temp_size = *max_element(begin(centroid), end(centroid)) + 1;
+    vector<bool> temp_vec(temp_size, false);
+    for (int i=0; i<(int)centroid.size(); ++i)
+        temp_vec[centroid[i]] = true;
+    
+    // match all the reads to the template vector
+    for (int i=0; i<(int)encode_data.size(); ++i){
+        int n_match = 0;
+        for (int j=0; j<(int)encode_data[i].size(); ++j){
+            if (encode_data[i][j]>=temp_size)
+                break;
+            if (temp_vec[encode_data[i][j]])
+                ++n_match;
+        }
+        if (n_match>centroid.size())
+            throw runtime_error("n_match > centroid.size() at line " + to_string(i));
+        
+        // if #shared variants between reads and centroid >= 50%, then they are grouped and index is put in idx_on otherwise idx_off
+        if (n_match>= (int)centroid.size()/2)
+            idx_on.push_back(i);
+        else
+            idx_off.push_back(i);
+    }
+    
+    // recalculate new centroid
+    int centroid_range_code_start = 4*centroid_range.first;
+    int centroid_range_code_end = 4*centroid_range.second + 3;
+    temp_size = 4*centroid_range.second+3 + 1;
+    vector<int> temp_vec_var(temp_size, 0);
+    vector<int> temp_vec_reads(temp_size, 0);
+    set<int> var_list;
+    
+    // pileup variants and count number of variants in each position
+    for (int i=0; i<(int)idx_on.size(); ++i){
+        
+        for (int j=0; j<(int)encode_data[idx_on[i]].size(); ++j){
+            if (encode_data[idx_on[i]][j] < centroid_range_code_start)
+                continue;
+            if (encode_data[idx_on[i]][j] > centroid_range_code_end)
+                break;
+            ++temp_vec_var[ encode_data[idx_on[i]][j] ];
+            var_list.insert(encode_data[idx_on[i]][j]);
+        }
+    }
+    
+    // for each variants in var_list, cacculate number of reads covering it.
+    vector<int> var_list_vec(var_list.size(), 0);
+    int vec_i = 0;
+    for (auto it=var_list.begin(); it!=var_list.end(); ++it){
+        var_list_vec[vec_i] = *it; ++vec_i;
+    }
+    
+    for (int i=0; i<(int)idx_on.size(); ++i){
+        int cur_reads_range_code_start = 4*reads_range[idx_on[i]].first;
+        int cur_reads_range_code_end = 4*reads_range[idx_on[i]].second + 3;
+        for (int j=0; j<(int)var_list_vec.size(); ++j){
+            if (var_list_vec[j] >= cur_reads_range_code_start &&
+                var_list_vec[j] <= cur_reads_range_code_end)
+                ++temp_vec_reads[ var_list_vec[j] ];
+        }
+    }
+    
+    // calculate new centroid
+    vector<int> new_centroid;
+    for (int i=0; i<(int)var_list_vec.size(); ++i){
+        if (temp_vec_var[ var_list_vec[i] ] >= temp_vec_reads[ var_list_vec[i] ]/2)
+            new_centroid.push_back(var_list_vec[i]);
+    }
+    cout << centroid << endl;
+    cout << new_centroid << endl;
+}
+
+
+
 
 
 

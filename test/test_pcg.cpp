@@ -10,7 +10,7 @@
 #include "../include/headers.h"
 #include "../tools/tools.h"
 
-TEST_CASE("test randomly choose one element from a vector")
+TEST_CASE("test randomly choose one element from a vector", "[hide]")
 {
     // Seed with a real random value, if available
     pcg_extras::seed_seq_from<std::random_device> seed_source;

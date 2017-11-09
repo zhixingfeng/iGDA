@@ -8,6 +8,7 @@
 
 #include "../include/catch.hpp"
 #include "../include/headers.h"
+#include "../src/misc/io.h"
 #include "../src/modules/assemble/assembler.h"
 
 
@@ -56,6 +57,24 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     Assembler assembler;
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
+
+TEST_CASE("test assembler::mat_fac_rank_1()")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    loadencodedata(encode_data, encode_file);
+    loadreadsrange(reads_range, m5_file);
+    
+    vector<int> idx_on; vector<int> idx_off;
+    Assembler assembler;
+    assembler.mat_fac_rank_1(encode_data, reads_range, reads_range[0], encode_data[0], idx_on, idx_off);
+}
+
+
+
 
 
 
