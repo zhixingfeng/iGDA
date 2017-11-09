@@ -2280,6 +2280,9 @@
 		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnv.cpp; sourceTree = "<group>"; };
 		DCC3160B1DF7817000CEED79 /* dforestsnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnv.h; sourceTree = "<group>"; };
+		DCD493931FB4BCC20011F28B /* pcg_extras.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_extras.hpp; sourceTree = "<group>"; };
+		DCD493941FB4BCC20011F28B /* pcg_random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_random.hpp; sourceTree = "<group>"; };
+		DCD493951FB4BCC20011F28B /* pcg_uint128.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_uint128.hpp; sourceTree = "<group>"; };
 		DCD5FC881DAAE74A0062ADEF /* condfreq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = condfreq.h; sourceTree = "<group>"; };
 		DCD5FC891DAAE79F0062ADEF /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
@@ -2438,6 +2441,7 @@
 		DC930F371D5527CF00640B65 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				DCD493921FB4BCC20011F28B /* pcg */,
 				DC7018CC1D8110F600890781 /* khash.h */,
 				DC930F381D5527CF00640B65 /* boost */,
 				DC93182F1D5527D200640B65 /* tclap */,
@@ -5799,6 +5803,16 @@
 				DC5083B91F015AB300063BEA /* dforestsnvmax.h */,
 			);
 			path = dforest;
+			sourceTree = "<group>";
+		};
+		DCD493921FB4BCC20011F28B /* pcg */ = {
+			isa = PBXGroup;
+			children = (
+				DCD493931FB4BCC20011F28B /* pcg_extras.hpp */,
+				DCD493941FB4BCC20011F28B /* pcg_random.hpp */,
+				DCD493951FB4BCC20011F28B /* pcg_uint128.hpp */,
+			);
+			path = pcg;
 			sourceTree = "<group>";
 		};
 		DCFEC5931D5BCCC10025E57C /* misc */ = {
