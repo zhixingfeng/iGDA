@@ -365,9 +365,46 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
+int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                    const ReadRange &centroid_range, vector<int> &centroid,
+                    vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int max_iter)
+{
+    vector<int> old_centroid = centroid;
+    vector<int> old_idx_on = idx_on;
+    vector<int> old_idx_off = idx_off;
+    
+    int n_iter = 0;
+    for (int i=0; i<=max_iter; ++i){
+        vector<int> new_centroid = old_centroid;
+        vector<int> new_idx_on, new_idx_off;
+        mat_fac_rank_1_core(encode_data, reads_range, centroid_range,
+                            new_centroid, new_idx_on, new_idx_off);
+        
+        ++n_iter;
 
-void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
-                               vector<int> &centroid, vector<int> &idx_on, vector<int> &idx_off)
+        // stop if centroid has no change or too few reads match
+        if (new_centroid == old_centroid || new_idx_on.size() < min_idx_on){
+            old_idx_on = new_idx_on;
+            old_idx_off = new_idx_off;
+            break;
+        }
+        
+        // if not converge yet, update old_centroid and go on
+        old_centroid = new_centroid;
+        old_idx_on = new_idx_on;
+        old_idx_off = new_idx_off;
+    }
+    
+    centroid = old_centroid;
+    idx_on = old_idx_on;
+    idx_off = old_idx_off;
+    
+    return n_iter;
+}
+
+void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                                    const ReadRange &centroid_range, vector<int> &centroid,
+                                    vector<int> &idx_on, vector<int> &idx_off)
 {
     // setup template vector for centroid
     int temp_size = *max_element(begin(centroid), end(centroid)) + 1;

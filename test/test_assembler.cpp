@@ -59,7 +59,32 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::mat_fac_rank_1_core()")
+TEST_CASE("test assembler::mat_fac_rank_1()")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    loadencodedata(encode_data, encode_file);
+    loadreadsrange(reads_range, m5_file);
+    
+    vector<int> idx_on; vector<int> idx_off;
+    Assembler assembler;
+    ReadRange centroid_range = reads_range[199];
+    vector<int> centroid = encode_data[199];
+    cout << "centroid_range : [" << centroid_range.first<< "," << centroid_range.second << "]" << endl;
+    cout << "centroid : " << centroid << endl;
+    int n_iter = assembler.mat_fac_rank_1(encode_data, reads_range, centroid_range,
+                                          centroid, idx_on, idx_off, 10, 100);
+    cout << "new centroid : " << centroid << endl;
+    cout << "idx_on : " << idx_on << endl;
+    cout << "number of iteration : " << n_iter << endl;
+}
+
+
+
+TEST_CASE("test assembler::mat_fac_rank_1_core()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
