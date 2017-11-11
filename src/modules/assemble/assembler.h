@@ -27,7 +27,7 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
-    void mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
+    void mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
                         vector<int> &centroid, vector<int> &idx_on, vector<int> &idx_off);
 }
 ;

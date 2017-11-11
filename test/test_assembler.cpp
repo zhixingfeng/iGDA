@@ -9,6 +9,7 @@
 #include "../include/catch.hpp"
 #include "../include/headers.h"
 #include "../src/misc/io.h"
+#include "../src/misc/basic.h"
 #include "../src/modules/assemble/assembler.h"
 
 
@@ -58,7 +59,7 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::mat_fac_rank_1()")
+TEST_CASE("test assembler::mat_fac_rank_1_core()")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -70,7 +71,13 @@ TEST_CASE("test assembler::mat_fac_rank_1()")
     
     vector<int> idx_on; vector<int> idx_off;
     Assembler assembler;
-    assembler.mat_fac_rank_1(encode_data, reads_range, reads_range[0], encode_data[0], idx_on, idx_off);
+    ReadRange centroid_range = reads_range[1];
+    vector<int> centroid = encode_data[1];
+    cout << "centroid_range : [" << centroid_range.first<< "," << centroid_range.second << "]" << endl;
+    cout << "centroid : " << centroid << endl;
+    assembler.mat_fac_rank_1_core(encode_data, reads_range, centroid_range, centroid, idx_on, idx_off);
+    cout << "new centroid : " << centroid << endl;
+    cout << "idx_on : " << idx_on << endl;
 }
 
 

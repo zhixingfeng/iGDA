@@ -366,7 +366,7 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 }
 
 
-void Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
+void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
                                vector<int> &centroid, vector<int> &idx_on, vector<int> &idx_off)
 {
     // setup template vector for centroid
@@ -438,8 +438,8 @@ void Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const ve
         if (temp_vec_var[ var_list_vec[i] ] >= temp_vec_reads[ var_list_vec[i] ]/2)
             new_centroid.push_back(var_list_vec[i]);
     }
-    cout << centroid << endl;
-    cout << new_centroid << endl;
+   
+    centroid = new_centroid;
 }
 
 
