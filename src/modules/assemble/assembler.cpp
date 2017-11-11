@@ -388,7 +388,7 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
             throw runtime_error("n_match > centroid.size() at line " + to_string(i));
         
         // if #shared variants between reads and centroid >= 50%, then they are grouped and index is put in idx_on otherwise idx_off
-        if (n_match>= (int)centroid.size()/2)
+        if (n_match>= ceil(double(centroid.size()) / 2))
             idx_on.push_back(i);
         else
             idx_off.push_back(i);
@@ -435,7 +435,7 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
     // calculate new centroid
     vector<int> new_centroid;
     for (int i=0; i<(int)var_list_vec.size(); ++i){
-        if (temp_vec_var[ var_list_vec[i] ] >= temp_vec_reads[ var_list_vec[i] ]/2)
+        if (temp_vec_var[ var_list_vec[i] ] >= ceil(double(temp_vec_reads[var_list_vec[i]]) / 2))
             new_centroid.push_back(var_list_vec[i]);
     }
    
