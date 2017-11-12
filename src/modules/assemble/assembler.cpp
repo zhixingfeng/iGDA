@@ -369,6 +369,9 @@ int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vec
                     const ReadRange &centroid_range, vector<int> &centroid,
                     vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int max_iter)
 {
+    if (centroid.size()==0)
+        return 0;
+    
     vector<int> old_centroid = centroid;
     vector<int> old_idx_on = idx_on;
     vector<int> old_idx_off = idx_off;
