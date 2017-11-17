@@ -365,49 +365,9 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
-int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                    const ReadRange &centroid_range, vector<int> &centroid,
-                    vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int max_iter)
-{
-    if (centroid.size()==0)
-        return 0;
-    
-    vector<int> old_centroid = centroid;
-    vector<int> old_idx_on = idx_on;
-    vector<int> old_idx_off = idx_off;
-    
-    int n_iter = 0;
-    for (int i=0; i<=max_iter; ++i){
-        vector<int> new_centroid = old_centroid;
-        vector<int> new_idx_on, new_idx_off;
-        mat_fac_rank_1_core(encode_data, reads_range, centroid_range,
-                            new_centroid, new_idx_on, new_idx_off);
-        
-        ++n_iter;
 
-        // stop if centroid has no change or too few reads match
-        if (new_centroid == old_centroid || new_idx_on.size() < min_idx_on){
-            old_idx_on = new_idx_on;
-            old_idx_off = new_idx_off;
-            break;
-        }
-        
-        // if not converge yet, update old_centroid and go on
-        old_centroid = new_centroid;
-        old_idx_on = new_idx_on;
-        old_idx_off = new_idx_off;
-    }
-    
-    centroid = old_centroid;
-    idx_on = old_idx_on;
-    idx_off = old_idx_off;
-    
-    return n_iter;
-}
-
-void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                                    const ReadRange &centroid_range, vector<int> &centroid,
-                                    vector<int> &idx_on, vector<int> &idx_off)
+void Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const ReadRange &centroid_range,
+                               vector<int> &centroid, vector<int> &idx_on, vector<int> &idx_off)
 {
     // setup template vector for centroid
     int temp_size = *max_element(begin(centroid), end(centroid)) + 1;
@@ -428,7 +388,7 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
             throw runtime_error("n_match > centroid.size() at line " + to_string(i));
         
         // if #shared variants between reads and centroid >= 50%, then they are grouped and index is put in idx_on otherwise idx_off
-        if (n_match>= ceil(double(centroid.size()) / 2))
+        if (n_match>= (int)centroid.size()/2)
             idx_on.push_back(i);
         else
             idx_off.push_back(i);
@@ -475,11 +435,11 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
     // calculate new centroid
     vector<int> new_centroid;
     for (int i=0; i<(int)var_list_vec.size(); ++i){
-        if (temp_vec_var[ var_list_vec[i] ] >= ceil(double(temp_vec_reads[var_list_vec[i]]) / 2))
+        if (temp_vec_var[ var_list_vec[i] ] >= temp_vec_reads[ var_list_vec[i] ]/2)
             new_centroid.push_back(var_list_vec[i]);
     }
-   
-    centroid = new_centroid;
+    cout << centroid << endl;
+    cout << new_centroid << endl;
 }
 
 
