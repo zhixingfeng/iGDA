@@ -14,6 +14,9 @@
 		DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A188A1F55E257001830AE /* test_assembler.cpp */; };
 		DC3AA6C91F18120D005D0DB1 /* sclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC3AA6C71F18120D005D0DB1 /* sclust.cpp */; };
 		DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */; };
+		DC516C041FCDE4C500D324DB /* ssw.c in Sources */ = {isa = PBXBuildFile; fileRef = DC516C001FCDE4C500D324DB /* ssw.c */; };
+		DC516C051FCDE4C500D324DB /* ssw_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC516C021FCDE4C500D324DB /* ssw_cpp.cpp */; };
+		DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC516C061FCDE8E800D324DB /* test_ssw.cpp */; };
 		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
 		DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */; };
 		DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */; };
@@ -69,6 +72,11 @@
 		DC3AA6C81F18120D005D0DB1 /* sclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sclust.h; sourceTree = "<group>"; };
 		DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvmax.cpp; sourceTree = "<group>"; };
 		DC5083B91F015AB300063BEA /* dforestsnvmax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnvmax.h; sourceTree = "<group>"; };
+		DC516C001FCDE4C500D324DB /* ssw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssw.c; sourceTree = "<group>"; };
+		DC516C011FCDE4C500D324DB /* ssw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssw.h; sourceTree = "<group>"; };
+		DC516C021FCDE4C500D324DB /* ssw_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ssw_cpp.cpp; sourceTree = "<group>"; };
+		DC516C031FCDE4C500D324DB /* ssw_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssw_cpp.h; sourceTree = "<group>"; };
+		DC516C061FCDE8E800D324DB /* test_ssw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_ssw.cpp; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
 		DC85626E1E9C04B5005AE6EB /* errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errormodel.cpp; sourceTree = "<group>"; };
@@ -2332,6 +2340,17 @@
 			path = sclust;
 			sourceTree = "<group>";
 		};
+		DC516BFF1FCDE4C500D324DB /* ssw */ = {
+			isa = PBXGroup;
+			children = (
+				DC516C001FCDE4C500D324DB /* ssw.c */,
+				DC516C011FCDE4C500D324DB /* ssw.h */,
+				DC516C021FCDE4C500D324DB /* ssw_cpp.cpp */,
+				DC516C031FCDE4C500D324DB /* ssw_cpp.h */,
+			);
+			path = ssw;
+			sourceTree = "<group>";
+		};
 		DC85626D1E9BFCA5005AE6EB /* errormodel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2437,6 +2456,7 @@
 				DCB29D901F1D2F3100705577 /* test_sclust.cpp */,
 				DC2A188A1F55E257001830AE /* test_assembler.cpp */,
 				DCD493961FB4BD1F0011F28B /* test_pcg.cpp */,
+				DC516C061FCDE8E800D324DB /* test_ssw.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -2444,6 +2464,7 @@
 		DC930F371D5527CF00640B65 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				DC516BFF1FCDE4C500D324DB /* ssw */,
 				DCD493921FB4BCC20011F28B /* pcg */,
 				DC7018CC1D8110F600890781 /* khash.h */,
 				DC930F381D5527CF00640B65 /* boost */,
@@ -5906,7 +5927,9 @@
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,
 				DC9318491D5527D200640B65 /* main.cpp in Sources */,
+				DC516C051FCDE4C500D324DB /* ssw_cpp.cpp in Sources */,
 				DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */,
+				DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DCC3160C1DF7817000CEED79 /* dforestsnv.cpp in Sources */,
@@ -5922,6 +5945,7 @@
 				DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */,
 				DC9318571D5527D200640B65 /* windows_file_codecvt.cpp in Sources */,
 				DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */,
+				DC516C041FCDE4C500D324DB /* ssw.c in Sources */,
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,
 				DC93184E1D5527D200640B65 /* test_AlignCoder.cpp in Sources */,
 				DC9318541D5527D200640B65 /* portability.cpp in Sources */,

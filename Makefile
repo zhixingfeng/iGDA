@@ -1,8 +1,9 @@
-CC = g++
+CXX = g++
+CC = gcc
 INCLUDES = -I include -I tools/boost/include -I tools
 CXX_FLAGS = -pthread -std=c++11 -w -O3 
 
-SRC = $(wildcard src/*.cpp) \
+SRC_CXX = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/aligncoder/*.cpp)\
 	$(wildcard src/modules/alignreader/*.cpp)\
 	$(wildcard src/modules/dforest/*.cpp)\
@@ -12,10 +13,14 @@ SRC = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/assemble/*.cpp)\
 	$(wildcard test/*.cpp) \
 	$(wildcard tools/boost/src/filesystem/*.cpp) \
-	$(wildcard tools/boost/src/system/*.cpp) 
-    
+	$(wildcard tools/boost/src/system/*.cpp) \
+	$(wildcard tools/ssw/*.cpp) 
 
-OBJ = $(SRC:.cpp=.o)
+SRC_C = $(wildcard tools/ssw/*.c)
+
+OBJ_CXX = $(SRC_CXX:.cpp=.o)
+
+OBJ_C = $(SRC_C:.c=.o)
 
 all: mkbin igda rmobj
 	
@@ -23,14 +28,16 @@ all: mkbin igda rmobj
 mkbin:
 	mkdir -p bin
 	
-igda: $(OBJ) 
-	$(CC) -o bin/igda $^ $(CXX_FLAGS)
+igda: $(OBJ_CXX) $(OBJ_C) 
+	$(CXX) -o bin/igda $^ $(CXX_FLAGS)
 
 %.o: %.cpp
-	$(CC) $(INCLUDES) -c $< -o $@ $(CXX_FLAGS)
+	$(CXX) $(INCLUDES) -c $< -o $@ $(CXX_FLAGS)
 
+%.o: %.c
+	$(CC) $(INCLUDES) -c $< -o $@ 
 rmobj:
-	rm -f $(OBJ)
+	rm -f $(OBJ_CXX)
 
 .PHONY: clean
 clean:
