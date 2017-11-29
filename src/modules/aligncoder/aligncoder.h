@@ -12,6 +12,7 @@
 #include <headers.h>
 #include "../alignreader/alignreader.h"
 #include "../alignreader/alignreaderm5.h"
+#include "../../../tools/tools.h"
 
 class AlignCoder
 {
