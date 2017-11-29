@@ -17,6 +17,7 @@
 		DC516C041FCDE4C500D324DB /* ssw.c in Sources */ = {isa = PBXBuildFile; fileRef = DC516C001FCDE4C500D324DB /* ssw.c */; };
 		DC516C051FCDE4C500D324DB /* ssw_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC516C021FCDE4C500D324DB /* ssw_cpp.cpp */; };
 		DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC516C061FCDE8E800D324DB /* test_ssw.cpp */; };
+		DC516C0B1FCF04DD00D324DB /* alignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC516C091FCF04DD00D324DB /* alignment.cpp */; };
 		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
 		DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */; };
 		DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */; };
@@ -77,6 +78,8 @@
 		DC516C021FCDE4C500D324DB /* ssw_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ssw_cpp.cpp; sourceTree = "<group>"; };
 		DC516C031FCDE4C500D324DB /* ssw_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssw_cpp.h; sourceTree = "<group>"; };
 		DC516C061FCDE8E800D324DB /* test_ssw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_ssw.cpp; sourceTree = "<group>"; };
+		DC516C091FCF04DD00D324DB /* alignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alignment.cpp; sourceTree = "<group>"; };
+		DC516C0A1FCF04DD00D324DB /* alignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alignment.h; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
 		DC85626E1E9C04B5005AE6EB /* errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errormodel.cpp; sourceTree = "<group>"; };
@@ -2351,6 +2354,15 @@
 			path = ssw;
 			sourceTree = "<group>";
 		};
+		DC516C081FCF04B700D324DB /* alignment */ = {
+			isa = PBXGroup;
+			children = (
+				DC516C091FCF04DD00D324DB /* alignment.cpp */,
+				DC516C0A1FCF04DD00D324DB /* alignment.h */,
+			);
+			path = alignment;
+			sourceTree = "<group>";
+		};
 		DC85626D1E9BFCA5005AE6EB /* errormodel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2408,6 +2420,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DC516C081FCF04B700D324DB /* alignment */,
 				DC2A18861F55E212001830AE /* assemble */,
 				DC3AA6C61F1811EE005D0DB1 /* sclust */,
 				DC1F870A1EA6ACF200D7CDD2 /* hclust */,
@@ -5913,6 +5926,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC9318531D5527D200640B65 /* path_traits.cpp in Sources */,
+				DC516C0B1FCF04DD00D324DB /* alignment.cpp in Sources */,
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
