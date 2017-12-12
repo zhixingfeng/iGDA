@@ -105,7 +105,7 @@ int AlignCoderSNV::binary_code(int pos, char base)
     return 4*pos + shift;
 }
 
-bool AlignCoderSNV::encode_ssw(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
+bool AlignCoderSNV::encode(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
                                int start_pos, vector<int> &encode_data)
 {
     // scan cigar to encode the variants (only work for positive strand !!)

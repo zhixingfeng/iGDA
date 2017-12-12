@@ -24,7 +24,7 @@ public:
     int binary_code(int pos, char base);
     
     // encode alignment result of ssw, start_pos is 0-based !
-    bool encode_ssw(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
+    bool encode(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
                     int start_pos, vector<int> &encode_data);
 
 };

@@ -533,7 +533,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_AlignCoder.cpp"
@@ -542,7 +542,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode_ssw&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -574,7 +574,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "71"
             endingLineNumber = "71"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode_ssw&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
