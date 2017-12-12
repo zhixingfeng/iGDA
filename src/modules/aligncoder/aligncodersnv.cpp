@@ -106,7 +106,7 @@ int AlignCoderSNV::binary_code(int pos, char base)
 }
 
 bool AlignCoderSNV::encode_ssw(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
-                               vector<int> &encode_data)
+                               int start_pos, vector<int> &encode_data)
 {
     // scan cigar to encode the variants (only work for positive strand !!)
     int read_pos = alignment.query_begin;
@@ -142,7 +142,7 @@ bool AlignCoderSNV::encode_ssw(const StripedSmithWaterman::Alignment &alignment,
             // if cigar_type is X, encode the variant and shift read_pos and ref_pos
             case 8:
                 for (int j=0; j<(int)cigar_len; ++j){
-                    encode_data.push_back(binary_code(ref_pos+j, read[read_pos+j]));
+                    encode_data.push_back(binary_code(start_pos + ref_pos + j, read[read_pos+j]));
                 }
                 read_pos += cigar_len;
                 ref_pos += cigar_len;

@@ -67,7 +67,7 @@ TEST_CASE("test AlignCoderSNV::encode_ssw")
     cout << result.cigar_string << endl;
     AlignCoderSNV aligncodersnv;
     vector<int> encode_data;
-    aligncodersnv.encode_ssw(result, read, ref, encode_data);
+    aligncodersnv.encode_ssw(result, read, ref, 0, encode_data);
     cout << encode_data << endl;
     
 }
