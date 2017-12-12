@@ -35,5 +35,20 @@ inline string getrevcomp(string dnaseq)
     return revseq;
 }
 
+// remove - from sequence
+inline string rm_indel_from_seq(const string & dnaseq)
+{
+    string seq_clean = "";
+    for (int i=0; i<(int)dnaseq.size(); ++i)
+        if (dnaseq[i]!='-')
+            seq_clean.push_back(dnaseq[i]);
+    return seq_clean;
+}
 
 #endif /* seqopt_h */
+
+
+
+
+
+

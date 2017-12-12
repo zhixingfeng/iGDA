@@ -537,12 +537,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_AlignCoder.cpp"
-            timestampString = "533678419.329296"
+            timestampString = "534794176.556244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;)"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -569,12 +569,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_AlignCoder.cpp"
-            timestampString = "533678419.329296"
+            timestampString = "534794176.556244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;)"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -591,6 +591,22 @@
             startingLineNumber = "68"
             endingLineNumber = "68"
             landmarkName = "TEST_CASE(&quot;test Alignment::local_align()&quot;, &quot;[hide]&quot;)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/test_AlignCoder.cpp"
+            timestampString = "534794173.786588"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw) for a whole .m5 file&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
