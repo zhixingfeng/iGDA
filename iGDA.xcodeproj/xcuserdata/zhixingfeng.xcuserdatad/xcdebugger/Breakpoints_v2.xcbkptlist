@@ -606,7 +606,23 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "98"
             endingLineNumber = "98"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw) for a whole .m5 file&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::encode (ssw) for a whole .m5 file&quot;, &quot;[hide]&quot;)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/test_stxxl.cpp"
+            timestampString = "534879449.914994"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "TEST_CASE(&quot;test vector of vector&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
