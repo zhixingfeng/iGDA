@@ -638,7 +638,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
             endingLineNumber = "36"
-            landmarkName = "TEST_CASE(&quot;Test AlignReaderM5 read()&quot;)"
+            landmarkName = "TEST_CASE(&quot;Test AlignReaderM5 read()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -102,6 +102,40 @@ TEST_CASE("Test cmpreads_topn", "[hide]"){
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
+TEST_CASE("Test cmpreads_topn (read data from memory or stxxl)"){
+    string encode_file = "../results/B_10_cons.encode";
+    string align_file = "../data/B_10_cons.m5";
+    string out_txtfile = "../results/B_10_cons_cmpreads_topn.norange.txt.stxxl";
+    
+    // load encode_data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load align_data
+    AlignReaderM5 AlignReaderM5_obj;
+    stxxl::vector<Align> align_data;
+    AlignReaderM5_obj.read(align_file, align_data);
+
+    // run cmpreads_topn
+    stxxl::vector<vector<int> > cmpreads_data;
+    clock_t t_begin = clock();
+    cmpreads_topn(encode_data, align_data, cmpreads_data, 10, 0, true, false, false);
+    clock_t t_end = clock();
+
+    // print results
+    ofstream fs_outfile; open_outfile(fs_outfile, out_txtfile);
+    for (int i=0; i<(int)cmpreads_data.size(); ++i)
+        fs_outfile << cmpreads_data[i] << "," << endl;
+    fs_outfile.close();
+    
+    /*clock_t t_begin = clock();
+    cmpreads_topn(encode_file, align_file, out_txtfile, 10, 0, true, false, false);
+    clock_t t_end = clock();
+    cout << "time for compare reads (text output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
+    */
+    
+}
+
 
 /*TEST_CASE("Test cmpreads","[hide]"){
     string encode_file = "../results/B_10_cons.encode";

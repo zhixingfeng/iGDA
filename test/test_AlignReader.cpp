@@ -23,7 +23,7 @@ TEST_CASE("Test AlignReaderM5", "[hide]"){
     p_align->close();
 }
 
-TEST_CASE("Test AlignReaderM5 read()"){
+TEST_CASE("Test AlignReaderM5 read()", "[hide]"){
     AlignReaderM5 AlignReaderM5_obj;
     AlignReader *p_align = &AlignReaderM5_obj;
     
