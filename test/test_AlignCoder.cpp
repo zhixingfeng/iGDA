@@ -75,8 +75,8 @@ TEST_CASE("test AlignCoderSNV::encode (ssw)", "[hide]")
 
 TEST_CASE("test AlignCoderSNV::encode (ssw) for a whole .m5 file")
 {
-    string m5_file = "../data/B_10_cons_forward.m5";
-    string encode_file = "../results/B_10_cons_forward.encode.ssw";
+    string m5_file = "../data/MSSA_61_forward.m5";
+    string encode_file = "../results/MSSA_61_forward.encode.ssw";
     ofstream fs_encode; open_outfile(fs_encode, encode_file);
     
     AlignReaderM5 alignreader;
