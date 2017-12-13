@@ -9,6 +9,7 @@
 #include "pcg/pcg_random.hpp"
 #include "ssw/ssw_cpp.h"
 #include <stxxl.h>
+#include "kseq.h"
 //#include "pcg/pcg_uint128.hpp"
 //#include "pcg/pcg_extras.hpp"
 

@@ -2302,6 +2302,7 @@
 		DCE2FA131FE183DF00E629D0 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		DCE2FA161FE184BD00E629D0 /* test_stxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_stxxl.cpp; sourceTree = "<group>"; };
 		DCE2FA181FE1863E00E629D0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		DCE2FA191FE1A75600E629D0 /* kseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kseq.h; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
 		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
@@ -2484,6 +2485,7 @@
 		DC930F371D5527CF00640B65 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				DCE2FA191FE1A75600E629D0 /* kseq.h */,
 				DC516BFF1FCDE4C500D324DB /* ssw */,
 				DCD493921FB4BCC20011F28B /* pcg */,
 				DC7018CC1D8110F600890781 /* khash.h */,
@@ -6081,7 +6083,10 @@
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "-lstxxl";
+				OTHER_LDFLAGS = (
+					"-lstxxl",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -6101,7 +6106,10 @@
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "-lstxxl";
+				OTHER_LDFLAGS = (
+					"-lstxxl",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
