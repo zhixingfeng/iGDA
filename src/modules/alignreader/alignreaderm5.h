@@ -19,11 +19,16 @@ public:
     
     // open align file
     bool open(string filename);
+    
     // read a line of align file
     bool readline(Align &align);
+    
     // close align file
     bool close();
     
+    // read all alignment and store it into stxxl vector
+    bool read(string filename, stxxl::vector<Align> &align_vec);
+
 protected:
     string filename;
     ifstream p_file;

@@ -52,3 +52,18 @@ bool AlignReaderM5::close() {
     return true;
 }
 
+
+bool AlignReaderM5::read(string filename, stxxl::vector<Align> &align_vec)
+{
+    Align align;
+    
+    this->open(filename);
+    while (this->readline(align)){
+        align.qSeq = rm_indel_from_seq(align.qAlignedSeq);
+        align.tSeq = rm_indel_from_seq(align.tAlignedSeq);
+        align_vec.push_back(align);
+    }
+    this->close();
+
+    return true;
+}

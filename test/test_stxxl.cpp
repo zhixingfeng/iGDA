@@ -33,7 +33,7 @@ TEST_CASE("test stxxl", "[hide]")
 }
 
 
-TEST_CASE("test vector of vector")
+TEST_CASE("test vector of vector", "[hide]")
 {
     stxxl::vector<vector<int> > cmpreads;
     // read

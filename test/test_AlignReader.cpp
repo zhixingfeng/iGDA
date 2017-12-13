@@ -22,3 +22,19 @@ TEST_CASE("Test AlignReaderM5", "[hide]"){
     }
     p_align->close();
 }
+
+TEST_CASE("Test AlignReaderM5 read()"){
+    AlignReaderM5 AlignReaderM5_obj;
+    AlignReader *p_align = &AlignReaderM5_obj;
+    
+    // read m5 file
+    stxxl::vector<Align> align_vec;
+    p_align->read("../data/MSSA_61_forward.m5", align_vec);
+    
+    // write m5 file
+    ofstream fs_outfile; open_outfile(fs_outfile, "../data/MSSA_61_forward.m5.qAlignedSeq.reconstruct");
+    for (int i=0; i<(int)align_vec.size(); ++i){
+        fs_outfile << align_vec[i].qAlignedSeq << endl;
+    }
+    fs_outfile.close();
+}

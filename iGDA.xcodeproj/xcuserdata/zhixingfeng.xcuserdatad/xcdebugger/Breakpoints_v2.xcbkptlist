@@ -622,7 +622,23 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "TEST_CASE(&quot;test vector of vector&quot;)"
+            landmarkName = "TEST_CASE(&quot;test vector of vector&quot;, &quot;[hide]&quot;)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/test_AlignReader.cpp"
+            timestampString = "534885044.856296"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "TEST_CASE(&quot;Test AlignReaderM5 read()&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
