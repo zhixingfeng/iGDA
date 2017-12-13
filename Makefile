@@ -1,7 +1,8 @@
 CXX = g++
 CC = gcc
-INCLUDES = -I include -I tools/boost/include -I tools
-CXX_FLAGS = -pthread -std=c++11 -w -O3 
+INCLUDES = -I include -I tools/boost/include -I tools -I tools/stxxl/build/local/stxxl/include
+LIBS = -L tools/stxxl/build/local/stxxl/lib
+CXX_FLAGS = -pthread -std=c++11 -w -O3 -lstxxl
 
 SRC_CXX = $(wildcard src/*.cpp) \
 	$(wildcard src/modules/aligncoder/*.cpp)\
@@ -29,7 +30,7 @@ mkbin:
 	mkdir -p bin
 	
 igda: $(OBJ_CXX) $(OBJ_C) 
-	$(CXX) -o bin/igda $^ $(CXX_FLAGS)
+	$(CXX) -o bin/igda $^ $(LIBS) $(CXX_FLAGS)
 
 %.o: %.cpp
 	$(CXX) $(INCLUDES) -c $< -o $@ $(CXX_FLAGS)

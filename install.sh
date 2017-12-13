@@ -8,3 +8,6 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./local/stxxl ..
 make install
 
+# configure stxxl
+echo "disk=./tmp_stxxl,128G,syscall unlink" > bin/.stxxl
+

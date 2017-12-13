@@ -43,6 +43,7 @@
 		DCB29D911F1D2F3100705577 /* test_sclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCB29D901F1D2F3100705577 /* test_sclust.cpp */; };
 		DCC3160C1DF7817000CEED79 /* dforestsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC3160A1DF7817000CEED79 /* dforestsnv.cpp */; };
 		DCD493971FB4BD1F0011F28B /* test_pcg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCD493961FB4BD1F0011F28B /* test_pcg.cpp */; };
+		DCE2FA151FE183F600E629D0 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = DCE2FA141FE183F600E629D0 /* Makefile */; };
 		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
 		DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCFEC5961D5BD12B0025E57C /* test_misc.cpp */; };
 /* End PBXBuildFile section */
@@ -2298,6 +2299,8 @@
 		DCD493961FB4BD1F0011F28B /* test_pcg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_pcg.cpp; sourceTree = "<group>"; };
 		DCD5FC881DAAE74A0062ADEF /* condfreq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = condfreq.h; sourceTree = "<group>"; };
 		DCD5FC891DAAE79F0062ADEF /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
+		DCE2FA131FE183DF00E629D0 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
+		DCE2FA141FE183F600E629D0 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
 		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
@@ -2377,6 +2380,8 @@
 		DC930F0C1D55274600640B65 = {
 			isa = PBXGroup;
 			children = (
+				DCE2FA141FE183F600E629D0 /* Makefile */,
+				DCE2FA131FE183DF00E629D0 /* install.sh */,
 				DCB714DE1D62426000666D59 /* data */,
 				DC930F1F1D5527CF00640B65 /* include */,
 				DC930F261D5527CF00640B65 /* src */,
@@ -5961,6 +5966,7 @@
 				DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */,
 				DC516C041FCDE4C500D324DB /* ssw.c in Sources */,
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,
+				DCE2FA151FE183F600E629D0 /* Makefile in Sources */,
 				DC93184E1D5527D200640B65 /* test_AlignCoder.cpp in Sources */,
 				DC9318541D5527D200640B65 /* portability.cpp in Sources */,
 			);
@@ -6068,9 +6074,14 @@
 					include,
 					tools/boost/include,
 					tools,
+					tools/stxxl/build/local/stxxl/include,
 				);
+				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-lstxxl",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -6085,9 +6096,14 @@
 					include,
 					tools/boost/include,
 					tools,
+					tools/stxxl/build/local/stxxl/include,
 				);
+				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-lstxxl",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
