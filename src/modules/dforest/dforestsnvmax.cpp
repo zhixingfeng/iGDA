@@ -9,6 +9,10 @@
 #include "dforestsnvmax.h"
 mutex mtx_snvmax;
 
+/*---------input from memory/stxxl containers------------*/
+
+
+/*-------------- input from files---------------*/
 bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq)
 {
     this->result.clear();
