@@ -73,7 +73,7 @@ TEST_CASE("test AlignCoderSNV::encode (ssw)", "[hide]")
     
 }
 
-TEST_CASE("test AlignCoderSNV::encode (ssw) for a whole .m5 file")
+TEST_CASE("test AlignCoderSNV::encode (ssw) for a whole .m5 file", "[hide]")
 {
     string m5_file = "../data/MSSA_61_forward.m5";
     string encode_file = "../results/MSSA_61_forward.encode.ssw";

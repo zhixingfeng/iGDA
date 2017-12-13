@@ -527,7 +527,7 @@
             startingLineNumber = "40"
             endingLineNumber = "40"
             landmarkName = "TEST_CASE(&quot;test ssw&quot;, &quot;[hide]&quot;)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -559,7 +559,7 @@
             startingLineNumber = "69"
             endingLineNumber = "69"
             landmarkName = "TEST_CASE(&quot;test Alignment::local_align()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -591,7 +591,7 @@
             startingLineNumber = "68"
             endingLineNumber = "68"
             landmarkName = "TEST_CASE(&quot;test Alignment::local_align()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
