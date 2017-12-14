@@ -97,7 +97,7 @@ TEST_CASE("Test cmpreads_topn", "[hide]"){
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
-TEST_CASE("Test cmpreads_topn (read data from memory or stxxl)"){
+TEST_CASE("Test cmpreads_topn (read data from memory or stxxl)", "[hide]"){
     string encode_file = "../results/B_10_cons.encode";
     string align_file = "../data/B_10_cons.m5";
     string out_txtfile = "../results/B_10_cons_cmpreads_topn.norange.txt.stxxl";
