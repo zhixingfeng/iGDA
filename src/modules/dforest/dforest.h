@@ -24,6 +24,7 @@
 #include "../aligncoder/aligncodersnv.h"
 #include <thread>
 #include <mutex>
+#include <stxxl.h>
 
 // define final result. (locus here means coded locus)
 struct DforestResult{
@@ -50,6 +51,17 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     virtual ~DForest(){}
+    
+    inline void call_pileup_var(const vector<vector<int> > &encode_data){
+        pu_var = pileup_var(encode_data, n_reads);
+    }
+    inline void call_pileup_reads(const stxxl::vector<Align> &align_data, char format = 'm'){
+        int64_t cur_n_reads;
+        pu_read = pileup_reads(align_data, cur_n_reads, format);
+        if (cur_n_reads != n_reads)
+            throw runtime_error("number of reads in align_file and encode_file are different");
+    }
+
     
     inline void call_pileup_var(string encode_file){
         pu_var = pileup_var(encode_file, n_reads);

@@ -52,7 +52,7 @@ TEST_CASE("test pileup_var() (input from file)", "[hide]")
     fs_out.close();
 }
 
-TEST_CASE("test pileup_reads() (input from memory/stxxl)")
+TEST_CASE("test pileup_reads() (input from memory/stxxl)", "[hide]")
 {
     clock_t t_begin = clock();
     string align_file = "../data/B_10_cons.m5";
@@ -76,7 +76,7 @@ TEST_CASE("test pileup_reads() (input from memory/stxxl)")
     fs_out.close();
 }
 
-TEST_CASE("test pileup_reads() (input from file)")
+TEST_CASE("test pileup_reads() (input from file)", "[hide]")
 {
     clock_t t_begin = clock();
     string align_file = "../data/B_10_cons.m5";
