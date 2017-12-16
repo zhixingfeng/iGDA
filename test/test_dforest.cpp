@@ -16,7 +16,56 @@
 
 #include <ctime>
 
-TEST_CASE("test DForest::run()")
+TEST_CASE("test DForest::run() (input from memory/stxxl)")
+{
+    string align_file = "../data/B_10_cons.m5";
+    string encode_file = "../results/B_10_cons.encode";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.txt";
+    string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.txt.stxxl";
+    AlignReaderM5 alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNVMax forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+    cout << "load encode_data" << endl;
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+
+    cout << "load alignment" << endl;
+    AlignReaderM5 AlignReaderM5_obj;
+    stxxl::vector<Align> align_data;
+    AlignReaderM5_obj.read(align_file, align_data);
+
+    cout << "cmpreads" << endl;
+    stxxl::vector<vector<int> > cmpreads_data;
+    
+    //cmpreads_topn(encode_data, align_data, cmpreads_data, 10, 0, true, false, false);
+
+    cout << "dforest" << endl;
+    int start_time= (int)clock();
+    ptr_forest->run(encode_data, align_data, cmpreads_data, 8, 5, 1);
+    int stop_time= (int)clock();
+    
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+    
+    // write results (unordered) to outfile
+    ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
+    unordered_map<int, DforestResult> result = ptr_forest->get_result();
+    for (auto it = result.begin(); it!=result.end(); ++it){
+        if (it->second.link_loci.size() > 0 && it->second.p_y_xp >= 0){
+            fs_outfile << it->second.focal_locus << '\t' << it->second.bf << '\t'
+            << it->second.p_y_xp << '\t' << it->second.n_y_xp << '\t'
+            << it->second.n_xp << '\t' << it->second.link_loci.size() << '\t';
+            for (int j = 0; j < it->second.link_loci.size(); j++)
+                fs_outfile << it->second.link_loci[j] << ',';
+            fs_outfile << endl;
+        }
+    }
+    fs_outfile.close();
+}
+
+
+TEST_CASE("test DForest::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -43,7 +92,7 @@ TEST_CASE("test DForest::filter()", "[hide]")
     
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNV forestsnv(&alignreader, &aligncoder);
+    DForestSNVMax forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     ptr_forest->filter(dforest_file, out_file, 0.5);
 }

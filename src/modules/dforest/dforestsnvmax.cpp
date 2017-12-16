@@ -10,6 +10,30 @@
 mutex mtx_snvmax;
 
 /*---------input from memory/stxxl containers------------*/
+bool DForestSNVMax::run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
+         const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+         int n_thread, double minfreq)
+{
+    this->result.clear();
+    cout << "number of threads: " << n_thread << endl;
+    
+    // load encode and alignment files
+    cout << "pileup encode_file" << endl;
+    call_pileup_var(encode_data);
+    cout << "pileup align_file" << endl;
+    call_pileup_reads(align_data);
+
+    // single thread
+    if (n_thread==1){
+        run_thread_stxxl(cmpreads_data, min_reads, max_depth, minfreq);
+    }else {
+        
+    }
+   
+    return true;
+}
+
+
 
 
 /*-------------- input from files---------------*/
@@ -192,6 +216,26 @@ void DForestSNVMax::build_tree(FILE * p_outfile, const vector<int> &cand_loci, i
     
 }
 
+bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth, double minfreq)
+{
+    // prepare buff of results and template
+    vector<int64_t> temp_vec_var(this->n_reads, -1);
+    vector<int64_t> temp_vec_read(this->n_reads, -1);
+    
+    // set counter and scan the candidates
+    int64_t counter = 0;
+    for (int64_t i=0; i<(int64_t)cmpreads_data.size(); ++i){
+        if (i % 10000==0)
+            cout << "poccessed # of candidates : " << i << endl;
+        
+        this->build_tree(NULL, cmpreads_data[i], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
+    }
+   
+    cout << "poccessed # of candidates : " << cmpreads_data.size() << endl;
+    
+    
+    return true;
+}
 bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
 {
     

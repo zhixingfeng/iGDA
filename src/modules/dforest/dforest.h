@@ -62,7 +62,6 @@ public:
             throw runtime_error("number of reads in align_file and encode_file are different");
     }
 
-    
     inline void call_pileup_var(string encode_file){
         pu_var = pileup_var(encode_file, n_reads);
     }
@@ -72,6 +71,7 @@ public:
         if (cur_n_reads != n_reads)
             throw runtime_error("number of reads in align_file and encode_file are different");
     }
+    
     inline int64_t get_n_reads(){return n_reads;}
     inline vector<vector<int> > get_pileup_var(){return pu_var;}
     inline vector<vector<int> > get_pileup_reads(){return pu_read;}
@@ -82,10 +82,15 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     
-    virtual bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0)=0;
+    virtual bool run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
+                     const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+                     int n_thread=1, double minfreq=0)=0;
     
+    virtual bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0)=0;
+        
     virtual void build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq) = 0;
     
+    virtual unordered_map<int, DforestResult> get_result()=0;
     void filter(string dforest_file, string out_file, double minfreq);
     
 protected:
