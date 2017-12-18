@@ -38,8 +38,7 @@ TEST_CASE("test DForest::run() (input from memory/stxxl)")
 
     cout << "cmpreads" << endl;
     stxxl::vector<vector<int> > cmpreads_data;
-    
-    //cmpreads_topn(encode_data, align_data, cmpreads_data, 10, 0, true, false, false);
+    loadcmpreads(cmpreads_data, cmpreads_file);
 
     cout << "dforest" << endl;
     int start_time= (int)clock();
@@ -54,18 +53,19 @@ TEST_CASE("test DForest::run() (input from memory/stxxl)")
     for (auto it = result.begin(); it!=result.end(); ++it){
         if (it->second.link_loci.size() > 0 && it->second.p_y_xp >= 0){
             fs_outfile << it->second.focal_locus << '\t' << it->second.bf << '\t'
-            << it->second.p_y_xp << '\t' << it->second.n_y_xp << '\t'
-            << it->second.n_xp << '\t' << it->second.link_loci.size() << '\t';
+                        << it->second.p_y_xp << '\t' << it->second.n_y_xp << '\t'
+                        << it->second.n_xp << '\t' << it->second.link_loci.size() << '\t';
             for (int j = 0; j < it->second.link_loci.size(); j++)
                 fs_outfile << it->second.link_loci[j] << ',';
             fs_outfile << endl;
         }
     }
     fs_outfile.close();
+    
 }
 
 
-TEST_CASE("test DForest::run()", "[hide]")
+TEST_CASE("test DForest::run()")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";

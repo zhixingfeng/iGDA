@@ -225,9 +225,9 @@ bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads
     // set counter and scan the candidates
     int64_t counter = 0;
     for (int64_t i=0; i<(int64_t)cmpreads_data.size(); ++i){
-        if (i % 10000==0)
-            cout << "poccessed # of candidates : " << i << endl;
-        
+        if ((i+1) % 10000==0)
+            cout << "poccessed # of candidates : " << i+1 << endl;
+        //cout << cmpreads_data[i] << endl;
         this->build_tree(NULL, cmpreads_data[i], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
     }
    

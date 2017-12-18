@@ -10,9 +10,27 @@
 #define io_h
 #include "../../include/headers.h"
 #include "../modules/alignreader/alignreaderm5.h"
+#include <stxxl.h>
 
 typedef pair<int,int> ReadRange;
 
+// read cmpreads from .cmpreads files (text format)
+inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
+{
+    ifstream p_cmpreads_file; open_infile(p_cmpreads_file, cmpreads_file);
+    while (true) {
+        string buf;
+        getline(p_cmpreads_file, buf);
+        if (p_cmpreads_file.eof())
+            break;
+        cmpreads_data.push_back(split_int(buf, ','));
+    }
+    p_cmpreads_file.close();
+    return true;
+
+}
+
+// load encode data
 inline bool loadencodedata(vector<vector<int> > &encode_data, string encode_file)
 {
     ifstream p_encode_file; open_infile(p_encode_file, encode_file);
