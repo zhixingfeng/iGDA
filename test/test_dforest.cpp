@@ -16,7 +16,7 @@
 
 #include <ctime>
 
-TEST_CASE("test DForest::run() (input from memory/stxxl)")
+TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -65,7 +65,7 @@ TEST_CASE("test DForest::run() (input from memory/stxxl)")
 }
 
 
-TEST_CASE("test DForest::run()")
+TEST_CASE("test DForest::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
