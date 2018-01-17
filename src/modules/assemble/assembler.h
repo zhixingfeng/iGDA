@@ -30,11 +30,11 @@ public:
     // rank 1 matrix facterization, return number of iteration. 
     int mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                         const ReadRange &centroid_range, vector<int> &centroid,
-                        vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int max_iter);
+                        vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int min_overlap, int max_iter);
     
     void mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                              const ReadRange &centroid_range, vector<int> &centroid,
-                             vector<int> &idx_on, vector<int> &idx_off);
+                             vector<int> &idx_on, vector<int> &idx_off, int min_overlap);
 }
 ;
 

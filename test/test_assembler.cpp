@@ -83,7 +83,7 @@ TEST_CASE("test run assembler::mat_fac_rank_1() for all reads", "[hide]")
         vector<int> centroid = encode_data[i];
         vector<int> idx_on; vector<int> idx_off;
         int n_iter = assembler.mat_fac_rank_1(encode_data, reads_range, centroid_range,
-                                              centroid, idx_on, idx_off, 10, 1000);
+                                              centroid, idx_on, idx_off, 20, 200, 1000);
         fs_centroid << idx_on.size() << "\t" << n_iter;
         fs_centroid << "\t[" << centroid_range.first << "," << centroid_range.second << "]\t[";
         fs_centroid << 4*centroid_range.first << "," << 4*centroid_range.second+3 << "]\t";
@@ -96,7 +96,7 @@ TEST_CASE("test run assembler::mat_fac_rank_1() for all reads", "[hide]")
 
 
 
-TEST_CASE("test assembler::mat_fac_rank_1()", "[hide]")
+TEST_CASE("test assembler::mat_fac_rank_1()")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -108,12 +108,12 @@ TEST_CASE("test assembler::mat_fac_rank_1()", "[hide]")
     
     vector<int> idx_on; vector<int> idx_off;
     Assembler assembler;
-    ReadRange centroid_range = reads_range[199];
-    vector<int> centroid = encode_data[199];
+    ReadRange centroid_range = reads_range[23];
+    vector<int> centroid = encode_data[23];
     cout << "centroid_range : [" << centroid_range.first<< "," << centroid_range.second << "]" << endl;
     cout << "centroid : " << centroid << endl;
     int n_iter = assembler.mat_fac_rank_1(encode_data, reads_range, centroid_range,
-                                          centroid, idx_on, idx_off, 10, 100);
+                                          centroid, idx_on, idx_off, 20, 200, 100);
     cout << "new centroid : " << centroid << endl;
     cout << "idx_on : " << idx_on << endl;
     cout << "number of iteration : " << n_iter << endl;
@@ -133,14 +133,16 @@ TEST_CASE("test assembler::mat_fac_rank_1_core()", "[hide]")
     
     vector<int> idx_on; vector<int> idx_off;
     Assembler assembler;
-    ReadRange centroid_range = reads_range[1];
-    vector<int> centroid = encode_data[1];
+    ReadRange centroid_range = reads_range[23];
+    vector<int> centroid = encode_data[23];
     cout << "centroid_range : [" << centroid_range.first<< "," << centroid_range.second << "]" << endl;
     cout << "centroid : " << centroid << endl;
-    assembler.mat_fac_rank_1_core(encode_data, reads_range, centroid_range, centroid, idx_on, idx_off);
+    assembler.mat_fac_rank_1_core(encode_data, reads_range, centroid_range, centroid, idx_on, idx_off, 200);
     cout << "new centroid : " << centroid << endl;
     cout << "idx_on : " << idx_on << endl;
 }
+
+
 
 
 

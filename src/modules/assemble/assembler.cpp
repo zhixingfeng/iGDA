@@ -367,7 +367,7 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 
 int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                     const ReadRange &centroid_range, vector<int> &centroid,
-                    vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int max_iter)
+                    vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int min_overlap, int max_iter)
 {
     if (centroid.size()==0)
         return 0;
@@ -381,7 +381,7 @@ int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vec
         vector<int> new_centroid = old_centroid;
         vector<int> new_idx_on, new_idx_off;
         mat_fac_rank_1_core(encode_data, reads_range, centroid_range,
-                            new_centroid, new_idx_on, new_idx_off);
+                            new_centroid, new_idx_on, new_idx_off, min_overlap);
         
         ++n_iter;
 
@@ -407,7 +407,7 @@ int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vec
 
 void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                                     const ReadRange &centroid_range, vector<int> &centroid,
-                                    vector<int> &idx_on, vector<int> &idx_off)
+                                    vector<int> &idx_on, vector<int> &idx_off,  int min_overlap)
 {
     // setup template vector for centroid
     int temp_size = *max_element(begin(centroid), end(centroid)) + 1;
@@ -417,6 +417,24 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
     
     // match all the reads to the template vector
     for (int i=0; i<(int)encode_data.size(); ++i){
+        // calculate overlap
+        int overlap_start = centroid_range.first >= reads_range[i].first ? centroid_range.first : reads_range[i].first;
+        int overlap_end = centroid_range.second <= reads_range[i].second ? centroid_range.second : reads_range[i].second;
+        int overlap_len = overlap_end - overlap_start + 1;
+        if (overlap_len < min_overlap)
+            continue;
+        
+        // calculate number of variants of centroid overlapping with the current reads
+        int cur_reads_range_code_start = 4*reads_range[i].first;
+        int cur_reads_range_code_end = 4*reads_range[i].second + 3;
+        int n_overlap = 0;
+        for (int j=0; j<(int)centroid.size(); ++j)
+            if(centroid[j]>=cur_reads_range_code_start && centroid[j]<=cur_reads_range_code_end)
+                n_overlap++;
+        if (n_overlap == 0)
+            continue;
+        
+        // calculate number of matches
         int n_match = 0;
         for (int j=0; j<(int)encode_data[i].size(); ++j){
             if (encode_data[i][j]>=temp_size)
@@ -428,10 +446,9 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
             throw runtime_error("n_match > centroid.size() at line " + to_string(i));
         
         // if #shared variants between reads and centroid >= 50%, then they are grouped and index is put in idx_on otherwise idx_off
-        if (n_match>= ceil(double(centroid.size()) / 2))
+        if (n_match>= ceil(double(n_overlap) / 2))
             idx_on.push_back(i);
-        //else
-            //idx_off.push_back(i);
+        
     }
     
     // recalculate new centroid
