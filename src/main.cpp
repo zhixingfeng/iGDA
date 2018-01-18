@@ -295,19 +295,20 @@ int main(int argc, const char * argv[])
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
-            SwitchArg isfastArg("q", "fast", "use fast algorithm to run dforest", cmd, false);
-            SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
+            //SwitchArg isfastArg("q", "fast", "use fast algorithm to run dforest", cmd, false);
+            //SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
             
             cmd.parse(argv2);
             
             AlignReaderM5 alignreader;
             AlignCoderSNV aligncoder;
             DForestSNVMax forestsnvmax(&alignreader, &aligncoder);
-            DForestSNV forestsnv(&alignreader, &aligncoder);
-            DForestSNVFast forestsnvfast(&alignreader, &aligncoder);
+            //DForestSNV forestsnv(&alignreader, &aligncoder);
+            //DForestSNVFast forestsnvfast(&alignreader, &aligncoder);
             
             DForest *ptr_forest;
-            if (isfastArg.getValue()){
+            ptr_forest = &forestsnvmax;
+            /*if (isfastArg.getValue()){
                 ptr_forest = &forestsnvfast;
             }else{ 
                 if (!isinterArg.getValue()){
@@ -315,7 +316,7 @@ int main(int argc, const char * argv[])
                 }else{
                     ptr_forest = &forestsnv;
                 }
-            }
+            }*/
             string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
