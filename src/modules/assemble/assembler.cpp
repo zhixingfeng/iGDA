@@ -365,10 +365,90 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
+vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                                   int min_overlap)
+{
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("encode_data.size() != reads_range.size()");
+    
+    // setup template and counter
+    int temp_size = 0;
+    for (int i=0; i<(int)encode_data.size(); ++i)
+        for (int j=0; j<(int)encode_data[i].size(); ++j)
+            if (encode_data[i][j] > temp_size)
+                temp_size = encode_data[i][j];
+    temp_size = temp_size + 1;
+    vector<int> temp_vec(temp_size, 0);
+    int counter = 0;
+    
+    // check each read to see if they are contained
+    vector<bool> is_contained(encode_data.size(), false);
+    for (int i=0; i<(int)encode_data.size(); ++i){
+        if (encode_data[i].size()==0)
+            continue;
+
+        // make sure counter does not exceed
+        if (counter >= numeric_limits<int>::max()-1)
+            throw runtime_error("counter >= numeric_limits<int>::max()-1");
+        
+        // fill in temp_vec with encode_data[i]
+        for (int j=0; j<(int)encode_data[i].size(); ++j)
+            temp_vec[encode_data[i][j]] = counter;
+        
+        // check overlap between encode_data[i] and encode_data[j]
+        for (int j=0; j<(int)encode_data.size(); ++j){
+            if (j == i)
+                continue;
+            
+            // check if range of read i is contained in range of read j
+            if (reads_range[i].first < reads_range[j].first || reads_range[i].second > reads_range[j].second)
+                continue;
+            
+            // calculate overlap
+            int overlap_start = reads_range[i].first;
+            int overlap_end = reads_range[i].second;
+            int overlap_len = overlap_end - overlap_start + 1;
+            if (overlap_len < min_overlap)
+                continue;
+            
+            // calculate number of variants of encode_data[j] overlapping with the reads[i]
+            int cur_reads_range_code_start = 4*overlap_start;
+            int cur_reads_range_code_end = 4*overlap_end + 3;
+            int n_overlap = 0;
+            for (int k=0; k<(int)encode_data[j].size(); ++k)
+                if (encode_data[j][k] >= cur_reads_range_code_start && encode_data[j][k] <= cur_reads_range_code_end)
+                    ++n_overlap;
+            if (n_overlap == 0)
+                continue;
+            
+            // calculate number of matches
+            int n_match = 0;
+            for (int k=0; k<(int)encode_data[j].size(); ++k)
+                if (temp_vec[encode_data[j][k]] == counter)
+                    ++n_match;
+            
+            // check if read i is contained in read j
+            if (n_match>= ceil(double(n_overlap) / 2)){
+                is_contained[i] = true;
+                break;
+            }
+            
+
+        }
+        
+        ++counter;
+    }
+    
+    return is_contained;
+}
+
 int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                     const ReadRange &centroid_range, vector<int> &centroid,
                     vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int min_overlap, int max_iter)
 {
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("encode_data.size() != reads_range.size()");
+    
     if (centroid.size()==0)
         return 0;
     

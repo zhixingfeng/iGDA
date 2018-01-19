@@ -94,9 +94,26 @@ TEST_CASE("test run assembler::mat_fac_rank_1() for all reads", "[hide]")
    
 }
 
+TEST_CASE("test assembler::check_contained_reads()")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    loadencodedata(encode_data, encode_file);
+    loadreadsrange(reads_range, m5_file);
+    
+    Assembler assembler;
+    vector<bool> is_contained = assembler.check_contained_reads(encode_data, reads_range, 200);
+    for (int i=0; i<(int)is_contained.size(); ++i)
+        if (!is_contained[i])
+            cout << i <<',';
+    cout << endl;
+}
 
 
-TEST_CASE("test assembler::mat_fac_rank_1()")
+TEST_CASE("test assembler::mat_fac_rank_1()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
