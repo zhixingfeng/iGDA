@@ -365,6 +365,13 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
+void Assembler::assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                   vector<vector<int> > &centroid, vector<ReadRange> &centroid_range,
+                   int min_idx_on, int min_overlap, int max_iter)
+{
+    
+}
+
 vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                                    int min_overlap, bool rm_empty_centroid)
 {
