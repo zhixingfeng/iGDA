@@ -366,7 +366,7 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 }
 
 vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                                   int min_overlap)
+                                   int min_overlap, bool rm_empty_centroid)
 {
     if (encode_data.size() != reads_range.size())
         throw runtime_error("encode_data.size() != reads_range.size()");
@@ -384,8 +384,11 @@ vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode
     // check each read to see if they are contained
     vector<bool> is_contained(encode_data.size(), false);
     for (int i=0; i<(int)encode_data.size(); ++i){
-        if (encode_data[i].size()==0)
+        if (encode_data[i].size()==0){
+            if (rm_empty_centroid)
+                is_contained[i] = true;
             continue;
+        }
 
         // make sure counter does not exceed
         if (counter >= numeric_limits<int>::max()-1)

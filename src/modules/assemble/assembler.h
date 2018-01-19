@@ -29,7 +29,7 @@ public:
     
     // check if a read is contained by another one
     vector<bool> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                                       int min_overlap);
+                                       int min_overlap, bool rm_empty_centroid = true);
     // rank 1 matrix facterization, return number of iteration.
     int mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                         const ReadRange &centroid_range, vector<int> &centroid,
