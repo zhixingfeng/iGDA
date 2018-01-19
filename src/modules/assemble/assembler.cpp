@@ -446,7 +446,7 @@ vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode
 }
 
 int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                    const ReadRange &centroid_range, vector<int> &centroid,
+                    vector<int> &centroid, const ReadRange &centroid_range,
                     vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int min_overlap, int max_iter)
 {
     if (encode_data.size() != reads_range.size())
@@ -463,8 +463,8 @@ int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vec
     for (int i=0; i<=max_iter; ++i){
         vector<int> new_centroid = old_centroid;
         vector<int> new_idx_on, new_idx_off;
-        mat_fac_rank_1_core(encode_data, reads_range, centroid_range,
-                            new_centroid, new_idx_on, new_idx_off, min_overlap);
+        mat_fac_rank_1_core(encode_data, reads_range, new_centroid, centroid_range,
+                            new_idx_on, new_idx_off, min_overlap);
         
         ++n_iter;
 
@@ -489,7 +489,7 @@ int Assembler::mat_fac_rank_1(const vector<vector<int> > &encode_data, const vec
 }
 
 void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                                    const ReadRange &centroid_range, vector<int> &centroid,
+                                    vector<int> &centroid, const ReadRange &centroid_range,
                                     vector<int> &idx_on, vector<int> &idx_off,  int min_overlap)
 {
     // setup template vector for centroid

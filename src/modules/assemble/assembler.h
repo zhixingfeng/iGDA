@@ -27,16 +27,21 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
+    void assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                       vector<vector<int> > &centroid, vector<ReadRange> &centroid_range,
+                       int min_idx_on, int min_overlap, int max_iter);
+    
     // check if a read is contained by another one
     vector<bool> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                                        int min_overlap, bool rm_empty_centroid = true);
+    
     // rank 1 matrix facterization, return number of iteration.
     int mat_fac_rank_1(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                        const ReadRange &centroid_range, vector<int> &centroid,
+                        vector<int> &centroid, const ReadRange &centroid_range,
                         vector<int> &idx_on, vector<int> &idx_off, int min_idx_on, int min_overlap, int max_iter);
     
     void mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                             const ReadRange &centroid_range, vector<int> &centroid,
+                             vector<int> &centroid, const ReadRange &centroid_range, 
                              vector<int> &idx_on, vector<int> &idx_off, int min_overlap);
 }
 ;
