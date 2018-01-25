@@ -59,6 +59,32 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
+TEST_CASE("test assembler::assemble_core()")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    loadencodedata(encode_data, encode_file);
+    loadreadsrange(reads_range, m5_file);
+    
+    vector<vector<int> > centroid;
+    vector<ReadRange> centroid_range;
+    vector<int> n_idx_on;
+    Assembler assembler;
+    assembler.assemble_core(encode_data, reads_range, centroid, centroid_range, n_idx_on, 20, 200, 100);
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.centroid");
+    for (int i=0; i<(int)centroid.size(); ++i){
+        fs_outfile << centroid[i] << endl;
+    }
+    fs_outfile.close();
+    
+    open_outfile(fs_outfile, "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.n_idx_on");
+    fs_outfile << n_idx_on << endl;
+    fs_outfile.close();
+}
 
 TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 {
@@ -79,7 +105,7 @@ TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::mat_fac_rank_1()")
+TEST_CASE("test assembler::mat_fac_rank_1()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
