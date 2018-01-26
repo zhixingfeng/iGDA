@@ -27,6 +27,8 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
+    void assemble(string encode_file, string align_file, vector<vector<int> > &centroid, vector<ReadRange> &centroid_range,
+                  vector<vector<int> > &idx_on, vector<int> &n_idx_on, int min_idx_on, int min_overlap, int max_iter);
     
     void assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                        vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<vector<int> > &idx_on,

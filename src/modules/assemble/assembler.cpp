@@ -358,12 +358,36 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
             fs_out << j <<',' << i << ',' << jaccard_index << ',';
             fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';
             fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;
-
         }
     }
     cout << "processed " << encode_data.size() << " reads" <<endl;
     fs_out.close();
 }
+
+void Assembler::assemble(string encode_file, string align_file, vector<vector<int> > &centroid, vector<ReadRange> &centroid_range,
+                         vector<vector<int> > &idx_on, vector<int> &n_idx_on, int min_idx_on, int min_overlap, int max_iter)
+{
+    // load encode data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // load read range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    // load alignment data
+    AlignReaderM5 AlignReaderM5_obj;
+    stxxl::vector<Align> align_data;
+    AlignReaderM5_obj.read(align_file, align_data);
+    
+    /*----------- first round of matrix decomposition -----------*/
+    this->assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, min_idx_on, min_overlap, max_iter);
+    
+    /*----------- realign each centroid--------*/
+    
+    
+}
+
 
 void Assembler::assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                               vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<vector<int> > &idx_on,

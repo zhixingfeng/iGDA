@@ -330,12 +330,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "531947085.215405"
+            timestampString = "538690778.23987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "TEST_CASE(&quot;test assembler::assemble_core()&quot;)"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "TEST_CASE(&quot;test assembler::assemble_core()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "531950997.838419"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "5">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "531950127.895272"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "387"
-            endingLineNumber = "387"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "5">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "531950127.895272"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "531950000.291621"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "380"
-            endingLineNumber = "380"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
             landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "531950127.895272"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "5">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "538680036.9929121"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "421"
+            endingLineNumber = "421"
             landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
             landmarkType = "5">
             <Locations>
@@ -489,11 +489,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "538680036.9929121"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
             landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
             landmarkType = "5">
          </BreakpointContent>
@@ -505,11 +505,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "538680036.9929121"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
             landmarkType = "5">
          </BreakpointContent>
@@ -649,11 +649,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "538680036.9929121"
+            timestampString = "538690778.23987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "TEST_CASE(&quot;test assembler::mat_fac_rank_1_core()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -665,11 +665,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "538680036.9929121"
+            timestampString = "538690778.23987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "TEST_CASE(&quot;test assembler::mat_fac_rank_1_core()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
