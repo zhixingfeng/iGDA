@@ -366,8 +366,8 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 }
 
 void Assembler::assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                   vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<int> &n_idx_on,
-                   int min_idx_on, int min_overlap, int max_iter)
+                              vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<vector<int> > &idx_on,
+                              vector<int> &n_idx_on, int min_idx_on, int min_overlap, int max_iter)
 {
     // get non-contained reads
     vector<bool> is_contained = this->check_contained_reads(encode_data, reads_range, min_overlap, true);
@@ -385,11 +385,12 @@ void Assembler::assemble_core(const vector<vector<int> > &encode_data, const vec
     for (int i=0; i<(int)centroid_seed.size(); ++i){
         vector<int> cur_centroid = centroid_seed[i];
         ReadRange cur_centroid_range = centroid_range_seed[i];
-        vector<int> idx_on; vector<int> idx_off;
-        this->mat_fac_rank_1(encode_data, reads_range, cur_centroid, cur_centroid_range, idx_on, idx_off, min_idx_on, min_overlap, max_iter);
+        vector<int> cur_idx_on; vector<int> idx_off;
+        this->mat_fac_rank_1(encode_data, reads_range, cur_centroid, cur_centroid_range, cur_idx_on, idx_off, min_idx_on, min_overlap, max_iter);
         centroid.push_back(cur_centroid);
         centroid_range.push_back(cur_centroid_range);
-        n_idx_on.push_back((int)idx_on.size());
+        n_idx_on.push_back((int)cur_idx_on.size());
+        idx_on.push_back(cur_idx_on);
     }
     
 }

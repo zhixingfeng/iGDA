@@ -72,8 +72,9 @@ TEST_CASE("test assembler::assemble_core()")
     vector<vector<int> > centroid;
     vector<ReadRange> centroid_range;
     vector<int> n_idx_on;
+    vector<vector<int> > idx_on;
     Assembler assembler;
-    assembler.assemble_core(encode_data, reads_range, centroid, centroid_range, n_idx_on, 20, 200, 100);
+    assembler.assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, 20, 200, 100);
     ofstream fs_outfile;
     open_outfile(fs_outfile, "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.centroid");
     for (int i=0; i<(int)centroid.size(); ++i){

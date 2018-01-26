@@ -29,8 +29,8 @@ public:
     
     
     void assemble_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
-                       vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<int> &n_idx_on,
-                       int min_idx_on, int min_overlap, int max_iter);
+                       vector<vector<int> > &centroid, vector<ReadRange> &centroid_range, vector<vector<int> > &idx_on,
+                       vector<int> &n_idx_on, int min_idx_on, int min_overlap, int max_iter);
     
     // check if a read is contained by another one
     vector<bool> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
