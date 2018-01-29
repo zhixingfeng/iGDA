@@ -388,7 +388,32 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
     this->assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, min_idx_on, min_overlap, max_iter);
     
     /*----------- realign each centroid--------*/
-    //
+    Alignment aligner;
+    AlignCoderSNV aligncoder;
+    for (int i=0; i<(int)centroid.size(); ++i){
+        cout << i << endl;
+        // construct haplotype sequence
+        string haplo_seq;
+        this->haplo_seq_construct(centroid[i], ref_seq, haplo_seq);
+        
+        // realign each read (belongs to the current haplotype) to the haplotype sequence
+        vector<vector<int> > haplo_encode_data;
+        vector<ReadRange> haplo_reads_range;
+        for (int j = 0; j<(int)idx_on[i].size(); j++){
+            string cur_qSeq = align_data[idx_on[i][j]].qSeq;
+            string cur_tSeq = haplo_seq.substr(align_data[idx_on[i][j]].tStart, align_data[idx_on[i][j]].tEnd - align_data[idx_on[i][j]].tStart + 1);
+            
+            // align
+            StripedSmithWaterman::Alignment result;
+            aligner.local_align(cur_qSeq, cur_tSeq, result);
+            
+            // encode
+            vector<int> cur_encode_data;
+            aligncoder.encode(result, cur_qSeq, cur_tSeq, align_data[i].tStart, cur_encode_data);
+            
+            // 
+        }
+    }
     
 }
 
@@ -661,7 +686,7 @@ void Assembler::ref_reconstruct(const stxxl::vector<Align> &align_data, string &
     // reconstruct ref_seq
     ref_seq = string ('N', g_size);
     for (int i=0; i<(int)align_data.size(); ++i){
-        string cur_tSeq = rm_indel_from_seq(align_data[i].tSeq);
+        string cur_tSeq = align_data[i].tSeq;
         if (cur_tSeq.size() != align_data[i].tEnd - align_data[i].tStart + 1)
             throw runtime_error("cur_tSeq.size() != align_data[i].tEnd - align_data[i].tStart + 1");
         ref_seq.replace(align_data[i].tStart, cur_tSeq.size(), cur_tSeq);

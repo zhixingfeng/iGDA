@@ -59,7 +59,7 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::assemble()", "[hide]")
+TEST_CASE("test assembler::assemble()")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -186,7 +186,7 @@ TEST_CASE("test assembler::ref_reconstruct()", "[hide]")
 
 }
 
-TEST_CASE("test assembler::haplo_seq_construct")
+TEST_CASE("test assembler::haplo_seq_construct", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";

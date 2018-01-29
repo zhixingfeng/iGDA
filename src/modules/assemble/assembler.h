@@ -13,6 +13,7 @@
 #include "../../misc/io.h"
 #include "../../misc/basic.h"
 #include "../aligncoder/aligncodersnv.h"
+#include "../src/modules/alignment/alignment.h"
 
 class Assembler 
 {
