@@ -380,11 +380,15 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
     stxxl::vector<Align> align_data;
     AlignReaderM5_obj.read(align_file, align_data);
     
+    // reconstruct reference genome from align_data
+    string ref_name; string ref_seq;
+    this->ref_reconstruct(align_data, ref_name, ref_seq);
+    
     /*----------- first round of matrix decomposition -----------*/
     this->assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, min_idx_on, min_overlap, max_iter);
     
     /*----------- realign each centroid--------*/
-    
+    //
     
 }
 
@@ -664,7 +668,17 @@ void Assembler::ref_reconstruct(const stxxl::vector<Align> &align_data, string &
     }
 }
 
-
+void Assembler::haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq)
+{
+    AlignCoderSNV aligncoder;
+    haplo_seq = ref_seq;
+    for (int i=0; i<(int)centroid.size(); ++i){
+        pair<int, char> cur_decode = aligncoder.decode(centroid[i]);
+        if (cur_decode.first >= haplo_seq.size())
+            throw runtime_error("cur_decode.first >= haplo_seq.size()");
+        haplo_seq[cur_decode.first] = cur_decode.second;
+    }
+}
 
 
 

@@ -173,7 +173,7 @@ TEST_CASE("test assembler::mat_fac_rank_1_core()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ref_reconstruct()")
+TEST_CASE("test assembler::ref_reconstruct()", "[hide]")
 {
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     AlignReaderM5 AlignReaderM5_obj;
@@ -186,7 +186,43 @@ TEST_CASE("test assembler::ref_reconstruct()")
 
 }
 
+TEST_CASE("test assembler::haplo_seq_construct")
+{
+    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    loadencodedata(encode_data, encode_file);
+    loadreadsrange(reads_range, m5_file);
+    
+    vector<vector<int> > centroid;
+    vector<ReadRange> centroid_range;
+    vector<int> n_idx_on;
+    vector<vector<int> > idx_on;
+    
+    Assembler assembler;
+    assembler.assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, 20, 200, 100);
 
+    AlignReaderM5 AlignReaderM5_obj;
+    stxxl::vector<Align> align_data;
+    AlignReaderM5_obj.read(m5_file, align_data);
+    string ref_name; string ref_seq;
+    assembler.ref_reconstruct(align_data, ref_name, ref_seq);
+    
+    string haplo_seq;
+    assembler.haplo_seq_construct(centroid[0], ref_seq, haplo_seq);
+    
+    REQUIRE(haplo_seq[283]=='T');
+    REQUIRE(haplo_seq[519]=='A');
+    REQUIRE(haplo_seq[1147]=='A');
+    REQUIRE(haplo_seq[1219]=='A');
+    REQUIRE(haplo_seq[1366]=='T');
+    REQUIRE(haplo_seq[2056]=='T');
+    REQUIRE(haplo_seq[2233]=='T');
+    //cout << centroid[0] << endl;
+    
+}
 
 
 
