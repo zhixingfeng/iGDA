@@ -46,6 +46,9 @@ public:
     void mat_fac_rank_1_core(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
                              vector<int> &centroid, const ReadRange &centroid_range, 
                              vector<int> &idx_on, vector<int> &idx_off, int min_overlap);
+    
+    // reconstruct reference genome from alignment
+    void ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq);
 }
 ;
 

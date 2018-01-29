@@ -637,7 +637,32 @@ void Assembler::mat_fac_rank_1_core(const vector<vector<int> > &encode_data, con
     centroid = new_centroid;
 }
 
-
+void Assembler::ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq)
+{
+    // get reference genome name (only 1 chromosome is allowed)
+    if (align_data.size() == 0)
+        throw runtime_error("align_data is empty.");
+    ref_name = align_data[0].tName;
+    
+    // scan align_data to get genome size and check if chromosome is unique
+    int g_size = -1;
+    for (int i=0; i<(int)align_data.size(); ++i){
+        if (align_data[0].tName != ref_name)
+            runtime_error("ref_name is not unique");
+        if (align_data[i].tEnd > g_size)
+            g_size = align_data[i].tEnd;
+    }
+    g_size = g_size + 1;
+    
+    // reconstruct ref_seq
+    ref_seq = string ('N', g_size);
+    for (int i=0; i<(int)align_data.size(); ++i){
+        string cur_tSeq = rm_indel_from_seq(align_data[i].tSeq);
+        if (cur_tSeq.size() != align_data[i].tEnd - align_data[i].tStart + 1)
+            throw runtime_error("cur_tSeq.size() != align_data[i].tEnd - align_data[i].tStart + 1");
+        ref_seq.replace(align_data[i].tStart, cur_tSeq.size(), cur_tSeq);
+    }
+}
 
 
 
