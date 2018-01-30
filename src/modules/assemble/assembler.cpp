@@ -387,19 +387,21 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
     /*----------- first round of matrix decomposition -----------*/
     this->assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, min_idx_on, min_overlap, max_iter);
     
-    /*----------- realign each centroid--------*/
+    /*----------- realign each centroid--------*/ // i start from 82 for testing, change it after testing !!!
     Alignment aligner;
     AlignCoderSNV aligncoder;
-    for (int i=82; i<(int)centroid.size(); ++i){
+    for (int i=0; i<(int)centroid.size(); ++i){
         cout << i << endl;
+        //cout << centroid[i] << endl;
         // construct haplotype sequence
         string haplo_seq;
         this->haplo_seq_construct(centroid[i], ref_seq, haplo_seq);
         
         // realign each read (belongs to the current haplotype) to the haplotype sequence
         vector<vector<int> > haplo_encode_data;
-        vector<ReadRange> haplo_reads_range;
+        stxxl::vector<Align> haplo_align_data;
         StripedSmithWaterman::Alignment result;
+        
         for (int j = 0; j<(int)idx_on[i].size(); j++){
             string cur_qSeq = align_data[idx_on[i][j]].qSeq;
             string cur_tSeq = haplo_seq.substr(align_data[idx_on[i][j]].tStart, align_data[idx_on[i][j]].tEnd - align_data[idx_on[i][j]].tStart + 1);
@@ -409,11 +411,33 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
            
             // encode
             vector<int> cur_encode_data;
-            aligncoder.encode(result, cur_qSeq, cur_tSeq, align_data[i].tStart + result.ref_begin, cur_encode_data);
+            aligncoder.encode(result, cur_qSeq, cur_tSeq, align_data[idx_on[i][j]].tStart + result.ref_begin, cur_encode_data);
             haplo_encode_data.push_back(cur_encode_data);
             
-            // add realignment
+            // add align_data
+            Align cur_align_data;
+            cur_align_data.tStart = align_data[idx_on[i][j]].tStart + result.ref_begin;
+            cur_align_data.tEnd = align_data[idx_on[i][j]].tStart + result.ref_end;
+            haplo_align_data.push_back(cur_align_data);
         }
+        
+        // cmpreads
+        stxxl::vector<vector<int> > cmpreads_data;
+        cmpreads_topn(haplo_encode_data, haplo_align_data, cmpreads_data);
+        
+        // run dforest
+        AlignReaderM5 alignreader;
+        AlignCoderSNV aligncoder;
+        DForestSNVMax forestsnv(&alignreader, &aligncoder);
+        forestsnv.run(haplo_encode_data, haplo_align_data, cmpreads_data, idx_on[i].size()*0.1, 1000);
+        unordered_map<int, DforestResult> rl = forestsnv.get_result();
+        
+        for (auto it=rl.begin(); it!=rl.end(); ++it){
+            if (it->second.p_y_xp >= 0.75){
+                cout << it->second.focal_locus << ",";
+            }
+        }
+        cout << endl;
     }
     
 }

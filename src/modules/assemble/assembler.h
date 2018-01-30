@@ -9,13 +9,14 @@
 #ifndef assemble_h
 #define assemble_h
 
+#include <stxxl.h>
 #include "../../../include/headers.h"
-#include "../../misc/io.h"
-#include "../../misc/basic.h"
+#include "../../misc/misc.h"
 #include "../aligncoder/aligncodersnv.h"
 #include "../src/modules/alignment/alignment.h"
+#include "../src/modules/dforest/dforestsnvmax.h"
 
-class Assembler 
+class Assembler
 {
 public:
     Assembler(){}
