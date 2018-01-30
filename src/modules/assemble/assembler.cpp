@@ -390,7 +390,7 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
     /*----------- realign each centroid--------*/
     Alignment aligner;
     AlignCoderSNV aligncoder;
-    for (int i=0; i<(int)centroid.size(); ++i){
+    for (int i=82; i<(int)centroid.size(); ++i){
         cout << i << endl;
         // construct haplotype sequence
         string haplo_seq;
@@ -399,19 +399,20 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
         // realign each read (belongs to the current haplotype) to the haplotype sequence
         vector<vector<int> > haplo_encode_data;
         vector<ReadRange> haplo_reads_range;
+        StripedSmithWaterman::Alignment result;
         for (int j = 0; j<(int)idx_on[i].size(); j++){
             string cur_qSeq = align_data[idx_on[i][j]].qSeq;
             string cur_tSeq = haplo_seq.substr(align_data[idx_on[i][j]].tStart, align_data[idx_on[i][j]].tEnd - align_data[idx_on[i][j]].tStart + 1);
             
             // align
-            StripedSmithWaterman::Alignment result;
             aligner.local_align(cur_qSeq, cur_tSeq, result);
-            
+           
             // encode
             vector<int> cur_encode_data;
-            aligncoder.encode(result, cur_qSeq, cur_tSeq, align_data[i].tStart, cur_encode_data);
+            aligncoder.encode(result, cur_qSeq, cur_tSeq, align_data[i].tStart + result.ref_begin, cur_encode_data);
+            haplo_encode_data.push_back(cur_encode_data);
             
-            // 
+            // add realignment
         }
     }
     
