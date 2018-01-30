@@ -387,7 +387,7 @@ void Assembler::assemble(string encode_file, string align_file, vector<vector<in
     /*----------- first round of matrix decomposition -----------*/
     this->assemble_core(encode_data, reads_range, centroid, centroid_range, idx_on, n_idx_on, min_idx_on, min_overlap, max_iter);
     
-    /*----------- realign each centroid--------*/ // i start from 82 for testing, change it after testing !!!
+    /*----------- realign each centroid--------*/
     Alignment aligner;
     AlignCoderSNV aligncoder;
     for (int i=0; i<(int)centroid.size(); ++i){
