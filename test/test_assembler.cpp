@@ -59,7 +59,7 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::assemble()")
+TEST_CASE("test assembler::assemble()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -107,7 +107,7 @@ TEST_CASE("test assembler::assemble_core()", "[hide]")
     fs_outfile.close();
 }
 
-TEST_CASE("test assembler::check_contained_reads()", "[hide]")
+TEST_CASE("test assembler::check_contained_reads()")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -118,7 +118,7 @@ TEST_CASE("test assembler::check_contained_reads()", "[hide]")
     loadreadsrange(reads_range, m5_file);
     
     Assembler assembler;
-    vector<bool> is_contained = assembler.check_contained_reads(encode_data, reads_range, 200);
+    vector<bool> is_contained = assembler.check_contained_reads(encode_data, reads_range, 0);
     for (int i=0; i<(int)is_contained.size(); ++i)
         if (!is_contained[i])
             cout << i <<',';

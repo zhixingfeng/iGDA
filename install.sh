@@ -7,7 +7,7 @@ make install
 cd ../../..
 
 # configure stxxl
-echo "disk=./tmp_stxxl,128G,syscall unlink" > $HOME/.stxxl
+echo "disk=./tmp_stxxl,32G,syscall unlink" > $HOME/.stxxl
 
 # compile iGDA
 make

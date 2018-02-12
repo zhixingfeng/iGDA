@@ -288,7 +288,7 @@
             startingLineNumber = "61"
             endingLineNumber = "61"
             landmarkName = "Assembler::reduce_dim(string encode_file, string var_file, string out_file)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -304,7 +304,7 @@
             startingLineNumber = "221"
             endingLineNumber = "221"
             landmarkName = "Assembler::dist_rdim(string encode_file, string align_file, string var_file, string out_file)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -320,7 +320,7 @@
             startingLineNumber = "201"
             endingLineNumber = "201"
             landmarkName = "Assembler::dist_rdim(string encode_file, string align_file, string var_file, string out_file)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -336,6 +336,22 @@
             startingLineNumber = "92"
             endingLineNumber = "92"
             landmarkName = "TEST_CASE(&quot;test assembler::assemble_core()&quot;, &quot;[hide]&quot;)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "538695428.817378"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -346,13 +362,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
-            landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
+            startingLineNumber = "409"
+            endingLineNumber = "409"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -362,13 +378,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
-            landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
+            startingLineNumber = "408"
+            endingLineNumber = "408"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -378,13 +394,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
-            landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
+            startingLineNumber = "402"
+            endingLineNumber = "402"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -394,13 +410,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "458"
-            endingLineNumber = "458"
-            landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
+            startingLineNumber = "404"
+            endingLineNumber = "404"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -410,29 +426,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
-            landmarkName = "Assembler::assemble_core(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "477"
-            endingLineNumber = "477"
-            landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
-            landmarkType = "5">
+            startingLineNumber = "421"
+            endingLineNumber = "421"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -489,13 +489,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
-            landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
-            landmarkType = "5">
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -505,13 +505,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539039800.2109931"
+            timestampString = "538695428.817378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "Assembler::check_contained_reads(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_overlap, bool rm_empty_centroid)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -655,7 +655,7 @@
             startingLineNumber = "159"
             endingLineNumber = "159"
             landmarkName = "TEST_CASE(&quot;test assembler::mat_fac_rank_1_core()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -671,183 +671,7 @@
             startingLineNumber = "162"
             endingLineNumber = "162"
             landmarkName = "TEST_CASE(&quot;test assembler::mat_fac_rank_1_core()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539033944.407598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "test/test_assembler.cpp"
-            timestampString = "538939838.540115"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "TEST_CASE(&quot;test assembler::haplo_seq_construct&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "test/test_assembler.cpp"
-            timestampString = "538939906.970541"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
-            landmarkName = "TEST_CASE(&quot;test assembler::haplo_seq_construct&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539033944.407598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539033944.407598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539035627.435315"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539033944.407598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "435"
-            endingLineNumber = "435"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539034070.558852"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539034187.5704401"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539034190.405448"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "421"
-            endingLineNumber = "421"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "539034397.339081"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
-            landmarkName = "Assembler::assemble(string encode_file, string align_file, vector&lt;vector&lt;int&gt; &gt; &amp;centroid, vector&lt;ReadRange&gt; &amp;centroid_range, vector&lt;vector&lt;int&gt; &gt; &amp;idx_on, vector&lt;int&gt; &amp;n_idx_on, int min_idx_on, int min_overlap, int max_iter)"
-            landmarkType = "5">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
