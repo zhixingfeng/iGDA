@@ -513,7 +513,9 @@ vector<bool> Assembler::check_contained_reads(const vector<vector<int> > &encode
                 continue;
             
             // check if range of read i is contained in range of read j
-            if (reads_range[i].first <= reads_range[j].first || reads_range[i].second >= reads_range[j].second)
+            if (reads_range[i].first < reads_range[j].first || reads_range[i].second > reads_range[j].second)
+                continue;
+            if (reads_range[i].first == reads_range[j].first && reads_range[i].second == reads_range[j].second)
                 continue;
             
             // calculate overlap
