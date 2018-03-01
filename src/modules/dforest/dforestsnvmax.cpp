@@ -259,7 +259,7 @@ bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_re
     while(1){
         if (k%10000==0)
             cout << "poccessed # of candidates : " << k << endl;
-        //printf("poccessed # of candidates : %d\n", k);
+        //printf("poccessed # of candidates : %d\n", (int)k);
         // load candidate subset
         int cand_loci_size;
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
@@ -267,7 +267,7 @@ bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_re
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
         if (feof(p_cmpreads_file))
             break;
-        
+
         // build tree
         this->build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
         

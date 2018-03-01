@@ -15,53 +15,87 @@
 
 using namespace std;
 
-static vector <int> *base_arr_int;
-static vector <double> *base_arr_double;
-
-
-inline bool compar_less_int (int a, int b)
+class COMP_INT_GREATER
 {
-    return ((*base_arr_int)[a] < (*base_arr_int)[b]);
-}
+public:
+    COMP_INT_GREATER(vector<int> &x) : base_arr(&x) {}
+    virtual ~COMP_INT_GREATER(){}
+    bool operator()(int a, int b)
+    {
+        return ((*base_arr)[a] > (*base_arr)[b]);
+    }
+private:
+    vector <int> *base_arr;
+};
 
-inline bool compar_greater_int (int a, int b)
+class COMP_INT_LESS
 {
-    return ((*base_arr_int)[a] > (*base_arr_int)[b]);
-}
+public:
+    COMP_INT_LESS(vector<int> &x) : base_arr(&x) {}
+    virtual ~COMP_INT_LESS(){}
+    bool operator()(int a, int b)
+    {
+        return ((*base_arr)[a] < (*base_arr)[b]);
+    }
+private:
+    vector <int> *base_arr;
+};
 
-inline bool compar_less_double (int a, int b)
+class COMP_DOUBLE_GREATER
 {
-    return ((*base_arr_double)[a] < (*base_arr_double)[b]);
-}
+public:
+    COMP_DOUBLE_GREATER(vector<double> &x) : base_arr(&x) {}
+    virtual ~COMP_DOUBLE_GREATER(){}
+    bool operator()(double a, double b)
+    {
+        return ((*base_arr)[a] > (*base_arr)[b]);
+    }
+private:
+    vector <double> *base_arr;
+};
 
-inline bool compar_greater_double (int a, int b)
+class COMP_DOUBLE_LESS
 {
-    return ((*base_arr_double)[a] > (*base_arr_double)[b]);
-}
+public:
+    COMP_DOUBLE_LESS(vector<double> &x) : base_arr(&x) {}
+    virtual ~COMP_DOUBLE_LESS(){}
+    bool operator()(double a, double b)
+    {
+        return ((*base_arr)[a] < (*base_arr)[b]);
+    }
+private:
+    vector <double> *base_arr;
+};
+
+
 
 inline vector<int> sort_order(vector<int> &x, bool is_decreasing=false)
 {
-    base_arr_int = &x;
+    COMP_INT_GREATER comp_int_greater(x);
+    COMP_INT_LESS comp_int_less(x);
+
     vector<int> idx(x.size(), 0);
     for (int i = 0; i < idx.size(); i++)
         idx[i] = i;
     if (is_decreasing)
-        sort(idx.begin(), idx.end(), compar_greater_int);
+        sort(idx.begin(), idx.end(), comp_int_greater);
     else
-        sort(idx.begin(), idx.end(), compar_less_int);
+        sort(idx.begin(), idx.end(), comp_int_less);
     return idx;
 }
 
 inline vector<int> sort_order(vector<double> &x, bool is_decreasing=false)
 {
-    base_arr_double = &x;
+    COMP_DOUBLE_GREATER comp_double_greater(x);
+    COMP_DOUBLE_LESS comp_double_less(x);
+    
     vector<int> idx(x.size(), 0);
     for (int i = 0; i < idx.size(); i++)
         idx[i] = i;
     if (is_decreasing)
-        sort(idx.begin(), idx.end(), compar_greater_double);
+        sort(idx.begin(), idx.end(), comp_double_greater);
     else
-        sort(idx.begin(), idx.end(), compar_less_double);
+        sort(idx.begin(), idx.end(), comp_double_less);
     return idx;
 }
 

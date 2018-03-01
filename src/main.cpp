@@ -299,6 +299,10 @@ int main(int argc, const char * argv[])
             //SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
             
             cmd.parse(argv2);
+            cout << "minreads = " << minreadsArg.getValue() << endl;
+            cout << "maxdepth = " << maxdepthArg.getValue() << endl;
+            cout << "minfreq = " << minfreqArg.getValue() << endl;
+            cout << "nthread = " << nthreadArg.getValue() << endl;
             
             AlignReaderM5 alignreader;
             AlignCoderSNV aligncoder;

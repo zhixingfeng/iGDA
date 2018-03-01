@@ -107,7 +107,7 @@ TEST_CASE("test assembler::assemble_core()", "[hide]")
     fs_outfile.close();
 }
 
-TEST_CASE("test assembler::check_contained_reads()")
+TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
