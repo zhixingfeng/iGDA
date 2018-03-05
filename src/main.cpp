@@ -38,7 +38,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist, pileup_var, pileup_reads" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -469,6 +469,31 @@ int main(int argc, const char * argv[])
             Assembler assembler;
             assembler.jaccard_index(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
         }
+
+        // pileup encode
+        if (strcmp(argv[1], "pileup_var")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            int64_t n_reads;
+            vector<vector<int> > pu_var = pileup_var(encodefileArg.getValue(), n_reads);
+            print_pileup(pu_var, outfileArg.getValue());
+        }
+        
+        // pileup encode
+        if (strcmp(argv[1], "pileup_reads")==0) {
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            int64_t n_reads;
+            vector<vector<int> > pu_reads = pileup_reads(alignfileArg.getValue(), n_reads);
+            print_pileup(pu_reads, outfileArg.getValue());
+        }
+
 
         
     }

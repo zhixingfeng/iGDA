@@ -10,6 +10,7 @@
 #define pileup_h
 
 #include "./cmpreads.h"
+#include "basic.h"
 #include <stxxl.h>
 // coverage should NOT exceed range of int !!!!!
 ////////// pileup read ID and locus are 0-based ///////////
@@ -132,6 +133,13 @@ inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, ch
     }
 }
 
-
+inline void print_pileup(const vector<vector<int> > &pileup_data, string outfile)
+{
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, outfile);
+    for(int i=0; i<(int)pileup_data.size(); ++i)
+        fs_outfile << pileup_data[i] << endl;
+    fs_outfile.close();
+}
 
 #endif /* pileup_h */

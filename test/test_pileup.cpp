@@ -8,8 +8,7 @@
 
 #include "../include/catch.hpp"
 #include "../include/headers.h"
-#include "../src/misc/pileup.h"
-#include "../src/misc/io.h"
+#include "../src/misc/misc.h"
 
 TEST_CASE("test pileup_var() (input from memory/stxxl)", "[hide]")
 {
@@ -94,6 +93,18 @@ TEST_CASE("test pileup_reads() (input from file)", "[hide]")
     }
     
     fs_out.close();
+}
+
+TEST_CASE("test print_pileup()", "[hide]")
+{
+    string align_file = "../data/B_10_cons.m5";
+    string encode_file = "../results/B_10_cons.encode";
+    int64_t n_reads;
+    vector<vector<int> > pu_var = pileup_var(encode_file, n_reads);
+    vector<vector<int> > pu_reads = pileup_reads(align_file, n_reads);
+    
+    print_pileup(pu_var, "../results/B_10_cons.var.pilup");
+    print_pileup(pu_reads, "../results/B_10_cons.reads.pilup");
 }
 
 
