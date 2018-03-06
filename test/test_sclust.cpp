@@ -66,7 +66,7 @@ TEST_CASE("test sclust::run()", "[hide]")
     string encode_file = "../results/B_10_cons.encode";
     //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
     //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.range.split.bin";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
     
     string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.1_vs_rest.range.sclust";
     
@@ -132,10 +132,8 @@ TEST_CASE("Test sclust::assemble()", "[hide]")
 
 TEST_CASE("Test sclust::split_subspace()", "[hide]")
 {
-    //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
-    //string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn.range.bin";
-    string out_file = "../results/B_10_cons_cmpreads_topn.range.split.bin";
+    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
+    string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
     SClust sclust;
     sclust.split_subspace(cmpreads_file, out_file, 15);
     

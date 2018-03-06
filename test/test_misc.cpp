@@ -66,15 +66,15 @@ TEST_CASE("Test cmpreads_topn with read_id", "[hide]"){
     
 }
 
-TEST_CASE("Test cmpreads_bin2txt with read_id","[hide]")
+TEST_CASE("Test cmpreads_bin2txt with read_id", "[hide]")
 {
     string cmpreads_binfile = "../results/B_10_cons_cmpreads_topn_readid.bin";
     string cmpreads_txtfile = "../results/B_10_cons_cmpreads_topn_readid.bin.totxt";
     cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile , true);
     
-    cmpreads_binfile = "../results/B_10_cons_cmpreads_topn_readid_condprob.bin";
-    cmpreads_txtfile = "../results/B_10_cons_cmpreads_topn_readid_condprob.bin.totxt";
-    cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile , true);
+    //cmpreads_binfile = "../results/B_10_cons_cmpreads_topn_readid_condprob.bin";
+    //cmpreads_txtfile = "../results/B_10_cons_cmpreads_topn_readid_condprob.bin.totxt";
+    //cmpreads_bin2txt(cmpreads_binfile, cmpreads_txtfile , true);
 
     
 }

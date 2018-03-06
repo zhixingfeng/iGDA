@@ -12,6 +12,7 @@ void SClust::run(string encode_file, string align_file, string cmpreads_file,
                  string out_file, string tmp_dir, int max_cand_size, double min_logLR, 
                  int min_count, int min_cvg, int n_thread)
 {
+    cout << "max_cand_size: " << max_cand_size << endl;
     // initialize bit shift vector 
     for (int i=0; i<max_cand_size; ++i){
         bit_shift.push_back(uint32_t(pow(2,i)));
