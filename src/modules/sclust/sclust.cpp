@@ -100,7 +100,7 @@ bool SClust::run_thread(string cmpreads_file, string out_file, int max_cand_size
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
         if (feof(p_cmpreads_file))
             break;
-        
+
         // count frequency of variant combinations
         if (cand_loci.size() <= max_cand_size){
             // count frequency of pattern
@@ -870,6 +870,8 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
         vector<int> cand_loci(cand_loci_size,-1);
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (cand_loci.size() != cand_loci_size)
+            throw runtime_error("cand_loci.size() != cand_loci_size");
         if (feof(p_cmpreads_file))
             break;
         

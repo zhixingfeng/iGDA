@@ -81,6 +81,7 @@
 		DC516C061FCDE8E800D324DB /* test_ssw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_ssw.cpp; sourceTree = "<group>"; };
 		DC516C091FCF04DD00D324DB /* alignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alignment.cpp; sourceTree = "<group>"; };
 		DC516C0A1FCF04DD00D324DB /* alignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alignment.h; sourceTree = "<group>"; };
+		DC5829802052E361001BFE6D /* uninstall.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
 		DC85626E1E9C04B5005AE6EB /* errormodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errormodel.cpp; sourceTree = "<group>"; };
@@ -2382,6 +2383,7 @@
 		DC930F0C1D55274600640B65 = {
 			isa = PBXGroup;
 			children = (
+				DC5829802052E361001BFE6D /* uninstall.sh */,
 				DCE2FA181FE1863E00E629D0 /* Makefile */,
 				DCE2FA131FE183DF00E629D0 /* install.sh */,
 				DCB714DE1D62426000666D59 /* data */,

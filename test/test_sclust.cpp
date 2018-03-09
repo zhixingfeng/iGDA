@@ -60,19 +60,17 @@ TEST_CASE("test sclust::run(), debug", "[hide]")
 }
 
 
-TEST_CASE("test sclust::run()", "[hide]")
+TEST_CASE("test sclust::run()")
 {
-    string align_file = "../data/B_10_cons.m5";
-    string encode_file = "../results/B_10_cons.encode";
-    //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
-    //string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string cmpreads_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.split";
     
-    string out_file = "../results/B_10_cons_out_topn_dforestmax_n1.1_vs_rest.range.sclust";
+    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.sclust";
     
     SClust sclust;
     //sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 0, 0, 1);
-    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 15, 0, 10, 10, 1);
+    sclust.run(encode_file, align_file, cmpreads_file, out_file, "./", 5, 0, 10, 10, 1);
 }
 
 TEST_CASE("test sclust::run(), multithread", "[hide]")
@@ -132,10 +130,10 @@ TEST_CASE("Test sclust::assemble()", "[hide]")
 
 TEST_CASE("Test sclust::split_subspace()", "[hide]")
 {
-    string cmpreads_file = "../results/B_10_cons_cmpreads_topn_readid.bin";
-    string out_file = "../results/B_10_cons_cmpreads_topn_readid.split.bin";
+    string cmpreads_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads";
+    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.split";
     SClust sclust;
-    sclust.split_subspace(cmpreads_file, out_file, 15);
+    sclust.split_subspace(cmpreads_file, out_file, 5);
     
 }
 
