@@ -184,8 +184,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             the_matches[j].start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
             the_matches[j].end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
             int n_overlap = the_matches[j].end - the_matches[j].start + 1;
-            //if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) && 
-            //    n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
+           
             if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1))
                 continue;
             
@@ -202,7 +201,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             
             if (is_condprob){
                 if (encode_data[j].size() > 0)
-                    the_matches[j].match_rate = (double) cur_match.size() / encode_data[j].size();
+                    the_matches[j].match_rate = (double) cur_match.size() / encode_data[i].size();
                 else    
                     the_matches[j].match_rate = 0;
             }else{
