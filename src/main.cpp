@@ -211,9 +211,8 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
-            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            ValueArg<double> minlogLRArg("l","minlogLR","minimal logLR between joint and marigional probability, default: 10",
-                                         false , 10, "minlogLR", cmd);
+            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 5", false , 5, "maxsubdim", cmd);
+            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.75", false , 0.75, "minCondProb", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
@@ -229,7 +228,7 @@ int main(int argc, const char * argv[])
             SClust sclust;
             sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),
                        outfileArg.getValue(), tmpdirArg.getValue(), maxsubdimArg.getValue(),
-                       minlogLRArg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
+                       mincondprobrg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
                        nthreadArg.getValue());
 
         }

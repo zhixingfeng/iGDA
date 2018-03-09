@@ -118,14 +118,6 @@ TEST_CASE("Test sclust::summary()", "[hide]")
 
 }
 
-TEST_CASE("Test sclust::assemble()", "[hide]")
-{
-    string summary_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.1_vs_rest.summary.l50";
-    string out_file = "../results/sclust/ERR1109332_ERR1246962_ERR1246953_ERR1599920_ERR1588648.top20.sclust.lr.n1.readid.1_vs_rest.summary.l50.assembly";
-    SClust sclust;
-    sclust.assemble(summary_file, out_file, 10, 100);
-
-}
 
 
 TEST_CASE("Test sclust::split_subspace()", "[hide]")
