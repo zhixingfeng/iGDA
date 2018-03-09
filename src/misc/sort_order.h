@@ -78,9 +78,9 @@ inline vector<int> sort_order(vector<int> &x, bool is_decreasing=false)
     for (int i = 0; i < idx.size(); i++)
         idx[i] = i;
     if (is_decreasing)
-        sort(idx.begin(), idx.end(), comp_int_greater);
+        stable_sort(idx.begin(), idx.end(), comp_int_greater);
     else
-        sort(idx.begin(), idx.end(), comp_int_less);
+        stable_sort(idx.begin(), idx.end(), comp_int_less);
     return idx;
 }
 
@@ -93,9 +93,9 @@ inline vector<int> sort_order(vector<double> &x, bool is_decreasing=false)
     for (int i = 0; i < idx.size(); i++)
         idx[i] = i;
     if (is_decreasing)
-        sort(idx.begin(), idx.end(), comp_double_greater);
+        stable_sort(idx.begin(), idx.end(), comp_double_greater);
     else
-        sort(idx.begin(), idx.end(), comp_double_less);
+        stable_sort(idx.begin(), idx.end(), comp_double_less);
     return idx;
 }
 
