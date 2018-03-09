@@ -210,7 +210,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
         }
         
         // sort the_matches according to match_rate
-        sort(the_matches.begin(), the_matches.end(), [](const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;});
+        stable_sort(the_matches.begin(), the_matches.end(), [](const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;});
         
         // print topn matches
         int cur_size = topn <= the_matches.size() ? topn : (int)the_matches.size();
