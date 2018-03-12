@@ -477,11 +477,11 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
 {
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
-        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+        throw runtime_error("SClust::split_subspace(): fail to open cmpreads_file");
     
     FILE * p_out_file = fopen(out_file.c_str(), "wb");
     if (p_out_file == NULL)
-        throw runtime_error("DForestSNVMax::run(): fail to open out_file");
+        throw runtime_error("SClust::split_subspace(): fail to open out_file");
 
     
     int64_t k = 1;
@@ -508,11 +508,30 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
         // split subspace if its size exceeds max_cand_size
         if (cand_loci.size() > max_cand_size){
             for (int i=0; i<(int)cand_loci.size()-max_cand_size+1; ++i){
+                // re-calculate start locus the candidate loci
+                int cur_start = start;
+                if (i > 0){
+                    cur_start = ceil( ( int(cand_loci[i]/4) + int(cand_loci[i-1]/4) ) / 2.0 );
+                }
+                
+                // re-calculate end locus the candidate loci
+                int cur_end = end;
+                if (i + max_cand_size - 1 < (int)cand_loci.size() - 1){
+                    cur_end = floor( ( int(cand_loci[i+max_cand_size-1]/4) + int(cand_loci[i+max_cand_size]/4) ) / 2.0 );
+                }
+                
+                
                 fwrite(&read_id, sizeof(int), 1, p_out_file);
+                fwrite(&cur_start, sizeof(int), 1, p_out_file);
+                fwrite(&cur_end, sizeof(int), 1, p_out_file);
+                fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
+                fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
+                /*fwrite(&read_id, sizeof(int), 1, p_out_file);
                 fwrite(&start, sizeof(int), 1, p_out_file);
                 fwrite(&end, sizeof(int), 1, p_out_file);
                 fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
                 fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
+                */
             }
         }else{
             fwrite(&read_id, sizeof(int), 1, p_out_file);
