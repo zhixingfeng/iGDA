@@ -520,18 +520,11 @@ void SClust::split_subspace(string cmpreads_file, string out_file, int max_cand_
                     cur_end = floor( ( int(cand_loci[i+max_cand_size-1]/4) + int(cand_loci[i+max_cand_size]/4) ) / 2.0 );
                 }
                 
-                
                 fwrite(&read_id, sizeof(int), 1, p_out_file);
                 fwrite(&cur_start, sizeof(int), 1, p_out_file);
                 fwrite(&cur_end, sizeof(int), 1, p_out_file);
                 fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
                 fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
-                /*fwrite(&read_id, sizeof(int), 1, p_out_file);
-                fwrite(&start, sizeof(int), 1, p_out_file);
-                fwrite(&end, sizeof(int), 1, p_out_file);
-                fwrite(&max_cand_size, sizeof(int), 1, p_out_file);
-                fwrite(&cand_loci[i], sizeof(int), max_cand_size, p_out_file);
-                */
             }
         }else{
             fwrite(&read_id, sizeof(int), 1, p_out_file);
