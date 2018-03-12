@@ -365,7 +365,10 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 }
 
 
-
+void Assembler::pairwise_cmpreads(vector<vector<int> > &adj_mat, string encode_file, string align_file, int cand_size, int resampling_size)
+{
+    
+}
 
 
 

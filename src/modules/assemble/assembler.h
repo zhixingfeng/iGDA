@@ -29,6 +29,9 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
+    // pairwisely compare reads.
+    void pairwise_cmpreads(vector<vector<int> > &adj_mat, string encode_file, string align_file, int cand_size = 5, int resampling_size = 10);
+    
     
 }
 ;

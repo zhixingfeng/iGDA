@@ -120,7 +120,7 @@ TEST_CASE("Test sclust::summary()", "[hide]")
 
 
 
-TEST_CASE("Test sclust::split_subspace()")
+TEST_CASE("Test sclust::split_subspace()", "[hide]")
 {
     string cmpreads_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads";
     string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.split";

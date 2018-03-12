@@ -59,6 +59,13 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
+TEST_CASE("test assembler::pariwise_cmpreads")
+{
+    
+}
+
+
+
 
 
 
