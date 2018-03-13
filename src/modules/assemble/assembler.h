@@ -19,7 +19,7 @@
 class Assembler
 {
 public:
-    Assembler(){}
+    Assembler():cand_size(5),resampling_size(20),min_count(15),min_condprob(0.15),max_condprob(0.75){}
     virtual ~Assembler(){}
     
 public:
@@ -29,10 +29,32 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
-    // pairwisely compare reads.
-    void pairwise_cmpreads(vector<vector<int> > &adj_mat, string encode_file, string align_file, int cand_size = 5, int resampling_size = 10);
+    inline void set_par(int cand_size, int resampling_size, int min_count, double min_condprob, double max_condprob)
+    {
+        cand_size = cand_size;
+        resampling_size = resampling_size;
+        min_count = min_count;
+        min_condprob = min_condprob;
+        max_condprob = max_condprob;
+    }
+    double compare_reads(const vector<int> &encode_diff_1, const vector<int> &encode_diff_2,
+                         const vector<int> &encode_common);
+    
+    void run(string encode_file, string align_file, string out_file);
     
     
+protected:
+    vector<vector<int> > pu_var;
+    vector<vector<int> > pu_read;
+    int64_t nreads;
+
+    int cand_size;
+    int resampling_size;
+    int min_count;
+    double min_condprob;
+    double max_condprob;
+    
+    vector<vector<int> > adj_mat;
 }
 ;
 

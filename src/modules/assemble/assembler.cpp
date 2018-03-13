@@ -364,11 +364,19 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
+double Assembler::compare_reads(const vector<int> &encode_diff_1, const vector<int> &encode_diff_2,
+                     const vector<int> &encode_common)
+{
+    double condprob = -1;
+    
+    return condprob;
+}
 
-void Assembler::pairwise_cmpreads(vector<vector<int> > &adj_mat, string encode_file, string align_file, int cand_size, int resampling_size)
+void Assembler::run(string encode_file, string align_file, string out_file)
 {
     
 }
+
 
 
 
