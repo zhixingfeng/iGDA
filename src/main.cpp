@@ -140,15 +140,18 @@ int main(int argc, const char * argv[])
             SwitchArg istextArg("t", "text", "is output text file", cmd, false);
             SwitchArg isreadIDArg("r", "readID", "is print reads ID", cmd, false);
             SwitchArg isnocondprobArg("c", "condprob", "not use conditional probability", cmd, false);
-            
-            //SwitchArg isdupArg("d", "dup", "keep duplicated candidates", cmd, false);
+            SwitchArg isdiffArg("d", "diff", "is calculate difference between reads", cmd, false);
             
             cmd.parse(argv2);
             
-            cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
-                          topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
-                          isreadIDArg.getValue(), !isnocondprobArg.getValue());
-            
+            if (isdiffArg.getValue()){
+                cmpreads_topn_diff(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                                   topnArg.getValue(), overlapArg.getValue());
+            }else{
+                cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                              topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
+                              isreadIDArg.getValue(), !isnocondprobArg.getValue());
+            }
             
             /*if (!isdupArg.getValue()){
                 string tmpoutfile = outfileArg.getValue() + ".tmp";
