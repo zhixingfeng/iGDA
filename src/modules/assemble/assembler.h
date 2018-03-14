@@ -29,6 +29,19 @@ public:
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
     void jaccard_index(string encode_file, string align_file, string out_file);
     
+    inline void call_pileup_var(string encode_file){
+        pu_var.clear();
+        pu_var = pileup_var(encode_file, n_reads);
+    }
+    
+    inline void call_pileup_reads(string align_file, char format = 'm'){
+        pu_read.clear();
+        int64_t cur_n_reads;
+        pu_read = pileup_reads(align_file, cur_n_reads, format);
+        if (cur_n_reads != n_reads)
+            throw runtime_error("number of reads in align_file and encode_file are different");
+    }
+    
     inline void set_par(int cand_size, int resampling_size, int min_count, double min_condprob, double max_condprob)
     {
         cand_size = cand_size;
@@ -37,17 +50,16 @@ public:
         min_condprob = min_condprob;
         max_condprob = max_condprob;
     }
-    double compare_reads(const vector<int> &encode_diff_1, const vector<int> &encode_diff_2,
-                         const vector<int> &encode_common);
-    
+
+    void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
     void run(string encode_file, string align_file, string out_file);
     
     
 protected:
     vector<vector<int> > pu_var;
     vector<vector<int> > pu_read;
-    int64_t nreads;
-
+    int64_t n_reads;
+    
     int cand_size;
     int resampling_size;
     int min_count;

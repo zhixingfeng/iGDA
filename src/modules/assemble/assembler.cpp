@@ -364,16 +364,22 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     fs_out.close();
 }
 
-double Assembler::compare_reads(const vector<int> &encode_diff_1, const vector<int> &encode_diff_2,
-                     const vector<int> &encode_common)
+void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file)
 {
-    double condprob = -1;
+    // load encode and alignment files
+    cout << "pileup encode_file" << endl;
+    call_pileup_var(encode_file);
+    cout << "pileup align_file" << endl;
+    call_pileup_reads(align_file);
     
-    return condprob;
+    
+    
 }
 
 void Assembler::run(string encode_file, string align_file, string out_file)
 {
+    
+
     
 }
 

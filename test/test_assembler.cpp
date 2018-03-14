@@ -59,14 +59,15 @@ TEST_CASE("test assembler::jaccard_index()", "[hide]")
     assembler.jaccard_index(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::pariwise_cmpreads")
+TEST_CASE("test assembler::correct_reads()")
 {
     string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
-    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.assemble";
+    string cmpreads_diff_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.diff";
+    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
     
     Assembler assembler;
-    //assembler.run(encode_file, align_file, out_file);
+    assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
     
 }
 

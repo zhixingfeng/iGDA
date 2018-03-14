@@ -53,9 +53,11 @@ public:
     virtual ~DForest(){}
     
     inline void call_pileup_var(const vector<vector<int> > &encode_data){
+        pu_var.clear();
         pu_var = pileup_var(encode_data, n_reads);
     }
     inline void call_pileup_reads(const stxxl::vector<Align> &align_data, char format = 'm'){
+        pu_read.clear();
         int64_t cur_n_reads;
         pu_read = pileup_reads(align_data, cur_n_reads, format);
         if (cur_n_reads != n_reads)

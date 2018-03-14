@@ -153,43 +153,7 @@ int main(int argc, const char * argv[])
                               isreadIDArg.getValue(), !isnocondprobArg.getValue());
             }
             
-            /*if (!isdupArg.getValue()){
-                string tmpoutfile = outfileArg.getValue() + ".tmp";
-                if (topnArg.getValue() > 0)
-                    cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile,
-                                  topnArg.getValue(), overlapArg.getValue(), true, false);
-                else
-                    cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), tmpoutfile, overlapArg.getValue(), true, false);
-                if (istextArg.getValue()){
-                    string shell_cmd = "awk '!seen[$0]++' " +  tmpoutfile + " > " + outfileArg.getValue();
-                    cout << shell_cmd << endl;
-                    system(shell_cmd.c_str());
-                }else{
-                    string shell_cmd = "awk '!seen[$0]++' " +  tmpoutfile + " > " + outfileArg.getValue() + ".uniq";
-                    cout << shell_cmd << endl;
-                    system(shell_cmd.c_str());
-                    
-                    shell_cmd = "igda txt2bin " + outfileArg.getValue() + ".uniq " + outfileArg.getValue();
-                    cout << shell_cmd << endl;
-                    system(shell_cmd.c_str());
-                    
-                    shell_cmd = "rm " + outfileArg.getValue() + ".uniq";
-                    cout << shell_cmd << endl;
-                    system(shell_cmd.c_str());
-                }
-                
-                string shell_cmd = "rm " + tmpoutfile;
-                cout << shell_cmd << endl;
-                system(shell_cmd.c_str());
-
-            }else{
-                if (topnArg.getValue() > 0)
-                    cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
-                                  topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue());
-                else
-                    cmpreads(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
-                             overlapArg.getValue(), true, !istextArg.getValue());
-            }*/
+            
         }
         
         // split cmpreads_file
@@ -267,10 +231,11 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> binfileArg("binfile", "binary cmpreads file", true, "", "binfile", cmd);
             UnlabeledValueArg<string> txtfileArg("txtfile", "text cmpreads file", true, "", "txtfile", cmd);
             SwitchArg isreadIDArg("r", "readID", "is use reads ID", cmd, false);
+            SwitchArg isdiffArg("d", "diff", "is use differences", cmd, false);
             
             cmd.parse(argv2);
             
-            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), isreadIDArg.getValue());
+            cmpreads_bin2txt(binfileArg.getValue(), txtfileArg.getValue(), isreadIDArg.getValue(), isdiffArg.getValue());
         }
         
         // convert text cmpreadsfile to binary
