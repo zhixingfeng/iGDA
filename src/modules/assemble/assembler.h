@@ -78,10 +78,12 @@ public:
 
     void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
     void correct_reads_core(CmpreadsDiffRead &cmpread);
-    void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &count);
+    void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp);
     
     void run(string encode_file, string align_file, string out_file);
     
+protected:
+    void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
     
 protected:
     vector<vector<int> > pu_var;
@@ -96,9 +98,10 @@ protected:
     
     vector<vector<int> > adj_mat;
     
-    vector<int64_t> temp_var;
-    vector<int64_t> temp_read;
-    int64_t counter;
+    vector<uint64_t> temp_var;
+    vector<uint64_t> temp_read;
+    uint64_t counter;
+    
 }
 ;
 

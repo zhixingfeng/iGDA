@@ -366,6 +366,9 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
 
 void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file)
 {
+    if (this->cand_size > 32)
+        throw runtime_error("cand_size should not exceed 32.");
+    
     // load encode and alignment files
     cout << "pileup encode_file" << endl;
     call_pileup_var(encode_file);
@@ -373,21 +376,24 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     call_pileup_reads(align_file);
     
     // generate template
-    counter = 0;
-    temp_var = vector<int64_t>(this->n_reads, counter);
-    temp_read = vector<int64_t>(this->n_reads, counter);
+    counter = 1;
+    temp_var = vector<uint64_t>(this->n_reads, 0);
+    temp_read = vector<uint64_t>(this->n_reads, 0);
     
     // open input and output files
     FILE *p_infile = fopen(cmpreads_diff_file.c_str(), "rb");
     if (p_infile == NULL)
         runtime_error("fail to open cmpreads_diff_file");
 
-    FILE *p_outfile = fopen(out_file.c_str(), "rb");
+    /*FILE *p_outfile = fopen(out_file.c_str(), "rb");
     if (p_outfile == NULL)
         runtime_error("fail to open out_file");
-
+    */
+    ofstream fs_outfile; open_outfile(fs_outfile, out_file);
+    
     // scan cmpreads_diff_file
     CmpreadsDiffRead cur_cmpread(-1);
+    int64_t n_lines = 0;
     while(true){
         // read line
         int cand_loci_size;
@@ -409,8 +415,17 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
         
         if (feof(p_infile)){
             // correct the currect read
+            this->correct_reads_core(cur_cmpread);
+            
+            // output results
+            this->print_correct_reads_raw(cur_cmpread, fs_outfile);
+            
             break;
         }
+        
+        ++n_lines;
+        if (n_lines % 1000 == 0)
+            cout << "# of lines: " << n_lines << endl;
         
         // load CmpreadsDiff
         CmpreadsDiff cur_cmp(cand_loci, cand_loci_diff);
@@ -422,6 +437,9 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
             if (cur_cmpread.read_id != -1){
                 // correct the currect read
                 this->correct_reads_core(cur_cmpread);
+                
+                // output results
+                this->print_correct_reads_raw(cur_cmpread, fs_outfile);
             }
             // update read_id and clean cur_cmpread
             cur_cmpread.read_id = read_id;
@@ -433,10 +451,12 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
         cur_cmpread.cmpreads_diff.push_back(cur_cmp);
 
     }
-    
+    cout << "# of lines: " << n_lines << endl;
     fclose(p_infile);
-    fclose(p_outfile);
+    //fclose(p_outfile);
+    fs_outfile.close();
     
+    // clean template and counter
     counter = 0;
     temp_var.clear();
     temp_read.clear();
@@ -445,8 +465,45 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
 
 void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
 {
+    // scan each cmpreads_diff to test
     for (int i=0; i<cmpread.cmpreads_diff.size(); ++i){
-        // merge cand_loci and cand_loci_diff
+        // test common variants
+        for (int j = 0; j < (int)cmpread.cmpreads_diff[i].cand_loci.size(); ++j){
+            // get focal locus
+            int focal_locus = cmpread.cmpreads_diff[i].cand_loci[j];
+            // get loci_set
+            int win_start = j - (cand_size-1) > 0 ? j - (cand_size-1) : 0;
+            for (int k = win_start; k <= j; ++k){
+                // get loci_set
+                int cur_end = k + (cand_size-1) < (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1 ? k + (cand_size-1) : (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1;
+                if (k == cur_end) continue;
+                vector<int> loci_set;
+                for (int t = k; t <= cur_end; ++t){
+                    if (t != j)
+                        loci_set.push_back(cmpread.cmpreads_diff[i].cand_loci[t]);
+                }
+                
+                // test conditional probability of focal locus given loci_set
+                double logLR, condprob;
+                int n_y_xp, n_xp;
+                this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
+                
+                // record results
+                if (condprob > cmpread.cmpreads_diff[i].condprob[j])
+                    cmpread.cmpreads_diff[i].condprob[j] = condprob;
+                
+                if (cur_end == (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1)
+                    break;
+            }
+            
+        }
+        
+        // test different variants
+        
+        
+        
+        
+        /*// merge cand_loci and cand_loci_diff
         vector<int> loci_merge(cmpread.cmpreads_diff[i].cand_loci);
         loci_merge.insert(loci_merge.end(),cmpread.cmpreads_diff[i].cand_loci_diff.begin(), cmpread.cmpreads_diff[i].cand_loci_diff.end());
         
@@ -465,23 +522,74 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
                 for (int t = k; t <= cur_end; ++t)
                     loci_set[t-k] = loci_merge[idx[t]];
                 
-                // test conditionla probability of focal locus given loci_set
+                // test conditional probability of focal locus given loci_set
                 double logLR, condprob;
-                int count;
-                this->test_locus(focal_locus, loci_set, logLR, condprob, count);
+                int n_y_xp, n_xp;
+                this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
+                
+                // check if the focal locus is in cand_diff
+                bool is_diff = j >= cmpread.cmpreads_diff[i].cand_loci.size();
+                if (is_diff){
+                    
+                }else{
+                    
+                }
                 
                 if (cur_end == (int)idx.size() - 1)
                     break;
             }
-        }
+        }*/
     }
+    
+    // clean temp_var and temp_read ......
 }
 
-void Assembler::test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &count)
+void Assembler::test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp)
 {
-    /*for (int i = 0; i < (int)loci_set.size(); ++i){
-        for (j = 0; j < pu_var)
-    }*/
+    // Let's fill in temp_vec_var and temp_vec_read
+    // by reponse y. pu_var is 4 times larger than pu_read because of binary coding so
+    // we have to devide 4 to access pu_read
+    int y_locus = focal_locus;
+    int y_read_locus = int (y_locus / 4);
+    
+    // fill in temp_vec_var and temp_vec_read by response y
+    for (int j = 0; j < pu_var[y_locus].size(); j++)
+        temp_var[pu_var[y_locus][j]] = counter;
+    
+    for (int j = 0; j < pu_read[y_read_locus].size(); j++)
+        temp_read[pu_read[y_read_locus][j]] = counter;
+    
+    ++counter;
+    
+    if (counter >= numeric_limits<uint64_t>::max()-1)
+        throw runtime_error("counter exceeds maximal int64_t");
+    
+    // calculate conditional probability
+    for (int i = 0; i < (int)loci_set.size(); ++i){
+        int cur_locus = loci_set[i];
+        if (cur_locus == y_locus)
+            continue;
+        n_y_xp = 0; n_xp = 0;
+        for (int k = 0; k < pu_var[cur_locus].size(); k++){
+            if (temp_var[ pu_var[cur_locus][k] ] == counter - 1){
+                temp_var[ pu_var[cur_locus][k] ] = counter;
+                ++n_y_xp;
+            }
+            if (temp_read[ pu_var[cur_locus][k] ] == counter - 1){
+                temp_read[ pu_var[cur_locus][k] ] = counter;
+                ++n_xp;
+            }
+        }
+        ++counter;
+        if (counter >= numeric_limits<uint64_t>::max()-1)
+            throw runtime_error("counter exceeds maximal int64_t");
+    }
+    
+    if (n_xp == 0)
+        condprob = 0;
+    else
+        condprob = (double)n_y_xp / n_xp;
+    
 }
 
 void Assembler::run(string encode_file, string align_file, string out_file)
@@ -492,5 +600,13 @@ void Assembler::run(string encode_file, string align_file, string out_file)
 }
 
 
+void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
+{
+    for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
+        fs_outfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
+        fs_outfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
+        fs_outfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
+    }
+}
 
 

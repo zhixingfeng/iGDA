@@ -375,14 +375,11 @@ TEST_CASE("bit shift vs multiply","[hide]")
 }
 
 
-TEST_CASE("test maximal size of vector")
+TEST_CASE("test maximal size of vector", "[hide]")
 {
     vector<int> myvector;
     cout << "maximal size of vector:" <<  myvector.max_size() << endl;
 }
-
-
-
 
 
 
