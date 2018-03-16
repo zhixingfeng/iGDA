@@ -471,6 +471,7 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
         for (int j = 0; j < (int)cmpread.cmpreads_diff[i].cand_loci.size(); ++j){
             // get focal locus
             int focal_locus = cmpread.cmpreads_diff[i].cand_loci[j];
+            
             // get loci_set
             int win_start = j - (cand_size-1) > 0 ? j - (cand_size-1) : 0;
             for (int k = win_start; k <= j; ++k){
@@ -499,7 +500,34 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
         }
         
         // test different variants
-        
+        for (int j = 0; j < (int)cmpread.cmpreads_diff[i].cand_loci_diff.size(); ++j){
+            // get focal locus
+            int focal_locus = cmpread.cmpreads_diff[i].cand_loci_diff[j];
+            
+            // get loci_set
+            for (int k = 0; k < (int)cmpread.cmpreads_diff[i].cand_loci.size(); ++k){
+                int cur_end = k + (cand_size-1) < (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1 ? k + (cand_size-1) : (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1;
+                if (k == cur_end) continue;
+                
+                vector<int> loci_set;
+                for (int t = k; t <= cur_end; ++t){
+                    if (t != j)
+                        loci_set.push_back(cmpread.cmpreads_diff[i].cand_loci[t]);
+                }
+                
+                // test conditional probability of focal locus given loci_set
+                double logLR, condprob;
+                int n_y_xp, n_xp;
+                this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
+
+                // record results
+                if (condprob > cmpread.cmpreads_diff[i].condprob_diff[j])
+                    cmpread.cmpreads_diff[i].condprob_diff[j] = condprob;
+                
+                if (cur_end == (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1)
+                    break;
+            }
+        }
         
         
         
