@@ -372,8 +372,116 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     cout << "pileup align_file" << endl;
     call_pileup_reads(align_file);
     
+    // generate template
+    counter = 0;
+    temp_var = vector<int64_t>(this->n_reads, counter);
+    temp_read = vector<int64_t>(this->n_reads, counter);
     
+    // open input and output files
+    FILE *p_infile = fopen(cmpreads_diff_file.c_str(), "rb");
+    if (p_infile == NULL)
+        runtime_error("fail to open cmpreads_diff_file");
+
+    FILE *p_outfile = fopen(out_file.c_str(), "rb");
+    if (p_outfile == NULL)
+        runtime_error("fail to open out_file");
+
+    // scan cmpreads_diff_file
+    CmpreadsDiffRead cur_cmpread(-1);
+    while(true){
+        // read line
+        int cand_loci_size;
+        int cand_loci_diff_size;
+        int read_id;
+        int start;
+        int end;
+        fread(&read_id, sizeof(int), 1, p_infile);
+        fread(&start, sizeof(int), 1, p_infile);
+        fread(&end, sizeof(int), 1, p_infile);
+        
+        fread(&cand_loci_size, sizeof(int), 1, p_infile);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_infile);
+        
+        fread(&cand_loci_diff_size, sizeof(int), 1, p_infile);
+        vector<int> cand_loci_diff(cand_loci_diff_size,-1);
+        fread(&cand_loci_diff[0], sizeof(int), cand_loci_diff_size, p_infile);
+        
+        if (feof(p_infile)){
+            // correct the currect read
+            break;
+        }
+        
+        // load CmpreadsDiff
+        CmpreadsDiff cur_cmp(cand_loci, cand_loci_diff);
+        cur_cmp.start = start;
+        cur_cmp.end = end;
+        
+        // if get into a new read, correct the currect read
+        if (read_id != cur_cmpread.read_id){
+            if (cur_cmpread.read_id != -1){
+                // correct the currect read
+                this->correct_reads_core(cur_cmpread);
+            }
+            // update read_id and clean cur_cmpread
+            cur_cmpread.read_id = read_id;
+            cur_cmpread.cmpreads_diff.clear();
+            cur_cmpread.encode_corrected.clear();
+        }
+        
+        // update cur_cmpread
+        cur_cmpread.cmpreads_diff.push_back(cur_cmp);
+
+    }
     
+    fclose(p_infile);
+    fclose(p_outfile);
+    
+    counter = 0;
+    temp_var.clear();
+    temp_read.clear();
+    
+}
+
+void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
+{
+    for (int i=0; i<cmpread.cmpreads_diff.size(); ++i){
+        // merge cand_loci and cand_loci_diff
+        vector<int> loci_merge(cmpread.cmpreads_diff[i].cand_loci);
+        loci_merge.insert(loci_merge.end(),cmpread.cmpreads_diff[i].cand_loci_diff.begin(), cmpread.cmpreads_diff[i].cand_loci_diff.end());
+        
+        // get rank in increasing order
+        vector<int> idx = sort_order(loci_merge);
+        
+        // get focal locus and loci set to test using slide window
+        for (int j = 0; j < idx.size(); ++j){
+            int focal_locus = loci_merge[idx[j]];
+            int win_start = j - (cand_size-1) > 0? j - (cand_size-1) : 0;
+            for (int k = win_start; k <= j; ++k){
+                // get loci_set
+                int cur_end = k + (cand_size-1) < (int)idx.size() - 1 ? k + (cand_size-1) : (int)idx.size() - 1;
+                if (k == cur_end) continue;
+                vector<int> loci_set(cur_end - k + 1, -1);
+                for (int t = k; t <= cur_end; ++t)
+                    loci_set[t-k] = loci_merge[idx[t]];
+                
+                // test conditionla probability of focal locus given loci_set
+                double logLR, condprob;
+                int count;
+                this->test_locus(focal_locus, loci_set, logLR, condprob, count);
+                
+                if (cur_end == (int)idx.size() - 1)
+                    break;
+            }
+        }
+    }
+}
+
+void Assembler::test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &count)
+{
+    /*for (int i = 0; i < (int)loci_set.size(); ++i){
+        for (j = 0; j < pu_var)
+    }*/
 }
 
 void Assembler::run(string encode_file, string align_file, string out_file)

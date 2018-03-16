@@ -16,6 +16,31 @@
 #include "../src/modules/alignment/alignment.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
 
+struct CmpreadsDiff
+{
+    CmpreadsDiff(){}
+    CmpreadsDiff(const vector<int> &cand_loci, const vector<int> &cand_loci_diff):
+            cand_loci(cand_loci), cand_loci_diff(cand_loci_diff),
+            condprob(cand_loci.size(), -1), condprob_diff(cand_loci_diff.size(), -1),
+            logLR(cand_loci.size(), -1), logLR_diff(cand_loci_diff.size(), -1){}
+    int start;
+    int end;
+    const vector<int> cand_loci;
+    const vector<int> cand_loci_diff;
+    vector<double> condprob;
+    vector<double> condprob_diff;
+    vector<double> logLR;
+    vector<double> logLR_diff;
+};
+struct CmpreadsDiffRead
+{
+    CmpreadsDiffRead(){}
+    CmpreadsDiffRead(int read_id): read_id(read_id){}
+    int read_id;
+    vector<CmpreadsDiff> cmpreads_diff;
+    vector<int> encode_corrected;
+};
+
 class Assembler
 {
 public:
@@ -52,6 +77,9 @@ public:
     }
 
     void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
+    void correct_reads_core(CmpreadsDiffRead &cmpread);
+    void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &count);
+    
     void run(string encode_file, string align_file, string out_file);
     
     
@@ -67,6 +95,10 @@ protected:
     double max_condprob;
     
     vector<vector<int> > adj_mat;
+    
+    vector<int64_t> temp_var;
+    vector<int64_t> temp_read;
+    int64_t counter;
 }
 ;
 
