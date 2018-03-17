@@ -29,6 +29,8 @@ struct CmpreadsDiff
     const vector<int> cand_loci_diff;
     vector<double> condprob;
     vector<double> condprob_diff;
+    vector<int> n_y_xp;
+    vector<int> n_y_xp_diff;
     vector<double> logLR;
     vector<double> logLR_diff;
 };
@@ -44,7 +46,7 @@ struct CmpreadsDiffRead
 class Assembler
 {
 public:
-    Assembler():cand_size(5),resampling_size(20),min_count(15),min_condprob(0.15),max_condprob(0.75){}
+    Assembler():cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75){}
     virtual ~Assembler(){}
     
 public:

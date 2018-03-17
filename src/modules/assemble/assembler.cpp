@@ -385,10 +385,7 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     if (p_infile == NULL)
         runtime_error("fail to open cmpreads_diff_file");
 
-    /*FILE *p_outfile = fopen(out_file.c_str(), "rb");
-    if (p_outfile == NULL)
-        runtime_error("fail to open out_file");
-    */
+    
     ofstream fs_outfile; open_outfile(fs_outfile, out_file);
     
     // scan cmpreads_diff_file
@@ -490,8 +487,10 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
                 this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
                 
                 // record results
-                if (condprob > cmpread.cmpreads_diff[i].condprob[j])
+                if (condprob > cmpread.cmpreads_diff[i].condprob[j] &&
+                    n_y_xp >= this->min_count){
                     cmpread.cmpreads_diff[i].condprob[j] = condprob;
+                }
                 
                 if (cur_end == (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1)
                     break;
@@ -521,55 +520,17 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
                 this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
 
                 // record results
-                if (condprob > cmpread.cmpreads_diff[i].condprob_diff[j])
+                if (condprob > cmpread.cmpreads_diff[i].condprob_diff[j] &&
+                    n_y_xp >= this->min_count){
                     cmpread.cmpreads_diff[i].condprob_diff[j] = condprob;
-                
+                }
                 if (cur_end == (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1)
                     break;
             }
         }
         
-        
-        
-        /*// merge cand_loci and cand_loci_diff
-        vector<int> loci_merge(cmpread.cmpreads_diff[i].cand_loci);
-        loci_merge.insert(loci_merge.end(),cmpread.cmpreads_diff[i].cand_loci_diff.begin(), cmpread.cmpreads_diff[i].cand_loci_diff.end());
-        
-        // get rank in increasing order
-        vector<int> idx = sort_order(loci_merge);
-        
-        // get focal locus and loci set to test using slide window
-        for (int j = 0; j < idx.size(); ++j){
-            int focal_locus = loci_merge[idx[j]];
-            int win_start = j - (cand_size-1) > 0? j - (cand_size-1) : 0;
-            for (int k = win_start; k <= j; ++k){
-                // get loci_set
-                int cur_end = k + (cand_size-1) < (int)idx.size() - 1 ? k + (cand_size-1) : (int)idx.size() - 1;
-                if (k == cur_end) continue;
-                vector<int> loci_set(cur_end - k + 1, -1);
-                for (int t = k; t <= cur_end; ++t)
-                    loci_set[t-k] = loci_merge[idx[t]];
-                
-                // test conditional probability of focal locus given loci_set
-                double logLR, condprob;
-                int n_y_xp, n_xp;
-                this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
-                
-                // check if the focal locus is in cand_diff
-                bool is_diff = j >= cmpread.cmpreads_diff[i].cand_loci.size();
-                if (is_diff){
-                    
-                }else{
-                    
-                }
-                
-                if (cur_end == (int)idx.size() - 1)
-                    break;
-            }
-        }*/
     }
     
-    // clean temp_var and temp_read ......
 }
 
 void Assembler::test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp)
