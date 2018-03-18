@@ -461,7 +461,24 @@ int main(int argc, const char * argv[])
             print_pileup(pu_reads, outfileArg.getValue());
         }
 
+        // correct reads
+        if (strcmp(argv[1], "correct") == 0){
+            // parse arguments
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> cmpreadsfileArg("cmpreads_diff_file", "path of cmpreads_diff file", true, "", "cmpreads_diff_file", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
+            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
+            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
+            ValueArg<double> maxcondprobrg("q","maxCondProb","maximal conditional probability, default: 0.75", false , 0.75, "maxCondProb", cmd);
 
+            cmd.parse(argv2);
+            Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
+                                mincondprobrg.getValue(), maxcondprobrg.getValue());
+            assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue());
+        }
         
     }
     catch(const std::overflow_error& e) {

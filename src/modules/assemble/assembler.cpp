@@ -386,6 +386,7 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
         runtime_error("fail to open cmpreads_diff_file");
 
     
+    ofstream fs_testfile; open_outfile(fs_testfile, out_file + ".test");
     ofstream fs_outfile; open_outfile(fs_outfile, out_file);
     
     // scan cmpreads_diff_file
@@ -414,8 +415,11 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
             // correct the currect read
             this->correct_reads_core(cur_cmpread);
             
-            // output results
-            this->print_correct_reads_raw(cur_cmpread, fs_outfile);
+            // output test results
+            this->print_correct_reads_raw(cur_cmpread, fs_testfile);
+            
+            // output corrected reads
+            this->print_correct_reads(cur_cmpread, fs_outfile);
             
             break;
         }
@@ -435,8 +439,11 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
                 // correct the currect read
                 this->correct_reads_core(cur_cmpread);
                 
-                // output results
-                this->print_correct_reads_raw(cur_cmpread, fs_outfile);
+                // output test results
+                this->print_correct_reads_raw(cur_cmpread, fs_testfile);
+                
+                // output corrected reads
+                this->print_correct_reads(cur_cmpread, fs_outfile);
             }
             // update read_id and clean cur_cmpread
             cur_cmpread.read_id = read_id;
@@ -449,8 +456,9 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
 
     }
     cout << "# of lines: " << n_lines << endl;
+    
     fclose(p_infile);
-    //fclose(p_outfile);
+    fs_testfile.close();
     fs_outfile.close();
     
     // clean template and counter
@@ -496,6 +504,14 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
                     break;
             }
             
+            // correct read
+            if (cmpread.cmpreads_diff[i].cand_loci.size() >= 3){
+                if (cmpread.cmpreads_diff[i].condprob[j] >= this->min_condprob)
+                    cmpread.encode_corrected.insert(focal_locus);
+            }else{
+                cmpread.encode_corrected.insert(focal_locus);
+            }
+            
         }
         
         // test different variants
@@ -527,6 +543,10 @@ void Assembler::correct_reads_core(CmpreadsDiffRead &cmpread)
                 if (cur_end == (int)cmpread.cmpreads_diff[i].cand_loci.size() - 1)
                     break;
             }
+            
+            // correct read
+            if (cmpread.cmpreads_diff[i].condprob_diff[j] >= this->max_condprob)
+                cmpread.encode_corrected.insert(focal_locus);
         }
         
     }
@@ -589,13 +609,20 @@ void Assembler::run(string encode_file, string align_file, string out_file)
 }
 
 
-void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
+void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
 {
     for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
-        fs_outfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
-        fs_outfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
-        fs_outfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
+        fs_testfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
     }
 }
 
+void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
+{
+    for (auto it = cmpread.encode_corrected.begin(); it != cmpread.encode_corrected.end(); ++it){
+        fs_outfile << *it << '\t';
+    }
+    fs_outfile << endl;
+}
 

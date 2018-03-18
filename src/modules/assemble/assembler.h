@@ -40,13 +40,16 @@ struct CmpreadsDiffRead
     CmpreadsDiffRead(int read_id): read_id(read_id){}
     int read_id;
     vector<CmpreadsDiff> cmpreads_diff;
-    vector<int> encode_corrected;
+    set<int> encode_corrected;
 };
 
 class Assembler
 {
 public:
     Assembler():cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75){}
+    Assembler(int cand_size, int resampling_size, int min_count, double min_condprob, double max_condprob):
+            cand_size(cand_size),resampling_size(resampling_size),min_count(min_count),
+            min_condprob(min_condprob),max_condprob(max_condprob){}
     virtual ~Assembler(){}
     
 public:
@@ -85,7 +88,8 @@ public:
     void run(string encode_file, string align_file, string out_file);
     
 protected:
-    void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
+    void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);
+    void print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
     
 protected:
     vector<vector<int> > pu_var;
