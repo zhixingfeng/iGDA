@@ -15,13 +15,29 @@
 
 struct ReadMatch
 {
-    ReadMatch():match_rate(0),n_overlap(0){}
+    ReadMatch(): match_rate(0), n_overlap(0), start(0), end(0){}
+    ReadMatch(vector<int> diff, vector<int> matches, double match_rate, int n_overlap, int start, int end):
+            diff(diff), matches(matches), match_rate(match_rate), n_overlap(n_overlap), start(start), end(end){}
     vector<int> diff;
     vector<int> matches;
     double match_rate;
     int n_overlap;
     int start;
     int end;
+};
+
+/*inline bool operator==(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate == rhs.match_rate; }
+inline bool operator<=(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate <= rhs.match_rate; }
+inline bool operator<(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate < rhs.match_rate; }
+inline bool operator>=(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate >= rhs.match_rate; }
+inline bool operator>(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate > rhs.match_rate; }
+*/
+struct queue_compare
+{
+    bool operator()(const ReadMatch& l, const ReadMatch& r)
+    {
+        return l.match_rate > r.match_rate;
+    }
 };
 
 // compare reads and use top n as candidates (include difference between reads, read IDs will be added)
@@ -62,8 +78,8 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
         for (int j = 0; j < encode_data[i].size(); j++)
             temp_array[encode_data[i][j]] = i;
         
-        // store matches of the jth read to the ith read
-        vector<ReadMatch> the_matches (encode_data.size(), ReadMatch());
+        // store matches of the jth read to the ith read (only store topn using priority_queue)
+        priority_queue<ReadMatch, vector<ReadMatch>, queue_compare> the_matches;
         
         // compare other reads to cur_variant
         for (int j=0; j<(int)encode_data.size(); j++){
@@ -71,9 +87,9 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
                 continue;
             
             // get size of overlap of the two reads
-            the_matches[j].start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
-            the_matches[j].end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
-            int n_overlap = the_matches[j].end - the_matches[j].start + 1;
+            int overlap_start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            int overlap_end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = overlap_end - overlap_start + 1;
             
             if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1))
                 continue;
@@ -91,44 +107,42 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
                 }
             }
             
-            the_matches[j].matches = cur_match;
-            the_matches[j].diff = cur_diff;
-            the_matches[j].n_overlap = n_overlap;
-            
+            // calculate match rate
+            double cur_match_rate = 0;
             if (encode_data[j].size() > 0)
-                the_matches[j].match_rate = (double) cur_match.size() / encode_data[i].size();
-            else
-                the_matches[j].match_rate = 0;
+                cur_match_rate = (double) cur_match.size() / encode_data[i].size();
             
+            // keep topn matches
+            if (the_matches.size() < topn){
+                the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, overlap_start, overlap_end));
+            }else{
+                if (cur_match_rate > the_matches.top().match_rate){
+                    the_matches.pop();
+                    the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, overlap_start, overlap_end));
+                }
+            }
             
-          
         }
-        
-        // sort the_matches according to match_rate
-        stable_sort(the_matches.begin(), the_matches.end(), [](const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;});
         
         // print topn matches
-        int cur_size = topn <= the_matches.size() ? topn : (int)the_matches.size();
-        for (int j=0; j<cur_size; j++){
-            // skip matches with size < 2 if is_rm_single is true
-            if (the_matches[j].matches.size() < 2)
-                continue;
-          
-            // print results
-            int cur_match_size = (int)the_matches[j].matches.size();
-            int cur_diff_size = (int)the_matches[j].diff.size();
-            fwrite(&i, sizeof(int), 1, p_out_file);
-            fwrite(&the_matches[j].start, sizeof(int), 1, p_out_file);
-            fwrite(&the_matches[j].end, sizeof(int), 1, p_out_file);
-            
-            fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
-            fwrite(&the_matches[j].matches[0], sizeof(int), cur_match_size, p_out_file);
-            
-            fwrite(&cur_diff_size, sizeof(int), 1, p_out_file);
-            fwrite(&the_matches[j].diff[0], sizeof(int), cur_diff_size, p_out_file);
-            
+        while(!the_matches.empty()){
+            ReadMatch tmp_match = the_matches.top();
+            if (tmp_match.matches.size() >= 2){
+                int cur_match_size = (int)tmp_match.matches.size();
+                int cur_diff_size = (int)tmp_match.diff.size();
+                
+                fwrite(&i, sizeof(int), 1, p_out_file);
+                fwrite(&tmp_match.start, sizeof(int), 1, p_out_file);
+                fwrite(&tmp_match.end, sizeof(int), 1, p_out_file);
+                
+                fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
+                fwrite(&tmp_match.matches[0], sizeof(int), cur_match_size, p_out_file);
+                
+                fwrite(&cur_diff_size, sizeof(int), 1, p_out_file);
+                fwrite(&tmp_match.diff[0], sizeof(int), cur_diff_size, p_out_file);
+            }
+            the_matches.pop();
         }
-        
     }
     
     fclose(p_out_file);

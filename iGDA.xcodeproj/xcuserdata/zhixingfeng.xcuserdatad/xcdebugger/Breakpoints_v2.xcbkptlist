@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/cmpreads.h"
-            timestampString = "542321760.496297"
+            timestampString = "543180974.694151"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "cmpreads_topn(const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const stxxl::vector&lt;Align&gt; &amp;align_data, stxxl::vector&lt;vector&lt;int&gt; &gt; &amp;cmpreads_data, int topn = 20, double min_overlap = 0.25, bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25, bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -81,6 +81,22 @@
             endingLineNumber = "469"
             landmarkName = "Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/cmpreads.h"
+            timestampString = "543180974.694151"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "cmpreads_topn_diff(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
