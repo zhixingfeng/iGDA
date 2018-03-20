@@ -81,9 +81,13 @@ public:
         max_condprob = max_condprob;
     }
 
+    // correct reads
     void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
     void correct_reads_core(CmpreadsDiffRead &cmpread);
     void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp);
+    
+    // check contained reads
+    vector<int> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, bool rm_empty_centroid = true);
     
     void run(string encode_file, string align_file, string out_file);
     

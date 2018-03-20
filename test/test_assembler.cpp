@@ -68,7 +68,21 @@ TEST_CASE("test assembler::correct_reads()","[hide]")
     
     Assembler assembler;
     assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
+}
+
+TEST_CASE("test assembler::check_contained_reads()")
+{
+    string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     
+    vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
+    vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
+    
+    Assembler assembler;
+    vector<int> read_sel_idx = assembler.check_contained_reads(encode_data, reads_range);
+    
+    cout << read_sel_idx << endl;
+    cout << read_sel_idx.size() << endl;
 }
 
 

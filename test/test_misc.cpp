@@ -30,7 +30,7 @@ TEST_CASE("Test loadencodedata", "[hide]"){
 }
 
 
-TEST_CASE("Test cmpreads_topn_diff with read_id"){
+TEST_CASE("Test cmpreads_topn_diff with read_id", "[hide]"){
     string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string out_binfile = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.diff";
