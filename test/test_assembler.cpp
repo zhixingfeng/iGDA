@@ -72,9 +72,10 @@ TEST_CASE("test assembler::correct_reads()","[hide]")
 
 TEST_CASE("test assembler::check_contained_reads()")
 {
-    string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
-    string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
-    
+    //string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    //string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string align_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.m5";
+    string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
     vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
     vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
     
