@@ -50,16 +50,16 @@ TEST_CASE("test assembler::dist_rdim()", "[hide]")
     assembler.dist_rdim(encode_file, m5_file, var_file, out_file);
 }
 
-TEST_CASE("test assembler::jaccard_index()", "[hide]")
+TEST_CASE("test assembler::jaccard_index()")
 {
-    string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
-    string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
-    string out_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.jaccard.5000";
+    string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
+    string m5_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.jaccard.5000";
     Assembler assembler;
-    assembler.jaccard_index(encode_file, m5_file, out_file);
+    assembler.jaccard_index(encode_file, m5_file, out_file, 0.5);
 }
 
-TEST_CASE("test assembler::correct_reads()","[hide]")
+TEST_CASE("test assembler::correct_reads()", "[hide]")
 {
     string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
@@ -70,7 +70,7 @@ TEST_CASE("test assembler::correct_reads()","[hide]")
     assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
 }
 
-TEST_CASE("test assembler::check_contained_reads()")
+TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 {
     //string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     //string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";

@@ -430,11 +430,12 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            ValueArg<double> minjaccardArg("m","minJaccard","minimal jaccard index, default: 0.5", false , 0.5, "minJaccard", cmd);
             
             cmd.parse(argv2);
             
             Assembler assembler;
-            assembler.jaccard_index(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue());
+            assembler.jaccard_index(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minjaccardArg.getValue());
         }
 
         // pileup encode

@@ -286,7 +286,7 @@ void Assembler::dist_rdim(string encode_file, string align_file, string var_file
 
 
 
-void Assembler::jaccard_index(string encode_file, string align_file, string out_file)
+void Assembler::jaccard_index(string encode_file, string align_file, string out_file, double min_jaccard_index)
 {
     // load encode_file
     vector<vector<int> > encode_data;
@@ -350,6 +350,9 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
             }
             
             double jaccard_index = n_union==0 ? 0 : (double)n_intersect / n_union;
+            
+            if (jaccard_index < min_jaccard_index)
+                continue;
             
             fs_out << i <<',' << j << ',' << jaccard_index << ',';
             fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';

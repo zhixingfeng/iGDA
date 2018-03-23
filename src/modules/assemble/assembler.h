@@ -57,7 +57,7 @@ public:
     void reduce_dim(string encode_file, string var_file, string out_file);
     void dist(string encode_file, string align_file, string out_file);
     void dist_rdim(string encode_file, string align_file, string var_file, string out_file);
-    void jaccard_index(string encode_file, string align_file, string out_file);
+    void jaccard_index(string encode_file, string align_file, string out_file, double min_jaccard_index);
     
     inline void call_pileup_var(string encode_file){
         pu_var.clear();
