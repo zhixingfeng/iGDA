@@ -358,9 +358,9 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
             fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';
             fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;
             
-            fs_out << j <<',' << i << ',' << jaccard_index << ',';
+            /*fs_out << j <<',' << i << ',' << jaccard_index << ',';
             fs_out << n_intersect << ',' << n_union << ',' << n_overlap << ',';
-            fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;
+            fs_out << start << ',' << end << ',' << code_start << ',' << code_end << endl;*/
         }
     }
     cout << "processed " << encode_data.size() << " reads" <<endl;
