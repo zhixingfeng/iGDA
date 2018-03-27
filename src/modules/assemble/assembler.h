@@ -43,6 +43,18 @@ struct CmpreadsDiffRead
     set<int> encode_corrected;
 };
 
+struct AdjEdge
+{
+    AdjEdge(){}
+    AdjEdge(int left_node, int right_node, int n_match, int n_diff, double similarity): left_node(left_node), right_node(right_node),
+            n_match(n_match), n_diff(n_diff), similarity(similarity){}
+    int left_node;
+    int right_node;
+    int n_match;
+    int n_diff;
+    double similarity;
+};
+
 class Assembler
 {
 public:
@@ -90,6 +102,9 @@ public:
     // check contained reads
     vector<int> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, bool rm_empty_centroid = true);
     
+    // overlap layout consensus
+    void olc(string encode_file, string align_file, string out_file, int min_match = 2, double min_sim = 0.8);
+
     void run(string encode_file, string align_file, string out_file);
     
 protected:
@@ -107,7 +122,7 @@ protected:
     double min_condprob;
     double max_condprob;
     
-    vector<vector<int> > adj_mat;
+    vector<AdjEdge> adj_edge_list;
     
     vector<uint64_t> temp_var;
     vector<uint64_t> temp_read;

@@ -29,6 +29,15 @@ inline int bitcount(uint32_t u)
     return ((uCount + (uCount >> 3)) & 030707070707) % 63;
 }
 
-
+// slide window for vector
+template<typename T>
+inline void slide_win(const vector<T> &vec_in, vector<T> &vec_out, int start, int win_size)
+{
+    if (start >= (int)vec_in.size())
+        throw runtime_error("start >= (int)vec_in.size()");
+    int end = start + win_size - 1 < vec_in.size() ? start + win_size - 1 : (int)vec_in.size() - 1;
+    for (int i = start; i <= end; ++i)
+        vec_out.push_back(vec_in[i]);
+}
 
 #endif /* basic_h */

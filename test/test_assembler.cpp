@@ -80,7 +80,7 @@ TEST_CASE("test assembler::correct_reads()", "[hide]")
     assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
 }
 
-TEST_CASE("test assembler::check_contained_reads()")
+TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 {
     //string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     //string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
@@ -101,6 +101,17 @@ TEST_CASE("test assembler::check_contained_reads()")
     
     select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
     select_lines(read_sel_idx, align_file, align_file + ".non_contained");
+}
+
+TEST_CASE("test assembler::olc()", "[hide]")
+{
+    string align_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.m5";
+    string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
+    vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
+    vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
+    
+    Assembler assembler;
+    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.out");
 }
 
 

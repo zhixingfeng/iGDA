@@ -222,21 +222,37 @@ TEST_CASE("Test sort_order", "[hide]")
     
 }
 
-TEST_CASE("Test number of cores")
+TEST_CASE("Test number of cores", "[hide]")
 {
     cout << "cores available: " << thread::hardware_concurrency() << endl;
 }
 
-TEST_CASE("Test range of int64_t")
+TEST_CASE("Test range of int64_t", "[hide]")
 {
     cout << "maximum of int64_t: " << numeric_limits<int64_t>::max() << endl;
 }
 
 
 
-TEST_CASE("Test bitcount")
+TEST_CASE("Test bitcount", "[hide]")
 {
     cout << bitcount(3) << endl;
 }
+
+TEST_CASE("Test slide_win")
+{
+    vector<int> x = {1,2,3,4,5,6,7,8,9,10};
+    int win_size = 20;
+    for (int i=0; i<(int)x.size(); ++i){
+        vector<int> y;
+        slide_win(x, y, i, win_size);
+        cout << y << endl;
+    }
+        
+}
+
+
+
+
 
 

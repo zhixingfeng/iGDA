@@ -754,6 +754,87 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
     return read_sel_idx;
 }
 
+void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)
+{
+    /*------------ get non-contained reads (get the index "idx") -------------*/
+    vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
+    vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
+    
+    vector<int> idx = this->check_contained_reads(encode_data, reads_range);
+    
+    /*------------ overlap-layout-consensus --------------*/
+    // prepare template to compare reads
+    int temp_array_size = 0;
+    for (int i = 0; i < encode_data.size(); i++)
+        for (int j = 0; j < encode_data[i].size(); j++)
+            if (encode_data[i][j] > temp_array_size)
+                temp_array_size = encode_data[i][j];
+    temp_array_size++;
+    vector<int64_t> temp_array(temp_array_size, 0);
+    
+    // pairwise compare non-contained reads
+    int64_t counter = 1;
+    for (int i = 0; i < (int)idx.size(); ++i){
+        if ((i+1)%1000==0) cout << i+1 << endl;
+        
+        // skip if the number of variants of the ith read is smaller than min_match
+        if (encode_data[i].size() < min_match)
+            continue;
+        
+        for (int j = 0; j < (int)idx.size(); ++j){
+            // skip if two non-contained reads are identical
+            if (i == j) continue;
+            
+            // skip if two reads are not overlap
+            if (reads_range[i].first > reads_range[j].second || reads_range[j].first > reads_range[i].second)
+                continue;
+            
+            // fill the template array by the variants in the ith non-contained read
+            for (int k = 0; k < (int)encode_data[i].size(); ++k)
+                temp_array[encode_data[i][k]] = counter;
+            
+            // get intersection between two reads and unique variants in read j
+            vector<int> cur_match;
+            vector<int> cur_diff_j;
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (temp_array[encode_data[j][k]] == counter){
+                    cur_match.push_back(encode_data[j][k]);
+                    
+                }else{
+                    if (encode_data[j][k] >= 4*reads_range[i].first && encode_data[j][k] <= 4*reads_range[i].second + 3)
+                        cur_diff_j.push_back(encode_data[j][k]);
+                }
+                temp_array[encode_data[j][k]] = -counter;
+            }
+            
+            // get unique variants in read i
+            vector<int> cur_diff_i;
+            for (int k = 0; k < (int)encode_data[i].size(); ++k){
+                if (temp_array[encode_data[i][k]] != -counter){
+                    if (encode_data[i][k] >= 4*reads_range[j].first && encode_data[i][k] <= 4*reads_range[j].second + 3)
+                        cur_diff_i.push_back(encode_data[i][k]);
+                }
+            }
+            ++counter;
+            
+            // skip if number of common variants < min_match
+            if (cur_match.size() < min_match)
+                continue;
+            
+            // skip if similarity < min_sim
+            double sim;
+            if (cur_match.size() == 0)
+                sim = 0;
+            else
+                sim = (double) cur_match.size() / (cur_match.size() + cur_diff_i.size() + cur_diff_j.size());
+            if (sim < min_sim)
+                continue;
+            
+            // test if cur_diff_i and cur_diff_j are noise (i.e. they are noise if condprob < min_condprob || condprob > max_condprob)
+        }
+    }
+    
+}
 
 void Assembler::run(string encode_file, string align_file, string out_file)
 {
