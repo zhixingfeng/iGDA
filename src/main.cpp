@@ -450,6 +450,30 @@ int main(int argc, const char * argv[])
             assembler.jaccard_index_min(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minjaccardArg.getValue());
         }
 
+        if (strcmp(argv[1], "check_contained_reads")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            //UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            string encode_file = encodefileArg.getValue();
+            string align_file = alignfileArg.getValue();
+            
+            cout << "load encode_data and reads_range" << endl;
+            vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
+            vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
+            
+            cout << "check non-contained reads" << endl;
+            Assembler assembler;
+            vector<int> read_sel_idx = assembler.check_contained_reads(encode_data, reads_range);
+            
+            cout << "output results" << endl;
+            select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
+            select_lines(read_sel_idx, align_file, align_file + ".non_contained");
+
+            
+        }
+        
         
         // pileup encode
         if (strcmp(argv[1], "pileup_var")==0) {
