@@ -70,7 +70,30 @@ inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, ch
     return true;
 }
 
-
+// idx must be increasingly ordered
+inline void select_lines(const vector<int> &idx, string infile, string outfile)
+{
+    ifstream fs_infile; ofstream fs_outfile;
+    open_infile(fs_infile, infile);
+    open_outfile(fs_outfile, outfile);
+    int i = 0;
+    int k = 0;
+    while(true){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        if (k == idx[i]){
+            fs_outfile << buf << endl;
+            ++i;
+        }
+        if (i >= idx.size())
+            break;
+        ++k;
+    }
+    fs_infile.close();
+    fs_outfile.close();
+}
 
 
 
