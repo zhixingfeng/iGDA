@@ -103,7 +103,7 @@ TEST_CASE("test assembler::check_contained_reads()", "[hide]")
     select_lines(read_sel_idx, align_file, align_file + ".non_contained");
 }
 
-TEST_CASE("test assembler::olc()", "[hide]")
+TEST_CASE("test assembler::olc()")
 {
     string align_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.m5";
     string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";

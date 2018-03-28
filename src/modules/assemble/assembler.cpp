@@ -756,13 +756,26 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
 
 void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)
 {
+    
     /*------------ get non-contained reads (get the index "idx") -------------*/
     vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
     vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
     
+    /*------------ pileup reads -------------*/
+    cout << "pileup encode_file" << endl;
+    call_pileup_var(encode_file);
+    cout << "pileup align_file" << endl;
+    call_pileup_reads(align_file);
+
+    /*----------- generate template for locus_test -----------*/
+    counter = 1;
+    temp_var = vector<uint64_t>(this->n_reads, 0);
+    temp_read = vector<uint64_t>(this->n_reads, 0);
+    
     vector<int> idx = this->check_contained_reads(encode_data, reads_range);
     
     /*------------ overlap-layout-consensus --------------*/
+    cout << "overlap layout consensus" << endl;
     // prepare template to compare reads
     int temp_array_size = 0;
     for (int i = 0; i < encode_data.size(); i++)
@@ -773,15 +786,17 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
     vector<int64_t> temp_array(temp_array_size, 0);
     
     // pairwise compare non-contained reads
-    int64_t counter = 1;
-    for (int i = 0; i < (int)idx.size(); ++i){
-        if ((i+1)%1000==0) cout << i+1 << endl;
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, out_file);
+    int64_t olc_counter = 1;
+    for (int i : idx){
+        //if ((i+1)%1000==0) cout << i+1 << endl;
         
         // skip if the number of variants of the ith read is smaller than min_match
         if (encode_data[i].size() < min_match)
             continue;
         
-        for (int j = 0; j < (int)idx.size(); ++j){
+        for (int j : idx){
             // skip if two non-contained reads are identical
             if (i == j) continue;
             
@@ -789,33 +804,37 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             if (reads_range[i].first > reads_range[j].second || reads_range[j].first > reads_range[i].second)
                 continue;
             
+            // skip if the read j ends before read i end
+            if (reads_range[i].second > reads_range[j].second)
+                continue;
+            
             // fill the template array by the variants in the ith non-contained read
             for (int k = 0; k < (int)encode_data[i].size(); ++k)
-                temp_array[encode_data[i][k]] = counter;
+                temp_array[encode_data[i][k]] = olc_counter;
             
             // get intersection between two reads and unique variants in read j
             vector<int> cur_match;
             vector<int> cur_diff_j;
             for (int k = 0; k < encode_data[j].size(); k++){
-                if (temp_array[encode_data[j][k]] == counter){
+                if (temp_array[encode_data[j][k]] == olc_counter){
                     cur_match.push_back(encode_data[j][k]);
                     
                 }else{
                     if (encode_data[j][k] >= 4*reads_range[i].first && encode_data[j][k] <= 4*reads_range[i].second + 3)
                         cur_diff_j.push_back(encode_data[j][k]);
                 }
-                temp_array[encode_data[j][k]] = -counter;
+                temp_array[encode_data[j][k]] = -olc_counter;
             }
             
             // get unique variants in read i
             vector<int> cur_diff_i;
             for (int k = 0; k < (int)encode_data[i].size(); ++k){
-                if (temp_array[encode_data[i][k]] != -counter){
+                if (temp_array[encode_data[i][k]] != -olc_counter){
                     if (encode_data[i][k] >= 4*reads_range[j].first && encode_data[i][k] <= 4*reads_range[j].second + 3)
                         cur_diff_i.push_back(encode_data[i][k]);
                 }
             }
-            ++counter;
+            ++olc_counter;
             
             // skip if number of common variants < min_match
             if (cur_match.size() < min_match)
@@ -831,9 +850,41 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                 continue;
             
             // test if cur_diff_i and cur_diff_j are noise (i.e. they are noise if condprob < min_condprob || condprob > max_condprob)
+            //double cur_min_condprob = 1;
+            bool is_connect = true;
+            for (int k = 0; k < (int)cur_diff_i.size(); ++k){
+                int focal_locus = cur_diff_i[k];
+                for (int t = 0; t < (int) cur_match.size(); ++t){
+                    vector<int> loci_set;
+                    slide_win(cur_match, loci_set, t, this->cand_size);
+                    double logLR, condprob;
+                    int n_y_xp, n_xp;
+                    this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
+                    if (condprob >= min_condprob && condprob <= max_condprob)
+                        is_connect = false;
+                }
+            }
+            
+            for (int k = 0; k < (int)cur_diff_j.size(); ++k){
+                int focal_locus = cur_diff_j[k];
+                for (int t = 0; t < (int) cur_match.size(); ++t){
+                    vector<int> loci_set;
+                    slide_win(cur_match, loci_set, t, this->cand_size);
+                    double logLR, condprob;
+                    int n_y_xp, n_xp;
+                    this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
+                    if (condprob >= min_condprob && condprob <= max_condprob)
+                        is_connect = false;
+                }
+            }
+            
+            if (is_connect)
+                fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << endl;
+            
         }
     }
     
+    fs_outfile.close();
 }
 
 void Assembler::run(string encode_file, string align_file, string out_file)

@@ -239,10 +239,10 @@ TEST_CASE("Test bitcount", "[hide]")
     cout << bitcount(3) << endl;
 }
 
-TEST_CASE("Test slide_win")
+TEST_CASE("Test slide_win", "[hide]")
 {
     vector<int> x = {1,2,3,4,5,6,7,8,9,10};
-    int win_size = 20;
+    int win_size = 2;
     for (int i=0; i<(int)x.size(); ++i){
         vector<int> y;
         slide_win(x, y, i, win_size);
