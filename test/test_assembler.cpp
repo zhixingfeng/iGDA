@@ -109,9 +109,9 @@ TEST_CASE("test assembler::olc()")
     string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
     vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
     vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
-    
-    Assembler assembler;
-    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.out");
+    //cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75)
+    Assembler assembler(5, 20, 10, 0.15, 0.75);
+    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.out", 2, 0.0, false);
 }
 
 

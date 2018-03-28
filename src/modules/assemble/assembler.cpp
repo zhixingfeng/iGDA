@@ -754,7 +754,7 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
     return read_sel_idx;
 }
 
-void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)
+void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, bool is_check_contained_reads)
 {
     
     /*------------ get non-contained reads (get the index "idx") -------------*/
@@ -772,7 +772,13 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
     temp_var = vector<uint64_t>(this->n_reads, 0);
     temp_read = vector<uint64_t>(this->n_reads, 0);
     
-    vector<int> idx = this->check_contained_reads(encode_data, reads_range);
+    vector<int> idx;
+    if (is_check_contained_reads){
+        idx = this->check_contained_reads(encode_data, reads_range);
+    }else{
+        for (int i = 0; i < (int) encode_data.size(); ++i)
+            idx.push_back(i);
+    }
     
     /*------------ overlap-layout-consensus --------------*/
     cout << "overlap layout consensus" << endl;
@@ -852,34 +858,72 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             // test if cur_diff_i and cur_diff_j are noise (i.e. they are noise if condprob < min_condprob || condprob > max_condprob)
             //double cur_min_condprob = 1;
             bool is_connect = true;
+            double entropy = 0;
+            double max_entropy = 0;
             for (int k = 0; k < (int)cur_diff_i.size(); ++k){
                 int focal_locus = cur_diff_i[k];
+                double cur_max_condprob = 0;
                 for (int t = 0; t < (int) cur_match.size(); ++t){
                     vector<int> loci_set;
                     slide_win(cur_match, loci_set, t, this->cand_size);
+                    
                     double logLR, condprob;
                     int n_y_xp, n_xp;
                     this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
-                    if (condprob >= min_condprob && condprob <= max_condprob)
+                    
+                    if (condprob > cur_max_condprob)
+                        cur_max_condprob = condprob;
+                    
+                    if (condprob > min_condprob && condprob < max_condprob)
                         is_connect = false;
+                }
+                
+                if (cur_max_condprob > 0 && cur_max_condprob < 1){
+                    entropy += -cur_max_condprob * log(cur_max_condprob);
+                    if (-cur_max_condprob * log(cur_max_condprob) > max_entropy)
+                        max_entropy = -cur_max_condprob * log(cur_max_condprob);
                 }
             }
             
             for (int k = 0; k < (int)cur_diff_j.size(); ++k){
                 int focal_locus = cur_diff_j[k];
+                double cur_max_condprob = 0;
                 for (int t = 0; t < (int) cur_match.size(); ++t){
                     vector<int> loci_set;
                     slide_win(cur_match, loci_set, t, this->cand_size);
+                    
                     double logLR, condprob;
                     int n_y_xp, n_xp;
                     this->test_locus(focal_locus, loci_set, logLR, condprob, n_y_xp, n_xp);
-                    if (condprob >= min_condprob && condprob <= max_condprob)
+                    
+                    if (condprob > cur_max_condprob)
+                        cur_max_condprob = condprob;
+
+                    if (condprob > min_condprob && condprob < max_condprob)
                         is_connect = false;
+                }
+                
+                if (cur_max_condprob > 0 && cur_max_condprob < 1){
+                    entropy += -cur_max_condprob * log(cur_max_condprob);
+                    if (-cur_max_condprob * log(cur_max_condprob) > max_entropy)
+                        max_entropy = -cur_max_condprob * log(cur_max_condprob);
                 }
             }
             
+            int diff_size = (int)cur_diff_i.size() + (int)cur_diff_j.size();
+            
+            double sim_entropy, sim_max_entropy;
+            if (diff_size == 0){
+                sim_entropy = sim;
+                sim_max_entropy = sim;
+            }else{
+                sim_entropy = double(diff_size - entropy) / diff_size;
+                sim_max_entropy = 1 - max_entropy;
+            }
+            
             if (is_connect)
-                fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << endl;
+                fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << '\t' << sim_entropy << '\t' << sim_max_entropy << endl;
+            
             
         }
     }
