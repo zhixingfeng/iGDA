@@ -471,7 +471,12 @@ int main(int argc, const char * argv[])
             select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
             select_lines(read_sel_idx, align_file, align_file + ".non_contained");
 
-            
+            string outfile = encode_file + ".idx";
+            ofstream fs_outfile;
+            open_outfile(fs_outfile, outfile);
+            for (int i=0; i < (int) read_sel_idx.size(); ++i)
+                fs_outfile << read_sel_idx[i] << endl;
+            fs_outfile.close();
         }
         
         
