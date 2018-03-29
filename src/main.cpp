@@ -479,6 +479,27 @@ int main(int argc, const char * argv[])
             fs_outfile.close();
         }
         
+        if (strcmp(argv[1], "olc") == 0){
+            // parse arguments
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
+            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
+            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
+            ValueArg<double> maxcondprobrg("q","maxCondProb","maximal conditional probability, default: 0.75", false , 0.75, "maxCondProb", cmd);
+            
+            ValueArg<int> minmatchArg("n","minmatch","minimal number of matches between two reads, default: 2", false , 2, "minmatch", cmd);
+            ValueArg<double> minsimArg("m","minsim","minimal similarity between two reads, default: 0.7", false , 0.7, "minsim", cmd);
+            ValueArg<double> minpropArg("k","minprop","minimal proportion of match, default: 0.5", false , 0.5, "minprop", cmd);
+            SwitchArg iscontainArg("r", "contain", "is check contained reads, default : false", cmd, false);
+            
+            cmd.parse(argv2);
+            Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
+                                mincondprobrg.getValue(), maxcondprobrg.getValue());
+            assembler.olc(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minmatchArg.getValue(), minsimArg.getValue(), minpropArg.getValue(), iscontainArg.getValue());
+        }
         
         // pileup encode
         if (strcmp(argv[1], "pileup_var")==0) {

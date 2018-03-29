@@ -754,7 +754,7 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
     return read_sel_idx;
 }
 
-void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, bool is_check_contained_reads)
+void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)
 {
     
     /*------------ get non-contained reads (get the index "idx") -------------*/
@@ -855,6 +855,11 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             if (sim < min_sim)
                 continue;
             
+            // skip if proportion of match is too low
+            double cur_match_prop = encode_data[i].size() > 0 ?  (double)cur_match.size() / encode_data[i].size() : 0;
+            if (cur_match_prop < min_match_prop)
+                continue;
+            
             // test if cur_diff_i and cur_diff_j are noise (i.e. they are noise if condprob < min_condprob || condprob > max_condprob)
             //double cur_min_condprob = 1;
             bool is_connect = true;
@@ -874,8 +879,12 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                     if (condprob > cur_max_condprob)
                         cur_max_condprob = condprob;
                     
-                    if (condprob > min_condprob && condprob < max_condprob)
-                        is_connect = false;
+                    //if (condprob > min_condprob && condprob < max_condprob)
+                    //    is_connect = false;
+                }
+                if (cur_max_condprob > min_condprob && cur_max_condprob < max_condprob){
+                    is_connect = false;
+                    break;
                 }
                 
                 if (cur_max_condprob > 0 && cur_max_condprob < 1){
@@ -899,8 +908,13 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                     if (condprob > cur_max_condprob)
                         cur_max_condprob = condprob;
 
-                    if (condprob > min_condprob && condprob < max_condprob)
-                        is_connect = false;
+                    //if (condprob > min_condprob && condprob < max_condprob)
+                    //    is_connect = false;
+                }
+                
+                if (cur_max_condprob > min_condprob && cur_max_condprob < max_condprob){
+                    is_connect = false;
+                    break;
                 }
                 
                 if (cur_max_condprob > 0 && cur_max_condprob < 1){

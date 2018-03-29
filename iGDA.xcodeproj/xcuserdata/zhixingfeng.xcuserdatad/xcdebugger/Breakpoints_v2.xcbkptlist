@@ -159,7 +159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "802"
             endingLineNumber = "802"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -170,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "543963555.481315"
+            timestampString = "544031821.388158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)"
+            startingLineNumber = "927"
+            endingLineNumber = "927"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,12 +186,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "543963555.481315"
+            timestampString = "544031821.388158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim)"
+            startingLineNumber = "938"
+            endingLineNumber = "938"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
