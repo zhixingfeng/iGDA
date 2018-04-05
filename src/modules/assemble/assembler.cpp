@@ -682,7 +682,7 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
             if (encode_data[i][j] > temp_size)
                 temp_size = encode_data[i][j];
     temp_size = temp_size + 1;
-    vector<int64_t> temp_vec(temp_size, 0);
+    vector<int64_t> temp_vec(temp_size, -1);
     int64_t counter = 0;
     
     // check each read to see if they are contained
@@ -753,6 +753,93 @@ vector<int> Assembler::check_contained_reads(const vector<vector<int> > &encode_
     }
     return read_sel_idx;
 }
+
+vector<int> Assembler::find_follower_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &idx, string out_file)
+{
+    if (encode_data.size() != reads_range.size())
+        throw runtime_error("encode_data.size() != reads_range.size()");
+    
+    // setup template and counter
+    int temp_size = 0;
+    for (int i=0; i<(int)encode_data.size(); ++i)
+        for (int j=0; j<(int)encode_data[i].size(); ++j)
+            if (encode_data[i][j] > temp_size)
+                temp_size = encode_data[i][j];
+    temp_size = temp_size + 1;
+    vector<int64_t> temp_vec(temp_size, -1);
+    int64_t counter = 0;
+    
+    // get followers of each non-contained read
+    vector<int> idx_with_follower;
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, out_file);
+    for (int i : idx){
+        // remove empty reads
+        if (encode_data[i].size()==0){
+            fs_outfile << i << '\t' << 0 << '\t' << endl;
+            continue;
+        }
+        
+        // make sure counter does not exceed
+        if (counter >= numeric_limits<int>::max()-1)
+            throw runtime_error("counter >= numeric_limits<int>::max()-1");
+        
+        // fill in temp_vec with encode_data[i]
+        for (int j=0; j<(int)encode_data[i].size(); ++j)
+            temp_vec[encode_data[i][j]] = counter;
+
+        // check overlap between encode_data[i] and encode_data[j]
+        vector<int> follower_reads;
+        for (int j=0; j<(int)encode_data.size(); ++j){
+            if (j == i)
+                continue;
+            
+            // check if range of read i is contained in range of read j
+            if (reads_range[i].first > reads_range[j].first || reads_range[i].second < reads_range[j].second)
+                continue;
+            
+            if (reads_range[i].first == reads_range[j].first && reads_range[i].second == reads_range[j].second)
+                continue;
+            
+            // calculate overlap
+            int overlap_start = reads_range[j].first;
+            int overlap_end = reads_range[j].second;
+            
+            // calculate number of variants of encode_data[j] overlapping with the reads[i]
+            int cur_reads_range_code_start = 4*overlap_start;
+            int cur_reads_range_code_end = 4*overlap_end + 3;
+            int n_overlap = 0;
+            for (int k=0; k<(int)encode_data[i].size(); ++k)
+                if (encode_data[i][k] >= cur_reads_range_code_start && encode_data[i][k] <= cur_reads_range_code_end)
+                    ++n_overlap;
+            if (n_overlap == 0)
+                continue;
+            
+            // calculate number of matches
+            int n_match = 0;
+            for (int k=0; k<(int)encode_data[j].size(); ++k)
+                if (temp_vec[encode_data[j][k]] == counter)
+                    ++n_match;
+            
+            // check if read i is contained in read j
+            if (n_match == encode_data[j].size() && n_match == n_overlap){
+                follower_reads.push_back(j);
+            }
+            
+        }
+        // output results
+        if (follower_reads.size() > 0)
+            idx_with_follower.push_back(i);
+        fs_outfile << i << '\t' << follower_reads.size() << '\t' << follower_reads << endl;
+        
+        ++counter;
+    }
+    fs_outfile.close();
+    
+    return idx_with_follower;
+}
+
+
 
 void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)
 {

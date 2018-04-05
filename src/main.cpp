@@ -471,12 +471,17 @@ int main(int argc, const char * argv[])
             select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
             select_lines(read_sel_idx, align_file, align_file + ".non_contained");
 
-            string outfile = encode_file + ".idx";
+            string outfile = encode_file + ".non_contained.idx";
             ofstream fs_outfile;
             open_outfile(fs_outfile, outfile);
             for (int i=0; i < (int) read_sel_idx.size(); ++i)
                 fs_outfile << read_sel_idx[i] << endl;
             fs_outfile.close();
+            
+            outfile = encode_file + ".non_contained.check_follower";
+            vector<int> idx_with_follower = assembler.find_follower_reads(encode_data, reads_range, read_sel_idx, outfile);
+            select_lines(idx_with_follower, encode_file, encode_file + ".non_contained.with_follower");
+            select_lines(idx_with_follower, align_file, align_file + ".non_contained.with_follower");
         }
         
         if (strcmp(argv[1], "olc") == 0){
