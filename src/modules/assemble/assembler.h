@@ -94,6 +94,9 @@ public:
         max_condprob = max_condprob;
     }
 
+    // reconstruct reference genome from alignment
+    void ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq);
+    
     // correct reads
     void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
     void correct_reads_core(CmpreadsDiffRead &cmpread);
@@ -107,6 +110,8 @@ public:
     void olc(string encode_file, string align_file, string out_file, int min_match = 2, double min_sim = 0.7, double min_match_prop = 0.5, bool is_check_contained_reads = false);
 
     void run(string encode_file, string align_file, string out_file);
+    
+    
     
 protected:
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);

@@ -549,6 +549,29 @@ int main(int argc, const char * argv[])
             assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue());
         }
         
+        // reconstrust reference from m5 file
+        if (strcmp(argv[1], "recons_ref") == 0){
+            // parse arguments
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            Assembler assembler;
+            AlignReaderM5 AlignReaderM5_obj;
+            stxxl::vector<Align> align_data;
+            AlignReaderM5_obj.read(alignfileArg.getValue(), align_data);
+            
+            string ref_name; string ref_seq;
+            assembler.ref_reconstruct(align_data, ref_name, ref_seq);
+            
+            ofstream fs_outfile;
+            open_outfile(fs_outfile, outfileArg.getValue());
+            fs_outfile << ">" << ref_name << endl;
+            fs_outfile << ref_seq;
+            fs_outfile.close();
+
+        }
+        
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;
