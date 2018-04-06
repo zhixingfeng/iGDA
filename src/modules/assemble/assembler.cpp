@@ -966,8 +966,6 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                     if (condprob > cur_max_condprob)
                         cur_max_condprob = condprob;
                     
-                    //if (condprob > min_condprob && condprob < max_condprob)
-                    //    is_connect = false;
                 }
                 if (cur_max_condprob > min_condprob && cur_max_condprob < max_condprob){
                     is_connect = false;
@@ -975,9 +973,9 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                 }
                 
                 if (cur_max_condprob > 0 && cur_max_condprob < 1){
-                    entropy += -cur_max_condprob * log(cur_max_condprob);
-                    if (-cur_max_condprob * log(cur_max_condprob) > max_entropy)
-                        max_entropy = -cur_max_condprob * log(cur_max_condprob);
+                    entropy += -cur_max_condprob * log2(cur_max_condprob);
+                    if (-cur_max_condprob * log2(cur_max_condprob) > max_entropy)
+                        max_entropy = -cur_max_condprob * log2(cur_max_condprob);
                 }
             }
             
@@ -995,8 +993,6 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                     if (condprob > cur_max_condprob)
                         cur_max_condprob = condprob;
 
-                    //if (condprob > min_condprob && condprob < max_condprob)
-                    //    is_connect = false;
                 }
                 
                 if (cur_max_condprob > min_condprob && cur_max_condprob < max_condprob){
@@ -1005,9 +1001,9 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                 }
                 
                 if (cur_max_condprob > 0 && cur_max_condprob < 1){
-                    entropy += -cur_max_condprob * log(cur_max_condprob);
-                    if (-cur_max_condprob * log(cur_max_condprob) > max_entropy)
-                        max_entropy = -cur_max_condprob * log(cur_max_condprob);
+                    entropy += -cur_max_condprob * log2(cur_max_condprob);
+                    if (-cur_max_condprob * log2(cur_max_condprob) > max_entropy)
+                        max_entropy = -cur_max_condprob * log2(cur_max_condprob);
                 }
             }
             
