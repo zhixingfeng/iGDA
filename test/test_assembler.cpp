@@ -80,7 +80,7 @@ TEST_CASE("test assembler::correct_reads()", "[hide]")
     assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
 }
 
-TEST_CASE("test assembler::check_contained_reads()")
+TEST_CASE("test assembler::check_contained_reads()", "[hide]")
 {
     //string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     //string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";

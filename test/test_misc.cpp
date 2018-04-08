@@ -251,7 +251,16 @@ TEST_CASE("Test slide_win", "[hide]")
         
 }
 
-
+TEST_CASE("Test read_fasta")
+{
+    string ref_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref";
+    unordered_map<string, string> fasta_data;
+    read_fasta(ref_file, fasta_data);
+    for (auto it = fasta_data.begin(); it != fasta_data.end(); ++it){
+        cout << ">" << it->first << endl;
+        cout << it->second << endl;
+    }
+}
 
 
 

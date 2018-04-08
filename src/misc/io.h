@@ -11,6 +11,8 @@
 #include "../../include/headers.h"
 #include "../modules/alignreader/alignreaderm5.h"
 #include <stxxl.h>
+#include <zlib.h>
+#include "../../tools/kseq.h"
 
 typedef pair<int,int> ReadRange;
 
@@ -94,6 +96,32 @@ inline void select_lines(const vector<int> &idx, string infile, string outfile)
     fs_infile.close();
     fs_outfile.close();
 }
+
+KSEQ_INIT(gzFile, gzread)
+
+inline void read_fasta(string fasta_file, unordered_map<string, string> &fasta_data)
+{
+    gzFile fp;
+    kseq_t *seq;
+    int l;
+    fp = gzopen(fasta_file.c_str(), "r");
+    if (fp == NULL)
+        throw runtime_error("fail to open " + fasta_file);
+    seq = kseq_init(fp);
+    while ((l = kseq_read(seq)) >= 0) { // STEP 4: read sequence
+        auto it = fasta_data.find(seq->name.s);
+        if (it != fasta_data.end())
+            throw runtime_error("duplicated seqence " + string(seq->name.s));
+        fasta_data[string(seq->name.s)] = string(seq->seq.s);
+       
+    }
+    
+    kseq_destroy(seq);
+    gzclose(fp);
+}
+
+
+
 
 
 

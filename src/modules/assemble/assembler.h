@@ -97,6 +97,9 @@ public:
     // reconstruct reference genome from alignment
     void ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq);
     
+    // construct haplotype sequence
+    void haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq);
+    
     // correct reads
     void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file);
     void correct_reads_core(CmpreadsDiffRead &cmpread);

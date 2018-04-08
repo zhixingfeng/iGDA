@@ -455,6 +455,17 @@ void Assembler::ref_reconstruct(const stxxl::vector<Align> &align_data, string &
     }
 }
 
+void Assembler::haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq)
+{
+    AlignCoderSNV aligncoder;
+    haplo_seq = ref_seq;
+    for (int i=0; i<(int)centroid.size(); ++i){
+        pair<int, char> cur_decode = aligncoder.decode(centroid[i]);
+        if (cur_decode.first >= haplo_seq.size())
+            throw runtime_error("cur_decode.first >= haplo_seq.size()");
+        haplo_seq[cur_decode.first] = cur_decode.second;
+    }
+}
 
 void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file)
 {
