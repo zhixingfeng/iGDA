@@ -569,8 +569,47 @@ int main(int argc, const char * argv[])
             fs_outfile << ">" << ref_name << endl;
             fs_outfile << ref_seq;
             fs_outfile.close();
+        }
+        
+        // construct haplotype sequence
+        if (strcmp(argv[1], "cons_haplo_seq") == 0){
+            // parse arguments
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file which encode variants", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file (only 1 chromosome is allowed)", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> outdirArg("outdir", "path of output directory", true, "", "outdir", cmd);
+            
+            cmd.parse(argv2);
+            
+            // read encodefile
+            vector<vector<int> > encode_data;
+            loadencodedata(encode_data, encodefileArg.getValue());
+            
+            // read reference file
+            unordered_map<string, string> ref_seq_all;
+            read_fasta(reffileArg.getValue(), ref_seq_all);
+            if (ref_seq_all.size() != 1)
+                throw runtime_error("number of chrosome is not 1.");
+            string ref_seq = ref_seq_all.begin()->second; 
+            
+            // construct haplotype
+            system( ("mkdir -p " + outdirArg.getValue()).c_str() );
+            
+            for (int i = 0; i < (int)encode_data.size(); ++i){
+                Assembler assembler;
+                string haplo_seq;
+                assembler.haplo_seq_construct(encode_data[i], ref_seq, haplo_seq);
+                
+                string outfile = outdirArg.getValue() + "/haplotype_" + to_string(i) + ".fa";
+                ofstream fs_outfile;
+                open_outfile(fs_outfile, outfile);
+                fs_outfile << ">haplotype_" + to_string(i) << endl;
+                fs_outfile << haplo_seq << endl;
+                fs_outfile.close();
+            }
+            
 
         }
+
         
     }
     catch(const std::overflow_error& e) {

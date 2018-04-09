@@ -119,6 +119,40 @@ TEST_CASE("test assembler::olc()", "[hide]")
     assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained.olc", 2, 0.7, 0.5, false);
 }
 
+TEST_CASE("test assembler::haplo_seq_construct()")
+{
+    string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var.encode";
+    string ref_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref";
+    string out_dir = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642_haplotype";
+    
+    // read encodefile
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // read reference file
+    unordered_map<string, string> ref_seq_all;
+    read_fasta(ref_file, ref_seq_all);
+    if (ref_seq_all.size() != 1)
+        throw runtime_error("number of chrosome is not 1.");
+    string ref_seq = ref_seq_all.begin()->second;
+    
+
+    // construct haplotype
+    for (int i = 0; i < (int) encode_data.size(); ++i){
+        Assembler assembler;
+        string haplo_seq;
+        assembler.haplo_seq_construct(encode_data[i], ref_seq, haplo_seq);
+        
+        string outfile = out_dir + "/haplotype_" + to_string(i) + ".fa";
+        ofstream fs_outfile;
+        open_outfile(fs_outfile, outfile);
+        fs_outfile << ">haplotype_" + to_string(i) << endl;
+        fs_outfile << haplo_seq << endl;
+        fs_outfile.close();
+    }
+    
+}
+
 
 
 
