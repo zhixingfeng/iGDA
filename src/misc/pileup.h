@@ -100,7 +100,7 @@ inline vector<vector<int> > pileup_reads(const stxxl::vector<Align> &align_data,
 }
 
 // pileup reads (input from file)
-inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads)
+inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads, bool rm_del)
 {
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file, 'm');
@@ -114,17 +114,43 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads)
     
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());
-    for (int i=0; i<(int)reads_range.size(); i++)
-        for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
-            pu[j].push_back(i);
+    if (rm_del){
+        // remove deletions
+        AlignReaderM5 alignreaderm5;
+        Align align;
+        alignreaderm5.open(align_file);
+        int k = 0;
+        while(alignreaderm5.readline(align)){
+            if (align.tAlignedSeq.size() != align.qAlignedSeq.size())
+                throw runtime_error("pileup_reads_m5(): align.tAlignedSeq.size() != align.qAlignedSeq.size()");
+            
+            int cur_locus = align.tStart;
+            for (int i = 0; i < (int)align.tAlignedSeq.size(); ++i){
+                if (align.tAlignedSeq[i]!='-'){
+                    if (align.qAlignedSeq[i]!='-')
+                        pu[cur_locus].push_back(k);
+                    ++cur_locus;
+                }
+            }
+            
+            ++k;
+        }
+        alignreaderm5.close();
+        
+    }else{
+        // don't remove deletions
+        for (int i=0; i<(int)reads_range.size(); i++)
+            for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
+                pu[j].push_back(i);
+    }
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, char format = 'm')
+inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = true, char format = 'm')
 {
     switch (format) {
         case 'm':
-            return pileup_reads_m5(align_file, n_reads);
+            return pileup_reads_m5(align_file, n_reads, rm_del);
             break;
             
         default:

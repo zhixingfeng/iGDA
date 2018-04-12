@@ -108,4 +108,23 @@ TEST_CASE("test print_pileup()", "[hide]")
 }
 
 
+TEST_CASE("test print_pileup() removing deletions")
+{
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.1000";
+    
+    int64_t n_reads;
+    vector<vector<int> > pu_reads = pileup_reads(align_file, n_reads, false);
+    print_pileup(pu_reads, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.reads.pileup.1000");
+    
+    vector<vector<int> > pu_reads_rm_del = pileup_reads(align_file, n_reads, true);
+    print_pileup(pu_reads_rm_del, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.reads.pileup.rm_del.1000");
+
+    
+}
+
+
+
+
+
+
 

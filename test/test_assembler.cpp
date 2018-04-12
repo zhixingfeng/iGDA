@@ -119,7 +119,7 @@ TEST_CASE("test assembler::olc()", "[hide]")
     assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained.olc", 2, 0.7, 0.5, false);
 }
 
-TEST_CASE("test assembler::haplo_seq_construct()")
+TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")
 {
     string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var.encode";
     string ref_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref";
