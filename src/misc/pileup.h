@@ -168,5 +168,32 @@ inline void print_pileup(const vector<vector<int> > &pileup_data, string outfile
     fs_outfile.close();
 }
 
+inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_read, int64_t n_reads)
+{
+    if (pu_var.size() > 4*pu_read.size()+3)
+        throw runtime_error("filter_pileup_var(): pu_var.size() > 4*pu_read.size()");
+
+    vector<vector<int> > pu_var_ft(pu_var.size(), vector<int>());
+    vector<int> temp_vec(n_reads, -1);
+    
+    for (int i = 0; i < (int)pu_read.size(); ++i){
+        if (i > int ((pu_var.size()-1) / 4))
+            break;
+
+        // fill in temp_vec
+        for (int j = 0; j < (int)pu_read[i].size(); ++j)
+            temp_vec[pu_read[i][j]] = i;
+        
+        // only keep variants covered by reads
+        for (int k = 0; k <= 3; ++k){
+            for (int j = 0; j < (int)pu_var[4*i+k].size(); ++j){
+                if (temp_vec[pu_var[4*i+k][j]] == i)
+                    pu_var_ft[4*i+k].push_back(pu_var[4*i+k][j]);
+            }
+        }
+    }
+    
+    return pu_var_ft;
+}
 
 #endif /* pileup_h */

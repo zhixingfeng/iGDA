@@ -108,7 +108,7 @@ TEST_CASE("test print_pileup()", "[hide]")
 }
 
 
-TEST_CASE("test print_pileup() removing deletions")
+TEST_CASE("test pileup_reads() removing deletions", "[hide]")
 {
     string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.1000";
     
@@ -118,8 +118,21 @@ TEST_CASE("test print_pileup() removing deletions")
     
     vector<vector<int> > pu_reads_rm_del = pileup_reads(align_file, n_reads, true);
     print_pileup(pu_reads_rm_del, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.reads.pileup.rm_del.1000");
+}
 
+TEST_CASE("test filter_pileup_var()")
+{
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.1000";
+    string recode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.1000";
+    int64_t n_reads;
+    int64_t n_reads_var;
+    vector<vector<int> > pu_reads_rm_del = pileup_reads(align_file, n_reads, true);
+    vector<vector<int> > pu_var = pileup_var(recode_file, n_reads_var);
+    if (n_reads_var != n_reads)
+        throw runtime_error("n_reads_var != n_reads");
     
+    vector<vector<int> > pu_var_ft = filter_pileup_var(pu_var, pu_reads_rm_del, n_reads);
+    print_pileup(pu_var_ft, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.var_ft.pileup.1000");
 }
 
 
