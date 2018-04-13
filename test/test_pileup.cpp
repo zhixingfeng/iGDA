@@ -120,7 +120,7 @@ TEST_CASE("test pileup_reads() removing deletions", "[hide]")
     print_pileup(pu_reads_rm_del, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.reads.pileup.rm_del.1000");
 }
 
-TEST_CASE("test filter_pileup_var()")
+TEST_CASE("test filter_pileup_var()", "[hide]")
 {
     string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.1000";
     string recode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.1000";

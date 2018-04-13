@@ -467,7 +467,7 @@ void Assembler::haplo_seq_construct(const vector<int> centroid, const string &re
     }
 }
 
-void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file)
+void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter)
 {
     if (this->cand_size > 32)
         throw runtime_error("cand_size should not exceed 32.");
@@ -477,6 +477,9 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     call_pileup_var(encode_file);
     cout << "pileup align_file" << endl;
     call_pileup_reads(align_file);
+    
+    if (is_filter)
+        this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     
     // generate template
     counter = 1;
