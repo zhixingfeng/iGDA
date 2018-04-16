@@ -538,6 +538,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> cmpreadsfileArg("cmpreads_diff_file", "path of cmpreads_diff file", true, "", "cmpreads_diff_file", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
+            
             ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
             ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
@@ -546,7 +547,7 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
                                 mincondprobrg.getValue(), maxcondprobrg.getValue());
-            vector<int> read_ids = assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue());
+            vector<int> read_ids = assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), true);
             select_lines(read_ids, alignfileArg.getValue(), outfileArg.getValue() + ".m5");
             
         }
