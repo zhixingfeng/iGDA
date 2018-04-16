@@ -546,7 +546,9 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
                                 mincondprobrg.getValue(), maxcondprobrg.getValue());
-            assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue());
+            vector<int> read_ids = assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue());
+            select_lines(read_ids, alignfileArg.getValue(), outfileArg.getValue() + ".m5");
+            
         }
         
         // reconstrust reference from m5 file

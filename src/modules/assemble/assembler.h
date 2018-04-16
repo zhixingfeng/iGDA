@@ -101,7 +101,7 @@ public:
     void haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq);
     
     // correct reads
-    void correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter = false);
+    vector<int> correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter = false);
     void correct_reads_core(CmpreadsDiffRead &cmpread);
     void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp);
     

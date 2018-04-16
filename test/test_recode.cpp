@@ -34,5 +34,12 @@ TEST_CASE("test assembler::correct_reads() (recoding)")
     
     Assembler assembler(5, 20, 10,
                         0.2, 0.75);
-    assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file, true);
+    vector<int> read_ids = assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file, true);
+    select_lines(read_ids, align_file, out_file + ".m5");
+
 }
+
+
+
+
+

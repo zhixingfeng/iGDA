@@ -467,7 +467,7 @@ void Assembler::haplo_seq_construct(const vector<int> centroid, const string &re
     }
 }
 
-void Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter)
+vector<int> Assembler::correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter)
 {
     if (this->cand_size > 32)
         throw runtime_error("cand_size should not exceed 32.");
@@ -498,6 +498,7 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     // scan cmpreads_diff_file
     CmpreadsDiffRead cur_cmpread(-1);
     int64_t n_lines = 0;
+    vector<int> read_id_corrected;
     while(true){
         // read line
         int cand_loci_size;
@@ -527,6 +528,9 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
             // output corrected reads
             this->print_correct_reads(cur_cmpread, fs_outfile);
             
+            // recored corrected read_id
+            read_id_corrected.push_back(cur_cmpread.read_id);
+            
             break;
         }
         
@@ -550,6 +554,9 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
                 
                 // output corrected reads
                 this->print_correct_reads(cur_cmpread, fs_outfile);
+                
+                // recored corrected read_id
+                read_id_corrected.push_back(cur_cmpread.read_id);
             }
             // update read_id and clean cur_cmpread
             cur_cmpread.read_id = read_id;
@@ -571,6 +578,8 @@ void Assembler::correct_reads(string encode_file, string align_file, string cmpr
     counter = 0;
     temp_var.clear();
     temp_read.clear();
+    
+    return read_id_corrected;
     
 }
 
