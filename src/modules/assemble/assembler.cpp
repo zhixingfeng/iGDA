@@ -947,8 +947,8 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                 continue;
             
             // skip if the read j ends before read i end
-            if (reads_range[i].second > reads_range[j].second)
-                continue;
+            //if (reads_range[i].second > reads_range[j].second)
+            //    continue;
             
             // fill the template array by the variants in the ith non-contained read
             for (int k = 0; k < (int)encode_data[i].size(); ++k)
