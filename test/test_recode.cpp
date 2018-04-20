@@ -25,7 +25,7 @@ TEST_CASE("test assembler::correct_reads() (no recoding)", "[hide]")
 }
 
 
-TEST_CASE("test assembler::correct_reads() (recoding)")
+TEST_CASE("test assembler::correct_reads() (recoding)", "[hide]")
 {
     string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
     string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000";
@@ -38,6 +38,23 @@ TEST_CASE("test assembler::correct_reads() (recoding)")
     select_lines(read_ids, align_file, out_file + ".m5");
 
 }
+
+
+TEST_CASE("test assembler::olc() (recoding)")
+{
+    string encode_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected";
+    string align_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.m5.trimmed";
+    string olc_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.olc";
+    
+    Assembler assembler;
+    assembler.olc(encode_file, align_file, olc_file);
+    
+}
+
+
+
+
+
 
 
 

@@ -110,7 +110,7 @@ public:
     vector<int> find_follower_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &idx, string out_file);
     
     // overlap layout consensus
-    void olc(string encode_file, string align_file, string out_file, int min_match = 1, double min_sim = 0.7, double min_match_prop = 0.5, bool is_check_contained_reads = false);
+    void olc(string encode_file, string align_file, string out_file, int min_match = 2, double min_sim = 0.7, double min_match_prop = 0, bool is_check_contained_reads = false);
 
     void run(string encode_file, string align_file, string out_file);
     

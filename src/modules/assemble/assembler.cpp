@@ -935,8 +935,8 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
         //if ((i+1)%1000==0) cout << i+1 << endl;
         
         // skip if the number of variants of the ith read is smaller than min_match
-        if (encode_data[i].size() < min_match)
-            continue;
+        //if (encode_data[i].size() < min_match)
+        //    continue;
         
         for (int j : idx){
             // skip if two non-contained reads are identical
@@ -979,8 +979,8 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             ++olc_counter;
             
             // skip if number of common variants < min_match
-            if (cur_match.size() < min_match)
-                continue;
+            //if (cur_match.size() < min_match)
+            //    continue;
             
             // skip if similarity < min_sim
             double sim;
@@ -1066,6 +1066,9 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
                 sim_entropy = double(diff_size - entropy) / diff_size;
                 sim_max_entropy = 1 - max_entropy;
             }
+            
+            if (encode_data[i].size() >= min_match && cur_match.size() < min_match)
+                is_connect = false;
             
             if (is_connect)
                 fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << '\t' << sim_entropy << '\t' << sim_max_entropy << endl;

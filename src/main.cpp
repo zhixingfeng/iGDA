@@ -495,9 +495,9 @@ int main(int argc, const char * argv[])
             ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
             ValueArg<double> maxcondprobrg("q","maxCondProb","maximal conditional probability, default: 0.75", false , 0.75, "maxCondProb", cmd);
             
-            ValueArg<int> minmatchArg("n","minmatch","minimal number of matches between two reads, default: 2", false , 1, "minmatch", cmd);
+            ValueArg<int> minmatchArg("n","minmatch","minimal number of matches between two reads to do test, default: 2", false , 2, "minmatch", cmd);
             ValueArg<double> minsimArg("m","minsim","minimal similarity between two reads, default: 0.7", false , 0.7, "minsim", cmd);
-            ValueArg<double> minpropArg("k","minprop","minimal proportion of match, default: 0.5", false , 0.5, "minprop", cmd);
+            ValueArg<double> minpropArg("k","minprop","minimal proportion of match, default: 0", false , 0, "minprop", cmd);
             SwitchArg iscontainArg("r", "contain", "is check contained reads, default : false", cmd, false);
             
             cmd.parse(argv2);
