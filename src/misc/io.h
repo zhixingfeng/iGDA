@@ -13,6 +13,7 @@
 #include <stxxl.h>
 #include <zlib.h>
 #include "../../tools/kseq.h"
+#include "../../include/utils.h"
 
 typedef pair<int,int> ReadRange;
 
@@ -120,8 +121,31 @@ inline void read_fasta(string fasta_file, unordered_map<string, string> &fasta_d
     gzclose(fp);
 }
 
-
-
+inline vector<int> load_ncread(string check_follower_file, int min_follower = 5)
+{
+    vector<int> ncread_id;
+    ifstream fs_infile;
+    open_infile(fs_infile, check_follower_file);
+    while(true){
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        
+        if (buf_vec.size() < 2)
+            throw runtime_error("load_ncread(): buf_vec.size() < 2");
+        
+        int read_id = stoi(buf_vec[0]);
+        int n_follower = stoi(buf_vec[1]);
+        
+        if (n_follower >= min_follower)
+            ncread_id.push_back(read_id);
+    }
+    fs_infile.close();
+    return ncread_id;
+}
 
 
 

@@ -40,7 +40,7 @@ TEST_CASE("test assembler::correct_reads() (recoding)", "[hide]")
 }
 
 
-TEST_CASE("test assembler::olc() (recoding)")
+TEST_CASE("test assembler::olc() (recoding)", "[hide]")
 {
     string encode_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected";
     string align_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.m5.trimmed";

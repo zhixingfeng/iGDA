@@ -263,5 +263,9 @@ TEST_CASE("Test read_fasta", "[hide]")
 }
 
 
-
+TEST_CASE("Test load_ncread()", "[hide]")
+{
+    vector<int> ncread_id = load_ncread("../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.non_contained.check_follower", 5);
+    cout << ncread_id << endl;
+}
 
