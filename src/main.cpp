@@ -489,6 +489,9 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            UnlabeledValueArg<string> followerfileArg("followerfile", "path of follower file", false, "", "followerfile", cmd);
+            
+            ValueArg<int> minfollowerArg("f","minfollower","minimal number of followers for each nc-read, default: 5", false , 5, "minfollower", cmd);
             
             ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
             ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
@@ -503,7 +506,8 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
                                 mincondprobrg.getValue(), maxcondprobrg.getValue());
-            assembler.olc(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minmatchArg.getValue(), minsimArg.getValue(), minpropArg.getValue(), iscontainArg.getValue());
+            assembler.olc(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), followerfileArg.getValue(), minfollowerArg.getValue(),
+                          minmatchArg.getValue(), minsimArg.getValue(), minpropArg.getValue(), iscontainArg.getValue());
         }
         
         // pileup encode

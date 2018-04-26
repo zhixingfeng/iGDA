@@ -42,14 +42,26 @@ TEST_CASE("test assembler::correct_reads() (recoding)", "[hide]")
 
 TEST_CASE("test assembler::olc() (recoding)", "[hide]")
 {
-    string encode_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected";
-    string align_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.m5.trimmed";
-    string olc_file = "../results/olc/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.olc";
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected";
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.m5.trimmed";
+    string olc_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.olc";
     
     Assembler assembler;
-    assembler.olc(encode_file, align_file, olc_file);
-    
+    assembler.olc(encode_file, align_file, olc_file, "");
 }
+
+TEST_CASE("test assembler::olc() (recoding, ncreads)")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected";
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.m5.trimmed";
+    string olc_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.olc.nc";
+    string follower_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.5000.corrected.non_contained.check_follower";
+    
+    Assembler assembler;
+    assembler.olc(encode_file, align_file, olc_file, follower_file);
+}
+
+
 
 
 

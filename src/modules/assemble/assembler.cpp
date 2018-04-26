@@ -890,10 +890,11 @@ vector<int> Assembler::find_follower_reads(const vector<vector<int> > &encode_da
 
 
 
-void Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)
+void Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower,
+                    int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)
 {
     
-    /*------------ get non-contained reads (get the index "idx") -------------*/
+    /*------------ get reads -------------*/
     vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
     vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
     
@@ -916,6 +917,15 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             idx.push_back(i);
     }
     
+    /*--------- if follower_file is provided, then load ncread_id ----------*/
+    unordered_map<int,int> ncreads;
+    if (follower_file != ""){
+        // load nc-reads
+        cout << "load ncreads" << endl;
+        ncreads = load_ncread(follower_file, min_follower);
+    }
+    
+    
     /*------------ overlap-layout-consensus --------------*/
     cout << "overlap layout consensus" << endl;
     // prepare template to compare reads
@@ -932,7 +942,11 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
     open_outfile(fs_outfile, out_file);
     int64_t olc_counter = 1;
     for (int i : idx){
-        //if ((i+1)%1000==0) cout << i+1 << endl;
+        if ((i+1)%1000==0) cout << i+1 << endl;
+        
+        // if follower_file is provided, skip if i is not a nc-read
+        if (follower_file != "" && ncreads.find(i) == ncreads.end())
+            continue;
         
         // skip if the number of variants of the ith read is smaller than min_match
         //if (encode_data[i].size() < min_match)
@@ -942,6 +956,10 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             // skip if two non-contained reads are identical
             if (i == j) continue;
             
+            // if follower_file is provided, skip if i is not a nc-read
+            if (follower_file != "" && ncreads.find(j) == ncreads.end())
+                continue;
+
             // skip if two reads are not overlap
             if (reads_range[i].first > reads_range[j].second || reads_range[j].first > reads_range[i].second)
                 continue;
@@ -1070,8 +1088,13 @@ void Assembler::olc(string encode_file, string align_file, string out_file, int 
             if (encode_data[i].size() >= min_match && cur_match.size() < min_match)
                 is_connect = false;
             
-            if (is_connect)
-                fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << '\t' << sim_entropy << '\t' << sim_max_entropy << endl;
+            if (is_connect){
+                if (follower_file == ""){
+                    fs_outfile << i << '\t' << j << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << '\t' << sim_entropy << '\t' << sim_max_entropy << endl;
+                }else{
+                    fs_outfile << i << '\t' << j << '\t' << ncreads[i] << '\t' << cur_match.size() << '\t' << cur_diff_i.size() + cur_diff_j.size() << '\t' << sim << '\t' << sim_entropy << '\t' << sim_max_entropy << endl;
+                }
+            }
             
             
         }

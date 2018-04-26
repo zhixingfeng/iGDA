@@ -116,7 +116,7 @@ TEST_CASE("test assembler::olc()", "[hide]")
     vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
     //cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75)
     Assembler assembler(5, 20, 10, 0.15, 0.75);
-    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained.olc", 2, 0.7, 0.5, false);
+    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained.olc", "", 5, 2, 0.7, 0.5, false);
 }
 
 TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")

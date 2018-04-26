@@ -121,9 +121,10 @@ inline void read_fasta(string fasta_file, unordered_map<string, string> &fasta_d
     gzclose(fp);
 }
 
-inline vector<int> load_ncread(string check_follower_file, int min_follower = 5)
+inline unordered_map<int, int> load_ncread(string check_follower_file, int min_follower = 5)
 {
-    vector<int> ncread_id;
+    unordered_map<int, int> ncread_id;
+    
     ifstream fs_infile;
     open_infile(fs_infile, check_follower_file);
     while(true){
@@ -141,7 +142,7 @@ inline vector<int> load_ncread(string check_follower_file, int min_follower = 5)
         int n_follower = stoi(buf_vec[1]);
         
         if (n_follower >= min_follower)
-            ncread_id.push_back(read_id);
+            ncread_id[read_id] = n_follower;
     }
     fs_infile.close();
     return ncread_id;

@@ -11,13 +11,13 @@
             condition = "i==41"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888679.935195"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "938"
-            endingLineNumber = "938"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "952"
+            endingLineNumber = "952"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -27,13 +27,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888694.808278"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "946"
-            endingLineNumber = "946"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "964"
+            endingLineNumber = "964"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -43,13 +43,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888763.632208"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "936"
-            endingLineNumber = "936"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "947"
+            endingLineNumber = "947"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -60,13 +60,13 @@
             condition = "i==41"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888765.045079"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "937"
-            endingLineNumber = "937"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "951"
+            endingLineNumber = "951"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -76,13 +76,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888896.96843"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "958"
-            endingLineNumber = "958"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "976"
+            endingLineNumber = "976"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -92,13 +92,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545888904.6852061"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "995"
-            endingLineNumber = "995"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
-            landmarkType = "7">
+            startingLineNumber = "1013"
+            endingLineNumber = "1013"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -108,12 +108,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "545889091.442879"
+            timestampString = "546459289.24572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1031"
-            endingLineNumber = "1031"
-            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            startingLineNumber = "1049"
+            endingLineNumber = "1049"
+            landmarkName = "Assembler::olc(string encode_file, string align_file, string out_file, string follower_file, int min_follower, int min_match, double min_sim, double min_match_prop, bool is_check_contained_reads)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/test_recode.cpp"
+            timestampString = "546450986.154838"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "TEST_CASE(&quot;test assembler::olc() (recoding)&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
