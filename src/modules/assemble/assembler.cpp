@@ -1110,6 +1110,32 @@ void Assembler::run(string encode_file, string align_file, string out_file)
     
 }
 
+void Assembler::greedy_clust(string encode_file, string align_file, string cmpreads_diff_file, string out_file, double min_prop, int min_count)
+{
+    // load encode and alignment files
+    cout << "pileup encode_file" << endl;
+    call_pileup_var(encode_file);
+    cout << "pileup align_file" << endl;
+    call_pileup_reads(align_file);
+    
+    this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
+    
+    // generate template
+    counter = 1;
+    temp_var = vector<uint64_t>(this->n_reads, 0);
+    temp_read = vector<uint64_t>(this->n_reads, 0);
+    
+    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    
+    
+    // clean template and counter
+    counter = 0;
+    temp_var.clear();
+    temp_read.clear();
+    
+
+}
 
 void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
 {

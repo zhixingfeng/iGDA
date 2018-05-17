@@ -115,7 +115,8 @@ public:
 
     void run(string encode_file, string align_file, string out_file);
     
-    
+    // greedy clustering
+    void greedy_clust(string encode_file, string align_file, string cmpreads_diff_file, string out_file, double min_prop = 0.75, int min_count = 10);
     
 protected:
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);

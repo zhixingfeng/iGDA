@@ -13,18 +13,6 @@
 #include "io.h"
 #include "../modules/alignreader/alignreader.h"
 
-struct ReadMatch
-{
-    ReadMatch(): match_rate(0), n_overlap(0), start(0), end(0){}
-    ReadMatch(vector<int> diff, vector<int> matches, double match_rate, int n_overlap, int start, int end):
-            diff(diff), matches(matches), match_rate(match_rate), n_overlap(n_overlap), start(start), end(end){}
-    vector<int> diff;
-    vector<int> matches;
-    double match_rate;
-    int n_overlap;
-    int start;
-    int end;
-};
 
 /*inline bool operator==(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate == rhs.match_rate; }
 inline bool operator<=(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate <= rhs.match_rate; }
@@ -114,11 +102,11 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
             
             // keep topn matches
             if (the_matches.size() < topn){
-                the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, overlap_start, overlap_end));
+                the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, i, overlap_start, overlap_end));
             }else{
                 if (cur_match_rate > the_matches.top().match_rate){
                     the_matches.pop();
-                    the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, overlap_start, overlap_end));
+                    the_matches.push(ReadMatch(cur_diff, cur_match, cur_match_rate, n_overlap, i, overlap_start, overlap_end));
                 }
             }
             

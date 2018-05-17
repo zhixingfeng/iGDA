@@ -270,3 +270,22 @@ TEST_CASE("Test load_ncread()", "[hide]")
         cout << it->first << '\t' << it->second << endl;
 }
 
+
+TEST_CASE("test loadcmpreadsdiff", "[hide]")
+{
+    string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
+    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000.reconstruct.txt");
+    for (int i = 0; i < (int)cmpreadsdiff_data.size(); ++i){
+        fs_outfile << cmpreadsdiff_data[i].read_id << '\t' << cmpreadsdiff_data[i].start << '\t' << cmpreadsdiff_data[i].end << '\t';
+        fs_outfile << cmpreadsdiff_data[i].matches << '\t' << cmpreadsdiff_data[i].diff << endl;
+    }
+    fs_outfile.close();
+}
+
+
+
+

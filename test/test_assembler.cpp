@@ -156,5 +156,3 @@ TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")
 
 
 
-
-

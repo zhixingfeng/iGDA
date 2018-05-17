@@ -17,6 +17,21 @@
 
 typedef pair<int,int> ReadRange;
 
+struct ReadMatch
+{
+    ReadMatch(): match_rate(0), n_overlap(0), start(0), end(0){}
+    ReadMatch(vector<int> diff, vector<int> matches, double match_rate, int n_overlap, int read_id, int start, int end):
+    diff(diff), matches(matches), match_rate(match_rate), n_overlap(n_overlap), read_id(read_id), start(start), end(end){}
+    vector<int> diff;
+    vector<int> matches;
+    double match_rate;
+    int n_overlap;
+    int read_id;
+    int start;
+    int end;
+};
+
+
 // read cmpreads from .cmpreads files (text format)
 inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
 {
@@ -32,6 +47,41 @@ inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpr
     return true;
 
 }
+
+// read cmpreads_diff from .cmpreads_diff files (binary format)
+inline bool loadcmpreadsdiff(stxxl::vector<ReadMatch> &cmpreadsdiff_data, string cmpreadsdiff_file)
+{
+    FILE *p_infile = fopen(cmpreadsdiff_file.c_str(), "rb");
+    if (p_infile == NULL)
+        runtime_error("fail to open cmpreadsdiff_file");
+    
+    while(true){
+        // read line
+        int read_id, start, end;
+        int cand_loci_size, cand_loci_diff_size;
+        
+        fread(&read_id, sizeof(int), 1, p_infile);
+        fread(&start, sizeof(int), 1, p_infile);
+        fread(&end, sizeof(int), 1, p_infile);
+        
+        fread(&cand_loci_size, sizeof(int), 1, p_infile);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_infile);
+        
+        fread(&cand_loci_diff_size, sizeof(int), 1, p_infile);
+        vector<int> cand_loci_diff(cand_loci_diff_size,-1);
+        fread(&cand_loci_diff[0], sizeof(int), cand_loci_diff_size, p_infile);
+        
+        if (feof(p_infile))
+            break;
+        
+        cmpreadsdiff_data.push_back(ReadMatch(cand_loci_diff, cand_loci, 0, 0, read_id, start, end));
+        
+    }
+    fclose(p_infile);
+    return true;
+}
+
 
 // load encode data
 inline bool loadencodedata(vector<vector<int> > &encode_data, string encode_file)
