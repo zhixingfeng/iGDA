@@ -8,7 +8,7 @@
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
 #include <thread>
-
+#include <stxxl.h>
 
 TEST_CASE("Test m5tofa", "[hide]"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");
@@ -285,6 +285,50 @@ TEST_CASE("test loadcmpreadsdiff", "[hide]")
     }
     fs_outfile.close();
 }
+
+TEST_CASE("test readmatch_compare")
+{
+    string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
+    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    
+    stxxl::vector<vector<ReadMatch> > cmpreadsdiff_data_grouped;
+    group_cmpreadsdiff(cmpreadsdiff_data, cmpreadsdiff_data_grouped, true);
+    
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000.grouped.txt");
+    for (size_t i = 0; i < cmpreadsdiff_data_grouped.size(); ++i){
+        for (size_t j = 0; j < cmpreadsdiff_data_grouped[i].size(); ++j){
+            fs_outfile << cmpreadsdiff_data_grouped[i][j].read_id << '\t' << cmpreadsdiff_data_grouped[i][j].start << '\t' << cmpreadsdiff_data_grouped[i][j].end << '\t';
+            fs_outfile << cmpreadsdiff_data_grouped[i][j].matches << '\t' << cmpreadsdiff_data_grouped[i][j].diff << endl;
+        }
+    }
+    fs_outfile.close();
+}
+
+/*TEST_CASE("test build_index_cmpreadsdiff")
+{
+    string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
+    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    
+    stxxl::vector<vector<size_t> > cmpreadsdiff_data_index;
+    build_index_cmpreadsdiff(cmpreadsdiff_data, cmpreadsdiff_data_index);
+    
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000.reconstruct.fromindex.txt");
+    for (size_t i = 0; i < cmpreadsdiff_data_index.size(); ++i){
+        for (size_t j = 0; j < cmpreadsdiff_data_index[i].size(); ++j){
+            size_t idx = cmpreadsdiff_data_index[i][j];
+            fs_outfile << cmpreadsdiff_data[idx].read_id << '\t' << cmpreadsdiff_data[idx].start << '\t' << cmpreadsdiff_data[idx].end << '\t';
+            fs_outfile << cmpreadsdiff_data[idx].matches << '\t' << cmpreadsdiff_data[idx].diff << endl;
+        }
+    }
+    
+}*/
+
+
+
 
 
 

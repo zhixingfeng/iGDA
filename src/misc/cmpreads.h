@@ -28,6 +28,45 @@ struct queue_compare
     }
 };
 
+
+inline bool readmatch_compare(const ReadMatch& l, const ReadMatch& r)
+{
+    return l.end > r.end;
+}
+
+inline bool group_cmpreadsdiff(const stxxl::vector<ReadMatch> &cmpreadsdiff_data, stxxl::vector<vector<ReadMatch> > &cmpreadsdiff_data_grouped, bool is_sort = true)
+{
+    // get maximal code
+    int max_code = 0;
+    for (size_t i = 0; i < cmpreadsdiff_data.size(); ++i)
+        for (size_t j = 0; j < cmpreadsdiff_data[i].matches.size(); ++j)
+            if (cmpreadsdiff_data[i].matches[j] > max_code)
+                max_code = cmpreadsdiff_data[i].matches[j];
+        
+    // group cmpreadsdiff
+    cmpreadsdiff_data_grouped.clear();
+    cmpreadsdiff_data_grouped.resize(max_code + 1);
+    
+    for (size_t i = 0; i < cmpreadsdiff_data.size(); ++i){
+        if (cmpreadsdiff_data[i].matches.size() > 0){
+            cmpreadsdiff_data_grouped[cmpreadsdiff_data[i].matches[0]].push_back(cmpreadsdiff_data[i]);
+        }
+    }
+    
+    // sort cmpreadsdiff_data_grouped
+    if (is_sort){
+        for (size_t i = 0; i < cmpreadsdiff_data_grouped.size(); ++i){
+            if (cmpreadsdiff_data_grouped[i].size() > 0){
+                vector<ReadMatch> buf = cmpreadsdiff_data_grouped[i];
+                sort(buf.begin(), buf.end(), readmatch_compare);
+                cmpreadsdiff_data_grouped[i] = buf;
+            }
+        }
+    }
+    
+    return true;
+}
+
 // compare reads and use top n as candidates (include difference between reads, read IDs will be added)
 inline bool cmpreads_topn_diff(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25)
 {

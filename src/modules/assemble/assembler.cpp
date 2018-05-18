@@ -1125,8 +1125,11 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
     temp_var = vector<uint64_t>(this->n_reads, 0);
     temp_read = vector<uint64_t>(this->n_reads, 0);
     
+    // load cmpreadsdiff_data
     stxxl::vector<ReadMatch> cmpreadsdiff_data;
     loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    
+    // build index for cmpreadsdiff_data
     
     
     // clean template and counter
