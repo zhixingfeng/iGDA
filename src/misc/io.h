@@ -33,7 +33,7 @@ struct ReadMatch
 
 
 // read cmpreads from .cmpreads files (text format)
-inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
+inline bool loadcmpreads_txt(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
 {
     ifstream p_cmpreads_file; open_infile(p_cmpreads_file, cmpreads_file);
     while (true) {
@@ -47,6 +47,28 @@ inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpr
     return true;
 
 }
+
+// read cmpreads from .cmpreads files (binary format)
+inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
+{
+    FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
+    if (p_cmpreads_file == NULL)
+        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+    
+    while(1){
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (feof(p_cmpreads_file))
+            break;
+        cmpreads_data.push_back(cand_loci);
+    }
+
+    fclose(p_cmpreads_file);
+    return true;
+}
+
 
 // read cmpreads_diff from .cmpreads_diff files (binary format)
 inline bool loadcmpreadsdiff(stxxl::vector<ReadMatch> &cmpreadsdiff_data, string cmpreadsdiff_file)
