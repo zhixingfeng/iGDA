@@ -29,9 +29,10 @@ public:
     
     void build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq);
     
+    // get_result() not actually used in DForestSNVSTXXL, retained for historical reasons
     inline unordered_map<int, DforestResult> get_result()
     {
-        return result;
+        return unordered_map<int, DforestResult>();
     }
     
     void save_result(string out_file, double minfreq);
@@ -39,11 +40,13 @@ public:
 protected:
     
     bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq);
-    void build_index(vector<stxxl::vector<int64_t> > &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data);
+    void build_index(stxxl::vector<vector<int64_t> > &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data);
     
 protected:
-    unordered_map<int, DforestResult> result;
-    unordered_map<int, DforestResult>::iterator it;
+    vector<DforestResult> result;
+    stxxl::vector<vector<DforestResult> > result_all;
+        
+    int focal_locus;
 };
 
 

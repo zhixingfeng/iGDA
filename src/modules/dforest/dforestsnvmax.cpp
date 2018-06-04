@@ -238,7 +238,6 @@ bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads
 }
 bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
 {
-    
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);
     vector<int64_t> temp_vec_read(this->n_reads, -1);
