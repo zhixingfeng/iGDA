@@ -29,13 +29,15 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     
     // single thread
     if (n_thread==1){
-        run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq);
+        run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, isinter);
     }else {
        
     }
     
     // save the result
     save_result(out_file, minfreq);
+    //if (isinter)
+        //save_result_all(out_file + ".all", minfreq);
     return true;
     
 }
@@ -55,6 +57,9 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     build_index(cmpreads_index, cmpreads_data);
    
     cout << "build trees" << endl;
+    ofstream fs_outfile;
+    if (isinter)
+        open_outfile(fs_outfile, out_file + ".all");
     int64_t counter = 0;
     result.resize(cmpreads_index.size());
     p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
@@ -65,7 +70,7 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
         // build tree
         this->focal_locus = i;
         for (auto j = 0; j < cmpreads_index[i].size(); ++j){
-            this->build_tree(NULL, cmpreads_data[cmpreads_index[i][j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
+            this->build_tree(fs_outfile, cmpreads_data[cmpreads_index[i][j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq, isinter);
         }
         
         // clear p_y_x_archive
@@ -74,10 +79,13 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
         idx_mod.clear();
     }
     cout << "finished 100% = " << cmpreads_index.size() << "/" << cmpreads_index.size() << endl;
+    
+    if (isinter)
+        fs_outfile.close();
     return true;
 }
 
-void DForestSNVSTXXL::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
+void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     vector<double> p_y_x(cand_loci.size(), -1);
     DforestResult cur_rl;
@@ -167,13 +175,19 @@ void DForestSNVSTXXL::build_tree(FILE * p_outfile, const vector<int> &cand_loci,
         if (p_y_xp <= cur_rl.p_y_xp)
             break;
         
-        // record result
+        // record current result
         cur_rl.focal_locus = y_locus;
         cur_rl.link_loci.push_back(cur_locus);
         cur_rl.n_y_xp = n_y_xp;
         cur_rl.n_xp = n_xp;
         cur_rl.p_y_xp = p_y_xp;
         
+        ++depth;
+    }
+    
+    // record result
+    if (cur_rl.p_y_xp >= minfreq){
+        // record maximal conditional probability of each locus
         if (cur_rl.p_y_xp > result[cur_rl.focal_locus].p_y_xp){
             result[cur_rl.focal_locus] = cur_rl;
         }else{
@@ -191,11 +205,19 @@ void DForestSNVSTXXL::build_tree(FILE * p_outfile, const vector<int> &cand_loci,
                 }
             }
         }
-        ++depth;
         
+        // record result_all if isinter == true
+        if (isinter){
+            //result_all.push_back(cur_rl);
+            if (cur_rl.link_loci.size() > 0){
+                fs_outfile << cur_rl.focal_locus << '\t' << cur_rl.bf << '\t'
+                << cur_rl.p_y_xp << '\t' << cur_rl.n_y_xp << '\t'
+                << cur_rl.n_xp << '\t' << cur_rl.link_loci.size() << '\t'
+                << cur_rl.link_loci << ',' << endl;
+            }
+        }
     }
 }
-
 
 void DForestSNVSTXXL::save_result(string out_file, double minfreq)
 {
@@ -211,21 +233,24 @@ void DForestSNVSTXXL::save_result(string out_file, double minfreq)
         }
     }
     fs_outfile.close();
-    // write results (unordered) to outfile
-    /*ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
-    for (it = result.begin(); it!=result.end(); ++it){
-        if (it->second.link_loci.size() > 0 && it->second.p_y_xp >= minfreq){
-            fs_outfile << it->second.focal_locus << '\t' << it->second.bf << '\t'
-            << it->second.p_y_xp << '\t' << it->second.n_y_xp << '\t'
-            << it->second.n_xp << '\t' << it->second.link_loci.size() << '\t';
-            for (int j = 0; j < it->second.link_loci.size(); j++)
-                fs_outfile << it->second.link_loci[j] << ',';
+}
+
+void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
+{
+    ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
+    for (auto i = 0; i < result_all.size(); ++i){
+        if (result_all[i].link_loci.size() > 0 && result_all[i].p_y_xp >= minfreq){
+            fs_outfile << result_all[i].focal_locus << '\t' << result_all[i].bf << '\t'
+            << result_all[i].p_y_xp << '\t' << result_all[i].n_y_xp << '\t'
+            << result_all[i].n_xp << '\t' << result_all[i].link_loci.size() << '\t';
+            for (auto j = 0; j < result_all[i].link_loci.size(); ++j)
+                fs_outfile << result_all[i].link_loci[j] << ',';
             fs_outfile << endl;
         }
     }
-    fs_outfile.close();*/
-
+    fs_outfile.close();
 }
+
 
 void DForestSNVSTXXL::build_index(stxxl::vector<vector<int64_t> > &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data)
 {

@@ -87,7 +87,7 @@ bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_f
     
 }
 
-void DForestSNVMax::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
+void DForestSNVMax::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -223,12 +223,13 @@ bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads
     vector<int64_t> temp_vec_read(this->n_reads, -1);
     
     // set counter and scan the candidates
+    ofstream fs_outfile;
     int64_t counter = 0;
     for (int64_t i=0; i<(int64_t)cmpreads_data.size(); ++i){
         if ((i+1) % 10000==0)
             cout << "poccessed # of candidates : " << i+1 << endl;
         //cout << cmpreads_data[i] << endl;
-        this->build_tree(NULL, cmpreads_data[i], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
+        this->build_tree(fs_outfile, cmpreads_data[i], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
     }
    
     cout << "poccessed # of candidates : " << cmpreads_data.size() << endl;
@@ -249,11 +250,12 @@ bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_re
     if (p_cmpreads_file == NULL)
         throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
     
-    FILE *p_outfile = fopen(out_file.c_str(), "w");
+    /*FILE *p_outfile = fopen(out_file.c_str(), "w");
     if (p_outfile == NULL)
-        throw runtime_error("unable to open out_file");
+        throw runtime_error("unable to open out_file");*/
     
-    // set counter and scan the candidates    
+    // set counter and scan the candidates
+    ofstream fs_outfile;
     int64_t counter = 0;
     while(1){
         if (k%10000==0)
@@ -268,14 +270,14 @@ bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_re
             break;
 
         // build tree
-        this->build_tree(p_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
+        this->build_tree(fs_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq);
         
         k++;
     }
     cout << "poccessed # of candidates : " << k << endl;
     
     fclose(p_cmpreads_file);
-    fclose(p_outfile);
+    //fclose(p_outfile);
     
     return true;
 }

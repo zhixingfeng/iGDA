@@ -27,7 +27,7 @@ public:
     
     bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, bool isinter=false);
     
-    void build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter=false);
+    void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter=false);
     
     // get_result() not actually used in DForestSNVSTXXL, retained for historical reasons
     inline unordered_map<int, DforestResult> get_result()
@@ -36,6 +36,7 @@ public:
     }
     
     void save_result(string out_file, double minfreq);
+    void save_result_all(string out_file, double minfreq);
     
 protected:
     
@@ -44,7 +45,7 @@ protected:
     
 protected:
     vector<DforestResult> result;
-    stxxl::vector<vector<DforestResult> > result_all;
+    stxxl::vector<DforestResult> result_all;
         
     int focal_locus;
     vector<double> p_y_x_archive;

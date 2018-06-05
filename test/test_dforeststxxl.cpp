@@ -43,7 +43,7 @@ TEST_CASE("test dforeststxxl")
     DForest *ptr_forest = &forestsnv;
     
     int start_time= (int)clock();
-    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/dforeststxxl/tmp" , 8, 5, 1);
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/dforeststxxl/tmp" , 8, 5, 1, 0, true);
     int stop_time= (int)clock();
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }
