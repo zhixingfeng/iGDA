@@ -11,9 +11,8 @@
 #include <headers.h>
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
-#include "../src/modules/dforest/dforestsnv.h"
-#include "../src/modules/dforest/dforestsnvfast.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
+#include "../src/modules/dforest/dforestsnvstxxl.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/hclust/hclust.h"
 #include "../src/modules/sclust/sclust.h"
@@ -262,8 +261,8 @@ int main(int argc, const char * argv[])
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
-            //SwitchArg isfastArg("q", "fast", "use fast algorithm to run dforest", cmd, false);
-            //SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
+            SwitchArg islegacyArg("l", "legacy", "use the legacy algorithm (no stxxl) to run dforest", cmd, false);
+            SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
             
             cmd.parse(argv2);
             cout << "minreads = " << minreadsArg.getValue() << endl;
@@ -274,25 +273,20 @@ int main(int argc, const char * argv[])
             AlignReaderM5 alignreader;
             AlignCoderSNV aligncoder;
             DForestSNVMax forestsnvmax(&alignreader, &aligncoder);
-            //DForestSNV forestsnv(&alignreader, &aligncoder);
-            //DForestSNVFast forestsnvfast(&alignreader, &aligncoder);
+            DForestSNVSTXXL forestsnvstxxl(&alignreader, &aligncoder);
             
             DForest *ptr_forest;
-            ptr_forest = &forestsnvmax;
-            /*if (isfastArg.getValue()){
-                ptr_forest = &forestsnvfast;
-            }else{ 
-                if (!isinterArg.getValue()){
-                    ptr_forest = &forestsnvmax;
-                }else{
-                    ptr_forest = &forestsnv;
-                }
-            }*/
+            if (islegacyArg.getValue())
+                ptr_forest = &forestsnvmax;
+            else
+                ptr_forest = &forestsnvstxxl;
+            
             string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
             cout << shell_cmd << endl;
             system(shell_cmd.c_str());
             
-            ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(), minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue());
+            ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(),
+                            minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(), isinterArg.getValue());
         }
         
         // sort output

@@ -25,9 +25,9 @@ public:
                      const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
                      int n_thread=1, double minfreq=0);
     
-    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0);
+    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, bool isinter=false);
     
-    void build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq);
+    void build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter=false);
     
     inline unordered_map<int, DforestResult> get_result()
     {
@@ -36,7 +36,7 @@ public:
 protected:
     bool run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth, double minfreq);
     
-    bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq);
+    bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, bool isinter=false);
 
 protected:
     unordered_map<int, DforestResult> result;

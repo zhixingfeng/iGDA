@@ -37,7 +37,7 @@ bool DForestSNVMax::run(const vector<vector<int> > &encode_data, const stxxl::ve
 
 
 /*-------------- input from files---------------*/
-bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq)
+bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, bool isinter)
 {
     this->result.clear();
     cout << "number of threads: " << n_thread << endl;
@@ -52,7 +52,7 @@ bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_f
     if (n_thread==1){
         run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq);
     }else {
-        // multiple threads
+        /*// multiple threads
         // split the cmpreads_file
         string tmp_prefix = tmp_dir + "/cmpreads_file_part"; 
         cmpreads_split(cmpreads_file, tmp_prefix, n_thread);
@@ -67,7 +67,7 @@ bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_f
         }
     
         for (int i=0; i<n_thread; i++)
-            threads[i].join();
+            threads[i].join();*/
     }
     
     // write results (unordered) to outfile
@@ -87,7 +87,7 @@ bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_f
     
 }
 
-void DForestSNVMax::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq)
+void DForestSNVMax::build_tree(FILE * p_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     // each of the locus in cand_loci is used as response y
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -236,7 +236,7 @@ bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads
     
     return true;
 }
-bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq)
+bool DForestSNVMax::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);

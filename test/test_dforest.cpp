@@ -10,8 +10,6 @@
 #include "../include/headers.h"
 #include "../src/modules/alignreader/alignreaderm5.h"
 #include "../src/modules/aligncoder/aligncodersnv.h"
-#include "../src/modules/dforest/dforestsnv.h"
-#include "../src/modules/dforest/dforestsnvfast.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
 
 #include <ctime>
