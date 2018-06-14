@@ -40,7 +40,7 @@ TEST_CASE("test assembler::dist()", "[hide]")
     assembler.dist(encode_file, m5_file, out_file);
 }
 
-TEST_CASE("test assembler::dist_rdim()", "[hide]")
+TEST_CASE("test assembler::dist_rdim() legacy", "[hide]")
 {
     string encode_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
     string m5_file = "../results/dforest/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
@@ -153,6 +153,14 @@ TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")
     
 }
 
-
+TEST_CASE("test assembler::dist_rdim()")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    string m5_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
+    string out_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.dist.withvar";
+    Assembler assembler;
+    assembler.dist_rdim(encode_file, m5_file, var_file, out_file);
+}
 
 

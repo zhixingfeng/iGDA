@@ -1140,6 +1140,20 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
 
 }
 
+void ann_clust(string encode_file, string align_file, double min_prop, double max_prop, int topn, int max_nn)
+{
+    // load encode data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+
+    // load reads range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    // 
+    
+}
+
 void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
 {
     for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){

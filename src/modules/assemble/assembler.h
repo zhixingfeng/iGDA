@@ -118,6 +118,12 @@ public:
     // greedy clustering
     void greedy_clust(string encode_file, string align_file, string cmpreads_diff_file, string out_file, double min_prop = 0.75, int min_count = 10);
     
+    /*----------- adaptive nearest neighbor clustering ------------*/
+    // ann main function
+    void ann_clust(string encode_file, string align_file, double min_prop = 0.2, double max_prop = 0.7, int topn = 20, int max_nn = 200);
+    
+    
+    
 protected:
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);
     void print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
