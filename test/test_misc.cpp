@@ -348,6 +348,8 @@ TEST_CASE("test dist_hamming()", "[hide]")
     cout << encode_data[j] << endl;
     cout << cur_dist << endl;
     
+    cout << get_nvar(reads_range[i], reads_range[j], var_cdf) << endl;
+    
 }
 
 

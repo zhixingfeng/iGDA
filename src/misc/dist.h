@@ -88,5 +88,24 @@ inline size_t get_genome_size(const vector<ReadRange> &reads_range)
     return genome_size;
 }
 
+inline int get_nvar(const ReadRange &range_1, const ReadRange &range_2, const vector<int> &var_cdf)
+{
+    ReadRange range_overlap(range_1.first >= range_2.first ? range_1.first : range_2.first, range_1.second <= range_2.second ? range_1.second : range_2.second);
+    
+    // get overlap length
+    int overlap = range_overlap.second - range_overlap.first + 1;
+    if (overlap <= 0)
+        return -1;
+    
+    // get number of variants in overlap region
+    int n_var = var_cdf[range_overlap.second] - var_cdf[range_overlap.first];
+    
+    if (n_var < 0)
+        throw runtime_error("dist_hamming : n_var < 0");
+    
+    if (n_var == 0)
+        return -2;
 
+    return n_var;
+}
 #endif

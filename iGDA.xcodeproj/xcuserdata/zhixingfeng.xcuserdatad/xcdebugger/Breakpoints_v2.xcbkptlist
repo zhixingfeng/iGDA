@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "340"
             endingLineNumber = "340"
-            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;)"
+            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "344"
             endingLineNumber = "344"
-            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;)"
+            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550779514.112844"
+            timestampString = "550782359.660535"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
-            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;)"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "347"
             endingLineNumber = "347"
-            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;)"
+            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "346"
             endingLineNumber = "346"
-            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;)"
+            landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
