@@ -40,6 +40,10 @@ inline double dist_hamming(const vector<int> &encode_1, const vector<int> &encod
         else
             ++n_miss;
     }
+
+    // clear up temp_array
+    for (auto i = 0; i < encode_1.size(); ++i)
+        temp_array[encode_1[i]] = false;
     
     return (double)n_miss / n_var;
 }
@@ -60,11 +64,17 @@ inline void get_var_cdf(vector<int> &var_cdf, string var_file, size_t genome_siz
         if (buf_vec.size()!=9)
             throw runtime_error("incorrect format in var_file");
         int cur_pos = stod(buf_vec[0]);
-        ++cur_count;
+        
         for (int i=pre_pos; i<=cur_pos; ++i)
             var_cdf[i] = cur_count;
+        
+        ++cur_count;
         pre_pos = cur_pos + 1;
     }
+    
+    for (auto i = pre_pos; i < var_cdf.size(); ++i)
+        var_cdf[i] = cur_count;
+    
     fs_var_file.close();
 }
 

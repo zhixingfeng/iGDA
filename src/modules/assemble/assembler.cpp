@@ -212,11 +212,16 @@ void Assembler::dist_rdim(string encode_file, string align_file, string var_file
         if (buf_vec.size()!=9)
             throw runtime_error("incorrect format in var_file");
         int cur_pos = stod(buf_vec[0]);
-        ++cur_count;
+        
         for (int i=pre_pos; i<=cur_pos; ++i)
             cdf_var[i] = cur_count;
+        
+        ++cur_count;
+        
         pre_pos = cur_pos + 1;
     }
+    for (auto i = pre_pos; i < cdf_var.size(); ++i)
+        cdf_var[i] = cur_count;
     fs_var_file.close();
     
     // scan encode_data to determine size of temp_array

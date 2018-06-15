@@ -314,10 +314,10 @@ TEST_CASE("test get_var_cdf()", "[hide]")
     cout << var_cdf << endl;
 }
 
-TEST_CASE("test dist_hamming()")
+TEST_CASE("test dist_hamming()", "[hide]")
 {
-    string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
-    string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
     string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
     
     vector<vector<int> > encode_data;
@@ -331,10 +331,21 @@ TEST_CASE("test dist_hamming()")
     
     vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
 
+    cout << var_cdf << endl;
     
-    int i = 0, j = 1;
+    int i = 0, j = 2;
     vector<bool> temp_array(genome_size*4+3, false);
     double cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+    cout << cur_dist << endl;
+    
+    i = 11; j = 22;
+    cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+    cout << cur_dist << endl;
+    
+    i = 4990; j = 4999;
+    cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+    cout << encode_data[i] << endl;
+    cout << encode_data[j] << endl;
     cout << cur_dist << endl;
     
 }
