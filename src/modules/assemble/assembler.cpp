@@ -1145,7 +1145,7 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
 
 }
 
-void ann_clust(string encode_file, string align_file, double min_prop, double max_prop, int topn, int max_nn)
+void Assembler::ann_clust(string encode_file, string align_file, string var_file, double min_prop, double max_prop, int topn, int max_nn)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -1155,7 +1155,18 @@ void ann_clust(string encode_file, string align_file, double min_prop, double ma
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
     
-    // 
+    // get genome size
+    size_t genome_size = get_genome_size(reads_range);
+
+    // get cumulative sum of variants
+    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+    
+    // create a template to compare reads
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    // get topn nearest neighbors for each reads
+    
+    
     
 }
 

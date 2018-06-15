@@ -120,7 +120,7 @@ public:
     
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
-    void ann_clust(string encode_file, string align_file, double min_prop = 0.2, double max_prop = 0.7, int topn = 20, int max_nn = 200);
+    void ann_clust(string encode_file, string align_file, string var_file, double min_prop = 0.2, double max_prop = 0.7, int topn = 20, int max_nn = 200);
     
     
     
