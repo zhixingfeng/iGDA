@@ -2294,6 +2294,7 @@
 		DCB29D901F1D2F3100705577 /* test_sclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_sclust.cpp; sourceTree = "<group>"; };
 		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
 		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		DCCACA7B20D3F772008F881A /* dist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dist.h; sourceTree = "<group>"; };
 		DCD493931FB4BCC20011F28B /* pcg_extras.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_extras.hpp; sourceTree = "<group>"; };
 		DCD493941FB4BCC20011F28B /* pcg_random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_random.hpp; sourceTree = "<group>"; };
 		DCD493951FB4BCC20011F28B /* pcg_uint128.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_uint128.hpp; sourceTree = "<group>"; };
@@ -5877,6 +5878,7 @@
 				DCD5FC891DAAE79F0062ADEF /* io.h */,
 				DC0FEE821DF63561002B05FB /* sort_order.h */,
 				DC0FEE831DF6580E002B05FB /* basic.h */,
+				DCCACA7B20D3F772008F881A /* dist.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";

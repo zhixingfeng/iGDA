@@ -306,26 +306,42 @@ TEST_CASE("test readmatch_compare", "[hide]")
     fs_outfile.close();
 }
 
-/*TEST_CASE("test build_index_cmpreadsdiff")
+TEST_CASE("test get_var_cdf()", "[hide]")
 {
-    string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
-    stxxl::vector<ReadMatch> cmpreadsdiff_data;
-    loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
+    string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
+    vector<int> var_cdf;
+    get_var_cdf(var_cdf, var_file, 50000);
+    cout << var_cdf << endl;
+}
+
+TEST_CASE("test dist_hamming()")
+{
+    string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
+    string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
     
-    stxxl::vector<vector<size_t> > cmpreadsdiff_data_index;
-    build_index_cmpreadsdiff(cmpreadsdiff_data, cmpreadsdiff_data_index);
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
     
-    ofstream fs_outfile;
-    open_outfile(fs_outfile, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000.reconstruct.fromindex.txt");
-    for (size_t i = 0; i < cmpreadsdiff_data_index.size(); ++i){
-        for (size_t j = 0; j < cmpreadsdiff_data_index[i].size(); ++j){
-            size_t idx = cmpreadsdiff_data_index[i][j];
-            fs_outfile << cmpreadsdiff_data[idx].read_id << '\t' << cmpreadsdiff_data[idx].start << '\t' << cmpreadsdiff_data[idx].end << '\t';
-            fs_outfile << cmpreadsdiff_data[idx].matches << '\t' << cmpreadsdiff_data[idx].diff << endl;
-        }
-    }
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
     
-}*/
+    size_t genome_size = get_genome_size(reads_range);
+    cout << "genome_size = " << genome_size << endl;
+    
+    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+
+    
+    int i = 0, j = 1;
+    vector<bool> temp_array(genome_size*4+3, false);
+    double cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+    cout << cur_dist << endl;
+    
+}
+
+
+
+
 
 
 

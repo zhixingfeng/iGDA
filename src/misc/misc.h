@@ -17,6 +17,6 @@
 #include "./condfreq.h"
 #include "./sort_order.h"
 #include "./basic.h"
-
+#include "./dist.h"
 
 #endif

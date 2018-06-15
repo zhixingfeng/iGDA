@@ -153,7 +153,7 @@ TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")
     
 }
 
-TEST_CASE("test assembler::dist_rdim()")
+TEST_CASE("test assembler::dist_rdim()", "[hide]")
 {
     string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
     string m5_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
