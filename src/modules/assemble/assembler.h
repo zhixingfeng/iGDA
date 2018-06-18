@@ -55,6 +55,15 @@ struct AdjEdge
     double similarity;
 };
 
+
+struct reads_compare
+{
+    bool operator()(const pair<int,double>& l, const pair<int,double> &r)
+    {
+        return l.second <= r.second;
+    }
+};
+
 class Assembler
 {
 public:

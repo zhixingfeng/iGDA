@@ -1155,6 +1155,9 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
     
+    if (reads_range.size() != encode_data.size())
+        throw runtime_error("reads_range.size() != encode_data.size()");
+    
     // get genome size
     size_t genome_size = get_genome_size(reads_range);
 
@@ -1164,10 +1167,42 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     // create a template to compare reads
     vector<bool> temp_array(genome_size*4+3, false);
     
-    // get topn nearest neighbors for each reads
+    // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    vector<int> nc_reads_id;
+    for (auto i = 0; i < encode_data.size(); ++i){
+        // calculate hamming distance between reads i and other reads
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        for (auto j = 0; j < encode_data.size(); ++j){
+            if (i == j) continue;
+            if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
+                continue;
+            if (reads_range[i].first < reads_range[j].first)
+                continue;
+            
+            double cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+            
+            if (cur_dist < 0) continue;
+            
+            topn_id.push(pair<int,double>(j,cur_dist));
+        }
+        // check if topn reads cover read i
+        bool is_nc = true;
+        for (auto j = 0; j < topn; ++j){
+            if (topn_id.empty()) break;
+            int cur_id = topn_id.top().first;
+            double cur_dist = topn_id.top().second;
+            if (reads_range[cur_id].first < reads_range[i].first && reads_range[cur_id].second > reads_range[i].second){
+                is_nc = false;
+                break;
+            }
+            topn_id.pop();
+        }
+        if (is_nc)
+            nc_reads_id.push_back(i);
+    }
     
-    
-    
+    cout << nc_reads_id << endl;
+    cout << nc_reads_id.size() << endl;
 }
 
 void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
@@ -1186,4 +1221,8 @@ void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &f
     }
     fs_outfile << endl;
 }
+
+
+
+
 
