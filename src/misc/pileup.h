@@ -62,6 +62,42 @@ inline vector<vector<int> > pileup_var(string encode_file, int64_t &n_reads)
     return pu;
 }
 
+inline int get_pu_var_size(const vector<vector<int> > &encode_data)
+{
+    int pu_size = 0;
+    for (int i=0; i<(int)encode_data.size(); i++)
+        for (int j=0; j<(int)encode_data[i].size(); j++)
+            pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
+    pu_size++;
+    return pu_size;
+}
+
+// pileup variants (input from encode_data and reads_range)
+inline vector<vector<int> > pileup_var(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
+{
+    int pu_size = get_pu_var_size(encode_data);
+    
+    // pileup
+    vector<vector<int> > pu(pu_size, vector<int>());
+    if (idx.size() > 0){
+        for (int i : idx)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                pu[encode_data[i][j]].push_back(i);
+    }else{
+        for (int i=0; i<(int)encode_data.size(); i++)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                pu[encode_data[i][j]].push_back(i);
+    }
+    return pu;
+}
+
+inline void pileup_var_online(vector<vector<int> > &pu, const vector<int> &cur_encode_data, int cur_read_id)
+{
+    for (auto i = 0; i < cur_encode_data.size(); ++i)
+        pu[cur_encode_data[i]].push_back(cur_read_id);
+}
+
+
 
 // pileup reads (input from memory/stxxl)
 inline vector<vector<int> > pileup_reads_m5(const stxxl::vector<Align> &align_data, int64_t &n_reads)
@@ -146,6 +182,37 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads,
     return pu;
 }
 
+inline int get_pu_read_size(const vector<ReadRange> &reads_range)
+{
+    int pu_size=0;
+    for (int i=0; i<(int)reads_range.size(); i++)
+        pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
+    pu_size++;
+    return pu_size;
+}
+
+inline vector<vector<int> > pileup_reads_m5(const vector<ReadRange> &reads_range, const vector<int> &idx = vector<int>())
+{
+    int pu_size = get_pu_read_size(reads_range);
+    vector<vector<int> > pu(pu_size, vector<int>());
+    if (idx.size() > 0){
+        for (int i : idx)
+            for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
+                pu[j].push_back(i);
+    }else{
+        for (int i=0; i<(int)reads_range.size(); i++)
+            for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
+                pu[j].push_back(i);
+    }
+    return pu;
+}
+
+inline void pileup_reads_m5_online(vector<vector<int> > &pu, const ReadRange &cur_reads_range, int cur_read_id)
+{
+    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
+        pu[i].push_back(cur_read_id);
+}
+
 inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = true, char format = 'm')
 {
     switch (format) {
@@ -195,5 +262,9 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
     
     return pu_var_ft;
 }
+
+
+
+
 
 #endif /* pileup_h */

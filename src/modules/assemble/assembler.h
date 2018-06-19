@@ -60,7 +60,7 @@ struct reads_compare
 {
     bool operator()(const pair<int,double>& l, const pair<int,double> &r)
     {
-        return l.second <= r.second;
+        return l.second > r.second;
     }
 };
 
@@ -131,11 +131,11 @@ public:
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, double min_prop = 0.2, double max_prop = 0.7, int topn = 20, int max_nn = 200);
     
-    
-    
 protected:
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);
     void print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
+    
+    vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 20);
     
 protected:
     vector<vector<int> > pu_var;

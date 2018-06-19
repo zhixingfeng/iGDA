@@ -1147,10 +1147,35 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
 
 void Assembler::ann_clust(string encode_file, string align_file, string var_file, double min_prop, double max_prop, int topn, int max_nn)
 {
+    // find nc-reads
+    vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn);
+    
+    
+}
+
+void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
+{
+    for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
+        fs_testfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
+    }
+}
+
+void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
+{
+    for (auto it = cmpread.encode_corrected.begin(); it != cmpread.encode_corrected.end(); ++it){
+        fs_outfile << *it << '\t';
+    }
+    fs_outfile << endl;
+}
+
+vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn)
+{
     // load encode data
     vector<vector<int> > encode_data;
     loadencodedata(encode_data, encode_file);
-
+    
     // load reads range
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
@@ -1160,7 +1185,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
     // get genome size
     size_t genome_size = get_genome_size(reads_range);
-
+    
     // get cumulative sum of variants
     vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
     
@@ -1190,8 +1215,9 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         for (auto j = 0; j < topn; ++j){
             if (topn_id.empty()) break;
             int cur_id = topn_id.top().first;
-            double cur_dist = topn_id.top().second;
-            if (reads_range[cur_id].first < reads_range[i].first && reads_range[cur_id].second > reads_range[i].second){
+            //double cur_dist = topn_id.top().second;
+            if ((reads_range[cur_id].first <= reads_range[i].first && reads_range[cur_id].second > reads_range[i].second) ||
+                (reads_range[cur_id].first < reads_range[i].first && reads_range[cur_id].second >= reads_range[i].second) ){
                 is_nc = false;
                 break;
             }
@@ -1200,29 +1226,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         if (is_nc)
             nc_reads_id.push_back(i);
     }
-    
-    cout << nc_reads_id << endl;
-    cout << nc_reads_id.size() << endl;
+    return nc_reads_id;
 }
-
-void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
-{
-    for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
-        fs_testfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
-        fs_testfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
-        fs_testfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
-    }
-}
-
-void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
-{
-    for (auto it = cmpread.encode_corrected.begin(); it != cmpread.encode_corrected.end(); ++it){
-        fs_outfile << *it << '\t';
-    }
-    fs_outfile << endl;
-}
-
-
 
 
 

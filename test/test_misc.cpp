@@ -353,6 +353,53 @@ TEST_CASE("test dist_hamming()", "[hide]")
 }
 
 
+TEST_CASE("test pileup_var (input from encode_data)", "[hide]")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    // pileup from file
+    int64_t n_reads;
+    vector<vector<int> > pu_var_file = pileup_var(encode_file, n_reads);
+    
+    // pileup from data
+    vector<vector<int> > pu_var_data = pileup_var(encode_data);
+    
+    // online pileup
+    int pu_size = get_pu_var_size(encode_data);
+    vector<vector<int> > pu_var_online(pu_size, vector<int>());
+    for (auto i = 0; i < encode_data.size(); ++i)
+        pileup_var_online(pu_var_online, encode_data[i], i);
+    
+    REQUIRE(pu_var_file == pu_var_data);
+    REQUIRE(pu_var_file == pu_var_online);
+}
+
+
+TEST_CASE("test pileup_reads_m5 (input from reads_range)", "[hide]")
+{
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    // pileup from file
+    int64_t n_reads;
+    vector<vector<int> > pu_reads_file = pileup_reads_m5(align_file, n_reads, false);
+    
+    // pileup from data
+    vector<vector<int> > pu_reads_data = pileup_reads_m5(reads_range);
+    
+    // online
+    int pu_size = get_pu_read_size(reads_range);
+    vector<vector<int> > pu_reads_online(pu_size, vector<int>());
+    for (auto i = 0; i < reads_range.size(); ++i)
+        pileup_reads_m5_online(pu_reads_online, reads_range[i], i);
+    
+    REQUIRE(pu_reads_file == pu_reads_data);
+    REQUIRE(pu_reads_file == pu_reads_online);
+}
 
 
 
