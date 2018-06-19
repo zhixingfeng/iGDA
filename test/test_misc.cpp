@@ -402,8 +402,46 @@ TEST_CASE("test pileup_reads_m5 (input from reads_range)", "[hide]")
 }
 
 
+TEST_CASE("test pileup_var (input from encode_data) subset", "[hide]")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    vector<int> idx = {1,2,5,6,8, 104, 3958};
+   
+    // pileup from data
+    vector<vector<int> > pu_var_data = pileup_var(encode_data, idx);
+    
+    // online pileupr
+    int pu_size = get_pu_var_size(encode_data, idx);
+    vector<vector<int> > pu_var_online(pu_size, vector<int>());
+    for (auto i : idx)
+        pileup_var_online(pu_var_online, encode_data[i], i);
+    
+    REQUIRE(pu_var_data == pu_var_online);
+}
 
 
+TEST_CASE("test pileup_reads_m5 (input from reads_range) subset", "[hide]")
+{
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    vector<int> idx = {1,2,5,6,8, 104, 3958};
+    // pileup from data
+    vector<vector<int> > pu_reads_data = pileup_reads_m5(reads_range, idx);
+    
+    // online
+    int pu_size = get_pu_read_size(reads_range, idx);
+    vector<vector<int> > pu_reads_online(pu_size, vector<int>());
+    for (auto i : idx)
+        pileup_reads_m5_online(pu_reads_online, reads_range[i], i);
+    
+    REQUIRE(pu_reads_data == pu_reads_online);
+}
 
 
 

@@ -62,12 +62,18 @@ inline vector<vector<int> > pileup_var(string encode_file, int64_t &n_reads)
     return pu;
 }
 
-inline int get_pu_var_size(const vector<vector<int> > &encode_data)
+inline int get_pu_var_size(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
 {
     int pu_size = 0;
-    for (int i=0; i<(int)encode_data.size(); i++)
-        for (int j=0; j<(int)encode_data[i].size(); j++)
-            pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
+    if (idx.size() > 0){
+        for (int i : idx)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
+    }else{
+        for (int i=0; i<(int)encode_data.size(); i++)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
+    }
     pu_size++;
     return pu_size;
 }
@@ -75,7 +81,7 @@ inline int get_pu_var_size(const vector<vector<int> > &encode_data)
 // pileup variants (input from encode_data and reads_range)
 inline vector<vector<int> > pileup_var(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
 {
-    int pu_size = get_pu_var_size(encode_data);
+    int pu_size = get_pu_var_size(encode_data, idx);
     
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());
@@ -182,18 +188,23 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads,
     return pu;
 }
 
-inline int get_pu_read_size(const vector<ReadRange> &reads_range)
+inline int get_pu_read_size(const vector<ReadRange> &reads_range, const vector<int> &idx = vector<int>())
 {
     int pu_size=0;
-    for (int i=0; i<(int)reads_range.size(); i++)
-        pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
+    if (idx.size() > 0){
+        for (int i : idx)
+            pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
+    }else{
+        for (int i=0; i<(int)reads_range.size(); i++)
+            pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
+    }
     pu_size++;
     return pu_size;
 }
 
 inline vector<vector<int> > pileup_reads_m5(const vector<ReadRange> &reads_range, const vector<int> &idx = vector<int>())
 {
-    int pu_size = get_pu_read_size(reads_range);
+    int pu_size = get_pu_read_size(reads_range, idx);
     vector<vector<int> > pu(pu_size, vector<int>());
     if (idx.size() > 0){
         for (int i : idx)

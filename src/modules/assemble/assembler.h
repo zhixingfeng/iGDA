@@ -129,13 +129,16 @@ public:
     
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
-    void ann_clust(string encode_file, string align_file, string var_file, double min_prop = 0.2, double max_prop = 0.7, int topn = 20, int max_nn = 200);
+    void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200);
     
 protected:
+    vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 30);
+    bool check_pileup(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_reads, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
+
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);
     void print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
     
-    vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 20);
+    
     
 protected:
     vector<vector<int> > pu_var;

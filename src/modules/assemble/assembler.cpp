@@ -1145,29 +1145,80 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
 
 }
 
-void Assembler::ann_clust(string encode_file, string align_file, string var_file, double min_prop, double max_prop, int topn, int max_nn)
+void Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn)
 {
-    // find nc-reads
+    /*------------ find nc-reads -----------*/
+    cout << "find non-contained reads" << endl;
     vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn);
     
+    /*------------ use nc-reads seed to cluster ----------*/
+    cout << "use non-contained reads as seed to cluster" << endl;
+    // load encode data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
     
-}
-
-void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
-{
-    for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
-        fs_testfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
-        fs_testfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
-        fs_testfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
+    // load reads range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    if (reads_range.size() != encode_data.size())
+        throw runtime_error("reads_range.size() != encode_data.size()");
+    
+    // get genome size
+    size_t genome_size = get_genome_size(reads_range);
+    
+    // get cumulative sum of variants
+    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+    
+    // create a template to compare reads
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    for (auto i : nc_reads_id){
+        // calculate hamming distance between reads i and other reads
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        for (auto j = 0; j < encode_data.size(); ++j){
+            if (i == j) continue;
+            if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
+                continue;
+            if (reads_range[i].first < reads_range[j].first)
+                continue;
+            
+            double cur_dist = dist_hamming(encode_data[i], encode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+            
+            if (cur_dist < 0) continue;
+            
+            topn_id.push(pair<int,double>(j,cur_dist));
+        }
+        
+        // get max_nn neighbors
+        vector<int> cur_neighbors_topn;
+        vector<int> cur_neighbors;
+        vector<double> cur_neighbors_dist;
+        for (auto j = 0; j < max_nn; ++j){
+            if (topn_id.empty()) break;
+            int cur_id = topn_id.top().first;
+            double cur_dist = topn_id.top().second;
+            cur_neighbors.push_back(cur_id);
+            cur_neighbors_dist.push_back(cur_dist);
+            if (j < topn)
+                cur_neighbors_topn.push_back(cur_id);
+            topn_id.pop();
+        }
+        
+        // pileup topn neighbors
+        vector<vector<int> > cur_pu_var = pileup_var(encode_data, cur_neighbors_topn);
+        vector<vector<int> > cur_pu_reads = pileup_reads_m5(reads_range, cur_neighbors_topn);
+        
+        if (floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1)
+            throw runtime_error("ann_clust: floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1");
+        
+        bool is_homo = this->check_pileup(cur_pu_var, cur_pu_reads, vector<int>(), min_cvg, min_prop, max_prop);
+        if (is_homo)
+            cout << nc_reads_id[i] << endl;
     }
-}
-
-void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
-{
-    for (auto it = cmpread.encode_corrected.begin(); it != cmpread.encode_corrected.end(); ++it){
-        fs_outfile << *it << '\t';
-    }
-    fs_outfile << endl;
+    
+    
 }
 
 vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn)
@@ -1228,6 +1279,52 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
     }
     return nc_reads_id;
 }
+
+bool Assembler::check_pileup(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_reads, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
+{
+    bool is_homo = true;
+    if (idx.size() > 0){
+        //for (auto i : idx){
+            
+        //}
+    }else{
+        for (auto i = 0; i < pu_var.size(); ++i){
+            // calculate variant frequency
+            int i_r = int(i/4);
+            double cur_prop;
+            if (pu_reads[i_r].size() > min_cvg)
+                cur_prop = (double)pu_var[i].size() / pu_reads[i_r].size();
+            else
+                cur_prop = -1;
+            
+            // check if current locus is
+            if (cur_prop > min_prop && cur_prop < max_prop){
+                cout << i << endl;
+                is_homo = false;
+            }
+        }
+    }
+    return is_homo;
+}
+
+
+void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
+{
+    for (int i = 0; i < (int)cmpread.cmpreads_diff.size(); ++i){
+        fs_testfile << cmpread.read_id << '\t' << cmpread.cmpreads_diff[i].start << '\t' << cmpread.cmpreads_diff[i].end << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].cand_loci << '\t' << cmpread.cmpreads_diff[i].cand_loci_diff << '\t';
+        fs_testfile << cmpread.cmpreads_diff[i].condprob << '\t' << cmpread.cmpreads_diff[i].condprob_diff << endl;
+    }
+}
+
+void Assembler::print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile)
+{
+    for (auto it = cmpread.encode_corrected.begin(); it != cmpread.encode_corrected.end(); ++it){
+        fs_outfile << *it << '\t';
+    }
+    fs_outfile << endl;
+}
+
 
 
 

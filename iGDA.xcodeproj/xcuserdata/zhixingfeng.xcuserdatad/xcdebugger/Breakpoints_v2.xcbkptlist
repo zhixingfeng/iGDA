@@ -121,13 +121,93 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "551117359.4767801"
+            filePath = "test/test_misc.cpp"
+            timestampString = "551131229.890638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1214"
-            endingLineNumber = "1214"
-            landmarkName = "Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn)"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
+            landmarkName = "TEST_CASE(&quot;test pileup_var (input from encode_data) subset&quot;, &quot;[hide]&quot;)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____405()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_misc.cpp"
+                  timestampString = "551131435.170969"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "423"
+                  endingLineNumber = "423"
+                  offsetFromSymbolStart = "1977">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____405()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_misc.cpp"
+                  timestampString = "551131435.171136"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "423"
+                  endingLineNumber = "423"
+                  offsetFromSymbolStart = "1982">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551134503.1865931"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1217"
+            endingLineNumber = "1217"
+            landmarkName = "Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551134503.1865931"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1293"
+            endingLineNumber = "1293"
+            landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551134503.1865931"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1301"
+            endingLineNumber = "1301"
+            landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
