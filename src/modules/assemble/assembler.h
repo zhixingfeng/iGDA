@@ -64,6 +64,7 @@ struct reads_compare
     }
 };
 
+
 class Assembler
 {
 public:
@@ -130,11 +131,14 @@ public:
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, double max_dist = 0.02);
+    void print_rl_ann_clust(string outfile);
     
 protected:
     vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 30, double max_dist = 0.02);
-    bool check_pileup(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_reads, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
-
+    bool check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
+    
+    
+    
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);
     void print_correct_reads(const CmpreadsDiffRead &cmpread, ofstream &fs_outfile);
     
@@ -156,6 +160,8 @@ protected:
     vector<uint64_t> temp_var;
     vector<uint64_t> temp_read;
     uint64_t counter;
+    
+    vector<ConsensusSeq> rl_ann_clust;
     
 }
 ;

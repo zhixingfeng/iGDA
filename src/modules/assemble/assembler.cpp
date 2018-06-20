@@ -1209,26 +1209,60 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         }
         
         // pileup topn neighbors
-        /*vector<vector<int> > cur_pu_var = pileup_var(encode_data, cur_neighbors_topn);
-        vector<vector<int> > cur_pu_reads = pileup_reads_m5(reads_range, cur_neighbors_topn);
+        int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
+        int cur_pu_reads_size = get_pu_read_size(reads_range, cur_neighbors);
         
-        if (floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1)
-            throw runtime_error("ann_clust: floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1");
+        if (floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1)
+            throw runtime_error("ann_clust: floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1");
+
+        vector<int> cur_pu_var_count(cur_pu_var_size, 0);
+        vector<int> cur_pu_reads_count(cur_pu_reads_size, 0);
+        for (auto j : cur_neighbors_topn){
+            pileup_var_online_count(cur_pu_var_count, encode_data[j]);
+            pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
+        }
         
         // check if neighbors are homogeneous
-        bool is_homo = this->check_pileup(cur_pu_var, cur_pu_reads, vector<int>(), min_cvg, min_prop, max_prop);
+        bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, vector<int>(), min_cvg, min_prop, max_prop);
         if (is_homo){
+            //cout << i << endl;
             // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
-            if (cur_neighbors.size() > cur_neighbors_topn.size()){
-                for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
-                    pileup_var_online(cur_pu_var, encode_data[cur_neighbors[j]], cur_neighbors[j]);
-                    pileup_reads_m5_online(cur_pu_reads, reads_range[cur_neighbors[j]], cur_neighbors[j]);
+            for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
+                pileup_var_online_count(cur_pu_var_count, encode_data[cur_neighbors[j]]);
+                pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
+                
+                // check if add the current reads violate homogeneouty
+                for (int j : encode_data[cur_neighbors[j]]){
+                    int i_r = int(i/4);
+                    double cur_prop;
+                    if (cur_pu_reads_count[i_r] > min_cvg)
+                        cur_prop = (double)cur_pu_var_count[i] / cur_pu_reads_count[i_r];
+                    else
+                        cur_prop = -1;
+                    if (cur_prop > min_prop && cur_prop < max_prop){
+                        pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
+                        pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
+                        break;
+                    }
                 }
             }
-        }*/
+            
+            // get consensus
+            ConsensusSeq cur_cons;
+            get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, min_cvg);
+            rl_ann_clust.push_back(cur_cons);
+        }
     }
     
-    
+}
+
+void Assembler::print_rl_ann_clust(string outfile)
+{
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, outfile);
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+        fs_outfile << this->rl_ann_clust[i].cons_seq << endl;
+    fs_outfile.close();
 }
 
 vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
@@ -1295,7 +1329,7 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
     return nc_reads_id;
 }
 
-bool Assembler::check_pileup(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_reads, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
+bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
 {
     bool is_homo = true;
     if (idx.size() > 0){
@@ -1303,12 +1337,12 @@ bool Assembler::check_pileup(const vector<vector<int> > &pu_var, const vector<ve
             
         //}
     }else{
-        for (auto i = 0; i < pu_var.size(); ++i){
+        for (auto i = 0; i < pu_var_count.size(); ++i){
             // calculate variant frequency
             int i_r = int(i/4);
             double cur_prop;
-            if (pu_reads[i_r].size() > min_cvg)
-                cur_prop = (double)pu_var[i].size() / pu_reads[i_r].size();
+            if (pu_reads_count[i_r] > min_cvg)
+                cur_prop = (double)pu_var_count[i] / pu_reads_count[i_r];
             else
                 cur_prop = -1;
             

@@ -499,5 +499,25 @@ TEST_CASE("test pileup_reads_m5_count (input from reads_range) subset", "[hide]"
     REQUIRE(pu_reads_count_ctrl == pu_reads_online_count);
 }
 
+TEST_CASE("test get_consensus", "[hide]")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    vector<int> idx = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
+    vector<int> pu_var_count = pileup_var_count(encode_data, idx);
+    vector<int> pu_read_count = pileup_reads_m5_count(reads_range, idx);
+    
+    ConsensusSeq cons;
+    get_consensus(cons, pu_var_count, pu_read_count, 20);
+    cout << cons.cons_seq << endl;
+}
+
+
+
 
 

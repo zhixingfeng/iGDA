@@ -14,7 +14,14 @@
 #include <stxxl.h>
 // coverage should NOT exceed range of int !!!!!
 ////////// pileup read ID and locus are 0-based ///////////
-
+struct ConsensusSeq
+{
+    vector<int> pu_var_count;
+    vector<int> pu_read_count;
+    vector<double> prop;
+    vector<int> cons_seq;
+    vector<int> seed;
+};
 
 // pileup variants (input from memory/stxxl)
 inline vector<vector<int> > pileup_var(const vector<vector<int> > &encode_data, int64_t &n_reads)
@@ -129,6 +136,11 @@ inline void pileup_var_online_count(vector<int> &pu_count, const vector<int> &cu
         ++pu_count[cur_encode_data[i]];
 }
 
+inline void pileup_var_online_count_pop(vector<int> &pu_count, const vector<int> &cur_encode_data)
+{
+    for (auto i = 0; i < cur_encode_data.size(); ++i)
+        --pu_count[cur_encode_data[i]];
+}
 
 
 // pileup reads (input from memory/stxxl)
@@ -274,6 +286,11 @@ inline void pileup_reads_m5_online_count(vector<int> &pu_count, const ReadRange 
         ++pu_count[i];
 }
 
+inline void pileup_reads_m5_online_count_pop(vector<int> &pu_count, const ReadRange &cur_reads_range)
+{
+    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
+        --pu_count[i];
+}
 
 
 inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = true, char format = 'm')
@@ -326,7 +343,25 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
     return pu_var_ft;
 }
 
+// get consensus
+inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_read_count, int min_cvg = 20)
+{
+    if (floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1)
+        throw runtime_error("ann_clust: floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1");
 
+    cons.pu_var_count = pu_var_count;
+    cons.pu_read_count = pu_read_count;
+    cons.prop.resize(pu_var_count.size(),-1);
+    for (auto i = 0; i < pu_var_count.size(); ++i){
+        int i_r = int(i/4);
+        if (pu_read_count[i_r] >= min_cvg)
+              cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
+        else
+              cons.prop[i] = -1;
+        if (cons.prop[i] > 0.5)
+            cons.cons_seq.push_back(i);
+    }
+}
 
 
 
