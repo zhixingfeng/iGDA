@@ -1145,11 +1145,13 @@ void Assembler::greedy_clust(string encode_file, string align_file, string cmpre
 
 }
 
-void Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn)
+void Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn);
+    vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
+    //cout << nc_reads_id << endl;
+    cout << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
     cout << "use non-contained reads as seed to cluster" << endl;
@@ -1207,21 +1209,29 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         }
         
         // pileup topn neighbors
-        vector<vector<int> > cur_pu_var = pileup_var(encode_data, cur_neighbors_topn);
+        /*vector<vector<int> > cur_pu_var = pileup_var(encode_data, cur_neighbors_topn);
         vector<vector<int> > cur_pu_reads = pileup_reads_m5(reads_range, cur_neighbors_topn);
         
         if (floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1)
             throw runtime_error("ann_clust: floor(double(cur_pu_var.size()-1) / 4) > cur_pu_reads.size()-1");
         
+        // check if neighbors are homogeneous
         bool is_homo = this->check_pileup(cur_pu_var, cur_pu_reads, vector<int>(), min_cvg, min_prop, max_prop);
-        if (is_homo)
-            cout << nc_reads_id[i] << endl;
+        if (is_homo){
+            // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
+            if (cur_neighbors.size() > cur_neighbors_topn.size()){
+                for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
+                    pileup_var_online(cur_pu_var, encode_data[cur_neighbors[j]], cur_neighbors[j]);
+                    pileup_reads_m5_online(cur_pu_reads, reads_range[cur_neighbors[j]], cur_neighbors[j]);
+                }
+            }
+        }*/
     }
     
     
 }
 
-vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn)
+vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -1265,8 +1275,13 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
         bool is_nc = true;
         for (auto j = 0; j < topn; ++j){
             if (topn_id.empty()) break;
+            
             int cur_id = topn_id.top().first;
-            //double cur_dist = topn_id.top().second;
+            double cur_dist = topn_id.top().second;
+            
+            if (cur_dist > max_dist)
+                break;
+            
             if ((reads_range[cur_id].first <= reads_range[i].first && reads_range[cur_id].second > reads_range[i].second) ||
                 (reads_range[cur_id].first < reads_range[i].first && reads_range[cur_id].second >= reads_range[i].second) ){
                 is_nc = false;
@@ -1298,8 +1313,10 @@ bool Assembler::check_pileup(const vector<vector<int> > &pu_var, const vector<ve
                 cur_prop = -1;
             
             // check if current locus is
+            //if (cur_prop > 0)
+            //    cout << i << ":" << cur_prop << endl;
             if (cur_prop > min_prop && cur_prop < max_prop){
-                cout << i << endl;
+                //cout << i << ":" << cur_prop << endl;
                 is_homo = false;
             }
         }

@@ -414,13 +414,43 @@ TEST_CASE("test pileup_var (input from encode_data) subset", "[hide]")
     // pileup from data
     vector<vector<int> > pu_var_data = pileup_var(encode_data, idx);
     
-    // online pileupr
+    // online pileup
     int pu_size = get_pu_var_size(encode_data, idx);
     vector<vector<int> > pu_var_online(pu_size, vector<int>());
     for (auto i : idx)
         pileup_var_online(pu_var_online, encode_data[i], i);
     
     REQUIRE(pu_var_data == pu_var_online);
+}
+
+TEST_CASE("test pileup_var_count (input from encode_data) subset", "[hide]")
+{
+    string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
+    
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
+    vector<int> idx = {1,2,5,6,8, 104, 3958};
+    
+    // pileup from data
+    vector<vector<int> > pu_var = pileup_var(encode_data, idx);
+    vector<int> pu_var_count_ctrl(pu_var.size(),0);
+    for (auto i = 0; i<pu_var.size(); ++i)
+        pu_var_count_ctrl[i] = (int)pu_var[i].size();
+    
+    // pileup count
+    vector<int> pu_var_count = pileup_var_count(encode_data, idx);
+    
+    // pileup count online
+    int pu_size = get_pu_var_size(encode_data, idx);
+    vector<int> pu_var_online_count(pu_size, 0);
+    for (auto i : idx)
+        pileup_var_online_count(pu_var_online_count, encode_data[i]);
+
+    
+    REQUIRE(pu_var_count_ctrl == pu_var_count);
+    REQUIRE(pu_var_count_ctrl == pu_var_online_count);
+   
 }
 
 
@@ -443,7 +473,31 @@ TEST_CASE("test pileup_reads_m5 (input from reads_range) subset", "[hide]")
     REQUIRE(pu_reads_data == pu_reads_online);
 }
 
+TEST_CASE("test pileup_reads_m5_count (input from reads_range) subset", "[hide]")
+{
+    string align_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    vector<int> idx = {1,2,5,6,8, 104, 3958};
+    // pileup from data
+    vector<vector<int> > pu_reads = pileup_reads_m5(reads_range, idx);
+    vector<int> pu_reads_count_ctrl(pu_reads.size(), 0);
+    for (auto i = 0; i < pu_reads.size(); ++i)
+        pu_reads_count_ctrl[i] = (int)pu_reads[i].size();
+    
+    // pileup count
+    vector<int> pu_reads_count = pileup_reads_m5_count(reads_range, idx);
+    
+    // pileup count online
+    int pu_size = get_pu_read_size(reads_range, idx);
+    vector<int> pu_reads_online_count(pu_size, 0);
+    for (auto i : idx)
+        pileup_reads_m5_online_count(pu_reads_online_count, reads_range[i]);
 
+    REQUIRE(pu_reads_count_ctrl == pu_reads_count);
+    REQUIRE(pu_reads_count_ctrl == pu_reads_online_count);
+}
 
 
 

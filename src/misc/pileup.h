@@ -103,6 +103,32 @@ inline void pileup_var_online(vector<vector<int> > &pu, const vector<int> &cur_e
         pu[cur_encode_data[i]].push_back(cur_read_id);
 }
 
+// pileup variants count
+inline vector<int> pileup_var_count(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
+{
+    int pu_size = get_pu_var_size(encode_data, idx);
+    
+    // pileup
+    vector<int> pu_count(pu_size, 0);
+    if (idx.size() > 0){
+        for (int i : idx)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                ++pu_count[encode_data[i][j]];
+    }else{
+        for (int i=0; i<(int)encode_data.size(); i++)
+            for (int j=0; j<(int)encode_data[i].size(); j++)
+                ++pu_count[encode_data[i][j]];
+    }
+    return pu_count;
+}
+
+// pileup count online
+inline void pileup_var_online_count(vector<int> &pu_count, const vector<int> &cur_encode_data)
+{
+    for (auto i = 0; i < cur_encode_data.size(); ++i)
+        ++pu_count[cur_encode_data[i]];
+}
+
 
 
 // pileup reads (input from memory/stxxl)
@@ -223,6 +249,32 @@ inline void pileup_reads_m5_online(vector<vector<int> > &pu, const ReadRange &cu
     for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
         pu[i].push_back(cur_read_id);
 }
+
+
+// pileup reads count
+inline vector<int> pileup_reads_m5_count(const vector<ReadRange> &reads_range, const vector<int> &idx = vector<int>())
+{
+    int pu_size = get_pu_read_size(reads_range, idx);
+    vector<int> pu_count(pu_size, 0);
+    if (idx.size() > 0){
+        for (int i : idx)
+            for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
+                ++pu_count[j];
+    }else{
+        for (int i=0; i<(int)reads_range.size(); i++)
+            for(int j=reads_range[i].first; j<=reads_range[i].second; j++)
+                ++pu_count[j];
+    }
+    return pu_count;
+}
+
+inline void pileup_reads_m5_online_count(vector<int> &pu_count, const ReadRange &cur_reads_range)
+{
+    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
+        ++pu_count[i];
+}
+
+
 
 inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = true, char format = 'm')
 {

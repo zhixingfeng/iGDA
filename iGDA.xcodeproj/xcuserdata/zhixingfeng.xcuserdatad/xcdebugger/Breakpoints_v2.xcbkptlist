@@ -170,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "551134503.1865931"
+            timestampString = "551208263.820147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1217"
-            endingLineNumber = "1217"
-            landmarkName = "Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn)"
+            startingLineNumber = "1220"
+            endingLineNumber = "1220"
+            landmarkName = "Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "551134503.1865931"
+            timestampString = "551208263.820147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1293"
-            endingLineNumber = "1293"
+            startingLineNumber = "1308"
+            endingLineNumber = "1308"
             landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,12 +202,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "551134503.1865931"
+            timestampString = "551208263.820147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1301"
-            endingLineNumber = "1301"
+            startingLineNumber = "1316"
+            endingLineNumber = "1316"
             landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551208263.820147"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1317"
+            endingLineNumber = "1317"
+            landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551208263.820147"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1314"
+            endingLineNumber = "1314"
+            landmarkName = "Assembler::check_pileup(const vector&lt;vector&lt;int&gt; &gt; &amp;pu_var, const vector&lt;vector&lt;int&gt; &gt; &amp;pu_reads, const vector&lt;int&gt; &amp;idx, int min_cvg, double min_prop, double max_prop)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "551208263.820147"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1219"
+            endingLineNumber = "1219"
+            landmarkName = "Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
