@@ -1151,7 +1151,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     cout << "find non-contained reads" << endl;
     vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
     //cout << nc_reads_id << endl;
-    cout << nc_reads_id.size() << endl;
+    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
     cout << "use non-contained reads as seed to cluster" << endl;
@@ -1176,7 +1176,11 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     vector<bool> temp_array(genome_size*4+3, false);
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
+        ++n_nc_reads;
+        if (n_nc_reads % 1000 == 0)
+            cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         // calculate hamming distance between reads i and other reads
         priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
         for (auto j = 0; j < encode_data.size(); ++j){
@@ -1208,12 +1212,28 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             topn_id.pop();
         }
         
+        if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
+            continue;
+        
         // pileup topn neighbors
         int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
         int cur_pu_reads_size = get_pu_read_size(reads_range, cur_neighbors);
         
-        if (floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1)
+        if (cur_pu_var_size == 0 || cur_pu_reads_size == 0)
+            continue;
+        
+        if (cur_pu_var_size < 0 || cur_pu_reads_size < 0){
+            cout << "cur_pu_var_size" << cur_pu_var_size << endl;
+            cout << "cur_pu_reads_size" << cur_pu_reads_size << endl;
+            throw runtime_error("cur_pu_var_size < 0 || cur_pu_reads_size < 0");
+        }
+        
+        if (floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1){
+            cout << "cur_pu_var_size = " << cur_pu_var_size << endl;
+            cout << "cur_pu_reads_size = " << cur_pu_reads_size << endl;
+            cout << "cur_neighbors = " << cur_neighbors << endl;
             throw runtime_error("ann_clust: floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1");
+        }
 
         vector<int> cur_pu_var_count(cur_pu_var_size, 0);
         vector<int> cur_pu_reads_count(cur_pu_reads_size, 0);
@@ -1225,27 +1245,29 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         // check if neighbors are homogeneous
         bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, vector<int>(), min_cvg, min_prop, max_prop);
         if (is_homo){
-            cout << i << endl;
+            //cout << i << endl;
             // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
-            for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
+            /*for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
                 pileup_var_online_count(cur_pu_var_count, encode_data[cur_neighbors[j]]);
                 pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
                 
                 // check if add the current reads violate homogeneouty
-                for (int j : encode_data[cur_neighbors[j]]){
-                    int i_r = int(i/4);
+                for (int k : encode_data[cur_neighbors[j]]){
+                    int k_r = int(k/4);
                     double cur_prop;
-                    if (cur_pu_reads_count[i_r] > min_cvg)
-                        cur_prop = (double)cur_pu_var_count[i] / cur_pu_reads_count[i_r];
+                    
+                    if (cur_pu_reads_count[k_r] > min_cvg)
+                        cur_prop = (double)cur_pu_var_count[k] / cur_pu_reads_count[k_r];
                     else
                         cur_prop = -1;
+                    
                     if (cur_prop > min_prop && cur_prop < max_prop){
                         pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
                         pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
                         break;
                     }
                 }
-            }
+            }*/
             
             // get consensus
             ConsensusSeq cur_cons;
@@ -1257,13 +1279,49 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::print_rl_ann_clust(string outfile)
+void Assembler::print_rl_ann_clust(string outfile, bool is_seq)
 {
     ofstream fs_outfile;
     open_outfile(fs_outfile, outfile);
-    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
-        fs_outfile << this->rl_ann_clust[i].cons_seq << endl;
+    if (is_seq){
+        for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+            fs_outfile << this->rl_ann_clust[i].cons_seq << endl;
+    }else{
+        for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+            fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
+            fs_outfile << this->rl_ann_clust[i].seed << '\t';
+            
+            int start_code = 4*rl_ann_clust[i].start;
+            int end_code = 4*rl_ann_clust[i].end + 3;
+            end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << j << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << rl_ann_clust[i].prop[j] << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << rl_ann_clust[i].pu_var_count[j] << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j){
+                if (rl_ann_clust[i].pu_var_count[j] > 0){
+                    int j_r = int(j/4);
+                    fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
+                }
+            }
+            fs_outfile << endl;
+        }
+    }
+    
     fs_outfile.close();
+        
 }
 
 vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
@@ -1291,6 +1349,8 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
     vector<int> nc_reads_id;
     for (auto i = 0; i < encode_data.size(); ++i){
+        if ((i+1)%1000 == 0)
+            cout << "processed " << i+1 << " / " << encode_data.size() << endl;
         // calculate hamming distance between reads i and other reads
         priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
         for (auto j = 0; j < encode_data.size(); ++j){

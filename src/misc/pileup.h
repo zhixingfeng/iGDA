@@ -74,7 +74,7 @@ inline vector<vector<int> > pileup_var(string encode_file, int64_t &n_reads)
 
 inline int get_pu_var_size(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
 {
-    int pu_size = 0;
+    int pu_size = -1;
     if (idx.size() > 0){
         for (int i : idx)
             for (int j=0; j<(int)encode_data[i].size(); j++)
@@ -231,7 +231,7 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads,
 
 inline int get_pu_read_size(const vector<ReadRange> &reads_range, const vector<int> &idx = vector<int>())
 {
-    int pu_size=0;
+    int pu_size=-1;
     if (idx.size() > 0){
         for (int i : idx)
             pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
@@ -320,8 +320,11 @@ inline void print_pileup(const vector<vector<int> > &pileup_data, string outfile
 
 inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_read, int64_t n_reads)
 {
-    if (pu_var.size() > 4*pu_read.size()+3)
+    if (pu_var.size() > 4*pu_read.size()+3){
+        cout << "pu_var.size() = " << pu_var.size() << endl;
+        cout << "pu_read.size() = " << pu_read.size() << endl;
         throw runtime_error("filter_pileup_var(): pu_var.size() > 4*pu_read.size()");
+    }
 
     vector<vector<int> > pu_var_ft(pu_var.size(), vector<int>());
     vector<int> temp_vec(n_reads, -1);
@@ -349,28 +352,43 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
 // get consensus
 inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_read_count, int start, int end, int min_cvg = 20)
 {
-    if (floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1)
+    if (floor(double(pu_var_count.size()-1) / 4) > (int)pu_read_count.size() - 1){
+        cout << "pu_var_count.size() " << pu_var_count.size() << endl;
+        cout << "pu_read_count.size()" << pu_read_count.size() << endl;
         throw runtime_error("ann_clust: floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1");
-    
-    int start_code = 4*start;
-    int end_code = 4*end+3;
-    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
-  
-    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size())
-        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
-    
-    if (start_code < 0 || end_code < 0)
-        throw runtime_error("start_code < 0 || end_code < 0");
-    
+    }
     cons.pu_var_count = pu_var_count;
     cons.pu_read_count = pu_read_count;
     cons.start = start;
     cons.end = end;
     cons.prop.resize(pu_var_count.size(),-1);
+    if (pu_var_count.size()==0)
+        return;
+    
+    int start_code = 4*start;
+    int end_code = 4*end+3;
+    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
+  
+    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size()){
+        cout << "start_code = " << start_code << endl;
+        cout << "end_code = " << end_code << endl;
+        cout << "pu_var_count.size() = " << pu_var_count.size() << endl;
+        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
+    }
+    
+    if (start_code < 0 || end_code < 0){
+        cout << "start_code = " << start_code << endl;
+        cout << "end_code = " << end_code << endl;
+        throw runtime_error("start_code < 0 || end_code < 0");
+    }
+    
     for (auto i = start_code; i < end_code; ++i){
         int i_r = int(i/4);
-        if (i_r > start && pu_read_count[i_r] > pu_read_count[i_r-1])
+        if (i_r > start && pu_read_count[i_r] > pu_read_count[i_r-1]){
+            cout << "pu_read_count = " << pu_read_count << endl;
+            cout << "start_code = " << start_code << endl;
             throw runtime_error("coverage should never decrease");
+        }
         
         if (pu_read_count[i_r] >= min_cvg){
             cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];

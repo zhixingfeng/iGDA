@@ -131,7 +131,7 @@ public:
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, double max_dist = 0.02);
-    void print_rl_ann_clust(string outfile);
+    void print_rl_ann_clust(string outfile, bool is_seq = false);
     
 protected:
     vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 30, double max_dist = 0.02);
