@@ -172,7 +172,7 @@ TEST_CASE("test assembler::ann_clust")
     string out_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000.ann";
     
     Assembler assembler;
-    assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.01);
+    assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     assembler.print_rl_ann_clust(out_file);
     
 }

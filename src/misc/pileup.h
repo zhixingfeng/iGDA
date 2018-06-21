@@ -21,6 +21,9 @@ struct ConsensusSeq
     vector<double> prop;
     vector<int> cons_seq;
     vector<int> seed;
+    
+    int start;
+    int end;
 };
 
 // pileup variants (input from memory/stxxl)
@@ -344,20 +347,38 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
 }
 
 // get consensus
-inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_read_count, int min_cvg = 20)
+inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_read_count, int start, int end, int min_cvg = 20)
 {
     if (floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1)
         throw runtime_error("ann_clust: floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1");
-
+    
+    int start_code = 4*start;
+    int end_code = 4*end+3;
+    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
+  
+    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size())
+        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
+    
+    if (start_code < 0 || end_code < 0)
+        throw runtime_error("start_code < 0 || end_code < 0");
+    
     cons.pu_var_count = pu_var_count;
     cons.pu_read_count = pu_read_count;
+    cons.start = start;
+    cons.end = end;
     cons.prop.resize(pu_var_count.size(),-1);
-    for (auto i = 0; i < pu_var_count.size(); ++i){
+    for (auto i = start_code; i < end_code; ++i){
         int i_r = int(i/4);
-        if (pu_read_count[i_r] >= min_cvg)
-              cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
-        else
-              cons.prop[i] = -1;
+        if (i_r > start && pu_read_count[i_r] > pu_read_count[i_r-1])
+            throw runtime_error("coverage should never decrease");
+        
+        if (pu_read_count[i_r] >= min_cvg){
+            cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
+        }else{
+            cons.prop[i] = -1;
+            cons.end = i_r;
+            break;
+        }
         if (cons.prop[i] > 0.5)
             cons.cons_seq.push_back(i);
     }

@@ -1225,7 +1225,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         // check if neighbors are homogeneous
         bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, vector<int>(), min_cvg, min_prop, max_prop);
         if (is_homo){
-            //cout << i << endl;
+            cout << i << endl;
             // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
             for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
                 pileup_var_online_count(cur_pu_var_count, encode_data[cur_neighbors[j]]);
@@ -1249,7 +1249,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             
             // get consensus
             ConsensusSeq cur_cons;
-            get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, min_cvg);
+            cur_cons.seed = encode_data[i];
+            get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, min_cvg);
             rl_ann_clust.push_back(cur_cons);
         }
     }

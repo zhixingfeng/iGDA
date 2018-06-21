@@ -607,11 +607,35 @@ int main(int argc, const char * argv[])
                 fs_outfile << haplo_seq << endl;
                 fs_outfile.close();
             }
-            
-
         }
 
-        
+        if (strcmp(argv[1], "ann")==0){
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> varfileArg("varfile", "path of variant file", true, "", "varfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 20, "mincvg", cmd);
+            ValueArg<double> minpropArg("p","minprop","minimal frequency, default: 0.2", false , 0.2, "minprop", cmd);
+            ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.7", false , 0.7, "maxprop", cmd);
+            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 30", false , 30, "topn", cmd);
+            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 200, "maxnn", cmd);
+            ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxprop", cmd);
+            
+            cmd.parse(argv2);
+            cout << "mincvg = " << mincvgArg.getValue() << endl;
+            cout << "minprop = " << minpropArg.getValue() << endl;
+            cout << "maxprop = " << maxpropArg.getValue() << endl;
+            cout << "topn = " << topnArg.getValue() << endl;
+            cout << "maxnn = " << maxnnArg.getValue() << endl;
+            cout << "maxdist = " << maxdistArg.getValue() << endl;
+            
+            Assembler assembler;
+            assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+                                minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
+            assembler.print_rl_ann_clust(outfileArg.getValue());
+            
+        }
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;

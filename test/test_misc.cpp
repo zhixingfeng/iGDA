@@ -513,7 +513,7 @@ TEST_CASE("test get_consensus", "[hide]")
     vector<int> pu_read_count = pileup_reads_m5_count(reads_range, idx);
     
     ConsensusSeq cons;
-    get_consensus(cons, pu_var_count, pu_read_count, 20);
+    get_consensus(cons, pu_var_count, pu_read_count, 0, 100, 20);
     cout << cons.cons_seq << endl;
 }
 
