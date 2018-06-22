@@ -634,6 +634,7 @@ int main(int argc, const char * argv[])
             assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
             assembler.print_rl_ann_clust(outfileArg.getValue());
+            assembler.print_rl_ann_clust(outfileArg.getValue()+".seq", true);
             
         }
     }

@@ -399,6 +399,12 @@ inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, c
         }
         if (cons.prop[i] > 0.5)
             cons.cons_seq.push_back(i);
+        
+        // to be removed
+        /*if (cons.prop[i] > 0.2 && cons.prop[i] < 0.7){
+            cout << i << ":" << cons.prop[i] << endl;
+            throw runtime_error("cons.prop[i] > 0.2 && cons.prop[i] < 0.7");
+        }*/
     }
 }
 

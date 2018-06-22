@@ -1242,32 +1242,43 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
         }
         
+        
         // check if neighbors are homogeneous
-        bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, vector<int>(), min_cvg, min_prop, max_prop);
+        bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
         if (is_homo){
             //cout << i << endl;
             // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
-            /*for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
+            for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
                 pileup_var_online_count(cur_pu_var_count, encode_data[cur_neighbors[j]]);
                 pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
                 
                 // check if add the current reads violate homogeneouty
+                bool is_cont = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
+                /*bool is_cont = true;
                 for (int k : encode_data[cur_neighbors[j]]){
                     int k_r = int(k/4);
                     double cur_prop;
                     
-                    if (cur_pu_reads_count[k_r] > min_cvg)
+                    if (cur_pu_reads_count[k_r] >= min_cvg)
                         cur_prop = (double)cur_pu_var_count[k] / cur_pu_reads_count[k_r];
                     else
                         cur_prop = -1;
                     
+                    // to be removed
+                    if (k == 2959){
+                        cout << i << '-' << j << '-' << k << "," << cur_pu_var_count[k] << ',' << cur_pu_reads_count[k_r] << ',' << cur_prop << endl;
+                    }
                     if (cur_prop > min_prop && cur_prop < max_prop){
-                        pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
-                        pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
+                        is_cont = false;
                         break;
                     }
+                }*/
+                if (!is_cont){
+                    pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
+                    pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
+                    break;
                 }
-            }*/
+            }
             
             // get consensus
             ConsensusSeq cur_cons;
@@ -1289,6 +1300,7 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_seq)
     }else{
         for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
             fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
+            fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
             fs_outfile << this->rl_ann_clust[i].seed << '\t';
             
             int start_code = 4*rl_ann_clust[i].start;
@@ -1390,32 +1402,48 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
     return nc_reads_id;
 }
 
-bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
+bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, int start, int end, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
 {
+    if (floor(double(pu_var_count.size()-1) / 4) > (int)pu_reads_count.size() - 1){
+        cout << "pu_var_count.size() " << pu_var_count.size() << endl;
+        cout << "pu_read_count.size()" << pu_reads_count.size() << endl;
+        throw runtime_error("ann_clust: floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1");
+    }
+    
+    int start_code = 4*start;
+    int end_code = 4*end+3;
+    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
+    
+    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size()){
+        cout << "start_code = " << start_code << endl;
+        cout << "end_code = " << end_code << endl;
+        cout << "pu_var_count.size() = " << pu_var_count.size() << endl;
+        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
+    }
+    
+    if (start_code < 0 || end_code < 0){
+        cout << "start_code = " << start_code << endl;
+        cout << "end_code = " << end_code << endl;
+        throw runtime_error("start_code < 0 || end_code < 0");
+    }
+    
     bool is_homo = true;
-    if (idx.size() > 0){
-        //for (auto i : idx){
-            
-        //}
-    }else{
-        for (auto i = 0; i < pu_var_count.size(); ++i){
-            // calculate variant frequency
-            int i_r = int(i/4);
-            double cur_prop;
-            if (pu_reads_count[i_r] > min_cvg)
-                cur_prop = (double)pu_var_count[i] / pu_reads_count[i_r];
-            else
-                cur_prop = -1;
-            
-            // check if current locus is
-            //if (cur_prop > 0)
-            //    cout << i << ":" << cur_prop << endl;
-            if (cur_prop > min_prop && cur_prop < max_prop){
-                //cout << i << ":" << cur_prop << endl;
-                is_homo = false;
-            }
+    for (auto i = start_code; i < end_code; ++i){
+        // calculate variant frequency
+        int i_r = int(i/4);
+        double cur_prop;
+        if (pu_reads_count[i_r] >= min_cvg)
+            cur_prop = (double)pu_var_count[i] / pu_reads_count[i_r];
+        else
+            cur_prop = -1;
+        
+        // check if current locus is homogeneous
+        if (cur_prop > min_prop && cur_prop < max_prop){
+            is_homo = false;
+            break;
         }
     }
+    
     return is_homo;
 }
 

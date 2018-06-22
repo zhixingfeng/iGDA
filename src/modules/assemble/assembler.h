@@ -135,7 +135,7 @@ public:
     
 protected:
     vector<int> find_ncreads(string encode_file, string align_file, string var_file, int topn = 30, double max_dist = 0.02);
-    bool check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
+    bool check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, int start, int end, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
     
     
     
