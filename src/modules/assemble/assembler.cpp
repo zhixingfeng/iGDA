@@ -1215,6 +1215,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
             continue;
         
+        // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
         // pileup topn neighbors
         int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
         int cur_pu_reads_size = get_pu_read_size(reads_range, cur_neighbors);
@@ -1237,7 +1238,37 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
 
         vector<int> cur_pu_var_count(cur_pu_var_size, 0);
         vector<int> cur_pu_reads_count(cur_pu_reads_size, 0);
-        for (auto j : cur_neighbors_topn){
+        
+        for (auto j : cur_neighbors){
+            pileup_var_online_count(cur_pu_var_count, encode_data[j]);
+            pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
+        }
+        
+        // check pileup of all the neighbors
+        bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
+        
+        // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
+        if (!is_homo){
+            for (auto j = 0; j < cur_neighbors.size(); ++j){
+                int t = (int)cur_neighbors.size() - 1 - j;
+                if (t < topn) break;
+                pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[t]]);
+                pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[t]]);
+                is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
+                if (is_homo) break;
+            }
+        }
+
+        // if we can get all loci homogeneous get consensus sequence
+        if (is_homo){
+            ConsensusSeq cur_cons;
+            cur_cons.seed = encode_data[i];
+            cur_cons.neighbors_id = cur_neighbors;
+            get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, min_cvg);
+            rl_ann_clust.push_back(cur_cons);
+        }
+        
+        /*for (auto j : cur_neighbors_topn){
             pileup_var_online_count(cur_pu_var_count, encode_data[j]);
             pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
         }
@@ -1254,25 +1285,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
                 
                 // check if add the current reads violate homogeneouty
                 bool is_cont = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
-                /*bool is_cont = true;
-                for (int k : encode_data[cur_neighbors[j]]){
-                    int k_r = int(k/4);
-                    double cur_prop;
-                    
-                    if (cur_pu_reads_count[k_r] >= min_cvg)
-                        cur_prop = (double)cur_pu_var_count[k] / cur_pu_reads_count[k_r];
-                    else
-                        cur_prop = -1;
-                    
-                    // to be removed
-                    if (k == 2959){
-                        cout << i << '-' << j << '-' << k << "," << cur_pu_var_count[k] << ',' << cur_pu_reads_count[k_r] << ',' << cur_prop << endl;
-                    }
-                    if (cur_prop > min_prop && cur_prop < max_prop){
-                        is_cont = false;
-                        break;
-                    }
-                }*/
+                
                 if (!is_cont){
                     pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
                     pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
@@ -1283,14 +1296,18 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             // get consensus
             ConsensusSeq cur_cons;
             cur_cons.seed = encode_data[i];
+            cur_cons.neighbors_id = cur_neighbors;
             get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, min_cvg);
             rl_ann_clust.push_back(cur_cons);
-        }
+        }*/
     }
+    
+    // correct contigs
+    this->correct_contigs(encode_data, reads_range, var_cdf, temp_array, min_cvg, min_prop, max_prop);
     
 }
 
-void Assembler::print_rl_ann_clust(string outfile, bool is_seq)
+void Assembler::print_rl_ann_clust(string outfile, bool is_seq, bool is_metric)
 {
     ofstream fs_outfile;
     open_outfile(fs_outfile, outfile);
@@ -1300,34 +1317,43 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_seq)
     }else{
         for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
             fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
-            fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
-            fs_outfile << this->rl_ann_clust[i].seed << '\t';
+            fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end;
             
-            int start_code = 4*rl_ann_clust[i].start;
-            int end_code = 4*rl_ann_clust[i].end + 3;
-            end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
-            
-            for (auto j = start_code; j < end_code; ++j)
-                if (rl_ann_clust[i].pu_var_count[j] > 0)
-                    fs_outfile << j << ',';
-            fs_outfile << '\t';
-            
-            for (auto j = start_code; j < end_code; ++j)
-                if (rl_ann_clust[i].pu_var_count[j] > 0)
-                    fs_outfile << rl_ann_clust[i].prop[j] << ',';
-            fs_outfile << '\t';
-            
-            for (auto j = start_code; j < end_code; ++j)
-                if (rl_ann_clust[i].pu_var_count[j] > 0)
-                    fs_outfile << rl_ann_clust[i].pu_var_count[j] << ',';
-            fs_outfile << '\t';
-            
-            for (auto j = start_code; j < end_code; ++j){
-                if (rl_ann_clust[i].pu_var_count[j] > 0){
-                    int j_r = int(j/4);
-                    fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
+            if (is_metric){
+                fs_outfile << '\t';
+                
+                fs_outfile << this->rl_ann_clust[i].seed << '\t';
+                
+                int start_code = 4*rl_ann_clust[i].start;
+                int end_code = 4*rl_ann_clust[i].end + 3;
+                end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
+                
+                for (auto j = start_code; j < end_code; ++j)
+                    if (rl_ann_clust[i].pu_var_count[j] > 0)
+                        fs_outfile << j << ',';
+                fs_outfile << '\t';
+                
+                for (auto j = start_code; j < end_code; ++j)
+                    if (rl_ann_clust[i].pu_var_count[j] > 0)
+                        fs_outfile << rl_ann_clust[i].prop[j] << ',';
+                fs_outfile << '\t';
+                
+                for (auto j = start_code; j < end_code; ++j)
+                    if (rl_ann_clust[i].pu_var_count[j] > 0)
+                        fs_outfile << rl_ann_clust[i].pu_var_count[j] << ',';
+                fs_outfile << '\t';
+                
+                for (auto j = start_code; j < end_code; ++j){
+                    if (rl_ann_clust[i].pu_var_count[j] > 0){
+                        int j_r = int(j/4);
+                        fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
+                    }
                 }
+                fs_outfile << '\t';
+                
+                fs_outfile << rl_ann_clust[i].neighbors_id;
             }
+            
             fs_outfile << endl;
         }
     }
@@ -1445,6 +1471,21 @@ bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> 
     }
     
     return is_homo;
+}
+
+void Assembler::correct_contigs(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &var_cdf, const vector<bool> &temp_array, int min_cvg, double min_prop, double max_prop)
+{
+    /*vector<bool> temp_array_dual(temp_array.size(), false);
+    
+    // correct each contig
+    for (auto i = 0; i < rl_ann_clust.size(); ++i){
+        if (rl_ann_clust[i].cons_seq.size() == 0)
+            continue;
+        
+        for (auto j = 0; j < rl_ann_clust.size(); ++j){
+            if (j == i) continue;
+        }
+    }*/
 }
 
 

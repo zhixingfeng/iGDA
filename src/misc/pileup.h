@@ -21,6 +21,7 @@ struct ConsensusSeq
     vector<double> prop;
     vector<int> cons_seq;
     vector<int> seed;
+    vector<int> neighbors_id;
     
     int start;
     int end;
