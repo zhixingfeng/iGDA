@@ -259,19 +259,27 @@ void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
 void DForestSNVSTXXL::build_index(stxxl::vector<vector<int64_t> > &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data)
 {
     // get size of cmpreads_index
-    size_t index_size = 0;
-    for (auto i = 0; i < cmpreads_data.size(); ++i)
-        for (auto j = 0; j < cmpreads_data[i].size(); ++j)
-            if (cmpreads_data[i][j] + 1 >= index_size)
+    int index_size = 0;
+    for (auto i = 0; i < cmpreads_data.size(); ++i){
+        for (auto j = 0; j < cmpreads_data[i].size(); ++j){
+            if (cmpreads_data[i][j] + 1 >= index_size){
                 index_size = cmpreads_data[i][j] + 1;
-    
+            }
+        }
+    }
     // build index
+    cout << "index_size = " << index_size << endl;
+    //for (int64_t i = 0; i < index_size; ++i)
+    //    cmpreads_index.push_back(vector<int64_t>());
     //cmpreads_index.resize(index_size);
     cmpreads_index = stxxl::vector<vector<int64_t> >(index_size, 1);
     
-    for (auto i = 0; i < cmpreads_data.size(); ++i)
+    for (auto i = 0; i < cmpreads_data.size(); ++i){
+        //if (i % 1000 == 0)
+        //  cout << i << endl;
         for (auto j = 0; j < cmpreads_data[i].size(); ++j)
             cmpreads_index[cmpreads_data[i][j]].push_back(i);
+    }
     
 }
 

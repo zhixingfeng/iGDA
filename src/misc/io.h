@@ -14,6 +14,7 @@
 #include <zlib.h>
 #include "../../tools/kseq.h"
 #include "../../include/utils.h"
+#include "./basic.h"
 
 typedef pair<int,int> ReadRange;
 
@@ -51,10 +52,12 @@ inline bool loadcmpreads_txt(stxxl::vector<vector<int> > &cmpreads_data, string 
 // read cmpreads from .cmpreads files (binary format)
 inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
 {
+    // first scan cmpreads_file to get number of candidates
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
         throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
     
+    int64_t n_cand = 0;
     while(1){
         int cand_loci_size;
         fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
@@ -62,10 +65,53 @@ inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpr
         fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
         if (feof(p_cmpreads_file))
             break;
+        ++n_cand;
+    }
+    fclose(p_cmpreads_file);
+    
+    cout << "n_cand = " << n_cand << endl;
+    // load the data
+    cmpreads_data = stxxl::vector<vector<int> >(n_cand, 1);
+    
+    p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
+    if (p_cmpreads_file == NULL)
+        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+    
+    n_cand = 0;
+    while(1){
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (feof(p_cmpreads_file))
+            break;
+        cmpreads_data[n_cand] = cand_loci;
+        ++n_cand;
+    }
+    fclose(p_cmpreads_file);
+
+    
+    
+    
+    /*ofstream fs_outfile;
+    open_outfile(fs_outfile, "./tmp_out_read.txt");
+    while(1){
+        int cand_loci_size;
+        fread(&cand_loci_size, sizeof(int), 1, p_cmpreads_file);
+        vector<int> cand_loci(cand_loci_size,-1);
+        fread(&cand_loci[0], sizeof(int), cand_loci_size, p_cmpreads_file);
+        if (feof(p_cmpreads_file))
+            break;
+        fs_outfile << cand_loci << ',' << endl;
         cmpreads_data.push_back(cand_loci);
     }
-
+    fs_outfile.close();
     fclose(p_cmpreads_file);
+    
+    open_outfile(fs_outfile, "./tmp_out_read_stxxl.txt");
+    for (int64_t i = 0; i < cmpreads_data.size(); ++i)
+        fs_outfile << cmpreads_data[i] << ',' << endl;
+    fs_outfile.close();*/
     return true;
 }
 
