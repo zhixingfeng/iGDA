@@ -30,7 +30,7 @@ TEST_CASE("test dforest", "[hide]")
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }
 
-TEST_CASE("test dforeststxxl", "[hide]")
+TEST_CASE("test dforeststxxl")
 {
     string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
@@ -49,7 +49,7 @@ TEST_CASE("test dforeststxxl", "[hide]")
 }
 
 
-TEST_CASE("test dforeststxxl (whole data)")
+TEST_CASE("test dforeststxxl (whole data)", "[hide]")
 {
     string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5";
     string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode";

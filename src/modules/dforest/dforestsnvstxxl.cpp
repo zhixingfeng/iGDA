@@ -53,12 +53,14 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     vector<int64_t> temp_vec_read(this->n_reads, -1);
 
     cout << "load cmpreads_data" << endl;
-    stxxl::vector<vector<int> > cmpreads_data;
-    loadcmpreads(cmpreads_data, cmpreads_file);
+    stxxl::vector<vector<int> > cmpreads_data_raw;
+    loadcmpreads(cmpreads_data_raw, cmpreads_file);
+    const stxxl::vector<vector<int> > &cmpreads_data = cmpreads_data_raw;
     
     cout << "build index for cmpreads_data" << endl;
-    stxxl::vector<vector<int64_t> > cmpreads_index;
+    stxxl_vector_type cmpreads_index;
     build_index(cmpreads_index, cmpreads_data);
+    //const stxxl_vector_type &cmpreads_index = cmpreads_index_raw;
    
     cout << "build trees" << endl;
     ofstream fs_outfile;
@@ -68,20 +70,44 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     result.resize(cmpreads_index.size());
     p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
     int step_size = ceil(double(cmpreads_index.size())/100);
-    for (auto i = 0; i < cmpreads_index.size(); ++i){
+    
+    int64_t i = 0;
+    for (stxxl_vector_type::iterator it = cmpreads_index.begin(); it != cmpreads_index.end(); ++it){
         if ((i+1)%step_size == 0)
-            cout << "finished "  << floor(100*double(i)/cmpreads_index.size()) << "% = " << i << "/" << cmpreads_index.size() << endl;
+            cout << "finished "  << floor(100*double(i+1)/cmpreads_index.size()) << "% = " << i+1 << "/" << cmpreads_index.size() << endl;
+        
         // build tree
-        this->focal_locus = i;
-        for (auto j = 0; j < cmpreads_index[i].size(); ++j){
-            this->build_tree(fs_outfile, cmpreads_data[cmpreads_index[i][j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq, isinter);
+        this->focal_locus = (int)i;
+        
+        vector<int64_t> cur_cmpreads_index = *it;
+        for (auto j = 0; j < cur_cmpreads_index.size(); ++j){
+            this->build_tree(fs_outfile, cmpreads_data[cur_cmpreads_index[j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq, isinter);
         }
         
         // clear p_y_x_archive
         for (auto it = idx_mod.begin(); it!=idx_mod.end(); ++it)
             p_y_x_archive[*it] = -1;
         idx_mod.clear();
+
+        ++i;
     }
+    
+    /*for (auto i = 0; i < cmpreads_index.size(); ++i){
+        if ((i+1)%step_size == 0)
+            cout << "finished "  << floor(100*double(i)/cmpreads_index.size()) << "% = " << i << "/" << cmpreads_index.size() << endl;
+        // build tree
+        this->focal_locus = i;
+        
+        vector<int64_t> cur_cmpreads_index = cmpreads_index[i];
+        for (auto j = 0; j < cur_cmpreads_index.size(); ++j){
+            this->build_tree(fs_outfile, cmpreads_data[cur_cmpreads_index[j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq, isinter);
+        }
+        
+        // clear p_y_x_archive
+        for (auto it = idx_mod.begin(); it!=idx_mod.end(); ++it)
+            p_y_x_archive[*it] = -1;
+        idx_mod.clear();
+    }*/
     cout << "finished 100% = " << cmpreads_index.size() << "/" << cmpreads_index.size() << endl;
     
     if (isinter)
@@ -256,7 +282,7 @@ void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
 }
 
 
-void DForestSNVSTXXL::build_index(stxxl::vector<vector<int64_t> > &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data)
+void DForestSNVSTXXL::build_index(stxxl_vector_type &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data)
 {
     // get size of cmpreads_index
     int index_size = 0;
@@ -269,10 +295,9 @@ void DForestSNVSTXXL::build_index(stxxl::vector<vector<int64_t> > &cmpreads_inde
     }
     // build index
     cout << "index_size = " << index_size << endl;
-    //for (int64_t i = 0; i < index_size; ++i)
-    //    cmpreads_index.push_back(vector<int64_t>());
-    //cmpreads_index.resize(index_size);
-    cmpreads_index = stxxl::vector<vector<int64_t> >(index_size, 1);
+    
+    cmpreads_index.resize(index_size);
+    //cmpreads_index = cmpreads_index(index_size);
     
     for (auto i = 0; i < cmpreads_data.size(); ++i){
         //if (i % 1000 == 0)
