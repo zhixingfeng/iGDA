@@ -266,7 +266,8 @@ void DForestSNVSTXXL::build_index(stxxl::vector<vector<int64_t> > &cmpreads_inde
                 index_size = cmpreads_data[i][j] + 1;
     
     // build index
-    cmpreads_index.resize(index_size);
+    //cmpreads_index.resize(index_size);
+    cmpreads_index = stxxl::vector<vector<int64_t> >(index_size, 1);
     
     for (auto i = 0; i < cmpreads_data.size(); ++i)
         for (auto j = 0; j < cmpreads_data[i].size(); ++j)

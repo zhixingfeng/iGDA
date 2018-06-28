@@ -16,7 +16,7 @@
             startingLineNumber = "68"
             endingLineNumber = "68"
             landmarkName = "DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, bool isinter)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,7 +32,7 @@
             startingLineNumber = "212"
             endingLineNumber = "212"
             landmarkName = "DForestSNVSTXXL::build_tree(ofstream &amp;fs_outfile, const vector&lt;int&gt; &amp;cand_loci, int64_t &amp;counter, vector&lt;int64_t&gt; &amp;temp_vec_var, vector&lt;int64_t&gt; &amp;temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

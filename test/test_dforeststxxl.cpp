@@ -47,3 +47,24 @@ TEST_CASE("test dforeststxxl", "[hide]")
     int stop_time= (int)clock();
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }
+
+
+TEST_CASE("test dforeststxxl (whole data)")
+{
+    string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5";
+    string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode";
+    string cmpreads_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.cmpreads";
+    string out_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.dforest.stxxl";
+    
+    AlignReaderM5 alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+    int start_time= (int)clock();
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/dforeststxxl/tmp" , 8, 5, 1, 0, true);
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+}
+
+
