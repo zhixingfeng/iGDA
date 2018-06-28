@@ -14,7 +14,7 @@
 
 #include <ctime>
 
-TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
+/*TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -35,7 +35,7 @@ TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
     AlignReaderM5_obj.read(align_file, align_data);
 
     cout << "cmpreads" << endl;
-    stxxl::vector<vector<int> > cmpreads_data;
+    stxxl_vector_type_int cmpreads_data;
     loadcmpreads(cmpreads_data, cmpreads_file);
 
     cout << "dforest" << endl;
@@ -60,7 +60,7 @@ TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
     }
     fs_outfile.close();
     
-}
+}*/
 
 
 TEST_CASE("test DForest::run()", "[hide]")

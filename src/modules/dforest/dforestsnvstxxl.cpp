@@ -53,9 +53,9 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     vector<int64_t> temp_vec_read(this->n_reads, -1);
 
     cout << "load cmpreads_data" << endl;
-    stxxl::vector<vector<int> > cmpreads_data_raw;
+    stxxl_vector_type_int cmpreads_data_raw;
     loadcmpreads(cmpreads_data_raw, cmpreads_file);
-    const stxxl::vector<vector<int> > &cmpreads_data = cmpreads_data_raw;
+    const stxxl_vector_type_int &cmpreads_data = cmpreads_data_raw;
     
     cout << "build index for cmpreads_data" << endl;
     stxxl_vector_type cmpreads_index;
@@ -282,7 +282,7 @@ void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
 }
 
 
-void DForestSNVSTXXL::build_index(stxxl_vector_type &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data)
+void DForestSNVSTXXL::build_index(stxxl_vector_type &cmpreads_index, const stxxl_vector_type_int &cmpreads_data)
 {
     // get size of cmpreads_index
     int index_size = 0;

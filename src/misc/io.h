@@ -16,6 +16,9 @@
 #include "../../include/utils.h"
 #include "./basic.h"
 
+typedef stxxl::VECTOR_GENERATOR<vector<int64_t>, 16, 16, 10*1048576>::result stxxl_vector_type;
+typedef stxxl::VECTOR_GENERATOR<vector<int>, 16, 16, 10*1048576>::result stxxl_vector_type_int;
+
 typedef pair<int,int> ReadRange;
 
 struct ReadMatch
@@ -50,7 +53,7 @@ inline bool loadcmpreads_txt(stxxl::vector<vector<int> > &cmpreads_data, string 
 }
 
 // read cmpreads from .cmpreads files (binary format)
-inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
+inline bool loadcmpreads(stxxl_vector_type_int &cmpreads_data, string cmpreads_file)
 {
     // first scan cmpreads_file to get number of candidates
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
@@ -71,7 +74,8 @@ inline bool loadcmpreads(stxxl::vector<vector<int> > &cmpreads_data, string cmpr
     
     cout << "n_cand = " << n_cand << endl;
     // load the data
-    cmpreads_data = stxxl::vector<vector<int> >(n_cand, 1);
+    cmpreads_data.resize(n_cand);
+    //cmpreads_data = stxxl::vector<vector<int> >(n_cand, 1);
     
     p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)

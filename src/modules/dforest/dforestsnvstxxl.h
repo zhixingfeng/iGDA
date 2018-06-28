@@ -11,7 +11,7 @@
 
 #include "./dforest.h"
 
-typedef stxxl::VECTOR_GENERATOR<vector<int64_t>, 16, 16, 10*1048576>::result stxxl_vector_type;
+
 
 class DForestSNVSTXXL : public DForest
 {
@@ -42,7 +42,7 @@ public:
 protected:
     
     bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, bool isinter=false);
-    void build_index(stxxl_vector_type &cmpreads_index, const stxxl::vector<vector<int> > &cmpreads_data);
+    void build_index(stxxl_vector_type &cmpreads_index, const stxxl_vector_type_int &cmpreads_data);
     
 protected:
     vector<DforestResult> result;
