@@ -134,12 +134,14 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<int> topnArg("p","topn","select top n candidates of each reads, default: 10", false , 0, "topn", cmd);
-            ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.25", false , 0.25, "overlap", cmd);
+            ValueArg<int> topnArg("p","topn","select top n candidates of each reads, default: 20", false , 20, "topn", cmd);
+            ValueArg<double> overlapArg("l","overlap","minimal overlap of reads, default: 0.5", false , 0.5, "overlap", cmd);
             SwitchArg istextArg("t", "text", "is output text file", cmd, false);
             SwitchArg isreadIDArg("r", "readID", "is print reads ID", cmd, false);
             SwitchArg isnocondprobArg("c", "condprob", "not use conditional probability", cmd, false);
             SwitchArg isdiffArg("d", "diff", "is calculate difference between reads", cmd, false);
+            
+            SwitchArg islegacyArg("y", "legacy", "is use the legacy algorithm", cmd, false);
             
             cmd.parse(argv2);
             
@@ -147,9 +149,17 @@ int main(int argc, const char * argv[])
                 cmpreads_topn_diff(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
                                    topnArg.getValue(), overlapArg.getValue());
             }else{
-                cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                if (!islegacyArg.getValue()){
+                    cmpreads_topn(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
                               topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
                               isreadIDArg.getValue(), !isnocondprobArg.getValue());
+                }else{
+                    cmpreads_topn_legacy(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(),
+                                  topnArg.getValue(), overlapArg.getValue(), true, !istextArg.getValue(),
+                                  isreadIDArg.getValue(), !isnocondprobArg.getValue());
+
+                }
+                
             }
             
             

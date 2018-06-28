@@ -113,33 +113,6 @@ TEST_CASE("Test cmpreads_topn", "[hide]"){
     cout << "time for compare reads (binary output): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
-TEST_CASE("Test cmpreads_topn (read data from memory or stxxl)", "[hide]"){
-    string encode_file = "../results/B_10_cons.encode";
-    string align_file = "../data/B_10_cons.m5";
-    string out_txtfile = "../results/B_10_cons_cmpreads_topn.norange.txt.stxxl";
-    
-    // load encode_data
-    vector<vector<int> > encode_data;
-    loadencodedata(encode_data, encode_file);
-    
-    // load align_data
-    AlignReaderM5 AlignReaderM5_obj;
-    stxxl::vector<Align> align_data;
-    AlignReaderM5_obj.read(align_file, align_data);
-
-    // run cmpreads_topn
-    stxxl::vector<vector<int> > cmpreads_data;
-    clock_t t_begin = clock();
-    cmpreads_topn(encode_data, align_data, cmpreads_data, 10, 0, true, false, false);
-    clock_t t_end = clock();
-
-    // print results
-    ofstream fs_outfile; open_outfile(fs_outfile, out_txtfile);
-    for (int i=0; i<(int)cmpreads_data.size(); ++i)
-        fs_outfile << cmpreads_data[i] << "," << endl;
-    fs_outfile.close();
-    
-}
 
 
 TEST_CASE("Test cmpreads_bin2txt", "[hide]")
@@ -515,6 +488,16 @@ TEST_CASE("test get_consensus", "[hide]")
     ConsensusSeq cons;
     get_consensus(cons, pu_var_count, pu_read_count, 0, 100, 20);
     cout << cons.cons_seq << endl;
+}
+
+
+TEST_CASE("test cmpreads with priority queque")
+{
+    string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
+    string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
+    string cmpreads_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.cmpreads.5000";
+    
+    cmpreads_topn(encode_file, align_file, cmpreads_file, 20, 0.5);
 }
 
 

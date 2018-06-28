@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550778131.545722"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550778282.258654"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550782359.660535"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550779514.112844"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "550780240.8664449"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551131229.890638"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
             landmarkName = "TEST_CASE(&quot;test pileup_var (input from encode_data) subset&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
             <Locations>
@@ -284,11 +284,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217550.550006"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -300,11 +300,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217580.401333"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
+            startingLineNumber = "479"
+            endingLineNumber = "479"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -316,11 +316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217631.735342"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "507"
-            endingLineNumber = "507"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -332,11 +332,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217632.146572"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -348,11 +348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217632.410339"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -364,11 +364,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217633.029032"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -380,11 +380,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217663.269284"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "485"
+            endingLineNumber = "485"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -396,11 +396,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217663.662868"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -412,11 +412,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217664.642924"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
@@ -428,11 +428,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551217665.3390861"
+            timestampString = "551906748.83267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "515"
-            endingLineNumber = "515"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>

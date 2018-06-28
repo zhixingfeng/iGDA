@@ -24,7 +24,7 @@ struct queue_compare
 {
     bool operator()(const ReadMatch& l, const ReadMatch& r)
     {
-        return l.match_rate > r.match_rate;
+        return l.match_rate < r.match_rate;
     }
 };
 
@@ -176,15 +176,17 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
     return true;
 }
 
-
-// compare reads and use top n as candidates (read data from memory or stxxl containers)
-inline bool cmpreads_topn(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data, stxxl::vector<vector<int> > &cmpreads_data,
-                          int topn = 20, double min_overlap = 0.25, bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
+// compare reads and use top n as candidates (read data from files)
+inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
+                          bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
 {
+    // load encode data
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+    
     // load reads range
     vector<ReadRange> reads_range;
-    for (int i=0; i<(int)align_data.size(); ++i)
-        reads_range.push_back(ReadRange(align_data[i].tStart, align_data[i].tEnd));
+    loadreadsrange(reads_range, align_file);
     
     if (encode_data.size() != reads_range.size())
         throw runtime_error("cmpreads: size of encode_data and reads_range do not match.");
@@ -199,7 +201,21 @@ inline bool cmpreads_topn(const vector<vector<int> > &encode_data, const stxxl::
                 temp_array_size = encode_data[i][j];
     temp_array_size++;
     vector<int> temp_array(temp_array_size, -1);
-
+    
+    // open output file
+    FILE *p_out_file = NULL;
+    if (is_binary){
+        p_out_file = fopen(out_file.c_str(), "wb");
+        if (p_out_file==NULL)
+            throw runtime_error("fail to open out_file");
+    }
+    else{
+        p_out_file = fopen(out_file.c_str(), "w");
+        if (p_out_file==NULL)
+            throw runtime_error("fail to open out_file");
+        
+    }
+    
     // pairwise comparison
     for (int i=0; i<(int)encode_data.size(); i++){
         if ((i+1)%1000==0) cout << i+1 << endl;
@@ -209,19 +225,19 @@ inline bool cmpreads_topn(const vector<vector<int> > &encode_data, const stxxl::
             temp_array[encode_data[i][j]] = i;
         
         // store matches of the jth read to the ith read
-        vector<ReadMatch> the_matches (encode_data.size(), ReadMatch());
+        priority_queue<ReadMatch, vector<ReadMatch>, queue_compare> the_matches;
         
         // compare other reads to cur_variant
         for (int j=0; j<(int)encode_data.size(); j++){
             if (j == i)
                 continue;
             
+            ReadMatch cur_the_matches;
             // get size of overlap of the two reads
-            the_matches[j].start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
-            the_matches[j].end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
-            int n_overlap = the_matches[j].end - the_matches[j].start + 1;
-            //if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1) &&
-            //    n_overlap < min_overlap * (reads_range[j].second - reads_range[j].first + 1))
+            cur_the_matches.start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
+            cur_the_matches.end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
+            int n_overlap = cur_the_matches.end - cur_the_matches.start + 1;
+            
             if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1))
                 continue;
             
@@ -233,46 +249,77 @@ inline bool cmpreads_topn(const vector<vector<int> > &encode_data, const stxxl::
                     cur_match.push_back(encode_data[j][k]);
             
             
-            the_matches[j].matches = cur_match;
-            the_matches[j].n_overlap = n_overlap;
+            cur_the_matches.matches = cur_match;
+            cur_the_matches.n_overlap = n_overlap;
             
             if (is_condprob){
                 if (encode_data[j].size() > 0)
-                    the_matches[j].match_rate = (double) cur_match.size() / encode_data[j].size();
+                    cur_the_matches.match_rate = (double) cur_match.size() / encode_data[i].size();
                 else
-                    the_matches[j].match_rate = 0;
+                    cur_the_matches.match_rate = 0;
             }else{
-                the_matches[j].match_rate = (double) cur_match.size() / n_overlap;
+                cur_the_matches.match_rate = (double) cur_match.size() / n_overlap;
             }
+            
+            // keep topn matches
+            the_matches.push(cur_the_matches);
+            /*if (the_matches.size() < topn){
+                the_matches.push(cur_the_matches);
+            }else{
+                if (cur_the_matches.match_rate > the_matches.top().match_rate){
+                    the_matches.pop();
+                    the_matches.push(cur_the_matches);
+                }
+            }*/
         }
-        
-        // sort the_matches according to match_rate
-        stable_sort(the_matches.begin(), the_matches.end(), [](const ReadMatch & dl, const ReadMatch & dr) {return dl.match_rate > dr.match_rate;});
         
         // print topn matches
-        int cur_size = topn <= the_matches.size() ? topn : (int)the_matches.size();
-        for (int j=0; j<cur_size; j++){
+        //while(!the_matches.empty()){
+        for (auto i = 0; i < topn; ++i){
+            if (the_matches.empty())
+                break;
+            ReadMatch tmp_match = the_matches.top();
             // skip matches with size < 2 if is_rm_single is true
             if (is_rm_single){
-                if (the_matches[j].matches.size() < 2)
+                if (tmp_match.matches.size() < 2)
                     continue;
             }else{
-                if (the_matches[j].matches.size() == 0)
+                if (tmp_match.matches.size() == 0)
                     continue;
             }
-            // record results
-            cmpreads_data.push_back(the_matches[j].matches);
-            
+            // print results
+            if (is_binary){
+                int cur_match_size = (int)tmp_match.matches.size();
+                if (is_print_read_id){
+                    fwrite(&i, sizeof(int), 1, p_out_file);
+                    fwrite(&tmp_match.start, sizeof(int), 1, p_out_file);
+                    fwrite(&tmp_match.end, sizeof(int), 1, p_out_file);
+                }
+                fwrite(&cur_match_size, sizeof(int), 1, p_out_file);
+                fwrite(&tmp_match.matches[0], sizeof(int), cur_match_size, p_out_file);
+            }else{
+                if (is_print_read_id){
+                    fprintf(p_out_file, "%d\t", i);
+                    fprintf(p_out_file, "%d\t", tmp_match.start);
+                    fprintf(p_out_file, "%d\t", tmp_match.end);
+                }
+                for (int k=0; k<(int)tmp_match.matches.size(); k++)
+                    fprintf(p_out_file, "%d,", tmp_match.matches[k]);
+                fprintf(p_out_file, "\n");
+            }
+            the_matches.pop();
         }
-        
     }
     cout << encode_data.size() << endl;
-
+    
+    fclose(p_out_file);
+    
     return true;
 }
 
-// compare reads and use top n as candidates (read data from files)
-inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
+
+// compare reads and use top n as candidates (read data from files) (legacy version)
+inline bool cmpreads_topn_legacy(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
                      bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
 {
     // load encode data
