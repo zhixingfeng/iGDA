@@ -6083,6 +6083,7 @@
 		DC930F1D1D55274600640B65 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6106,6 +6107,7 @@
 		DC930F1E1D55274600640B65 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

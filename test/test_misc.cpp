@@ -491,7 +491,7 @@ TEST_CASE("test get_consensus", "[hide]")
 }
 
 
-TEST_CASE("test cmpreads with priority queque")
+TEST_CASE("test cmpreads with priority queque", "[hide]")
 {
     string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
