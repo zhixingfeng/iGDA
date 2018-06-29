@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="global_function_localalignmentscore" data-page="localAlignmentScore">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+    <title>localAlignmentScore - SeqAn API Documentation</title>
+
+      
+
+      
+      <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+      <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="lib/bootstrap/js/bootstrap.js"></script>
+
+      <link rel="stylesheet" href="lib/bootstrap-multiselect/css/bootstrap-multiselect.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="lib/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+
+      <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+      <link rel="stylesheet" href="css/common.less.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="js/less-1.4.1.js"></script>
+      
+
+
+
+    <script type="text/javascript" charset="utf-8">
+      hasFrames = window.top.frames.main ? true : false;
+      relpath = '/';
+      docsPrefix = 'docs/yard';
+      listPrefix = 'list/docs/yard';
+      searchPrefix = 'search/docs/yard';
+      framesUrl = '/docs/yard/frames/file/README.md';
+    </script>
+
+    <style type="text/css">
+    .highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+    </style>
+
+    <style>
+      .link.error
+      {
+          color: red;
+      }
+    </style>
+
+      
+      
+      <script type="text/javascript" charset="utf-8" src="lib/jquery-bbq/jquery.ba-bbq.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/jquery.smooth-scroll.js"></script>
+      <script type="text/javascript" charset="utf-8" src="lib/clipboard/clipboard.js"></script>
+
+      <script type="text/javascript" charset="utf-8" src="js/lang_entities.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/autocomplete.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/rubydoc_custom.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/common.js"></script>
+      
+  </head>
+  <body>
+    <a id="top" name="top"></a>
+
+    <div id="content">
+      
+<h1 data-lang-entity="function" data-pimped="true">
+  <a href="page_LanguageEntities.html#function">fn()</a> <span>localAlignmentScore<div><div>Computes the best global pairwise alignment score.</div></div></span>
+</h1>
+
+
+<table class="overview">
+
+  
+
+  
+
+  
+
+  
+
+  
+  </tr>
+
+  <tr>
+    <th>Defined in</th>
+    <td>
+      
+      &lt;seqan/align.h&gt;
+      
+      
+    </td>
+  </tr>
+  
+  <tr>
+    <th>Signature</th>
+    <td>
+      <code>TScoreVal localAlignmentScore([exec,] subject, query, scoringScheme[, lowerDiag, upperDiag]);
+</code>
+    </td>
+  </tr>
+</table>
+
+
+<!-- @param -->
+
+
+
+<h2>Parameters</h2>
+
+<table class="overview">
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">exec</code>
+            
+        
+        </th>
+        <td><a href="class_ExecutionPolicy.html" data-lang-entity="class">Policy</a> to select execution mode of alignment algorithm.</td>
+    </tr>
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">subject</code>
+            
+        
+        </th>
+        <td>Subject sequence(s) (horizontal in alignment matrix). Must satisfy <a href="concept_ContainerConcept.html" data-lang-entity="concept">ContainerConcept</a> or container-of-container concept.</td>
+    </tr>
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">query</code>
+            
+        
+        </th>
+        <td>Query sequence(s) (vertical in alignment matrix). Must satisfy <a href="concept_ContainerConcept.html" data-lang-entity="concept">ContainerConcept</a> or container-of-container concept.</td>
+    </tr>
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">scoringScheme</code>
+            
+        
+        </th>
+        <td>The scoring scheme to use for the alignment. Note that the user is responsible for ensuring
+that the scoring scheme is compatible with <tt>algorithmTag</tt>. Type: <a href="class_Score.html" data-lang-entity="class">Score</a>.</td>
+    </tr>
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">lowerDiag</code>
+            
+        
+        </th>
+        <td>Optional lower diagonal. Types: <tt>int</tt></td>
+    </tr>
+
+    <tr>
+        <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">upperDiag</code>
+            
+        
+        </th>
+        <td>Optional upper diagonal. Types: <tt>int</tt></td>
+    </tr>
+
+</table>
+
+
+
+
+<!-- @tparam -->
+
+
+
+
+
+<!-- @returns -->
+
+
+<h2>Return Values</h2>
+
+<table class="overview">
+
+    <tr>
+        <th><code>TScoreVal</code></th>
+        <td>Score value of the resulting alignment (Metafunction: <a href="class_Score.html#Score#Value" data-lang-entity="interface_metafunction">Value</a> of
+the type of <tt>scoringScheme</tt>). If subject and query are sets the function returns a
+set of scores representing the score for each pairwise alignment (<tt>subject[i]</tt> with <tt>query[i]</tt>).</td>
+    </tr>
+
+</table>
+
+
+
+<!--
+ =============================================================================
+  Detailed Description
+ =============================================================================
+-->
+
+
+<h2>Detailed Description</h2>
+<div class="docstring">
+  <div class="discussion">
+    <!-- @internal -->
+    
+
+    <!-- @deprecated -->
+    
+
+    <!-- @warning -->
+    
+
+    <!-- @note -->
+    
+
+    <!-- @aka -->
+    
+
+    <!-- paragraphs -->
+    
+<div><p>This function does not perform the (linear time) traceback step after the (mostly quadratic time) dynamic programming
+step. Local alignment score can be either used with two sequences or two sets of sequences of equal size.</p><h3>Parallel execution</h3><p>Some of the local alingment score functions are parallelized and vectorized.
+The parallelization mode can be selected via the <a href="class_ExecutionPolicy.html" data-lang-entity="class">ExecutionPolicy</a> as first argument.
+Following execution modes are possible: <i>sequential</i>, <i>parallel</i>, <i>wave-front</i>, <i>vectorized</i>,
+<i>parallel+vectorized</i> and <i>wave-front+vectorized</i>.</p><p>The wave-front execution can be selected via the <a href="specialization_WavefrontExecutionPolicy.html" data-lang-entity="specialization">WavefrontExecutionPolicy</a>, which can also be combined
+with a vectorized execution. In addition the wave-front execution parallelizes a single pairwise alignment, while the
+standard <a href="group_ParallelismTags.html#ParallelismTags#Parallel" data-lang-entity="grouped_tag">Parallel</a> specialization does only parallelizes the sequence set via chunking.
+Note, the banded version is at the moment only supported for the following execution modes: <i>sequential</i>,
+<i>parallel</i>, <i>vectorized</i> and <i>parallel+vectorized</i>. At the moment the vectorized version only works
+reliable if all subject sequences and respectively all query sequences have the same length.</p></div>
+
+  </div>
+</div>
+
+
+<!-- @throw -->
+
+
+
+
+<!-- @datarace -->
+<h2 class="clause_header">Data Races</h2>
+
+	<div class="summary compact">
+		
+    	<p>
+    		thread-safe. No shared state is modified during the execution and concurrent invocations of this function
+on the same data does not cause any race conditions.
+    	</p>
+		
+	</div>
+
+
+<!-- @see -->
+
+  <h2 class="clause_header">See Also</h2>
+  <ul class="summary compact">
+  
+  <li><a href="https://seqan.readthedocs.io/en/develop/Tutorial/Algorithms/Alignment/PairwiseSequenceAlignment.html" target="_top">https://seqan.readthedocs.io/en/develop/Tutorial/Algorithms/Alignment/PairwiseSequenceAlignment.html</a></li>
+  
+  <li><a href="global_function_localAlignment.html" data-lang-entity="global_function">localAlignment</a></li>
+  
+  </ul>
+
+
+<!--
+ =============================================================================
+  Footer / Debug
+ =============================================================================
+-->
+
+
+
+<div class="modal fade" id="doxSources" tabindex="-1" role="dialog" aria-labelledby="doxSourcesLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="doxSourcesLabel">Dox Sources</h4>
+      </div>
+      <div class="modal-body">
+        <pre>/*!
+ * @fn localAlignmentScore
+ * 
+ * @headerfile &lt;seqan/align.h&gt;
+ * 
+ * @brief Computes the best global pairwise alignment score.
+ * 
+ * @signature TScoreVal localAlignmentScore([exec,] subject, query,
+ *            scoringScheme[, lowerDiag, upperDiag]);
+ * 
+ * @param[in] exec @link ExecutionPolicy Policy@endlink to select execution mode
+ *                 of alignment algorithm.
+ * @param[in] subject Subject sequence(s) (horizontal in alignment matrix). Must
+ *                    satisfy @link ContainerConcept @endlink or container-of-
+ *                    container concept.
+ * @param[in] query Query sequence(s) (vertical in alignment matrix). Must
+ *                  satisfy @link ContainerConcept @endlink or container-of-
+ *                  container concept.
+ * @param[in] scoringScheme The scoring scheme to use for the alignment. Note
+ *                          that the user is responsible for ensuring that the
+ *                          scoring scheme is compatible with
+ *                          &lt;tt&gt;algorithmTag&lt;/tt&gt;. Type: @link Score @endlink.
+ * @param[in] lowerDiag Optional lower diagonal. Types: &lt;tt&gt;int&lt;/tt&gt;
+ * @param[in] upperDiag Optional upper diagonal. Types: &lt;tt&gt;int&lt;/tt&gt;
+ * 
+ * @return TScoreVal Score value of the resulting alignment (Metafunction: @link
+ *                   Score#Value @endlink of the type of
+ *                   &lt;tt&gt;scoringScheme&lt;/tt&gt;). If subject and query are sets the
+ *                   function returns a set of scores representing the score for
+ *                   each pairwise alignment (&lt;tt&gt;subject[i]&lt;/tt&gt; with
+ *                   &lt;tt&gt;query[i]&lt;/tt&gt;).
+ * 
+ * @datarace thread-safe. No shared state is modified during the execution and
+ *           concurrent invocations of this function on the same data does not
+ *           cause any race conditions.
+ * 
+ * This function does not perform the (linear time) traceback step after the
+ * (mostly quadratic time) dynamic programming step. Local alignment score can
+ * be either used with two sequences or two sets of sequences of equal size.
+ * 
+ * @section Parallel execution
+ * 
+ * Some of the local alingment score functions are parallelized and vectorized.
+ * The parallelization mode can be selected via the @link ExecutionPolicy
+ * @endlink as first argument. Following execution modes are possible:
+ * &lt;i&gt;sequential&lt;/i&gt;, &lt;i&gt;parallel&lt;/i&gt;, &lt;i&gt;wave-front&lt;/i&gt;, &lt;i&gt;vectorized&lt;/i&gt;,
+ * &lt;i&gt;parallel+vectorized&lt;/i&gt; and &lt;i&gt;wave-front+vectorized&lt;/i&gt;.
+ * 
+ * The wave-front execution can be selected via the @link
+ * WavefrontExecutionPolicy @endlink, which can also be combined with a
+ * vectorized execution. In addition the wave-front execution parallelizes a
+ * single pairwise alignment, while the standard @link ParallelismTags#Parallel
+ * @endlink specialization does only parallelizes the sequence set via chunking.
+ * Note, the banded version is at the moment only supported for the following
+ * execution modes: &lt;i&gt;sequential&lt;/i&gt;, &lt;i&gt;parallel&lt;/i&gt;, &lt;i&gt;vectorized&lt;/i&gt; and
+ * &lt;i&gt;parallel+vectorized&lt;/i&gt;. At the moment the vectorized version only works
+ * reliable if all subject sequences and respectively all query sequences have
+ * the same length.
+ * 
+ * @see https://seqan.readthedocs.io/en/develop/Tutorial/Algorithms/Alignment/Pa
+ *      irwiseSequenceAlignment.html
+ * @see localAlignment
+ */</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    </div>
+
+  </body>
+</html>

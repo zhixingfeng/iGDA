@@ -1,0 +1,1352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="class_enumerablethreadlocal" data-page="EnumerableThreadLocal">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+    <title>EnumerableThreadLocal - SeqAn API Documentation</title>
+
+      
+
+      
+      <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+      <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="lib/bootstrap/js/bootstrap.js"></script>
+
+      <link rel="stylesheet" href="lib/bootstrap-multiselect/css/bootstrap-multiselect.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="lib/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+
+      <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+      <link rel="stylesheet" href="css/common.less.css" type="text/css" media="screen" charset="utf-8" />
+      <script type="text/javascript" charset="utf-8" src="js/less-1.4.1.js"></script>
+      
+
+
+
+    <script type="text/javascript" charset="utf-8">
+      hasFrames = window.top.frames.main ? true : false;
+      relpath = '/';
+      docsPrefix = 'docs/yard';
+      listPrefix = 'list/docs/yard';
+      searchPrefix = 'search/docs/yard';
+      framesUrl = '/docs/yard/frames/file/README.md';
+    </script>
+
+    <style type="text/css">
+    .highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+    </style>
+
+    <style>
+      .link.error
+      {
+          color: red;
+      }
+    </style>
+
+      
+      
+      <script type="text/javascript" charset="utf-8" src="lib/jquery-bbq/jquery.ba-bbq.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/jquery.smooth-scroll.js"></script>
+      <script type="text/javascript" charset="utf-8" src="lib/clipboard/clipboard.js"></script>
+
+      <script type="text/javascript" charset="utf-8" src="js/lang_entities.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/autocomplete.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/rubydoc_custom.js"></script>
+      <script type="text/javascript" charset="utf-8" src="js/common.js"></script>
+      
+  </head>
+  <body>
+    <a id="top" name="top"></a>
+
+    <div id="content">
+      
+
+<h1 data-lang-entity="class" data-pimped="true"><a href="page_LanguageEntities.html#class">Class</a>
+<span>EnumerableThreadLocal<div><div>Manages thread local storage.</div></div></span>
+</h1>
+
+
+<table class="overview">
+
+  
+
+  
+
+  
+
+  
+
+  
+  </tr>
+
+  <tr>
+    <th>Defined in</th>
+    <td>
+      
+      &lt;seqan/parallel.h&gt;
+      
+      
+    </td>
+  </tr>
+  
+  <tr>
+    <th>Signature</th>
+    <td>
+      <code>template &lt;typename TValue, typename TManager, typename TSpec&gt;
+class ThreadPool;
+</code>
+    </td>
+  </tr>
+</table>
+
+
+<!-- Template Parameters -->
+
+
+
+
+<div data-lang-entity-container="template_parameter">
+<h2 data-lang-entity="template_parameter">Template Parameters</h2>
+
+<table class="overview">
+
+    <tr>
+        <th><code><a href="#" data-lang-entity="template_parameter">TValue</a></code></th>
+        <td>The type of the stored value.</td>
+    </tr>
+
+    <tr>
+        <th><code><a href="#" data-lang-entity="template_parameter">TManager</a></code></th>
+        <td>A policy used to manage the thread local storage. Defaults to <a href="class_SimpleThreadLocalManager.html" data-lang-entity="class">SimpleThreadLocalManager</a>.</td>
+    </tr>
+
+    <tr>
+        <th><code><a href="#" data-lang-entity="template_parameter">TSpec</a></code></th>
+        <td>Specialization of the <tt>EnumerableThreadLocal</tt> class. Defaults to <tt>void</tt>.</td>
+    </tr>
+
+</table>
+</div>
+
+
+
+
+
+
+<!--
+ =============================================================================
+  Member and Interface Overview
+ =============================================================================
+-->
+
+<!-- Member Functions Overview -->
+
+
+
+<div data-lang-entity-container="member_function">
+<h2 data-lang-entity="member_function">Member Function Overview</h2>
+
+<ul class="summary">
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%3A%3AEnumerableThreadLocal" title="#EnumerableThreadLocal::EnumerableThreadLocal (interface function)" data-lang-entity="member_function">EnumerableThreadLocal::EnumerableThreadLocal() = default;, EnumerableThreadLocal::EnumerableThreadLocal(TValue init);</a></code></span>
+    <span class="summary_desc"><div>Constructing an instance of this class.</div></span>
+    
+  </li>
+  
+</ul>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<!-- Interface Functions Overview -->
+
+
+
+<div data-lang-entity-container="interface_function">
+<h2 data-lang-entity="interface_function">Interface Function Overview</h2>
+
+<ul class="summary">
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23begin" title="#EnumerableThreadLocal#begin (interface function)" data-lang-entity="interface_function">TIteator begin(etl, tag);</a></code></span>
+    <span class="summary_desc"><div>Returns a bidirectional iterator to the thread specific storage.</div></span>
+    
+  </li>
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23combine" title="#EnumerableThreadLocal#combine (interface function)" data-lang-entity="interface_function">void combine(etl, f);</a></code></span>
+    <span class="summary_desc"><div>Enumerates thread local stores and applies a binary functor for each store.</div></span>
+    
+  </li>
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23combineEach" title="#EnumerableThreadLocal#combineEach (interface function)" data-lang-entity="interface_function">void combineEach(etl, f);</a></code></span>
+    <span class="summary_desc"><div>Enumerates thread local stores and applies an unary functor for each store.</div></span>
+    
+  </li>
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23end" title="#EnumerableThreadLocal#end (interface function)" data-lang-entity="interface_function">TIteator end(etl, tag);</a></code></span>
+    <span class="summary_desc"><div>Returns a bidirectional iterator to the thread specific storage.</div></span>
+    
+  </li>
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23local" title="#EnumerableThreadLocal#local (interface function)" data-lang-entity="interface_function">auto & local(etl);, auto & local(etl, b);</a></code></span>
+    <span class="summary_desc"><div>Constructing an instance of this class.</div></span>
+    
+  </li>
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23storageManager" title="#EnumerableThreadLocal#storageManager (interface function)" data-lang-entity="interface_function">TManager & storageManager(etl);</a></code></span>
+    <span class="summary_desc"><div>Constructing an instance of this class.</div></span>
+    
+  </li>
+  
+</ul>
+
+
+
+
+
+
+
+
+</div>
+
+ 
+
+
+<!-- Member Typedefs Overview -->
+
+  
+
+
+<!-- Interface Metafunctions Overview -->
+
+
+
+<div data-lang-entity-container="interface_metafunction">
+<h2 data-lang-entity="interface_metafunction">Interface  Metafunction Overview</h2>
+
+<ul class="summary">
+  
+  <li class="public">
+    
+    <span class="summary_signature"><code><a href="#EnumerableThreadLocal%23Iterator" title="#EnumerableThreadLocal#Iterator (interface function)" data-lang-entity="interface_metafunction">Iterator&lt;TEnumerableThreadLocal&gt;::Type;</a></code></span>
+    <span class="summary_desc"><div>Constructing an instance of this class.</div></span>
+    
+  </li>
+  
+</ul>
+
+
+
+
+
+
+
+
+</div>
+
+  
+
+
+<!-- Member Variable Overview -->
+
+  
+
+
+<!--
+ =============================================================================
+  Detailed Description
+ =============================================================================
+-->
+
+
+<h2>Detailed Description</h2>
+<div class="docstring">
+  <div class="discussion">
+    <!-- @internal -->
+    
+
+    <!-- @deprecated -->
+    
+
+    <!-- @warning -->
+    
+
+    <!-- @note -->
+    
+
+    <!-- @aka -->
+    
+
+    <!-- paragraphs -->
+    
+<div><p>The enumerable thread local class can be used to manage thread local storage using a map as
+internal buffer. The class offers an iterator interface, such that the thread specific values can be
+enumerated allowing to apply reduce operations at the end of the parallel execution.
+Creating thread local storage happens via a lazy evaluation using the <tt>local</tt> function.
+If a thread, identified by its <a href="http://en.cppreference.com/w/cpp/thread/get_id">thread id</a>,
+requests storage for the first time a new thread specific storage will be created and a lvalue reference pointing
+to this storage is returned.
+If the thread id was already registered, then a lvalue reference to the associated storage will be returned.
+The access to the <tt>local</tt> function is thread safe and can be called concurrently.</p><p>A thread local manager can be selected via template argument. This manager ensures safe access from concurrent
+invocations. The manager can further be replaced to change the behavior of storing the thread local data.</p></div>
+
+  </div>
+</div>
+
+
+<!-- @see -->
+
+  <h2 class="clause_header">See Also</h2>
+  <ul class="summary compact">
+  
+  <li><a href="class_CountingThreadLocalManager.html" data-lang-entity="class">CountingThreadLocalManager</a></li>
+  
+  <li><a href="class_SimpleThreadLocalManager.html" data-lang-entity="class">SimpleThreadLocalManager</a></li>
+  
+  </ul>
+
+
+<!--
+ =============================================================================
+  Member and Interface Details
+ =============================================================================
+-->
+
+<!-- Member Functions Details -->
+
+
+<div class="member_function_details" data-lang-entity-container="member_function">
+  <h2 data-lang-entity="member_function">Member Functions Detail</h2>
+
+  
+  <div class="method_details first">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal::EnumerableThreadLocal" class="signature first" data-lang-entity="member_function">
+      <code>EnumerableThreadLocal::EnumerableThreadLocal() = default;
+EnumerableThreadLocal::EnumerableThreadLocal(TValue init);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+  <div class="note note">Note. <div class='inline'>
+      
+      <p>The class is not <a href="concept_CopyConstructibleConcept.html" data-lang-entity="concept">copy constructible</a> and not
+<a href="http://en.cppreference.com/w/cpp/concept/MoveConstructible">move constructible</a>.</p>
+      
+  </div></div>
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Constructing an instance of this class.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">init</code>
+            
+        
+      </th>
+      <td>An optional value used to initialize the newly created storage.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  
+    If not stated otherwise, concurrent invocation is not guaranteed to be thread-safe.
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  
+
+</div>
+
+
+
+
+<!-- Interface Functions Details -->
+
+<div class="interface_function_details" data-lang-entity-container="interface_function">
+  <h2 data-lang-entity="interface_function">Interface Functions Detail</h2>
+
+  
+  <div class="method_details first">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#begin" class="signature first" data-lang-entity="interface_function">
+      <code>TIteator begin(etl, tag);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Returns a bidirectional iterator to the thread specific storage.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">tag</code>
+            
+        
+      </th>
+      <td>A tag to choose the type of the iterator. One of <a href="group_ContainerIteratorTags.html" data-lang-entity="group">ContainerIteratorTags</a>.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+  <h4>Returns</h4>
+  <table class="overview">
+    
+    <tr>
+        <th><code>TIteator</code></th>
+        <td>Iterator to the begin of the thread stores.</td>
+    </tr>
+    
+  </table>
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	thread-safe.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  
+  <div class="method_details">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#combine" class="signature" data-lang-entity="interface_function">
+      <code>void combine(etl, f);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Enumerates thread local stores and applies a binary functor for each store.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">f</code>
+            
+        
+      </th>
+      <td>A binary combinator called on each thread local storage.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div><h4>Possible implementation:</h4><div data-src-path="None"><div class="highlight"><pre><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">begin</span><span class="p">(</span><span class="n">etl</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="n">etl</span><span class="p">),</span> <span class="n">TValue</span><span class="p">{},</span> <span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	not thread-safe.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  <h4>See Also</h4>
+  <ul>
+    
+    <li><a href="class_EnumerableThreadLocal.html#EnumerableThreadLocal#combineEach" data-lang-entity="interface_function">combineEach</a></li>
+    
+  </ul>
+  
+  
+  <div class="method_details">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#combineEach" class="signature" data-lang-entity="interface_function">
+      <code>void combineEach(etl, f);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Enumerates thread local stores and applies an unary functor for each store.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">f</code>
+            
+        
+      </th>
+      <td>An unary functor called on each thread local storage.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div><h4>Possible implementation:</h4><div data-src-path="None"><div class="highlight"><pre><span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">begin</span><span class="p">(</span><span class="n">etl</span><span class="p">),</span> <span class="n">end</span><span class="p">(</span><span class="n">etl</span><span class="p">),</span> <span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	not thread-safe.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  <h4>See Also</h4>
+  <ul>
+    
+    <li><a href="class_EnumerableThreadLocal.html#EnumerableThreadLocal#combine" data-lang-entity="interface_function">combine</a></li>
+    
+  </ul>
+  
+  
+  <div class="method_details">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#end" class="signature" data-lang-entity="interface_function">
+      <code>TIteator end(etl, tag);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Returns a bidirectional iterator to the thread specific storage.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">tag</code>
+            
+        
+      </th>
+      <td>A tag to choose the type of the iterator. One of <a href="group_ContainerIteratorTags.html" data-lang-entity="group">ContainerIteratorTags</a>.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+  <h4>Returns</h4>
+  <table class="overview">
+    
+    <tr>
+        <th><code>TIteator</code></th>
+        <td>Iterator to the end of the thread stores.</td>
+    </tr>
+    
+  </table>
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	thread-safe.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  
+  <div class="method_details">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#local" class="signature" data-lang-entity="interface_function">
+      <code>auto & local(etl);
+auto & local(etl, b);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Constructing an instance of this class.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in_out" title="IN/OUT parameters are read and also modified by the called function">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in_out" title="IN/OUT parameters are read and also modified by the called function">b</code>
+            
+        
+      </th>
+      <td>A boolean to indicate successful creation.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+  <h4>Returns</h4>
+  <table class="overview">
+    
+    <tr>
+        <th><code>auto&amp;</code></th>
+        <td>A lvalue reference to the associated thread specific storage.</td>
+    </tr>
+    
+  </table>
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div><p>Calls the internal <tt>local</tt> member function of the associated storage manager. If the thread-id was used
+for the first time <tt>b</tt> will be set to <tt>true</tt> to indicate successful creation of the storage.
+If the storage was already created for the given thread-id, then <tt>b</tt> is set to <tt>false</tt>.</p></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	thread-safe. Concurrent invocations of this function are synchronized via the storage manager.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  
+  <div class="method_details">
+    <h3 data-toc="hidden" id="EnumerableThreadLocal#storageManager" class="signature" data-lang-entity="interface_function">
+      <code>TManager & storageManager(etl);</code>
+    </h3>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Constructing an instance of this class.</div>
+    </div>
+  </div>
+
+  
+
+  
+  <h4>Parameters</h4>
+  <table class="overview">
+    
+    <tr>
+      <th>
+        
+            
+                <code data-param-type="in" title="IN parameters are only read and not modified">etl</code>
+            
+        
+      </th>
+      <td>An instance of <a href="class_EnumerableThreadLocal.html" data-lang-entity="class">EnumerableThreadLocal</a>.</td>
+    </tr>
+    
+  </table>
+  
+  
+  
+  <h4>Returns</h4>
+  <table class="overview">
+    
+    <tr>
+        <th><code>TManager&amp;</code></th>
+        <td>A lvalue reference to the associated storage manager.</td>
+    </tr>
+    
+  </table>
+  
+
+	<!-- General description -->
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div></div>
+
+    </div>
+  </div>
+ 
+
+  <!-- Throws Section -->
+	
+  
+  
+  <!-- Data Races Section  -->
+  
+  <h4>Data Races</h4>
+  <div class="discussion">
+  	
+	
+  	<p>
+    	not thread-safe.
+  	</p>
+  	
+  
+  </div>
+	
+	
+  <!-- Sees section -->
+  
+  
+  
+
+</div>
+
+
+
+<!-- Member Typedefs Details -->
+
+
+
+
+<!-- Interface Metafunctions Details -->
+
+<div class="interface_metafunction_details" data-lang-entity-container="">
+<h2 data-lang-entity="interface_metafunction">Interface Metafunctions Detail</h2>
+
+
+<div class="method_details first">
+  <h3 data-toc="hidden" id="EnumerableThreadLocal#Iterator" class="signature first" data-lang-entity="interface_metafunction">
+    <code>Iterator&lt;TEnumerableThreadLocal&gt;::Type;</code>
+  </h3>
+
+  
+
+  
+
+  
+
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      <div>Constructing an instance of this class.</div>
+    </div>
+  </div>
+
+  
+  <h4>Template Parameters</h4>
+    <table class="overview">
+    
+        <tr>
+            <th><code>TEnumerableThreadLocal</code></th>
+            <td>The type of the enumerable thread local class.</td>
+        </tr>
+    
+    </table>
+  
+
+  
+  <h4>Returns</h4>
+    <table class="overview">
+    
+        <tr>
+            <th><code>Type</code></th>
+            <td>The type of the iterator.</td>
+        </tr>
+    
+    </table>
+  
+
+  <div class="docstring">
+    <div class="discussion">
+      
+<div></div>
+
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+
+
+<!-- Member Variable Details -->
+
+
+
+
+<!--
+ =============================================================================
+  Footer / Debug
+ =============================================================================
+-->
+
+
+
+<div class="modal fade" id="doxSources" tabindex="-1" role="dialog" aria-labelledby="doxSourcesLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="doxSourcesLabel">Dox Sources</h4>
+      </div>
+      <div class="modal-body">
+        <pre>/*!
+ * @class EnumerableThreadLocal
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Manages thread local storage.
+ * 
+ * @signature template &lt;typename TValue, typename TManager, typename TSpec&gt;
+ *            class ThreadPool;
+ * 
+ * @tparam TValue The type of the stored value.
+ * @tparam TManager A policy used to manage the thread local storage. Defaults
+ *                  to @link SimpleThreadLocalManager @endlink.
+ * @tparam TSpec Specialization of the &lt;tt&gt;EnumerableThreadLocal&lt;/tt&gt; class.
+ *               Defaults to &lt;tt&gt;void&lt;/tt&gt;.
+ * 
+ * The enumerable thread local class can be used to manage thread local storage
+ * using a map as internal buffer. The class offers an iterator interface, such
+ * that the thread specific values can be enumerated allowing to apply reduce
+ * operations at the end of the parallel execution. Creating thread local
+ * storage happens via a lazy evaluation using the &lt;tt&gt;local&lt;/tt&gt; function. If a
+ * thread, identified by its &lt;a
+ * href=&#34;http://en.cppreference.com/w/cpp/thread/get_id&#34;&gt;thread id&lt;/a&gt;, requests
+ * storage for the first time a new thread specific storage will be created and
+ * a lvalue reference pointing to this storage is returned. If the thread id was
+ * already registered, then a lvalue reference to the associated storage will be
+ * returned. The access to the &lt;tt&gt;local&lt;/tt&gt; function is thread safe and can be
+ * called concurrently.
+ * 
+ * A thread local manager can be selected via template argument. This manager
+ * ensures safe access from concurrent invocations. The manager can further be
+ * replaced to change the behavior of storing the thread local data.
+ * 
+ * @see SimpleThreadLocalManager
+ * @see CountingThreadLocalManager
+ * 
+ * @mfn EnumerableThreadLocal#Iterator
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Constructing an instance of this class.
+ * 
+ * @signature Iterator&lt;TEnumerableThreadLocal&gt;::Type;
+ * 
+ * @tparam TEnumerableThreadLocal The type of the enumerable thread local class.
+ * 
+ * @return Type The type of the iterator.
+ * 
+ * @fn EnumerableThreadLocal::EnumerableThreadLocal
+ * 
+ * @brief Constructing an instance of this class.
+ * 
+ * @note The class is not @link CopyConstructibleConcept copy constructible
+ *       @endlink and not &lt;a
+ *       href=&#34;http://en.cppreference.com/w/cpp/concept/MoveConstructible&#34;&gt;move
+ *       constructible&lt;/a&gt;.
+ * 
+ * @signature EnumerableThreadLocal::EnumerableThreadLocal() = default;
+ * @signature EnumerableThreadLocal::EnumerableThreadLocal(TValue init);
+ * 
+ * @param[in] init An optional value used to initialize the newly created
+ *                 storage.
+ * 
+ * @fn EnumerableThreadLocal#storageManager
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Constructing an instance of this class.
+ * 
+ * @signature TManager &amp; storageManager(etl);
+ * 
+ * @param[in] etl An instance of @link EnumerableThreadLocal @endlink.
+ * 
+ * @return TManager&amp; A lvalue reference to the associated storage manager.
+ * 
+ * @datarace not thread-safe.
+ * 
+ * @fn EnumerableThreadLocal#local
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Constructing an instance of this class.
+ * 
+ * @signature auto &amp; local(etl);
+ * @signature auto &amp; local(etl, b);
+ * 
+ * @param[in,out] etl An instance of @link EnumerableThreadLocal @endlink.
+ * @param[in,out] b A boolean to indicate successful creation.
+ * 
+ * @return auto&amp; A lvalue reference to the associated thread specific storage.
+ * 
+ * @datarace thread-safe. Concurrent invocations of this function are
+ *           synchronized via the storage manager.
+ * 
+ * Calls the internal &lt;tt&gt;local&lt;/tt&gt; member function of the associated storage
+ * manager. If the thread-id was used for the first time &lt;tt&gt;b&lt;/tt&gt; will be set
+ * to &lt;tt&gt;true&lt;/tt&gt; to indicate successful creation of the storage. If the
+ * storage was already created for the given thread-id, then &lt;tt&gt;b&lt;/tt&gt; is set
+ * to &lt;tt&gt;false&lt;/tt&gt;.
+ * 
+ * @fn EnumerableThreadLocal#begin
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Returns a bidirectional iterator to the thread specific storage.
+ * 
+ * @signature TIteator begin(etl, tag);
+ * 
+ * @param[in] etl An instance of @link EnumerableThreadLocal @endlink.
+ * @param[in] tag A tag to choose the type of the iterator. One of @link
+ *                ContainerIteratorTags @endlink.
+ * 
+ * @return TIteator Iterator to the begin of the thread stores.
+ * 
+ * @datarace thread-safe.
+ * 
+ * @fn EnumerableThreadLocal#end
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Returns a bidirectional iterator to the thread specific storage.
+ * 
+ * @signature TIteator end(etl, tag);
+ * 
+ * @param[in] etl An instance of @link EnumerableThreadLocal @endlink.
+ * @param[in] tag A tag to choose the type of the iterator. One of @link
+ *                ContainerIteratorTags @endlink.
+ * 
+ * @return TIteator Iterator to the end of the thread stores.
+ * 
+ * @datarace thread-safe.
+ * 
+ * @fn EnumerableThreadLocal#combineEach
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Enumerates thread local stores and applies an unary functor for each
+ *        store.
+ * 
+ * @signature void combineEach(etl, f);
+ * 
+ * @param[in] etl An instance of @link EnumerableThreadLocal @endlink.
+ * @param[in] f An unary functor called on each thread local storage.
+ * 
+ * @datarace not thread-safe.
+ * 
+ * @section Possible implementation:
+ * 
+ * @code{.cpp}
+ * std::for_each(begin(etl), end(etl), f);
+ * @endcode
+ * 
+ * 
+ * @see EnumerableThreadLocal#combine
+ * 
+ * @fn EnumerableThreadLocal#combine
+ * 
+ * @headerfile &lt;seqan/parallel.h&gt;
+ * 
+ * @brief Enumerates thread local stores and applies a binary functor for each
+ *        store.
+ * 
+ * @signature void combine(etl, f);
+ * 
+ * @param[in] etl An instance of @link EnumerableThreadLocal @endlink.
+ * @param[in] f A binary combinator called on each thread local storage.
+ * 
+ * @datarace not thread-safe.
+ * 
+ * @section Possible implementation:
+ * 
+ * @code{.cpp}
+ * std::accumulate(begin(etl), end(etl), TValue{}, f);
+ * @endcode
+ * 
+ * 
+ * @see EnumerableThreadLocal#combineEach
+ */</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    </div>
+
+  </body>
+</html>
