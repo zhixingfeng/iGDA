@@ -10,6 +10,7 @@
 		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
 		DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */; };
 		DC1F870F1EA6E01300D7CDD2 /* test_hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */; };
+		DC229D9620E6CF8300EA6ADB /* alignreadersam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC229D9420E6CF8300EA6ADB /* alignreadersam.cpp */; };
 		DC2A18891F55E22B001830AE /* assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A18871F55E22B001830AE /* assembler.cpp */; };
 		DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A188A1F55E257001830AE /* test_assembler.cpp */; };
 		DC3AA6C91F18120D005D0DB1 /* sclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC3AA6C71F18120D005D0DB1 /* sclust.cpp */; };
@@ -68,6 +69,8 @@
 		DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hclust.cpp; sourceTree = "<group>"; };
 		DC1F870C1EA6AD2100D7CDD2 /* hclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hclust.h; sourceTree = "<group>"; };
 		DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_hclust.cpp; sourceTree = "<group>"; };
+		DC229D9420E6CF8300EA6ADB /* alignreadersam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alignreadersam.cpp; sourceTree = "<group>"; };
+		DC229D9520E6CF8300EA6ADB /* alignreadersam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alignreadersam.h; sourceTree = "<group>"; };
 		DC2A18871F55E22B001830AE /* assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assembler.cpp; sourceTree = "<group>"; };
 		DC2A18881F55E22B001830AE /* assembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assembler.h; sourceTree = "<group>"; };
 		DC2A188A1F55E257001830AE /* test_assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_assembler.cpp; sourceTree = "<group>"; };
@@ -2462,6 +2465,8 @@
 				DC930F301D5527CF00640B65 /* alignreader.h */,
 				DC930F311D5527CF00640B65 /* alignreaderm5.cpp */,
 				DC930F321D5527CF00640B65 /* alignreaderm5.h */,
+				DC229D9420E6CF8300EA6ADB /* alignreadersam.cpp */,
+				DC229D9520E6CF8300EA6ADB /* alignreadersam.h */,
 			);
 			path = alignreader;
 			sourceTree = "<group>";
@@ -5959,6 +5964,7 @@
 				DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */,
 				DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
+				DC229D9620E6CF8300EA6ADB /* alignreadersam.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */,
 				DCAFB4C520B9E76D0092269F /* dforestsnvstxxl.cpp in Sources */,
