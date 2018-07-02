@@ -67,3 +67,8 @@ bool AlignReaderM5::read(string filename, stxxl::vector<Align> &align_vec)
 
     return true;
 }
+
+bool AlignReaderM5::getref(string filename)
+{
+    return true;
+}

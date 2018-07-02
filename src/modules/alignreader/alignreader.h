@@ -60,7 +60,7 @@ public:
     // read all alignment and store it into stxxl vector
     virtual bool read(string filename, stxxl::vector<Align> &align_vec)=0;
         
-    
+    virtual bool getref(string filename) = 0;
 protected:
     string filename;
 };

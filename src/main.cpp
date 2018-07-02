@@ -99,7 +99,7 @@ int main(int argc, const char * argv[])
         
         // encode alignment file
         if (strcmp(argv[1], "encode")==0){
-            ValueArg<int> mArg("m","method","method for encoding. 0: full, 1: SNV", false , 0, "method", cmd);
+            ValueArg<int> mArg("m","method","method for encoding. 0: full, 1: SNV", false , 1, "method", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             cmd.parse(argv2);

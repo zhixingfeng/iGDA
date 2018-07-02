@@ -29,6 +29,7 @@ public:
     // read all alignment and store it into stxxl vector
     bool read(string filename, stxxl::vector<Align> &align_vec);
 
+    bool getref(string filename);
 protected:
     string filename;
     ifstream p_file;

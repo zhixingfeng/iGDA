@@ -118,6 +118,18 @@ TEST_CASE("test AlignCoderSNV::encode (ssw) for a whole .m5 file", "[hide]")
     
 }
 
+TEST_CASE("test AlignCoderSNV::encode sam format", "[hide]")
+{
+    
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderSam alignreadersam;
+    alignreadersam.getref("../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref.fa");
+    p_aligncoder->setAlignReader(&alignreadersam);
+    p_aligncoder->encode("../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.sam",
+                         "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.encode.fromsam");
+}
+
 
 
 

@@ -6098,6 +6098,7 @@
 					tools/boost/include,
 					tools,
 					tools/stxxl/build/local/stxxl/include,
+					tools/seqan/seqan/include,
 				);
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";
@@ -6122,6 +6123,7 @@
 					tools/boost/include,
 					tools,
 					tools/stxxl/build/local/stxxl/include,
+					tools/seqan/seqan/include,
 				);
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				OTHER_CFLAGS = "";

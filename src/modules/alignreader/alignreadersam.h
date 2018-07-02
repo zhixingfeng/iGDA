@@ -10,6 +10,9 @@
 #define __iGDA__alignreadersam__
 
 #include "alignreader.h"
+#include <seqan/bam_io.h>
+#include <seqan/seq_io.h>
+
 
 class AlignReaderSam : public AlignReader
 {
@@ -29,9 +32,15 @@ public:
     // read all alignment and store it into stxxl vector
     bool read(string filename, stxxl::vector<Align> &align_vec);
     
+    // get reference
+    bool getref(string filename);
+    
 protected:
     string filename;
-    ifstream p_file;
+    seqan::BamFileIn bamFileIn;
+    seqan::StringSet<seqan::CharString> ref_ids;
+    seqan::StringSet<seqan::Dna5String> ref_seqs;
+
 };
 
 #endif /* defined(__iGDA__alignreadersam__) */
