@@ -49,6 +49,7 @@ bool AlignReaderSam::readline(Align &align) {
     align.qStrand = '+';
     align.tStart = record.beginPos;
     align.tEnd = align.tStart + getAlignmentLengthInRef(record) - 1;
+    align.tStrand = hasFlagRC(record) ? '-' : '+';
     align.mapQV = record.mapQ;
     
     // check if alignment is solf clipped
@@ -63,9 +64,10 @@ bool AlignReaderSam::readline(Align &align) {
     typedef seqan::Iterator<TRow>::Type TRowIterator;
     
     TAlign cur_align;
+    
     if (record.rID != seqan::BamAlignmentRecord::INVALID_REFID)
         bamRecordToAlignment(cur_align, ref_seqs[record.rID], record);
-    
+
     //cout << cur_align << endl;
     TRow row_ref = seqan::row(cur_align,0);
     TRow row_read = seqan::row(cur_align,1);
@@ -90,7 +92,10 @@ bool AlignReaderSam::readline(Align &align) {
             align.tAlignedSeq[i] = seqan::Dna5(*it_row_ref);
             if (!seqan::isGap(it_row_read)){
                 align.qAlignedSeq[i] = seqan::Dna5(*it_row_read);
-                align.matchPattern[i] = '|';
+                if (align.tAlignedSeq[i] == align.qAlignedSeq[i])
+                    align.matchPattern[i] = '|';
+                else
+                    align.matchPattern[i] = '*';
             }else{
                 align.qAlignedSeq[i] = '-';
                 align.matchPattern[i] = '*';
