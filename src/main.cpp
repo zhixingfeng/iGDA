@@ -102,10 +102,14 @@ int main(int argc, const char * argv[])
             ValueArg<int> mArg("m","method","method for encoding. 0: full, 1: SNV", false , 1, "method", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", false, "", "reffile", cmd);
+            SwitchArg ism5Arg("t", "m5", "is use m5 format", cmd, false);
+            
             cmd.parse(argv2);
             
             // set alignreader
             AlignReaderM5 alignreaderm5;
+            AlignReaderSam alignreadersam;
             
             // select encoder
             AlignCoderSNV aligncodersnv;
@@ -123,7 +127,15 @@ int main(int argc, const char * argv[])
                     return 1;
             }
             
-            p_aligncoder->setAlignReader(&alignreaderm5);
+            // setup reader
+            if (ism5Arg.getValue()){
+                p_aligncoder->setAlignReader(&alignreaderm5);
+            }else{
+                if (reffileArg.getValue() == "")
+                    throw runtime_error("use sam file as input but not reference file provided.");
+                alignreadersam.getref(reffileArg.getValue());
+                p_aligncoder->setAlignReader(&alignreadersam);
+            }
             p_aligncoder->encode(alignfileArg.getValue(), outfileArg.getValue());
             
             return 0;

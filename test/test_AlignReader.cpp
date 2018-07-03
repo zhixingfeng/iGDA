@@ -39,7 +39,7 @@ TEST_CASE("Test AlignReaderM5 read()", "[hide]"){
     fs_outfile.close();
 }
 
-TEST_CASE("Test AlignReaderSam read()"){
+TEST_CASE("Test AlignReaderSam read()", "[hide]"){
     AlignReaderSam AlignReaderSam_obj;
     AlignReader *p_align = &AlignReaderSam_obj;
     p_align->getref("../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref.fa");
