@@ -66,7 +66,7 @@ void HClust::dist(string encode_file, string align_file, string out_file, bool i
     
     // load align_file (m5 format)
     vector<ReadRange> reads_range;
-    loadreadsrange(reads_range, align_file, 'm');
+    loadreadsrange(reads_range, align_file);
     if (encode_data.size() != reads_range.size())
         throw runtime_error("size of encode_data and reads_range are different");
 

@@ -24,9 +24,12 @@ bool AlignReaderSam::open(string filename) {
     typedef seqan::FormattedFileContext<seqan::BamFileIn, void>::Type TBamContext;
     TBamContext const & bamContext = context(bamFileIn);
     
+    if (seqan::length(ref_ids) == 0 || seqan::length(ref_seqs) == 0)
+        return true;
+    
     // check number of contigs
     if (seqan::length(seqan::contigNames(bamContext)) != seqan::length(ref_ids) || seqan::length(seqan::contigNames(bamContext)) != seqan::length(ref_seqs))
-        throw runtime_error("ref in sam is not consistent with loaded fasta file or no fasta file loaded");
+        throw runtime_error("ref in sam is not consistent with loaded fasta file");
     
     // check contig names and length of sequences
     for (unsigned i = 0; i < seqan::length(seqan::contigNames(bamContext)); ++i){
@@ -58,7 +61,9 @@ bool AlignReaderSam::readline(Align &align) {
             throw runtime_error("the sam file is soft clipped, try hard clip");
     }
     
-    // Read references and record.
+    if (seqan::length(this->ref_ids) == 0 || seqan::length(this->ref_seqs) == 0)
+        return true;
+    // get alignment if reference file is provided
     typedef seqan::Align<seqan::Dna5String> TAlign;
     typedef seqan::Row<TAlign>::Type TRow;
     typedef seqan::Iterator<TRow>::Type TRowIterator;

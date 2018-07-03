@@ -11,7 +11,6 @@
 #define cmpreads_h
 
 #include "io.h"
-#include "../modules/alignreader/alignreader.h"
 
 
 /*inline bool operator==(const ReadMatch& lhs, const ReadMatch& rhs){ return lhs.match_rate == rhs.match_rate; }
@@ -68,7 +67,7 @@ inline bool group_cmpreadsdiff(const stxxl::vector<ReadMatch> &cmpreadsdiff_data
 }
 
 // compare reads and use top n as candidates (include difference between reads, read IDs will be added)
-inline bool cmpreads_topn_diff(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25)
+inline bool cmpreads_topn_diff(string encode_file, string align_file, string out_file, int topn = 20, double min_overlap = 0.5)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -177,7 +176,7 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
 }
 
 // compare reads and use top n as candidates (read data from files)
-inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
+inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 20, double min_overlap = 0.5,
                           bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
 {
     // load encode data
@@ -319,7 +318,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
 
 
 // compare reads and use top n as candidates (read data from files) (legacy version)
-inline bool cmpreads_topn_legacy(string encode_file, string align_file, string out_file, int topn = 10, double min_overlap = 0.25,
+inline bool cmpreads_topn_legacy(string encode_file, string align_file, string out_file, int topn = 20, double min_overlap = 0.5,
                      bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
 {
     // load encode data

@@ -184,10 +184,10 @@ inline vector<vector<int> > pileup_reads(const stxxl::vector<Align> &align_data,
 }
 
 // pileup reads (input from file)
-inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads, bool rm_del)
+inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads, bool rm_del = false)
 {
     vector<ReadRange> reads_range;
-    loadreadsrange(reads_range, align_file, 'm');
+    loadreadsrange(reads_range, align_file);
     n_reads = reads_range.size();
     
     // get size of pileup vector
@@ -297,7 +297,7 @@ inline void pileup_reads_m5_online_count_pop(vector<int> &pu_count, const ReadRa
 }
 
 
-inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = true, char format = 'm')
+inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = false, char format = 'm')
 {
     switch (format) {
         case 'm':

@@ -10,6 +10,7 @@
 #define io_h
 #include "../../include/headers.h"
 #include "../modules/alignreader/alignreaderm5.h"
+#include "../modules/alignreader/alignreadersam.h"
 #include <stxxl.h>
 #include <zlib.h>
 #include "../../tools/kseq.h"
@@ -170,15 +171,25 @@ inline bool loadencodedata(vector<vector<int> > &encode_data, string encode_file
     return true;
 }
 
-// format: m=m5
-inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, char format='m')
+// format: m = m5, s = sam, a = auto
+inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, char format='a')
 {
     // setup alignreader
     AlignReader *p_alignreader;
     AlignReaderM5 alignreaderm5;
+    AlignReaderSam alignreadersam;
     switch(format){
         case 'm':
             p_alignreader = &alignreaderm5;
+            break;
+        case 's':
+            p_alignreader = &alignreadersam;
+            break;
+        case 'a':
+            if (align_file.substr(align_file.size()-4,4) == ".sam")
+                p_alignreader = &alignreadersam;
+            else
+                p_alignreader = &alignreaderm5;
             break;
         default:
             throw runtime_error("loadreadsranges: unsupported format.");

@@ -501,6 +501,78 @@ TEST_CASE("test cmpreads with priority queque", "[hide]")
 }
 
 
+TEST_CASE("test loadreadsrange with sam format", "[hide]")
+{
+    string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
+    string sam_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
+    
+    cout << "load m5" << endl;
+    vector<ReadRange> reads_range_m5;
+    loadreadsrange(reads_range_m5, m5_file);
+    
+    cout << "load sam" << endl;
+    vector<ReadRange> reads_range_sam;
+    loadreadsrange(reads_range_sam, m5_file);
+    
+    cout << "get reads_range" << endl;
+    string range_m5_file = m5_file + ".range";
+    string range_sam_file = sam_file + ".range";
+    ofstream fs_out;
+    
+    open_outfile(fs_out, range_m5_file);
+    for (auto cur_range : reads_range_m5)
+        fs_out << cur_range.first << ',' << cur_range.second << endl;
+    fs_out.close();
+    
+    open_outfile(fs_out, range_sam_file);
+    for (auto cur_range : reads_range_sam)
+        fs_out << cur_range.first << ',' << cur_range.second << endl;
+    fs_out.close();
+    
+    string cmd = "sort " + range_m5_file + " | md5";
+    system(cmd.c_str());
+    
+    cmd = "sort " + range_sam_file + " | md5";
+    system(cmd.c_str());
+}
+
+
+TEST_CASE("test cmpreads from sam file")
+{
+    string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5";
+    string sam_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
+    string encode_m5_file = m5_file + ".encode";
+    string encode_sam_file = sam_file + ".encode";
+    string cmpreads_m5_file = m5_file + ".cmpreads";
+    string cmpreads_sam_file = sam_file + ".cmpreads";
+    
+    cout << "cmpreads m5 file " << endl;
+    cmpreads_topn(encode_m5_file, m5_file, cmpreads_m5_file);
+    
+    cout << "cmpreads sam file " << endl;
+    cmpreads_topn(encode_sam_file, sam_file, cmpreads_sam_file);
+    
+    
+    /*string cmd = "igda bin2txt " + cmpreads_m5_file + " " + cmpreads_m5_file + ".txt";
+    system(cmd.c_str());
+    
+    cmd = "igda bin2txt " + encode_sam_file + " " + encode_sam_file + ".txt";
+    system(cmd.c_str());
+    
+    cmd = "sort " + cmpreads_m5_file + ".txt | md5";
+    system(cmd.c_str());
+    
+    cmd = "sort " + cmpreads_sam_file + ".txt | md5";
+    system(cmd.c_str());*/
+
+    
+    
+}
+
+
+
+
+
 
 
 

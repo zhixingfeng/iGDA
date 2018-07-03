@@ -110,7 +110,7 @@ void Assembler::dist(string encode_file, string align_file, string out_file)
     
     // load align_file (m5 format)
     vector<ReadRange> reads_range;
-    loadreadsrange(reads_range, align_file, 'm');
+    loadreadsrange(reads_range, align_file);
     if (encode_data.size() != reads_range.size())
         throw runtime_error("size of encode_data and reads_range are different");
     
@@ -186,7 +186,7 @@ void Assembler::dist_rdim(string encode_file, string align_file, string var_file
     
     // load align_file (m5 format)
     vector<ReadRange> reads_range;
-    loadreadsrange(reads_range, align_file, 'm');
+    loadreadsrange(reads_range, align_file);
     if (encode_data.size() != reads_range.size())
         throw runtime_error("size of encode_data and reads_range are different");
     
@@ -299,7 +299,7 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
     
     // load align_file (m5 format)
     vector<ReadRange> reads_range;
-    loadreadsrange(reads_range, align_file, 'm');
+    loadreadsrange(reads_range, align_file);
     if (encode_data.size() != reads_range.size())
         throw runtime_error("size of encode_data and reads_range are different");
     
