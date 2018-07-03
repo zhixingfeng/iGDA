@@ -68,3 +68,23 @@ TEST_CASE("test dforeststxxl (whole data)", "[hide]")
 }
 
 
+TEST_CASE("test dforeststxxl (use sam file)")
+{
+    string align_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
+    string encode_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.encode";
+    string cmpreads_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.cmpreads";
+    string out_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.dforest";
+    
+    AlignReaderSam alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+    int start_time= (int)clock();
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/dforeststxxl/tmp" , 8, 5, 1, 0, true);
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+}
+
+
+

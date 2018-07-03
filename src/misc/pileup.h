@@ -170,10 +170,10 @@ inline vector<vector<int> > pileup_reads_m5(const stxxl::vector<Align> &align_da
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads(const stxxl::vector<Align> &align_data, int64_t &n_reads, char format = 'm')
+inline vector<vector<int> > pileup_reads(const stxxl::vector<Align> &align_data, int64_t &n_reads, char format = 'a')
 {
     switch (format) {
-        case 'm':
+        case 'a':
             return pileup_reads_m5(align_data, n_reads);
             break;
             
@@ -199,6 +199,7 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads,
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());
     if (rm_del){
+        cout << "rm_del" << endl;
         // remove deletions
         AlignReaderM5 alignreaderm5;
         Align align;
@@ -297,10 +298,12 @@ inline void pileup_reads_m5_online_count_pop(vector<int> &pu_count, const ReadRa
 }
 
 
-inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, bool rm_del = false, char format = 'm')
+inline vector<vector<int> > pileup_reads(string align_file, int64_t &n_reads, char format = 'a', bool rm_del = false)
 {
+    if (rm_del)
+        cout << "rm_del" << endl;
     switch (format) {
-        case 'm':
+        case 'a':
             return pileup_reads_m5(align_file, n_reads, rm_del);
             break;
             

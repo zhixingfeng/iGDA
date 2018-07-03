@@ -32,6 +32,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     
     // single thread
+    cout << "run dforest" << endl;
     if (n_thread==1){
         run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, isinter);
     }else {
@@ -39,6 +40,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     }
     
     // save the result
+    cout << "save results" << endl;
     save_result(out_file, minfreq);
     //if (isinter)
         //save_result_all(out_file + ".all", minfreq);

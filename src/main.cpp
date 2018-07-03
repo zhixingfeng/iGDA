@@ -292,10 +292,20 @@ int main(int argc, const char * argv[])
             cout << "minfreq = " << minfreqArg.getValue() << endl;
             cout << "nthread = " << nthreadArg.getValue() << endl;
             
-            AlignReaderM5 alignreader;
+            AlignReaderM5 alignreaderm5;
+            AlignReaderSam alignreadersam;
             AlignCoderSNV aligncoder;
-            DForestSNVMax forestsnvmax(&alignreader, &aligncoder);
-            DForestSNVSTXXL forestsnvstxxl(&alignreader, &aligncoder);
+            
+            AlignReader *p_alignreader = NULL;
+            string alignfile = alignfileArg.getValue();
+            if (alignfile.substr(alignfile.size()-4, 4) == ".sam"){
+                cout << "use sam file " << endl;
+                p_alignreader = &alignreadersam;
+            }else{
+                p_alignreader = &alignreaderm5;
+            }
+            DForestSNVMax forestsnvmax(p_alignreader, &aligncoder);
+            DForestSNVSTXXL forestsnvstxxl(p_alignreader, &aligncoder);
             
             DForest *ptr_forest;
             if (islegacyArg.getValue())

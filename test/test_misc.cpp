@@ -537,7 +537,7 @@ TEST_CASE("test loadreadsrange with sam format", "[hide]")
 }
 
 
-TEST_CASE("test cmpreads from sam file")
+TEST_CASE("test cmpreads from sam file", "[hide]")
 {
     string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5";
     string sam_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
@@ -551,21 +551,6 @@ TEST_CASE("test cmpreads from sam file")
     
     cout << "cmpreads sam file " << endl;
     cmpreads_topn(encode_sam_file, sam_file, cmpreads_sam_file);
-    
-    
-    /*string cmd = "igda bin2txt " + cmpreads_m5_file + " " + cmpreads_m5_file + ".txt";
-    system(cmd.c_str());
-    
-    cmd = "igda bin2txt " + encode_sam_file + " " + encode_sam_file + ".txt";
-    system(cmd.c_str());
-    
-    cmd = "sort " + cmpreads_m5_file + ".txt | md5";
-    system(cmd.c_str());
-    
-    cmd = "sort " + cmpreads_sam_file + ".txt | md5";
-    system(cmd.c_str());*/
-
-    
     
 }
 

@@ -12,6 +12,7 @@ bool AlignReaderM5::open(string filename) {
     p_file.open(filename);
     if (!p_file.is_open())
         throw runtime_error("fail to open " + filename);
+    this->filename = filename;
     return true;
 }
 

@@ -21,6 +21,7 @@
 #include "../../../include/headers.h"
 #include "../../misc/misc.h"
 #include "../alignreader/alignreaderm5.h"
+#include "../alignreader/alignreadersam.h"
 #include "../aligncoder/aligncodersnv.h"
 #include <thread>
 #include <mutex>
@@ -56,7 +57,7 @@ public:
         pu_var.clear();
         pu_var = pileup_var(encode_data, n_reads);
     }
-    inline void call_pileup_reads(const stxxl::vector<Align> &align_data, char format = 'm'){
+    inline void call_pileup_reads(const stxxl::vector<Align> &align_data, char format = 'a'){
         pu_read.clear();
         int64_t cur_n_reads;
         pu_read = pileup_reads(align_data, cur_n_reads, format);
@@ -67,7 +68,7 @@ public:
     inline void call_pileup_var(string encode_file){
         pu_var = pileup_var(encode_file, n_reads);
     }
-    inline void call_pileup_reads(string align_file, char format = 'm'){
+    inline void call_pileup_reads(string align_file, char format = 'a'){
         int64_t cur_n_reads;
         pu_read = pileup_reads(align_file, cur_n_reads, format);
         if (cur_n_reads != n_reads)
