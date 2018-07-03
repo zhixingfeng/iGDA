@@ -1196,7 +1196,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             
             topn_id.push(pair<int,double>(j,cur_dist));
         }
-        
+
         // get max_nn neighbors
         vector<int> cur_neighbors_topn;
         vector<int> cur_neighbors;
@@ -1301,7 +1301,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             rl_ann_clust.push_back(cur_cons);
         }*/
     }
-    
+    cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
     // correct contigs
     this->correct_contigs(encode_data, reads_range, var_cdf, temp_array, min_cvg, min_prop, max_prop);
     
@@ -1425,6 +1425,7 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
         if (is_nc)
             nc_reads_id.push_back(i);
     }
+    cout << "processed " << encode_data.size() << " / " << encode_data.size() << endl;
     return nc_reads_id;
 }
 

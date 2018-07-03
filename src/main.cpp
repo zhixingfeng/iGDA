@@ -344,7 +344,7 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "getvar")==0) {
             UnlabeledValueArg<string> dforestfileArg("dforestfile", "path of dforest file", true, "", "dforestfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<double> mincondprobArg("c","condprob","minimal conditional probability, default: 0.8", false , 0.8, "condprob", cmd);
+            ValueArg<double> mincondprobArg("c","condprob","minimal conditional probability, default: 0.7", false , 0.7, "condprob", cmd);
             
             cmd.parse(argv2);
             
@@ -666,7 +666,7 @@ int main(int argc, const char * argv[])
             assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
             assembler.print_rl_ann_clust(outfileArg.getValue());
-            assembler.print_rl_ann_clust(outfileArg.getValue()+".seq", true);
+            //assembler.print_rl_ann_clust(outfileArg.getValue()+".seq", true);
             
         }
     }
