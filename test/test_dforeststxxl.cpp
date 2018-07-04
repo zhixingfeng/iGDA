@@ -68,7 +68,7 @@ TEST_CASE("test dforeststxxl (whole data)", "[hide]")
 }
 
 
-TEST_CASE("test dforeststxxl (use sam file)")
+TEST_CASE("test dforeststxxl (use sam file)", "[hide]")
 {
     string align_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
     string encode_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.encode";

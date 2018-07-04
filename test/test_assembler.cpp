@@ -164,7 +164,7 @@ TEST_CASE("test assembler::dist_rdim()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ann_clust", "[hide]")
+TEST_CASE("test assembler::ann_clust")
 {
     string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
     string m5_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
@@ -173,8 +173,14 @@ TEST_CASE("test assembler::ann_clust", "[hide]")
     
     Assembler assembler;
     assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
-    assembler.print_rl_ann_clust(out_file);
-    assembler.print_rl_ann_clust(out_file+".seq", true);
+    
+    
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx);
+    assembler.print_rl_ann_clust(out_file, false, idx);
+    cout << idx << endl;
+    
+    //assembler.print_rl_ann_clust(out_file+".seq", true);
 }
 
 

@@ -665,8 +665,16 @@ int main(int argc, const char * argv[])
             Assembler assembler;
             assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
-            assembler.print_rl_ann_clust(outfileArg.getValue());
-            //assembler.print_rl_ann_clust(outfileArg.getValue()+".seq", true);
+            vector<int64_t> idx;
+            assembler.find_nccontigs(idx);
+            assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", false, idx);
+            
+            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
+            cout << cmd << endl; system(cmd.c_str());
+            
+            cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
+            cout << cmd << endl; system(cmd.c_str());
+            
             
         }
     }

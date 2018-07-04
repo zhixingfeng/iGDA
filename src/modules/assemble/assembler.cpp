@@ -1302,61 +1302,66 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         }*/
     }
     cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
+    
     // correct contigs
-    this->correct_contigs(encode_data, reads_range, var_cdf, temp_array, min_cvg, min_prop, max_prop);
+    //this->correct_contigs(encode_data, reads_range, var_cdf, temp_array, min_cvg, min_prop, max_prop);
     
 }
 
-void Assembler::print_rl_ann_clust(string outfile, bool is_seq, bool is_metric)
+void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_t> idx)
 {
+    if (idx.size() == 0){
+        idx.resize(this->rl_ann_clust.size());
+        for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+            idx[i] = i;
+    }
+    
     ofstream fs_outfile;
     open_outfile(fs_outfile, outfile);
-    if (is_seq){
-        for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
-            fs_outfile << this->rl_ann_clust[i].cons_seq << endl;
-    }else{
-        for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-            fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
-            fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end;
+    
+    //for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+    for (auto &i : idx){
+        fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
+        fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end;
+        
+        if (is_metric){
+            fs_outfile << '\t';
             
-            if (is_metric){
-                fs_outfile << '\t';
-                
-                fs_outfile << this->rl_ann_clust[i].seed << '\t';
-                
-                int start_code = 4*rl_ann_clust[i].start;
-                int end_code = 4*rl_ann_clust[i].end + 3;
-                end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
-                
-                for (auto j = start_code; j < end_code; ++j)
-                    if (rl_ann_clust[i].pu_var_count[j] > 0)
-                        fs_outfile << j << ',';
-                fs_outfile << '\t';
-                
-                for (auto j = start_code; j < end_code; ++j)
-                    if (rl_ann_clust[i].pu_var_count[j] > 0)
-                        fs_outfile << rl_ann_clust[i].prop[j] << ',';
-                fs_outfile << '\t';
-                
-                for (auto j = start_code; j < end_code; ++j)
-                    if (rl_ann_clust[i].pu_var_count[j] > 0)
-                        fs_outfile << rl_ann_clust[i].pu_var_count[j] << ',';
-                fs_outfile << '\t';
-                
-                for (auto j = start_code; j < end_code; ++j){
-                    if (rl_ann_clust[i].pu_var_count[j] > 0){
-                        int j_r = int(j/4);
-                        fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
-                    }
+            fs_outfile << this->rl_ann_clust[i].seed << '\t';
+            
+            int start_code = 4*rl_ann_clust[i].start;
+            int end_code = 4*rl_ann_clust[i].end + 3;
+            end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << j << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << rl_ann_clust[i].prop[j] << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j)
+                if (rl_ann_clust[i].pu_var_count[j] > 0)
+                    fs_outfile << rl_ann_clust[i].pu_var_count[j] << ',';
+            fs_outfile << '\t';
+            
+            for (auto j = start_code; j < end_code; ++j){
+                if (rl_ann_clust[i].pu_var_count[j] > 0){
+                    int j_r = int(j/4);
+                    fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
                 }
-                fs_outfile << '\t';
-                
-                fs_outfile << rl_ann_clust[i].neighbors_id;
             }
+            fs_outfile << '\t';
             
-            fs_outfile << endl;
+            fs_outfile << rl_ann_clust[i].neighbors_id;
         }
+        
+        fs_outfile << endl;
     }
+    
     
     fs_outfile.close();
         
@@ -1474,9 +1479,58 @@ bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> 
     return is_homo;
 }
 
-void Assembler::correct_contigs(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &var_cdf, const vector<bool> &temp_array, int min_cvg, double min_prop, double max_prop)
+void Assembler::find_nccontigs(vector<int64_t> &idx)
 {
-    /*vector<bool> temp_array_dual(temp_array.size(), false);
+    // get maximal encoded cons_seq
+    int64_t temp_size = 0;
+    for (int64_t i = 0; i < this->rl_ann_clust.size(); ++i)
+        for (int64_t j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j)
+            if (rl_ann_clust[i].cons_seq[j] > temp_size)
+                temp_size = rl_ann_clust[i].cons_seq[j];
+    ++temp_size;
+    
+    // generate a template vector
+    vector<bool> temp_vec(temp_size, false);
+
+    // pairwise compare cons_seq
+    for (int64_t i = 0; i < this->rl_ann_clust.size(); ++i){
+        // fill in template by the ith cons_seq
+        for (auto k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_vec[rl_ann_clust[i].cons_seq[k]] = true;
+        
+        bool is_nc = true;
+        int start_code = 4*rl_ann_clust[i].start;
+        int end_code = 4*rl_ann_clust[i].end +3;
+        for (int64_t j = 0; j < this->rl_ann_clust.size(); ++j){
+            if (j == i) continue;
+            if ((rl_ann_clust[j].start <= rl_ann_clust[i].start && rl_ann_clust[j].end > rl_ann_clust[i].end) || (rl_ann_clust[j].start < rl_ann_clust[i].start && rl_ann_clust[j].end >= rl_ann_clust[i].end) ){
+                int n_match = 0;
+                for (auto k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
+                    if (rl_ann_clust[j].cons_seq[k] >= start_code && rl_ann_clust[j].cons_seq[k] <= end_code){
+                        if (temp_vec[rl_ann_clust[j].cons_seq[k]])
+                            ++n_match;
+                        else
+                            break;
+                    }
+                }
+                if (n_match == rl_ann_clust[i].cons_seq.size())
+                    is_nc = false;
+            }
+            if(!is_nc) break;
+        }
+        if (is_nc)
+            idx.push_back(i);
+        
+        // clear template
+        for (auto k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_vec[rl_ann_clust[i].cons_seq[k]] = false;
+    }
+}
+
+
+/*void Assembler::correct_contigs(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &var_cdf, const vector<bool> &temp_array, int min_cvg, double min_prop, double max_prop)
+{
+    vector<bool> temp_array_dual(temp_array.size(), false);
     
     // correct each contig
     for (auto i = 0; i < rl_ann_clust.size(); ++i){
@@ -1486,8 +1540,8 @@ void Assembler::correct_contigs(const vector<vector<int> > &encode_data, const v
         for (auto j = 0; j < rl_ann_clust.size(); ++j){
             if (j == i) continue;
         }
-    }*/
-}
+    }
+}*/
 
 
 void Assembler::print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile)
