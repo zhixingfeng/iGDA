@@ -10,6 +10,8 @@
 		DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903220EE9BEF0050869D /* detectsingle.cpp */; };
 		DC15903720EEA0ED0050869D /* detectsinglesnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */; };
 		DC15903920EEA1170050869D /* test_detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903820EEA1170050869D /* test_detectsingle.cpp */; };
+		DC15933520EEC4FC0050869D /* prob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15933320EEC4FC0050869D /* prob.cpp */; };
+		DC15933720EEC53B0050869D /* test_prob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15933620EEC53B0050869D /* test_prob.cpp */; };
 		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
 		DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */; };
 		DC1F870F1EA6E01300D7CDD2 /* test_hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */; };
@@ -73,6 +75,9 @@
 		DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detectsinglesnv.cpp; sourceTree = "<group>"; };
 		DC15903620EEA0ED0050869D /* detectsinglesnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detectsinglesnv.h; sourceTree = "<group>"; };
 		DC15903820EEA1170050869D /* test_detectsingle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_detectsingle.cpp; sourceTree = "<group>"; };
+		DC15933320EEC4FC0050869D /* prob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prob.cpp; sourceTree = "<group>"; };
+		DC15933420EEC4FC0050869D /* prob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = prob.hpp; sourceTree = "<group>"; };
+		DC15933620EEC53B0050869D /* test_prob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_prob.cpp; sourceTree = "<group>"; };
 		DC1B41F41DF2385400093FF3 /* test_dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforest.cpp; sourceTree = "<group>"; };
 		DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hclust.cpp; sourceTree = "<group>"; };
 		DC1F870C1EA6AD2100D7CDD2 /* hclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hclust.h; sourceTree = "<group>"; };
@@ -2346,6 +2351,15 @@
 			path = detectsingle;
 			sourceTree = "<group>";
 		};
+		DC15933220EEC4FC0050869D /* prob */ = {
+			isa = PBXGroup;
+			children = (
+				DC15933320EEC4FC0050869D /* prob.cpp */,
+				DC15933420EEC4FC0050869D /* prob.hpp */,
+			);
+			path = prob;
+			sourceTree = "<group>";
+		};
 		DC1F870A1EA6ACF200D7CDD2 /* hclust */ = {
 			isa = PBXGroup;
 			children = (
@@ -2510,6 +2524,7 @@
 				DC9CABBA2081004E00494F50 /* test_recode.cpp */,
 				DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */,
 				DC15903820EEA1170050869D /* test_detectsingle.cpp */,
+				DC15933620EEC53B0050869D /* test_prob.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -2517,6 +2532,7 @@
 		DC930F371D5527CF00640B65 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				DC15933220EEC4FC0050869D /* prob */,
 				DCE2FA191FE1A75600E629D0 /* kseq.h */,
 				DC516BFF1FCDE4C500D324DB /* ssw */,
 				DCD493921FB4BCC20011F28B /* pcg */,
@@ -5989,6 +6005,7 @@
 				DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
 				DC229D9620E6CF8300EA6ADB /* alignreadersam.cpp in Sources */,
+				DC15933720EEC53B0050869D /* test_prob.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */,
 				DCAFB4C520B9E76D0092269F /* dforestsnvstxxl.cpp in Sources */,
@@ -6003,6 +6020,7 @@
 				DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */,
 				DC9CABBB2081004E00494F50 /* test_recode.cpp in Sources */,
 				DC9318571D5527D200640B65 /* windows_file_codecvt.cpp in Sources */,
+				DC15933520EEC4FC0050869D /* prob.cpp in Sources */,
 				DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */,
 				DC516C041FCDE4C500D324DB /* ssw.c in Sources */,
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,

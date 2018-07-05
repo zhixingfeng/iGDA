@@ -10,7 +10,7 @@
 #define iGDA_statistics_h
 
 #include <cmath>
-
+#include "../tools/prob/prob.hpp"
 
 inline double pnorm(double x)
 {
@@ -53,7 +53,19 @@ inline double binom_log_lr (double x, double n, double p0)
 }
 
 // binomial log bayes factor
-inline double binom_log_bf (double x, double n, double p0)
+inline double binom_log_bf(double x, double n, double p0)
+{
+    double a = 1;
+    double b = 1;
+    double log_H1 = log(r8_beta(x+a, n-x+b)) - log(r8_beta(a,b)) + log(1 - beta_cdf(p0, a, b));
+    double log_H0 = x*log(p0) + (n-x)*log(1-p0);
+    double log_bf = log_H1 - log_H0;
+    
+    return log_bf;
+}
+
+// binomial log bayes factor (legacy, actually it is a two-side test not an exact one-side test)
+inline double binom_log_bf_legacy (double x, double n, double p0)
 {
     double L_1 = lgamma(x+1) + lgamma(n-x+1) - lgamma(n+2);
     double L_0 = x*log(p0) +(n-x)*log(1-p0);
