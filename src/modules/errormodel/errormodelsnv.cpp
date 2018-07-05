@@ -201,7 +201,7 @@ void ErrorModelSNV::print_pileup(string out_file, const vector<BaseFreq> &pileup
     for (int i=0; i<(int)pileup.size(); i++){
         if (pileup[i].context.first=="" || pileup[i].context.second=="" || pileup[i].ref=='$')
             continue;
-        fs_out << i+1 << '\t' << pileup[i].context.first << '\t' << pileup[i].context.second << '\t';
+        fs_out << i << '\t' << pileup[i].context.first << '\t' << pileup[i].context.second << '\t';
         fs_out << pileup[i].ref << '\t';
         fs_out << pileup[i].nvar[0] << '\t';  // A
         fs_out << pileup[i].nvar[1] << '\t';  // C

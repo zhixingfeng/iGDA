@@ -35,6 +35,9 @@ public:
     // get reference
     bool getref(string filename);
     
+    // convert sam to m5
+    bool samtom5(string sam_file, string ref_file, string m5_file);
+    
 protected:
     string filename;
     seqan::BamFileIn bamFileIn;

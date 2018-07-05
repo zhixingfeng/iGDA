@@ -554,6 +554,26 @@ TEST_CASE("test cmpreads from sam file", "[hide]")
     
 }
 
+TEST_CASE("test convert sam to m5")
+{
+    string sam_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
+    string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam";
+    string ref_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.ref.fa";
+    
+    AlignReaderSam alignreadersam;
+    alignreadersam.samtom5(sam_file, ref_file, m5_file);
+
+    string cmd = "cut -f 1,8,9,10,17,18,19,20 -d ' ' ../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5 | md5";
+    system(cmd.c_str());
+    
+    cmd = "cut -f 1,8,9,10,17,18,19,20 -d ' ' ../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam | md5";
+    system(cmd.c_str());
+    
+}
+
+
+
+
 
 
 

@@ -37,7 +37,7 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist, pileup_var, pileup_reads" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist, pileup_var, pileup_reads, samtom5" << endl;
     cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
@@ -676,6 +676,17 @@ int main(int argc, const char * argv[])
             cout << cmd << endl; system(cmd.c_str());
             
             
+        }
+        
+        if (strcmp(argv[1], "samtom5")==0){
+            UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            
+            cmd.parse(argv2);
+            
+            AlignReaderSam alignreadersam;
+            alignreadersam.samtom5(samfileArg.getValue(), reffileArg.getValue(), m5fileArg.getValue());
         }
     }
     catch(const std::overflow_error& e) {
