@@ -554,7 +554,7 @@ TEST_CASE("test cmpreads from sam file", "[hide]")
     
 }
 
-TEST_CASE("test convert sam to m5")
+TEST_CASE("test convert sam to m5", "[hide]")
 {
     string sam_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam";
     string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam";

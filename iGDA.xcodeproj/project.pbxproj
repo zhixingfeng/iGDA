@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903220EE9BEF0050869D /* detectsingle.cpp */; };
+		DC15903720EEA0ED0050869D /* detectsinglesnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */; };
+		DC15903920EEA1170050869D /* test_detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903820EEA1170050869D /* test_detectsingle.cpp */; };
 		DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1B41F41DF2385400093FF3 /* test_dforest.cpp */; };
 		DC1F870D1EA6AD2100D7CDD2 /* hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */; };
 		DC1F870F1EA6E01300D7CDD2 /* test_hclust.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1F870E1EA6E01300D7CDD2 /* test_hclust.cpp */; };
@@ -65,6 +68,11 @@
 /* Begin PBXFileReference section */
 		DC0FEE821DF63561002B05FB /* sort_order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort_order.h; sourceTree = "<group>"; };
 		DC0FEE831DF6580E002B05FB /* basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basic.h; sourceTree = "<group>"; };
+		DC15903220EE9BEF0050869D /* detectsingle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detectsingle.cpp; sourceTree = "<group>"; };
+		DC15903320EE9BEF0050869D /* detectsingle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detectsingle.h; sourceTree = "<group>"; };
+		DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detectsinglesnv.cpp; sourceTree = "<group>"; };
+		DC15903620EEA0ED0050869D /* detectsinglesnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detectsinglesnv.h; sourceTree = "<group>"; };
+		DC15903820EEA1170050869D /* test_detectsingle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_detectsingle.cpp; sourceTree = "<group>"; };
 		DC1B41F41DF2385400093FF3 /* test_dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforest.cpp; sourceTree = "<group>"; };
 		DC1F870B1EA6AD2100D7CDD2 /* hclust.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hclust.cpp; sourceTree = "<group>"; };
 		DC1F870C1EA6AD2100D7CDD2 /* hclust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hclust.h; sourceTree = "<group>"; };
@@ -2327,6 +2335,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC15903120EE9BDD0050869D /* detectsingle */ = {
+			isa = PBXGroup;
+			children = (
+				DC15903220EE9BEF0050869D /* detectsingle.cpp */,
+				DC15903320EE9BEF0050869D /* detectsingle.h */,
+				DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */,
+				DC15903620EEA0ED0050869D /* detectsinglesnv.h */,
+			);
+			path = detectsingle;
+			sourceTree = "<group>";
+		};
 		DC1F870A1EA6ACF200D7CDD2 /* hclust */ = {
 			isa = PBXGroup;
 			children = (
@@ -2434,6 +2453,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DC15903120EE9BDD0050869D /* detectsingle */,
 				DC516C081FCF04B700D324DB /* alignment */,
 				DC2A18861F55E212001830AE /* assemble */,
 				DC3AA6C61F1811EE005D0DB1 /* sclust */,
@@ -2489,6 +2509,7 @@
 				DCE2FA161FE184BD00E629D0 /* test_stxxl.cpp */,
 				DC9CABBA2081004E00494F50 /* test_recode.cpp */,
 				DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */,
+				DC15903820EEA1170050869D /* test_detectsingle.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -5948,6 +5969,7 @@
 				DCE2FA171FE184BD00E629D0 /* test_stxxl.cpp in Sources */,
 				DC516C0B1FCF04DD00D324DB /* alignment.cpp in Sources */,
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
+				DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */,
 				DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC9318551D5527D200640B65 /* unique_path.cpp in Sources */,
@@ -5955,7 +5977,9 @@
 				DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */,
 				DC9318581D5527D200640B65 /* error_code.cpp in Sources */,
 				DC9318501D5527D200640B65 /* codecvt_error_category.cpp in Sources */,
+				DC15903920EEA1170050869D /* test_detectsingle.cpp in Sources */,
 				DC3AA6C91F18120D005D0DB1 /* sclust.cpp in Sources */,
+				DC15903720EEA0ED0050869D /* detectsinglesnv.cpp in Sources */,
 				DC2A18891F55E22B001830AE /* assembler.cpp in Sources */,
 				DC9318511D5527D200640B65 /* operations.cpp in Sources */,
 				DC9318561D5527D200640B65 /* utf8_codecvt_facet.cpp in Sources */,
