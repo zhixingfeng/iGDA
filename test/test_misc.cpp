@@ -573,7 +573,9 @@ TEST_CASE("test convert sam to m5", "[hide]")
 
 TEST_CASE("test binom_log_bf")
 {
-    cout << "binom_log_bf(10, 100, 0.1) = " << binom_log_bf(1, 100, 0.1);
+    cout << "binom_log_bf(10, 100, 0.1) = " << binom_log_bf(10, 100, 0.1) << endl;
+    cout << "binom_log_bf(1, 100, 0.1) = " << binom_log_bf(1, 100, 0.1) << endl;
+    cout << "binom_log_bf(1, 100, 0.5) = " << binom_log_bf(1, 100, 0.5) << endl;
 }
 
 

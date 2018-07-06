@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.082162"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "313"
             endingLineNumber = "313"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,13 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.082775"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "317"
             endingLineNumber = "317"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.083271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "323"
             endingLineNumber = "323"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -90,13 +90,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.083751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "320"
             endingLineNumber = "320"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,13 +106,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.084174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "319"
             endingLineNumber = "319"
             landmarkName = "TEST_CASE(&quot;test dist_hamming()&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,13 +122,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.0845391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "396"
             endingLineNumber = "396"
             landmarkName = "TEST_CASE(&quot;test pileup_var (input from encode_data) subset&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -284,13 +284,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.085026"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "490"
             endingLineNumber = "490"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -300,13 +300,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.0854059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "479"
             endingLineNumber = "479"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -316,13 +316,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.085749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "480"
             endingLineNumber = "480"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -332,13 +332,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.0861109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "481"
             endingLineNumber = "481"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -348,13 +348,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.086531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "482"
             endingLineNumber = "482"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -364,13 +364,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.086918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "484"
             endingLineNumber = "484"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -380,13 +380,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.087303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "485"
             endingLineNumber = "485"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -396,13 +396,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.087733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "486"
             endingLineNumber = "486"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -412,13 +412,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.088336"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "489"
             endingLineNumber = "489"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -428,13 +428,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "551906748.83267"
+            timestampString = "552587306.089478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "488"
             endingLineNumber = "488"
             landmarkName = "TEST_CASE(&quot;test get_consensus&quot;, &quot;[hide]&quot;)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

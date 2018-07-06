@@ -15,7 +15,8 @@ SRC_CXX = $(wildcard src/*.cpp) \
 	$(wildcard test/*.cpp) \
 	$(wildcard tools/boost/src/filesystem/*.cpp) \
 	$(wildcard tools/boost/src/system/*.cpp) \
-	$(wildcard tools/ssw/*.cpp) 
+	$(wildcard tools/ssw/*.cpp) \
+    $(wildcard tools/prob/*.cpp)
 
 SRC_C = $(wildcard tools/ssw/*.c)
 

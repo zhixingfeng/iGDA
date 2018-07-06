@@ -18,4 +18,5 @@ TEST_CASE("test cdf of beta distribution", "[hide]")
 TEST_CASE("test cdf of beta function", "[hide]")
 {
     cout << "r8_beta(2, 5) = " << r8_beta(2, 5) << endl;
+    cout << "r8_beta(1, 1) = " << r8_beta(1, 1) << endl;
 }
