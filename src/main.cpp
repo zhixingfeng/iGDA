@@ -17,6 +17,8 @@
 #include "../src/modules/hclust/hclust.h"
 #include "../src/modules/sclust/sclust.h"
 #include "../src/modules/assemble/assembler.h"
+#include "../src/modules/detectsingle/detectsinglesnv.h"
+
 #include "./misc/misc.h"
 
 #ifdef _UNITTEST
@@ -688,6 +690,26 @@ int main(int argc, const char * argv[])
             AlignReaderSam alignreadersam;
             alignreadersam.samtom5(samfileArg.getValue(), reffileArg.getValue(), m5fileArg.getValue());
         }
+        
+        // detect single loci
+        if (strcmp(argv[1], "detectsingle")==0){
+            UnlabeledValueArg<string> pileupfileArg("pileupfile", "path of pileup file", true, "", "pileupfile", cmd);
+            UnlabeledValueArg<string> contextfileArg("contextfile", "path of context file", true, "", "contextfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<double> minbfArg("b","minbf","minimal Bayes factor, default: 50", false , 50, "minbf", cmd);
+            ValueArg<double> minfreqArg("f","minfreq","minimal frequency, default: 0.01", false , 0.01, "minfreq", cmd);
+            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 20, "mincvg", cmd);
+            ValueArg<int> mincontextcvgArg("v","mincontextcvg","minimal context total coverage, default: 500", false , 500, "mincontextcvg", cmd);
+            
+            cmd.parse(argv2);
+            DetectSingleSNV detectsinglesnv;
+            DetectSingle *p_detectsingle = &detectsinglesnv;
+            p_detectsingle->loadcontexteffect(contextfileArg.getValue(), mincontextcvgArg.getValue());
+            p_detectsingle->detect(pileupfileArg.getValue(), outfileArg.getValue(), log(minbfArg.getValue()), minfreqArg.getValue(), mincvgArg.getValue());
+            
+        }
+        
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;

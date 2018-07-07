@@ -23,7 +23,7 @@ struct DetectSingleResult
     
     // detection
     double A_freq, C_freq, G_freq, T_freq;
-    double A_bf, C_bf, G_bf, T_bf;
+    double A_log_bf, C_log_bf, G_log_bf, T_log_bf;
     double A_freq_ref, C_freq_ref, G_freq_ref, T_freq_ref, cvg_ref;
     
     
@@ -39,7 +39,7 @@ public:
 public:
     virtual void loadcontexteffect(string contexteffect_file, int min_context_cvg = 500) = 0;
     virtual void savecontexteffect(string outfile) = 0;
-    virtual void detect(string pileup_file, string out_file, double min_bf = 10, double min_prop= 0.02, int min_cvg = 20) = 0;
+    virtual void detect(string pileup_file, string out_file, double min_log_bf = log(50), double min_prop= 0.01, int min_cvg = 20) = 0;
     
 protected:
     unordered_map<string, unordered_map<string, vector<double> > > contexteffect;

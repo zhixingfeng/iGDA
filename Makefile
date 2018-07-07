@@ -5,10 +5,11 @@ LIBS = -L tools/stxxl/build/local/stxxl/lib
 CXX_FLAGS = -pthread -std=c++14 -w -O3 -lstxxl -lz
 
 SRC_CXX = $(wildcard src/*.cpp) \
+    $(wildcard src/modules/detectsingle/*.cpp))\
 	$(wildcard src/modules/aligncoder/*.cpp)\
 	$(wildcard src/modules/alignreader/*.cpp)\
 	$(wildcard src/modules/dforest/*.cpp)\
-    	$(wildcard src/modules/errormodel/*.cpp)\
+	$(wildcard src/modules/errormodel/*.cpp)\
 	$(wildcard src/modules/hclust/*.cpp)\
 	$(wildcard src/modules/sclust/*.cpp)\
 	$(wildcard src/modules/assemble/*.cpp)\

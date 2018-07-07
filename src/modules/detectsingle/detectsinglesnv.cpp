@@ -66,7 +66,7 @@ void DetectSingleSNV::savecontexteffect(string outfile)
     fs_outfile.close();
 }
 
-void DetectSingleSNV::detect(string pileup_file, string out_file, double min_bf, double min_prop, int min_cvg)
+void DetectSingleSNV::detect(string pileup_file, string out_file, double min_log_bf, double min_prop, int min_cvg)
 {
     if (this->contexteffect.size() == 0)
         throw runtime_error("DetectSingleSNV::detect: no context effect loaded.");
@@ -95,16 +95,16 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_bf,
         cur_result.cvg = stoi(buf_vec[8]);
         
         cur_result.A_freq = cur_result.cvg == 0 ? -1 : double(cur_result.A_count) / cur_result.cvg;
-        cur_result.A_freq_ref = -1; cur_result.A_bf = -1;
+        cur_result.A_freq_ref = -1; cur_result.A_log_bf = -1;
         
         cur_result.C_freq = cur_result.cvg == 0 ? -1 :double(cur_result.C_count) / cur_result.cvg;
-        cur_result.C_freq_ref = -1; cur_result.C_bf = -1;
+        cur_result.C_freq_ref = -1; cur_result.C_log_bf = -1;
         
         cur_result.G_freq = cur_result.cvg == 0 ? -1 :double(cur_result.G_count) / cur_result.cvg;
-        cur_result.G_freq_ref = -1; cur_result.G_bf = -1;
+        cur_result.G_freq_ref = -1; cur_result.G_log_bf = -1;
         
         cur_result.T_freq = cur_result.cvg == 0 ? -1 :double(cur_result.T_count) / cur_result.cvg;
-        cur_result.T_freq_ref = -1; cur_result.T_bf = -1;
+        cur_result.T_freq_ref = -1; cur_result.T_log_bf = -1;
         
         cur_result.cvg_ref = -1;
         
@@ -122,25 +122,25 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_bf,
         // test A
         if (it_2->second[0] > 0){
             cur_result.A_freq_ref = it_2->second[0];
-            cur_result.A_bf = binom_log_bf(cur_result.A_count, cur_result.cvg, cur_result.A_freq_ref);
+            cur_result.A_log_bf = binom_log_bf(cur_result.A_count, cur_result.cvg, cur_result.A_freq_ref);
         }
         
         // test C
         if (it_2->second[1] > 0){
-            cur_result.C_freq_ref = it_2->second[0];
-            cur_result.C_bf = binom_log_bf(cur_result.C_count, cur_result.cvg, cur_result.C_freq_ref);
+            cur_result.C_freq_ref = it_2->second[1];
+            cur_result.C_log_bf = binom_log_bf(cur_result.C_count, cur_result.cvg, cur_result.C_freq_ref);
         }
         
         // test G
         if (it_2->second[2] > 0){
             cur_result.G_freq_ref = it_2->second[2];
-            cur_result.G_bf = binom_log_bf(cur_result.G_count, cur_result.cvg, cur_result.G_freq_ref);
+            cur_result.G_log_bf = binom_log_bf(cur_result.G_count, cur_result.cvg, cur_result.G_freq_ref);
         }
         
         // test T
         if (it_2->second[3] > 0){
             cur_result.T_freq_ref = it_2->second[3];
-            cur_result.G_bf = binom_log_bf(cur_result.G_count, cur_result.cvg, cur_result.G_freq_ref);
+            cur_result.G_log_bf = binom_log_bf(cur_result.G_count, cur_result.cvg, cur_result.G_freq_ref);
         }
         
         if (it_2->second[4] > 0)
@@ -156,7 +156,7 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_bf,
     this->print_result(out_file);
 }
 
-void DetectSingleSNV::print_result(string out_file, double min_bf, double min_prop, int min_cvg)
+void DetectSingleSNV::print_result(string out_file, double min_log_bf, double min_prop, int min_cvg)
 {
     ofstream fs_outfile;
     open_outfile(fs_outfile, out_file);
@@ -166,9 +166,9 @@ void DetectSingleSNV::print_result(string out_file, double min_bf, double min_pr
             continue;
         
         // check A
-        if (this->result[i].A_freq >= min_prop && this->result[i].A_bf >= min_bf){
+        if (this->result[i].A_freq >= min_prop && this->result[i].A_log_bf >= min_log_bf){
             fs_outfile << 4*this->result[i].locus << '\t';
-            fs_outfile << this->result[i].A_bf << '\t';
+            fs_outfile << this->result[i].A_log_bf << '\t';
             fs_outfile << this->result[i].A_freq << '\t';
             fs_outfile << this->result[i].A_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
@@ -176,9 +176,9 @@ void DetectSingleSNV::print_result(string out_file, double min_bf, double min_pr
         }
         
         // check C
-        if (this->result[i].C_freq >= min_prop && this->result[i].C_bf >= min_bf){
-            fs_outfile << 4*this->result[i].locus << '\t';
-            fs_outfile << this->result[i].C_bf << '\t';
+        if (this->result[i].C_freq >= min_prop && this->result[i].C_log_bf >= min_log_bf){
+            fs_outfile << 4*this->result[i].locus + 1 << '\t';
+            fs_outfile << this->result[i].C_log_bf << '\t';
             fs_outfile << this->result[i].C_freq << '\t';
             fs_outfile << this->result[i].C_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
@@ -186,9 +186,9 @@ void DetectSingleSNV::print_result(string out_file, double min_bf, double min_pr
         }
         
         // check G
-        if (this->result[i].G_freq >= min_prop && this->result[i].G_bf >= min_bf){
-            fs_outfile << 4*this->result[i].locus << '\t';
-            fs_outfile << this->result[i].G_bf << '\t';
+        if (this->result[i].G_freq >= min_prop && this->result[i].G_log_bf >= min_log_bf){
+            fs_outfile << 4*this->result[i].locus + 2 << '\t';
+            fs_outfile << this->result[i].G_log_bf << '\t';
             fs_outfile << this->result[i].G_freq << '\t';
             fs_outfile << this->result[i].G_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
@@ -196,9 +196,9 @@ void DetectSingleSNV::print_result(string out_file, double min_bf, double min_pr
         }
         
         // check T
-        if (this->result[i].T_freq >= min_prop && this->result[i].T_bf >= min_bf){
-            fs_outfile << 4*this->result[i].locus << '\t';
-            fs_outfile << this->result[i].T_bf << '\t';
+        if (this->result[i].T_freq >= min_prop && this->result[i].T_log_bf >= min_log_bf){
+            fs_outfile << 4*this->result[i].locus + 3 << '\t';
+            fs_outfile << this->result[i].T_log_bf << '\t';
             fs_outfile << this->result[i].T_freq << '\t';
             fs_outfile << this->result[i].T_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
