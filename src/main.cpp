@@ -14,8 +14,6 @@
 #include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstxxl.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
-#include "../src/modules/hclust/hclust.h"
-#include "../src/modules/sclust/sclust.h"
 #include "../src/modules/assemble/assembler.h"
 #include "../src/modules/detectsingle/detectsinglesnv.h"
 
@@ -39,8 +37,8 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, sclust, eval, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, mask, dist, pileup_var, pileup_reads, samtom5" << endl;
-    cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
+    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, dist, pileup_var, pileup_reads, samtom5" << endl;
+    //cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
 }
 
 int main(int argc, const char * argv[])
@@ -177,76 +175,6 @@ int main(int argc, const char * argv[])
             }
             
             
-        }
-        
-        // split cmpreads_file
-        if (strcmp(argv[1], "split") == 0){
-            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 15", false , 15, "maxsubdim", cmd);
-            
-            cmd.parse(argv2);
-            
-            SClust sclust;
-            sclust.split_subspace(cmpreadsfileArg.getValue(), outfileArg.getValue(), maxsubdimArg.getValue());
-        }
-
-        
-        // subspace clustering
-        if (strcmp(argv[1], "sclust") == 0){
-            // parse arguments
-            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
-            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
-            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
-            
-            ValueArg<int> maxsubdimArg("s","maxsubdim","maximal subspace dimension, default: 5", false , 5, "maxsubdim", cmd);
-            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.75", false , 0.75, "minCondProb", cmd);
-            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
-            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
-            ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
-            
-            cmd.parse(argv2);
-            
-            // make temporary directory 
-            string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
-            cout << shell_cmd << endl;
-            system(shell_cmd.c_str());
-            
-            
-            SClust sclust;
-            sclust.run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(),
-                       outfileArg.getValue(), tmpdirArg.getValue(), maxsubdimArg.getValue(),
-                       mincondprobrg.getValue(), mincountArg.getValue(), mincvgArg.getValue(),
-                       nthreadArg.getValue());
-
-        }
-        if (strcmp(argv[1], "summary") == 0){
-            UnlabeledValueArg<string> sclustfileArg("sclustfile", "path of sclust file", true, "", "sclustfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            ValueArg<double> minlogLRArg("l","minlogLR","minimal logLR between joint and marigional probability, default: 0",
-                                         false , 0, "minlogLR", cmd);
-            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
-            ValueArg<int> mincvgArg("v","cvg","minimal coverage of subspace: 10", false , 10, "mincvg", cmd);
-            
-            
-            cmd.parse(argv2);
-            
-            SClust sclust;
-            sclust.summary(sclustfileArg.getValue(), outfileArg.getValue(), minlogLRArg.getValue(),
-                           mincountArg.getValue(), mincvgArg.getValue());
-        }
-        
-        if (strcmp(argv[1], "eval") == 0){
-            UnlabeledValueArg<string> patternfileArg("patternfile", "path of pattern file", true, "", "patternfile", cmd);
-            UnlabeledValueArg<string> snpfileArg("snpfile", "path of snp file", true, "", "snpfile", cmd);
-            
-            cmd.parse(argv2);
-            
-            string out_file = patternfileArg.getValue() + ".eval";
-            SClust sclust;
-            sclust.eval_pattern(patternfileArg.getValue(), snpfileArg.getValue(), out_file);
         }
         
         // convert binary cmpreadsfile to text
@@ -416,20 +344,6 @@ int main(int argc, const char * argv[])
         }
 
         
-        // mask encode file
-        if (strcmp(argv[1], "mask")==0) {
-            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
-            UnlabeledValueArg<string> regionfileArg("regionfile", "path of region file", true, "", "regionfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
-            SwitchArg is0basedArg("b", "0based", "is 0-based", cmd, false);
-            
-            cmd.parse(argv2);
-            
-            AlignCoderSNV aligncodersnv;
-            HClust hclust(&aligncodersnv);
-            hclust.mask(encodefileArg.getValue(), regionfileArg.getValue(), outfileArg.getValue(), is0basedArg.getValue());
-            
-        }
         // calculate pairwise distance of reads
         if (strcmp(argv[1], "dist")==0) {
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);

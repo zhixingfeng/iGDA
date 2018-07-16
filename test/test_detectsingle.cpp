@@ -19,7 +19,7 @@ TEST_CASE("test DetectSingleSNV::loadcontext", "[hide]")
     p_detectsingle->savecontexteffect("../results/encode_from_sam/NCTC3000.context.reconstructed_mincvg_500");
 }
 
-TEST_CASE("test DetectSingleSNV::detect")
+TEST_CASE("test DetectSingleSNV::detect", "[hide]")
 {
     string context_file = "../results/encode_from_sam/NCTC3000.context";
     string pileup_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.pileup";
