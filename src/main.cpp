@@ -37,8 +37,16 @@ using namespace TCLAP;
 void print_usage()
 {
     cout << "igda [command]" << endl;
-    cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, dist, pileup_var, pileup_reads, samtom5" << endl;
-    //cout << "bamtofa: convert bam file to fasta file, convert sequence mapped to negative strand to its reverse complementary sequence" << endl;
+    cout << "command = encode : binary coding SNVs of each aligned read." << endl;
+    cout << "          cmpreads : pairwise comparison of encoded reads."<< endl;
+    cout << "          dforest : detecting SNVs by dforest algorithm (unable to detect SNVs if no reads cover multiple real SNVs)." << endl;
+    cout << "          contexteffect : pileup reads and get context effect." << endl;
+    cout << "          detectsingle : detecting SNVs locus by locus (lower sensitivity compared to dforest but able to detect SNVs if no reads cover multiple real SNVs)." << endl;
+    cout << "          rdim : removing undetected SNVs from encoded reads." << endl;
+    cout << "          ann : clustering reads by adaptive nearest neighbor clustering." << endl;
+    
+    //cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, dist, pileup_var, pileup_reads, samtom5" << endl;
+
 }
 
 int main(int argc, const char * argv[])

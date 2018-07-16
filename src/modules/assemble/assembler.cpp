@@ -603,38 +603,6 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             rl_ann_clust.push_back(cur_cons);
         }
         
-        /*for (auto j : cur_neighbors_topn){
-            pileup_var_online_count(cur_pu_var_count, encode_data[j]);
-            pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
-        }
-        
-        
-        // check if neighbors are homogeneous
-        bool is_homo = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
-        if (is_homo){
-            //cout << i << endl;
-            // if neighbors are homogeneous, keep adding more neighbors according to their distance to the seed
-            for (auto j = cur_neighbors_topn.size(); j < cur_neighbors.size(); ++j){
-                pileup_var_online_count(cur_pu_var_count, encode_data[cur_neighbors[j]]);
-                pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
-                
-                // check if add the current reads violate homogeneouty
-                bool is_cont = this->check_pileup(cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
-                
-                if (!is_cont){
-                    pileup_var_online_count_pop(cur_pu_var_count, encode_data[cur_neighbors[j]]);
-                    pileup_reads_m5_online_count_pop(cur_pu_reads_count, reads_range[cur_neighbors[j]]);
-                    break;
-                }
-            }
-            
-            // get consensus
-            ConsensusSeq cur_cons;
-            cur_cons.seed = encode_data[i];
-            cur_cons.neighbors_id = cur_neighbors;
-            get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, min_cvg);
-            rl_ann_clust.push_back(cur_cons);
-        }*/
     }
     cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
     

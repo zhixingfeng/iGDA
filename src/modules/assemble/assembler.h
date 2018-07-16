@@ -144,11 +144,6 @@ protected:
     double min_condprob;
     double max_condprob;
     
-    //vector<AdjEdge> adj_edge_list;
-    
-    vector<uint64_t> temp_var;
-    vector<uint64_t> temp_read;
-    uint64_t counter;
     
     vector<ConsensusSeq> rl_ann_clust;
     
