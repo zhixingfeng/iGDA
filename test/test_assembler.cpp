@@ -69,56 +69,6 @@ TEST_CASE("test assembler::jaccard_index_min()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::correct_reads()", "[hide]")
-{
-    string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
-    string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
-    string cmpreads_diff_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.5000.cmpreads.diff";
-    string out_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
-    
-    Assembler assembler;
-    assembler.correct_reads(encode_file, align_file, cmpreads_diff_file, out_file);
-}
-
-TEST_CASE("test assembler::check_contained_reads()", "[hide]")
-{
-    //string align_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
-    //string encode_file = "../data/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000";
-    string align_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.m5";
-    string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected";
-    vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
-    vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
-    
-    Assembler assembler;
-    vector<int> read_sel_idx = assembler.check_contained_reads(encode_data, reads_range);
-    
-    ofstream fs_outfile;
-    open_outfile(fs_outfile, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.noncontained_idx");
-    fs_outfile << read_sel_idx << endl;
-    
-    fs_outfile.close();
-    cout << read_sel_idx.size() << endl;
-    
-    select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
-    select_lines(read_sel_idx, align_file, align_file + ".non_contained");
-    
-    string out_file = encode_file + ".non_contained" + ".check_followers";
-    vector<int> idx_with_follower = assembler.find_follower_reads(encode_data, reads_range, read_sel_idx, out_file);
-    select_lines(idx_with_follower, encode_file, encode_file + ".non_contained.with_follower");
-    select_lines(idx_with_follower, align_file, align_file + ".non_contained.with_follower");
-}
-
-TEST_CASE("test assembler::olc()", "[hide]")
-{
-    string align_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.m5.non_contained";
-    string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained";
-    vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
-    vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
-    //cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75)
-    Assembler assembler(5, 20, 10, 0.15, 0.75);
-    assembler.olc(encode_file, align_file, "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.encode.rdim.5000.corrected.non_contained.olc", "", 5, 2, 0.7, 0.5, false);
-}
-
 TEST_CASE("test assembler::haplo_seq_construct()", "[hide]")
 {
     string encode_file = "../results/detect_comb/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var.encode";

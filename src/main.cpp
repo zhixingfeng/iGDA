@@ -392,66 +392,6 @@ int main(int argc, const char * argv[])
             assembler.jaccard_index_min(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minjaccardArg.getValue());
         }
 
-        if (strcmp(argv[1], "check_contained_reads")==0) {
-            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
-            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
-            //UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
-            
-            cmd.parse(argv2);
-            string encode_file = encodefileArg.getValue();
-            string align_file = alignfileArg.getValue();
-            
-            cout << "load encode_data and reads_range" << endl;
-            vector<vector<int> > encode_data; loadencodedata(encode_data, encode_file);
-            vector<ReadRange> reads_range; loadreadsrange(reads_range, align_file);
-            
-            cout << "check non-contained reads" << endl;
-            Assembler assembler;
-            vector<int> read_sel_idx = assembler.check_contained_reads(encode_data, reads_range);
-            
-            cout << "output results" << endl;
-            select_lines(read_sel_idx, encode_file, encode_file + ".non_contained");
-            select_lines(read_sel_idx, align_file, align_file + ".non_contained");
-
-            string outfile = encode_file + ".non_contained.idx";
-            ofstream fs_outfile;
-            open_outfile(fs_outfile, outfile);
-            for (int i=0; i < (int) read_sel_idx.size(); ++i)
-                fs_outfile << read_sel_idx[i] << endl;
-            fs_outfile.close();
-            
-            outfile = encode_file + ".non_contained.check_follower";
-            vector<int> idx_with_follower = assembler.find_follower_reads(encode_data, reads_range, read_sel_idx, outfile);
-            select_lines(idx_with_follower, encode_file, encode_file + ".non_contained.with_follower");
-            select_lines(idx_with_follower, align_file, align_file + ".non_contained.with_follower");
-        }
-        
-        if (strcmp(argv[1], "olc") == 0){
-            // parse arguments
-            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
-            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            UnlabeledValueArg<string> followerfileArg("followerfile", "path of follower file", false, "", "followerfile", cmd);
-            
-            ValueArg<int> minfollowerArg("f","minfollower","minimal number of followers for each nc-read, default: 5", false , 5, "minfollower", cmd);
-            
-            ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
-            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
-            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
-            ValueArg<double> maxcondprobrg("q","maxCondProb","maximal conditional probability, default: 0.75", false , 0.75, "maxCondProb", cmd);
-            
-            ValueArg<int> minmatchArg("n","minmatch","minimal number of matches between two reads to do test, default: 2", false , 2, "minmatch", cmd);
-            ValueArg<double> minsimArg("m","minsim","minimal similarity between two reads, default: 0.7", false , 0.7, "minsim", cmd);
-            ValueArg<double> minpropArg("k","minprop","minimal proportion of match, default: 0", false , 0, "minprop", cmd);
-            SwitchArg iscontainArg("r", "contain", "is check contained reads, default : false", cmd, false);
-            
-            cmd.parse(argv2);
-            Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
-                                mincondprobrg.getValue(), maxcondprobrg.getValue());
-            assembler.olc(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), followerfileArg.getValue(), minfollowerArg.getValue(),
-                          minmatchArg.getValue(), minsimArg.getValue(), minpropArg.getValue(), iscontainArg.getValue());
-        }
-        
         // pileup encode
         if (strcmp(argv[1], "pileup_var")==0) {
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
@@ -474,28 +414,6 @@ int main(int argc, const char * argv[])
             int64_t n_reads;
             vector<vector<int> > pu_reads = pileup_reads(alignfileArg.getValue(), n_reads);
             print_pileup(pu_reads, outfileArg.getValue());
-        }
-
-        // correct reads
-        if (strcmp(argv[1], "correct") == 0){
-            // parse arguments
-            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
-            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
-            UnlabeledValueArg<string> cmpreadsfileArg("cmpreads_diff_file", "path of cmpreads_diff file", true, "", "cmpreads_diff_file", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
-            
-            
-            ValueArg<int> candsizeArg("s","candsize","maximal candidate size, default: 5", false , 5, "candsize", cmd);
-            ValueArg<int> mincountArg("c","mincount","minimal count of variants: 10", false , 10, "mincount", cmd);
-            ValueArg<double> mincondprobrg("p","minCondProb","minimal conditional probability, default: 0.15", false , 0.15, "minCondProb", cmd);
-            ValueArg<double> maxcondprobrg("q","maxCondProb","maximal conditional probability, default: 0.75", false , 0.75, "maxCondProb", cmd);
-
-            cmd.parse(argv2);
-            Assembler assembler(candsizeArg.getValue(), 20, mincountArg.getValue(),
-                                mincondprobrg.getValue(), maxcondprobrg.getValue());
-            vector<int> read_ids = assembler.correct_reads(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), true);
-            select_lines(read_ids, alignfileArg.getValue(), outfileArg.getValue() + ".m5");
-            
         }
         
         // reconstrust reference from m5 file

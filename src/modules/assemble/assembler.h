@@ -110,24 +110,10 @@ public:
     // construct haplotype sequence
     void haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq);
     
-    // correct reads
-    vector<int> correct_reads(string encode_file, string align_file, string cmpreads_diff_file, string out_file, bool is_filter = true);
-    void correct_reads_core(CmpreadsDiffRead &cmpread);
-    void test_locus(int focal_locus, const vector<int> &loci_set, double &logLR, double &condprob, int &n_y_xp, int &n_xp);
     
-    // check contained reads
-    vector<int> check_contained_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, bool rm_empty_centroid = true);
-    vector<int> find_follower_reads(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &idx, string out_file);
-    
-    // overlap layout consensus
-    void olc(string encode_file, string align_file, string out_file, string follower_file = "", int min_follower = 5,
-             int min_match = 2, double min_sim = 0.7, double min_match_prop = 0, bool is_check_contained_reads = false);
-
     void run(string encode_file, string align_file, string out_file);
     
-    // greedy clustering
-    void greedy_clust(string encode_file, string align_file, string cmpreads_diff_file, string out_file, double min_prop = 0.75, int min_count = 10);
-    
+       
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, double max_dist = 0.02);
