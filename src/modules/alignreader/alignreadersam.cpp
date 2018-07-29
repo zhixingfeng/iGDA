@@ -55,66 +55,108 @@ bool AlignReaderSam::readline(Align &align) {
     align.tStrand = hasFlagRC(record) ? '-' : '+';
     align.mapQV = record.mapQ;
     
-    // check if alignment is solf clipped
+    // get alignment of the current record
+    if (record.rID == seqan::BamAlignmentRecord::INVALID_REFID)
+        throw runtime_error("AlignReaderSam::readline: invalid refid");
+    
+    if (record.rID >= seqan::length(this->ref_ids)){
+        throw runtime_error("AlignReaderSam::readline: unavailable refID " + to_string(record.rID) );
+    }
+    
+    seqan::Dna5String cur_refseq = ref_seqs[record.rID];
+    int64_t seq_shift = 0;
+    int64_t ref_shift = 0;
+    align.qAlignedSeq.clear();
+    align.tAlignedSeq.clear();
+    align.matchPattern.clear();
     for (auto i = 0; i < seqan::length(record.cigar); ++i){
-        if (record.cigar[i].operation == 'S' || record.cigar[i].operation == 's')
-            throw runtime_error("the sam file is soft clipped, try hard clip");
-    }
-    
-    if (seqan::length(this->ref_ids) == 0 || seqan::length(this->ref_seqs) == 0)
-        return true;
-    // get alignment if reference file is provided
-    typedef seqan::Align<seqan::Dna5String> TAlign;
-    typedef seqan::Row<TAlign>::Type TRow;
-    typedef seqan::Iterator<TRow>::Type TRowIterator;
-    
-    TAlign cur_align;
-    
-    if (record.rID != seqan::BamAlignmentRecord::INVALID_REFID)
-        bamRecordToAlignment(cur_align, ref_seqs[record.rID], record);
-
-    //cout << cur_align << endl;
-    TRow row_ref = seqan::row(cur_align,0);
-    TRow row_read = seqan::row(cur_align,1);
-    if (seqan::length(row_ref) != seqan::length(row_read)){
-        cout << "row_ref = " << row_ref << endl;
-        cout << "row_read = " << row_read << endl;
-        cout << "seqan::length(row_ref) = " << seqan::length(row_ref) << endl;
-        cout << "seqan::length(row_read) = " << seqan::length(row_read) << endl;
-        throw runtime_error("AlignReaderSam::readline: seqan::length(row_ref) != seqan::length(row_read)");
-    }
-    align.tAlignedSeq.resize(seqan::length(row_ref));
-    align.qAlignedSeq.resize(seqan::length(row_read));
-    align.matchPattern.resize(seqan::length(row_ref));
-    
-    TRowIterator it_row_ref = begin(row_ref);
-    TRowIterator it_end = end(row_ref);
-    TRowIterator it_row_read = begin(row_read);
-    
-    int i = 0;
-    for (; it_row_ref != it_end; ++it_row_ref, ++it_row_read){
-        if (!seqan::isGap(it_row_ref)){
-            align.tAlignedSeq[i] = seqan::Dna5(*it_row_ref);
-            if (!seqan::isGap(it_row_read)){
-                align.qAlignedSeq[i] = seqan::Dna5(*it_row_read);
-                if (align.tAlignedSeq[i] == align.qAlignedSeq[i])
-                    align.matchPattern[i] = '|';
-                else
-                    align.matchPattern[i] = '*';
-            }else{
-                align.qAlignedSeq[i] = '-';
-                align.matchPattern[i] = '*';
-            }
-        }else{
-            align.tAlignedSeq[i] = '-';
-            if (!seqan::isGap(it_row_read)){
-                align.qAlignedSeq[i] = seqan::Dna5(*it_row_read);
-                align.matchPattern[i] = '*';
-            }else{
-                throw runtime_error("AlignReaderSam::readline: gap vs gap!");
-            }
+        switch (record.cigar[i].operation) {
+            case 'M':
+                // match or mismatch
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( record.seq[seq_shift] );
+                    align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
+                    if (record.seq[seq_shift] == cur_refseq[record.beginPos + ref_shift]){
+                        align.matchPattern.push_back('|');
+                    }
+                    ++seq_shift;
+                    ++ref_shift;
+                }
+                break;
+                
+            case 'I':
+                // insertion
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( record.seq[seq_shift] );
+                    align.tAlignedSeq.push_back( '-' );
+                    align.matchPattern.push_back('*');
+                    ++seq_shift;
+                }
+                break;
+            case 'D':
+                // deletion
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( '-' );
+                    align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
+                    align.matchPattern.push_back('*');
+                    ++ref_shift;
+                }
+                break;
+            case 'N':
+                // skip, same as D
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( '-' );
+                    align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
+                    align.matchPattern.push_back('*');
+                    ++ref_shift;
+                }
+                break;
+            case 'S':
+                // soft clip, ignore
+                for (auto j = 0; j < record.cigar[i].count; ++j)
+                    ++seq_shift;
+                break;
+            case 'H':
+                // hard clip, ignore and do nothing
+                break;
+            case 'P':
+                // forbid padding sam
+                throw runtime_error("AlignReaderSam::readline: padding SAM is not allowed");
+                break;
+            case '=':
+                // match
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( record.seq[seq_shift] );
+                    align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
+                    if (record.seq[seq_shift] == cur_refseq[record.beginPos + ref_shift]){
+                        align.matchPattern.push_back('|');
+                    }else{
+                        throw runtime_error("AlignReaderSam::readline: cigar is = but seq and ref are different");
+                    }
+                    ++seq_shift;
+                    ++ref_shift;
+                }
+                break;
+            case 'X':
+                // mismatch
+                for (auto j = 0; j < record.cigar[i].count; ++j){
+                    align.qAlignedSeq.push_back( record.seq[seq_shift] );
+                    align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
+                    if (record.seq[seq_shift] == cur_refseq[record.beginPos + ref_shift]){
+                        throw runtime_error("AlignReaderSam::readline: cigar is = but seq and ref are different");
+                    }else{
+                        align.matchPattern.push_back('*');
+                    }
+                    ++seq_shift;
+                    ++ref_shift;
+                }
+                break;
+                
+            default:
+                throw runtime_error("AlignReaderSam::readline: unknown cigar type");
+                break;
         }
-        ++i;
+        
     }
    
     
