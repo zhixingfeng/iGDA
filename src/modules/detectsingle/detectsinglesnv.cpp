@@ -153,7 +153,7 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_log
     fs_infile.close();
     
     // print results
-    this->print_result(out_file);
+    this->print_result(out_file, min_log_bf, min_prop, min_cvg);
 }
 
 void DetectSingleSNV::print_result(string out_file, double min_log_bf, double min_prop, int min_cvg)

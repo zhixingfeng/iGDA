@@ -30,3 +30,16 @@ TEST_CASE("test DetectSingleSNV::detect", "[hide]")
     p_detectsingle->detect(pileup_file, out_file);
     
 }
+
+
+TEST_CASE("test DetectSingleSNV::detect (pt)")
+{
+    string context_file = "../results/pt/NCTC3000.context";
+    string pileup_file = "../results/pt/align_to_consensus.pileup";
+    string out_file = "../results/pt/align_to_consensus.pileup.detectsingle";
+    DetectSingleSNV detectsinglesnv;
+    DetectSingle *p_detectsingle = &detectsinglesnv;
+    p_detectsingle->loadcontexteffect(context_file);
+    p_detectsingle->detect(pileup_file, out_file, log(0.0000001), 0.00001);
+    
+}
