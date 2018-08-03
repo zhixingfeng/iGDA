@@ -485,7 +485,6 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
     this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
-    //cout << nc_reads_id << endl;
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -552,8 +551,9 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         
         // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
         // pileup topn neighbors
-        int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
+        //int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
         int cur_pu_reads_size = get_pu_read_size(reads_range, cur_neighbors);
+        int cur_pu_var_size = 4*(cur_pu_reads_size-1) + 3 + 1;
         
         if (cur_pu_var_size == 0 || cur_pu_reads_size == 0)
             continue;
