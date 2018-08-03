@@ -32,7 +32,7 @@ TEST_CASE("test DetectSingleSNV::detect", "[hide]")
 }
 
 
-TEST_CASE("test DetectSingleSNV::detect (pt)")
+TEST_CASE("test DetectSingleSNV::detect (pt)", "[hide]")
 {
     string context_file = "../results/pt/NCTC3000.context";
     string pileup_file = "../results/pt/align_to_consensus.pileup";

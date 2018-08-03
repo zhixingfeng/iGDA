@@ -517,6 +517,7 @@ int main(int argc, const char * argv[])
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
             cout << cmd << endl; system(cmd.c_str());
             
+            assembler.print_nc_reads_id(outfileArg.getValue() + ".nc_idx");
             
         }
         

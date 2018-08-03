@@ -484,7 +484,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    vector<int> nc_reads_id = this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
+    this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
     //cout << nc_reads_id << endl;
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
@@ -670,7 +670,17 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
         
 }
 
-vector<int> Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
+void Assembler::print_nc_reads_id(string outfile)
+{
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, outfile);
+    for (int64_t i = 0; i < this->nc_reads_id.size(); ++i)
+        fs_outfile << nc_reads_id[i] << endl;
+    fs_outfile.close();
+}
+
+
+void Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -693,7 +703,7 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
     vector<bool> temp_array(genome_size*4+3, false);
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
-    vector<int> nc_reads_id;
+    nc_reads_id.clear();
     for (auto i = 0; i < encode_data.size(); ++i){
         if ((i+1)%1000 == 0)
             cout << "processed " << i+1 << " / " << encode_data.size() << endl;
@@ -734,7 +744,7 @@ vector<int> Assembler::find_ncreads(string encode_file, string align_file, strin
             nc_reads_id.push_back(i);
     }
     cout << "processed " << encode_data.size() << " / " << encode_data.size() << endl;
-    return nc_reads_id;
+
 }
 
 bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, int start, int end, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
