@@ -50,7 +50,7 @@ bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_f
     call_pileup_reads(align_file);
     
     cout << "filter encode_data" << endl;
-    //this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
+    this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     // single thread
     if (n_thread==1){
         run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq);
