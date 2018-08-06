@@ -23,7 +23,7 @@ struct queue_compare
 {
     bool operator()(const ReadMatch& l, const ReadMatch& r)
     {
-        return l.match_rate < r.match_rate;
+        return l.match_rate > r.match_rate;
     }
 };
 
@@ -217,7 +217,8 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
     
     // pairwise comparison
     for (int i=0; i<(int)encode_data.size(); i++){
-        if ((i+1)%1000==0) cout << i+1 << endl;
+        if ((i+1)%1000==0)
+            cout << i+1 << endl;
         
         // fill the template array by the variants in the ith read
         for (int j = 0; j < encode_data[i].size(); j++)
@@ -261,30 +262,35 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             }
             
             // keep topn matches
-            the_matches.push(cur_the_matches);
-            /*if (the_matches.size() < topn){
+            //the_matches.push(cur_the_matches);
+            if (the_matches.size() < topn){
                 the_matches.push(cur_the_matches);
             }else{
                 if (cur_the_matches.match_rate > the_matches.top().match_rate){
                     the_matches.pop();
                     the_matches.push(cur_the_matches);
                 }
-            }*/
+            }
         }
         
         // print topn matches
-        //while(!the_matches.empty()){
-        for (auto i = 0; i < topn; ++i){
+        while(!the_matches.empty()){
+        //for (auto i = 0; i < topn; ++i){
+            //cout << "the_matches.size() = " << the_matches.size() << endl;
             if (the_matches.empty())
                 break;
             ReadMatch tmp_match = the_matches.top();
             // skip matches with size < 2 if is_rm_single is true
             if (is_rm_single){
-                if (tmp_match.matches.size() < 2)
+                if (tmp_match.matches.size() < 2){
+                    the_matches.pop();
                     continue;
+                }
             }else{
-                if (tmp_match.matches.size() == 0)
+                if (tmp_match.matches.size() == 0){
+                    the_matches.pop();
                     continue;
+                }
             }
             // print results
             if (is_binary){

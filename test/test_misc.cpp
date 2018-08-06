@@ -584,6 +584,16 @@ TEST_CASE("test binom_log_bf", "[hide]")
     cout << "binom_log_bf(4, 373, 0.006426349) = " << binom_log_bf(4, 373, 0.006426349) << endl;
 }
 
+TEST_CASE("test cmpreads (fast version)", "[hide]")
+{
+    string encode_file = "../results/pt/igda_results/align_to_consensus.encode.5000";
+    string m5_file = "../results/pt/igda_results/align_to_consensus.m5.5000";
+    string cmpreads_file = "../results/pt/igda_results/align_to_consensus.cmpreads.5000";
+    
+    cmpreads_topn(encode_file, m5_file, cmpreads_file, 20, 0.5);
+    
+}
+
 
 
 
