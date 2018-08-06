@@ -341,8 +341,10 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
         // only keep variants covered by reads
         bool is_done = false;
         for (int k = 0; k <= 3; ++k){
-            if (4*i+k > pu_var.size()-1)
+            if (4*i+k > pu_var.size()-1){
                 is_done = true;
+                break;
+            }
             for (int j = 0; j < (int)pu_var[4*i+k].size(); ++j){
                 if (temp_vec[pu_var[4*i+k][j]] == i)
                     pu_var_ft[4*i+k].push_back(pu_var[4*i+k][j]);
