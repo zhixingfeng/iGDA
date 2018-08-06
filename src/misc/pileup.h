@@ -324,7 +324,7 @@ inline void print_pileup(const vector<vector<int> > &pileup_data, string outfile
 
 inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var, const vector<vector<int> > &pu_read, int64_t n_reads)
 {
-    if (pu_var.size() > 4*pu_read.size()+3){
+    if (pu_var.size()-1 > 4*(pu_read.size()-1)+3){
         cout << "pu_var.size() = " << pu_var.size() << endl;
         cout << "pu_read.size() = " << pu_read.size() << endl;
         throw runtime_error("filter_pileup_var(): pu_var.size() > 4*pu_read.size()");
@@ -334,7 +334,7 @@ inline vector<vector<int> > filter_pileup_var(const vector<vector<int> > &pu_var
     vector<int> temp_vec(n_reads, -1);
     
     for (int i = 0; i < (int)pu_read.size(); ++i){
-        if (i > int ((pu_var.size()-1) / 4))
+        if (4*i+3 > (int)pu_var.size())
             break;
 
         // fill in temp_vec
