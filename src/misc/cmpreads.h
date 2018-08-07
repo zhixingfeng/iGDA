@@ -186,7 +186,7 @@ inline bool cmpreads_topn_diff(string encode_file, string align_file, string out
 
 // compare reads and use top n as candidates (read data from files)
 inline bool cmpreads_topn(string encode_file, string align_file, string out_file, int topn = 20, double min_overlap = 0.5,
-                          bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true)
+                          bool is_rm_single=true, bool is_binary=true, bool is_print_read_id=false, bool is_condprob=true, bool is_jaccard = true)
 {
     // load encode data
     vector<vector<int> > encode_data;
@@ -242,6 +242,7 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
                 continue;
             
             ReadMatch cur_the_matches;
+            
             // get size of overlap of the two reads
             cur_the_matches.start = reads_range[i].first > reads_range[j].first ? reads_range[i].first : reads_range[j].first;
             cur_the_matches.end = reads_range[i].second < reads_range[j].second ? reads_range[i].second : reads_range[j].second;
@@ -250,24 +251,47 @@ inline bool cmpreads_topn(string encode_file, string align_file, string out_file
             if (n_overlap < min_overlap * (reads_range[i].second - reads_range[i].first + 1))
                 continue;
             
+            // get union of the two reads
+            int n_union = 0;
+            
+            for (auto k = 0; k < encode_data[i].size(); ++k){
+                if (encode_data[i][k] >= 4*cur_the_matches.start && encode_data[i][k] <= 4*cur_the_matches.end + 3)
+                    ++n_union;
+            }
+            
+            for (auto k = 0; k < encode_data[j].size(); ++k){
+                if (encode_data[j][k] >= 4*cur_the_matches.start && encode_data[j][k] <= 4*cur_the_matches.end + 3)
+                    ++n_union;
+            }
             
             // get intersection between two reads
             vector<int> cur_match;
-            for (int k = 0; k < encode_data[j].size(); k++)
-                if (temp_array[encode_data[j][k]] == i)
+            for (int k = 0; k < encode_data[j].size(); k++){
+                if (temp_array[encode_data[j][k]] == i){
                     cur_match.push_back(encode_data[j][k]);
-            
+                    --n_union;
+                }
+            }
+            if (n_union < 0)
+                throw runtime_error("cmpreads_topn(): n_union < 0");
             
             cur_the_matches.matches = cur_match;
             cur_the_matches.n_overlap = n_overlap;
             
-            if (is_condprob){
-                if (encode_data[j].size() > 0)
-                    cur_the_matches.match_rate = (double) cur_match.size() / encode_data[i].size();
+            if (is_jaccard){
+                if (n_union > 0)
+                    cur_the_matches.match_rate = (double) cur_match.size() / n_union;
                 else
                     cur_the_matches.match_rate = 0;
             }else{
-                cur_the_matches.match_rate = (double) cur_match.size() / n_overlap;
+                if (is_condprob){
+                    if (encode_data[j].size() > 0)
+                        cur_the_matches.match_rate = (double) cur_match.size() / encode_data[i].size();
+                    else
+                        cur_the_matches.match_rate = 0;
+                }else{
+                    cur_the_matches.match_rate = (double) cur_match.size() / n_overlap;
+                }
             }
             
             // keep topn matches
