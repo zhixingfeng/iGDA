@@ -23,7 +23,16 @@ struct queue_compare
 {
     bool operator()(const ReadMatch& l, const ReadMatch& r)
     {
-        return l.match_rate > r.match_rate;
+        if(l.match_rate != r.match_rate)
+            return l.match_rate > r.match_rate;
+        
+        if (l.matches.size() != r.matches.size())
+            return l.matches.size() > r.matches.size();
+        
+        if (l.matches.size() != 0)
+            return l.matches[0] > r.matches[0];
+        
+        return true;
     }
 };
 
