@@ -78,6 +78,8 @@ bool AlignReaderSam::readline(Align &align) {
                     align.tAlignedSeq.push_back( cur_refseq[record.beginPos + ref_shift] );
                     if (record.seq[seq_shift] == cur_refseq[record.beginPos + ref_shift]){
                         align.matchPattern.push_back('|');
+                    }else{
+                        align.matchPattern.push_back('*');
                     }
                     ++seq_shift;
                     ++ref_shift;
