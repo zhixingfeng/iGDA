@@ -575,6 +575,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         vector<int> cur_pu_reads_count(cur_pu_reads_size, 0);
         
         for (auto j : cur_neighbors){
+            cout << "j=" <<j<<endl;
+            cout << encode_data[j] << endl;
             pileup_var_online_count(cur_pu_var_count, encode_data[j]);
             pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
         }
