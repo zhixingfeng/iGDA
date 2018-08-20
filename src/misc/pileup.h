@@ -134,16 +134,21 @@ inline vector<int> pileup_var_count(const vector<vector<int> > &encode_data, con
 }
 
 // pileup count online
-inline void pileup_var_online_count(vector<int> &pu_count, const vector<int> &cur_encode_data)
+inline void pileup_var_online_count(vector<int> &pu_count, const vector<int> &cur_encode_data, unordered_set<int64_t> &mod_idx )
 {
-    for (auto i = 0; i < cur_encode_data.size(); ++i)
+    for (auto i = 0; i < cur_encode_data.size(); ++i){
         ++pu_count[cur_encode_data[i]];
+        mod_idx.insert(cur_encode_data[i]);
+    }
 }
 
 inline void pileup_var_online_count_pop(vector<int> &pu_count, const vector<int> &cur_encode_data)
 {
-    for (auto i = 0; i < cur_encode_data.size(); ++i)
+    for (auto i = 0; i < cur_encode_data.size(); ++i){
         --pu_count[cur_encode_data[i]];
+        if (pu_count[cur_encode_data[i]] < 0)
+            throw runtime_error("pu_count[cur_encode_data[i]] < 0");
+    }
 }
 
 
@@ -285,16 +290,24 @@ inline vector<int> pileup_reads_m5_count(const vector<ReadRange> &reads_range, c
     return pu_count;
 }
 
-inline void pileup_reads_m5_online_count(vector<int> &pu_count, const ReadRange &cur_reads_range)
+inline void pileup_reads_m5_online_count(vector<int> &pu_count, const ReadRange &cur_reads_range, ReadRange &mod_range)
 {
-    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
+    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i){
         ++pu_count[i];
+        if (cur_reads_range.first < mod_range.first)
+            mod_range.first = cur_reads_range.first;
+        if (cur_reads_range.second > mod_range.second)
+            mod_range.second = cur_reads_range.second;
+    }
 }
 
 inline void pileup_reads_m5_online_count_pop(vector<int> &pu_count, const ReadRange &cur_reads_range)
 {
-    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i)
+    for(int i=cur_reads_range.first; i<=cur_reads_range.second; ++i){
         --pu_count[i];
+        if (pu_count[i] < 0)
+            throw runtime_error("pu_count[i] < 0");
+    }
 }
 
 

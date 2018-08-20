@@ -509,6 +509,9 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     // create a template to compare reads
     vector<bool> temp_array(genome_size*4+3, false);
     
+    vector<int> cur_pu_var_count(4*(genome_size-1)+3+1, 0);
+    vector<int> cur_pu_reads_count(genome_size, 0);
+    
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
     int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
@@ -551,34 +554,12 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         
         // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
         // pileup topn neighbors
-        //int cur_pu_var_size = get_pu_var_size(encode_data, cur_neighbors);
-        int cur_pu_reads_size = get_pu_read_size(reads_range, cur_neighbors);
-        int cur_pu_var_size = 4*(cur_pu_reads_size-1) + 3 + 1;
         
-        if (cur_pu_var_size == 0 || cur_pu_reads_size == 0)
-            continue;
-        
-        if (cur_pu_var_size < 0 || cur_pu_reads_size < 0){
-            cout << "cur_pu_var_size" << cur_pu_var_size << endl;
-            cout << "cur_pu_reads_size" << cur_pu_reads_size << endl;
-            throw runtime_error("cur_pu_var_size < 0 || cur_pu_reads_size < 0");
-        }
-        
-        if (floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1){
-            cout << "cur_pu_var_size = " << cur_pu_var_size << endl;
-            cout << "cur_pu_reads_size = " << cur_pu_reads_size << endl;
-            cout << "cur_neighbors = " << cur_neighbors << endl;
-            throw runtime_error("ann_clust: floor(double(cur_pu_var_size-1) / 4) > cur_pu_reads_size - 1");
-        }
-
-        vector<int> cur_pu_var_count(cur_pu_var_size, 0);
-        vector<int> cur_pu_reads_count(cur_pu_reads_size, 0);
-        
+        unordered_set<int64_t> mod_idx_var;
+        ReadRange mod_range(reads_range[cur_neighbors[0]]);
         for (auto j : cur_neighbors){
-            cout << "j=" <<j<<endl;
-            cout << encode_data[j] << endl;
-            pileup_var_online_count(cur_pu_var_count, encode_data[j]);
-            pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j]);
+            pileup_var_online_count(cur_pu_var_count, encode_data[j], mod_idx_var);
+            pileup_reads_m5_online_count(cur_pu_reads_count, reads_range[j], mod_range);
         }
         
         // check pileup of all the neighbors
@@ -604,6 +585,13 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             get_consensus(cur_cons, cur_pu_var_count, cur_pu_reads_count, reads_range[i].first, reads_range[i].second, min_cvg);
             rl_ann_clust.push_back(cur_cons);
         }
+        
+        // clean cur_pu_var_count and cur_pu_reads_count
+        for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+            cur_pu_var_count[*it] = 0;
+        for (auto j = mod_range.first; j <= mod_range.second; ++j)
+            cur_pu_reads_count[j] = 0;
+        
         
     }
     cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;

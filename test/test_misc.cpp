@@ -417,8 +417,9 @@ TEST_CASE("test pileup_var_count (input from encode_data) subset", "[hide]")
     // pileup count online
     int pu_size = get_pu_var_size(encode_data, idx);
     vector<int> pu_var_online_count(pu_size, 0);
+    unordered_set<int64_t> mod_idx;
     for (auto i : idx)
-        pileup_var_online_count(pu_var_online_count, encode_data[i]);
+        pileup_var_online_count(pu_var_online_count, encode_data[i], mod_idx);
 
     
     REQUIRE(pu_var_count_ctrl == pu_var_count);
@@ -465,8 +466,9 @@ TEST_CASE("test pileup_reads_m5_count (input from reads_range) subset", "[hide]"
     // pileup count online
     int pu_size = get_pu_read_size(reads_range, idx);
     vector<int> pu_reads_online_count(pu_size, 0);
+    ReadRange mod_range;
     for (auto i : idx)
-        pileup_reads_m5_online_count(pu_reads_online_count, reads_range[i]);
+        pileup_reads_m5_online_count(pu_reads_online_count, reads_range[i], mod_range);
 
     REQUIRE(pu_reads_count_ctrl == pu_reads_count);
     REQUIRE(pu_reads_count_ctrl == pu_reads_online_count);
