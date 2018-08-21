@@ -378,11 +378,13 @@ inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, c
         cout << "pu_read_count.size()" << pu_read_count.size() << endl;
         throw runtime_error("ann_clust: floor(double(pu_var_count.size()-1) / 4) > pu_read_count.size() - 1");
     }
-    cons.pu_var_count = pu_var_count;
-    cons.pu_read_count = pu_read_count;
+    //cons.pu_var_count = pu_var_count;
+    //cons.pu_read_count = pu_read_count;
     cons.start = start;
     cons.end = end;
-    cons.prop.resize(pu_var_count.size(),-1);
+    vector<double> prop(pu_var_count.size(),-1);
+    //cons.prop.resize(pu_var_count.size(),-1);
+    
     if (pu_var_count.size()==0)
         return;
     
@@ -412,13 +414,16 @@ inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, c
         }
         
         if (pu_read_count[i_r] >= min_cvg){
-            cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
+            //cons.prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
+            prop[i] = (double) pu_var_count[i] / pu_read_count[i_r];
         }else{
-            cons.prop[i] = -1;
+            //cons.prop[i] = -1;
+            prop[i] = -1;
             cons.end = i_r;
             break;
         }
-        if (cons.prop[i] > 0.5)
+        //if (cons.prop[i] > 0.5)
+        if (prop[i] > 0.5)
             cons.cons_seq.push_back(i);
         
         // to be removed
