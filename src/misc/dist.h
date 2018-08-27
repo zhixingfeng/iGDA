@@ -27,18 +27,25 @@ inline double dist_hamming(const vector<int> &encode_1, const vector<int> &encod
         return -2;
     
     // compare reads
-    int n_miss = (int)encode_1.size();
+    //int n_miss = (int)encode_1.size();
     
+    int n_miss = 0;
     // read_1
-    for (auto i = 0; i < encode_1.size(); ++i)
-        temp_array[encode_1[i]] = true;
+    for (auto i = 0; i < encode_1.size(); ++i){
+        if (encode_1[i] >= 4*range_overlap.first && encode_1[i] <= 4*range_overlap.second+3){
+            temp_array[encode_1[i]] = true;
+            ++n_miss;
+        }
+    }
     
     // read_2
     for (auto i = 0; i < encode_2.size(); ++i){
-        if (temp_array[encode_2[i]])
-            --n_miss;
-        else
-            ++n_miss;
+        if (encode_2[i] >= 4*range_overlap.first && encode_2[i] <= 4*range_overlap.second+3){
+            if (temp_array[encode_2[i]])
+                --n_miss;
+            else
+                ++n_miss;
+        }
     }
 
     // clear up temp_array

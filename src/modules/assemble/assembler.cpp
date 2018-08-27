@@ -483,9 +483,9 @@ void Assembler::run(string encode_file, string align_file, string out_file)
 void Assembler::ann_clust(string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)
 {
     /*------------ find nc-reads -----------*/
-    //cout << "find non-contained reads" << endl;
-    //this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
-    //cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    cout << "find non-contained reads" << endl;
+    this->find_ncreads(encode_file, align_file, var_file, topn, max_dist);
+    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
     cout << "use non-contained reads as seed to cluster" << endl;
@@ -501,8 +501,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         throw runtime_error("reads_range.size() != encode_data.size()");
     
     // to be removed
-    nc_reads_id.resize(encode_data.size());
-    iota(nc_reads_id.begin(), nc_reads_id.end(), 0);
+    //nc_reads_id.resize(encode_data.size());
+    //iota(nc_reads_id.begin(), nc_reads_id.end(), 0);
     
     // get genome size
     size_t genome_size = get_genome_size(reads_range);
@@ -517,6 +517,10 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     vector<int> cur_pu_reads_count(genome_size, 0);
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    // to be removed
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, encode_file + ".igda_dist");
+
     int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
         ++n_nc_reads;
@@ -536,6 +540,9 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             if (cur_dist < 0) continue;
             
             topn_id.push(pair<int,double>(j,cur_dist));
+            
+            // to be removed
+            fs_outfile << i << '\t' << j << '\t' << cur_dist << endl;
         }
 
         // get max_nn neighbors
@@ -598,6 +605,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         
         
     }
+    // to be removed
+    fs_outfile.close();
     cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
     
     // correct contigs
