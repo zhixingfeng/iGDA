@@ -27,6 +27,12 @@ public:
     bool encode(const StripedSmithWaterman::Alignment &alignment, const string &read, const string &ref,
                     int start_pos, vector<int> &encode_data);
 
+    // recode according to detected variants
+    bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len);
+    
+protected:
+    bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
+    int realign(seqan::Align<string, seqan::ArrayGaps> &cur_realign, const string &qseq, const string &rseq);
 };
 
 #endif /* defined(__iGDA__aligncodersnv__) */

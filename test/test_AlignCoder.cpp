@@ -137,6 +137,33 @@ TEST_CASE("test AlignCoderSNV::encode sam format", "[hide]")
     
 }
 
+TEST_CASE("test AlignCoderSNV::recode()")
+{
+    string m5_file = "../results/alignment_penalty/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.m5";
+    string var_file = "../results/alignment_penalty/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.var";
+    string recode_file = "../results/alignment_penalty/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.recode";
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->recode(m5_file, var_file, recode_file, 10, 10);
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

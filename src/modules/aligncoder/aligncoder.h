@@ -13,6 +13,17 @@
 #include "../alignreader/alignreader.h"
 #include "../alignreader/alignreaderm5.h"
 #include "../../../tools/tools.h"
+#include <seqan/align.h>
+
+struct VarData
+{
+public:
+    VarData(int64_t a_locus, int64_t a_base, int64_t a_code):locus(a_locus), base(a_base), code(a_code){}
+    int64_t locus;
+    char base;
+    int64_t code;
+};
+
 
 class AlignCoder
 {
@@ -23,6 +34,8 @@ public:
     virtual bool encode(string alignfile, string outfile)=0;
     virtual pair<int, char> decode(int code)=0; // int is position, char is base
     virtual int binary_code(int pos, char base)=0; 
+    
+    virtual bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)=0;
     
     inline void setAlignReader(AlignReader * a_p_alignreader){p_alignreader = a_p_alignreader;}
     

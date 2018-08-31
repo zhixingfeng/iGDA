@@ -157,3 +157,233 @@ bool AlignCoderSNV::encode(const StripedSmithWaterman::Alignment &alignment, con
 }
 
 
+
+bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)
+{
+    // load var_file
+    vector<VarData> var_data;
+    int64_t max_code = 0;
+    ifstream fs_varfile;
+    open_infile(fs_varfile, var_file);
+    while(true){
+        string buf;
+        getline(fs_varfile, buf);
+        if(fs_varfile.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        
+        var_data.push_back(VarData(stod(buf_vec[0]), buf_vec[1][0], stod(buf_vec[2])));
+        if (int64_t(stod(buf_vec[2])) > max_code)
+            max_code = int64_t(stod(buf_vec[2]));
+    }
+    fs_varfile.close();
+    
+    // generate template for var_data
+    if (max_code > pow(2, 34))
+        throw runtime_error("max_code > 2^34");
+    vector<bool> var_data_temp(max_code + 1, false);
+    
+    // fill template of var_data
+    for (int64_t i = 0; i < var_data.size(); ++i)
+        var_data_temp[var_data[i].code] = true;
+    
+    
+    // scan m5_file and recode
+    if (p_alignreader==NULL)
+        throw runtime_error("AlignCoderSNV::recode(): p_alignreader has not be set.");
+    ofstream p_outfile;
+    open_outfile(p_outfile, recode_file);
+    
+    p_alignreader->open(m5_file);
+    Align align;
+    int nline = 0;
+    while(p_alignreader->readline(align)){
+        ++nline;
+        
+        // expections
+        int alen = (int) align.matchPattern.size();
+        if ( !(align.qAlignedSeq.size()==alen && align.tAlignedSeq.size()==alen) )
+            throw runtime_error("incorrect match patter in line " + to_string(nline));
+        if (align.qStrand != '+')
+            throw runtime_error("qStrand should be + in line " + to_string(nline));
+        
+        // reverse alignment if it is aligned to negative strand
+        if (align.tStrand != '+'){
+            align.qAlignedSeq = getrevcomp(align.qAlignedSeq);
+            align.tAlignedSeq = getrevcomp(align.tAlignedSeq);
+        }
+        
+        // encode
+        int cur_pos = align.tStart;
+        for (int i=0; i<alen; i++){
+            if (align.tAlignedSeq[i]=='-')
+                continue;
+            
+            // realign if hit detected variants
+            int score_A = -1000000;
+            int score_C = -1000000;
+            int score_G = -1000000;
+            int score_T = -1000000;
+            int score_ref = -1000000;
+            bool is_var = false;
+            
+            string cur_qseq;
+            string cur_rseq;
+            pair<string, string> context;
+            if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
+                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
+                if (!rl){
+                    ++cur_pos;
+                    continue;
+                }
+                
+                for (auto j = i - context.first.size() + 1; j <= i + context.second.size(); ++j){
+                    if (align.qAlignedSeq[j]!='-')
+                        cur_qseq.push_back(align.qAlignedSeq[j]);
+                }
+                string cur_rseq = context.first + context.second;
+                seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                score_ref = this->realign(cur_realign, cur_qseq, cur_rseq);
+                
+            }
+            
+            if (var_data_temp[4*cur_pos]){
+                if (align.tAlignedSeq[i] == 'A'){
+                    char err_msg[1000];
+                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is A, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
+                    throw runtime_error(err_msg);
+                }
+                is_var = true;
+            }
+            
+            if (var_data_temp[4*cur_pos+1]){
+                if (align.tAlignedSeq[i] == 'C'){
+                    char err_msg[1000];
+                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is C, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
+                    throw runtime_error(err_msg);
+                }
+                is_var = true;
+            }
+            
+            if (var_data_temp[4*cur_pos+2]){
+                if (align.tAlignedSeq[i] == 'G'){
+                    char err_msg[1000];
+                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is G, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
+                    throw runtime_error(err_msg);
+                }
+                is_var = true;
+            }
+            
+            if (var_data_temp[4*cur_pos+3]){
+                if (align.tAlignedSeq[i] == 'T'){
+                    char err_msg[1000];
+                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is T, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
+                    throw runtime_error(err_msg);
+                }
+                is_var = true;
+            }
+            
+            
+            /*if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
+                pair<string, string> context;
+                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
+                if (rl){
+                    string cur_qseq;
+                    for (auto j = i - context.first.size() + 1; j <= i + context.second.size(); ++j){
+                        if (align.qAlignedSeq[j]!='-')
+                            cur_qseq.push_back(align.qAlignedSeq[j]);
+                    }
+                    string cur_rseq = context.first + context.second;
+                    
+                    // realign use global alignment
+                    seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                    
+                    int cur_score = this->realign(cur_realign, cur_qseq, cur_rseq);
+                    
+                    cout << cur_score << endl;
+                    cout << cur_realign << endl;
+                    int x = 1;
+                    
+                }
+            }*/
+            
+            ++cur_pos;
+        }
+        p_outfile << endl;
+    }
+    
+    p_alignreader->close();
+    
+    
+    p_outfile.close();
+    
+    
+    return true;
+}
+
+bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAlignedSeq, pair<string,string> &context)
+{
+    int n_base, k;
+    
+    // search left
+    n_base = 0; k = 0;
+    char cur_base = tAlignedSeq[i];
+    string context_left("");
+    while (n_base<=left){
+        k++;
+        if (i - k < 0)
+            return false;
+        if (tAlignedSeq[i-k] != cur_base && tAlignedSeq[i-k] != '-'){
+            cur_base = tAlignedSeq[i-k];
+            n_base++;
+        }
+        
+    }
+    k--;
+    while (k>=0){
+        if (tAlignedSeq[i-k]!='-')
+            context_left.push_back(tAlignedSeq[i-k]);
+        k--;
+    }
+    
+    // search right
+    n_base = 0; k = 0;
+    cur_base = tAlignedSeq[i];
+    string context_right("");
+    while (n_base <= right){
+        k++;
+        if (i + k >= tAlignedSeq.size())
+            return false;
+        if (tAlignedSeq[i+k] != cur_base && tAlignedSeq[i+k] != '-'){
+            cur_base = tAlignedSeq[i+k];
+            n_base++;
+        }
+    }
+    k--;
+    for (int j=i+1; j<=i+k; j++){
+        if (tAlignedSeq[j]!='-')
+            context_right.push_back(tAlignedSeq[j]);
+    }
+    context.first = context_left;
+    context.second = context_right;
+    return true;
+}
+
+
+int AlignCoderSNV::realign(seqan::Align<string, seqan::ArrayGaps> &cur_realign, const string &qseq, const string &rseq)
+{
+    seqan::resize(seqan::rows(cur_realign),2);
+    seqan::assignSource(seqan::row(cur_realign, 0), qseq);
+    seqan::assignSource(seqan::row(cur_realign, 1), rseq);
+    
+    int cur_score = seqan::globalAlignment(cur_realign, seqan::Score<int, seqan::Simple>(2, -4, -2, -4), seqan::AffineGaps());
+    return cur_score;
+}
+
+
+
+
+
+
+
+
