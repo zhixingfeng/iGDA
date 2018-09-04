@@ -181,7 +181,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     fs_varfile.close();
     
     // fill template of var_data
-    vector<bool> var_data_temp(max_code + 1, false);
+    vector<bool> var_data_temp(max_code + 4, false);
     for (int64_t i = 0; i < var_data.size(); ++i)
         var_data_temp[var_data[i].code] = true;
     
@@ -197,7 +197,6 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     int nline = 0;
     while(p_alignreader->readline(align)){
         ++nline;
-        //cout << nline << endl;
         
         // expections
         int alen = (int) align.matchPattern.size();
@@ -215,12 +214,12 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         // encode
         int cur_pos = align.tStart;
         for (int i=0; i<alen; i++){
-            //cout << "i=" << i <<',';
             if (align.tAlignedSeq[i]=='-')
                 continue;
             
-            if (4*cur_pos+3 > max_code)
+            if (4*cur_pos+3 > max_code + 3)
                 break;
+            
             // realign if hit detected variants
             int score_A = MIN_SCORE;
             int score_C = MIN_SCORE;
@@ -229,6 +228,12 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             int score_ref = MIN_SCORE;
             bool is_var = false;
 
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_A;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_C;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_G;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_T;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_ref;
+            
             string cur_qseq;
             string cur_rseq;
             pair<string, string> context;
@@ -248,8 +253,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                         cur_qseq.push_back(align.qAlignedSeq[j]);
                 }
                 cur_rseq = context.first + context.second;
-                seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                score_ref = this->realign(cur_realign, cur_qseq, cur_rseq);
+                score_ref = this->realign(cur_realign_ref, cur_qseq, cur_rseq);
                 
             }else{
                 ++cur_pos;
@@ -267,8 +271,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 if (cur_rseq.size() != context.first.size() + context.second.size())
                     throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
                 cur_rseq[context.first.size()-1] = 'A';
-                seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                score_A = this->realign(cur_realign, cur_qseq, cur_rseq);
+                score_A = this->realign(cur_realign_A, cur_qseq, cur_rseq);
                 
             }
             
@@ -282,8 +285,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 if (cur_rseq.size() != context.first.size() + context.second.size())
                     throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
                 cur_rseq[context.first.size()-1] = 'C';
-                seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                score_C = this->realign(cur_realign, cur_qseq, cur_rseq);
+                score_C = this->realign(cur_realign_C, cur_qseq, cur_rseq);
 
             }
             
@@ -297,8 +299,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 if (cur_rseq.size() != context.first.size() + context.second.size())
                     throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
                 cur_rseq[context.first.size()-1] = 'G';
-                seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                score_G = this->realign(cur_realign, cur_qseq, cur_rseq);
+                score_G = this->realign(cur_realign_G, cur_qseq, cur_rseq);
 
             }
             
@@ -312,8 +313,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 if (cur_rseq.size() != context.first.size() + context.second.size())
                     throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
                 cur_rseq[context.first.size()-1] = 'T';
-                seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                score_T = this->realign(cur_realign, cur_qseq, cur_rseq);
+                score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
 
             }
             

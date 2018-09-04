@@ -587,6 +587,26 @@ int main(int argc, const char * argv[])
             
         }
         
+        // recode
+        if (strcmp(argv[1], "recode")==0){
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> varfileArg("varfile", "path of variants file", true, "", "varfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> leftlenArg("l","leftlen","length of the upstream context, default: 10", false , 10, "leftlen", cmd);
+            ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 10", false , 10, "rightlen", cmd);
+            
+            cmd.parse(argv2);
+            
+            AlignCoderSNV aligncodersnv;
+            AlignReaderM5 alignreaderm5;
+            AlignCoder *p_aligncoder = &aligncodersnv;
+            p_aligncoder->setAlignReader(&alignreaderm5);
+
+            p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue());
+        }
+
+        
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;
