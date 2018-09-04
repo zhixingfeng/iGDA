@@ -424,6 +424,42 @@ int main(int argc, const char * argv[])
             print_pileup(pu_reads, outfileArg.getValue());
         }
         
+        // pileup count
+        if (strcmp(argv[1], "pileup_count")==0) {
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            // pileup var
+            vector<vector<int> > encode_data;
+            loadencodedata(encode_data, encodefileArg.getValue());
+            vector<int> pu_var_count = pileup_var_count(encode_data);
+            
+            // pileup read
+            vector<ReadRange> reads_range;
+            loadreadsrange(reads_range, alignfileArg.getValue());
+            vector<int> pu_reads_count = pileup_reads_m5_count(reads_range);
+            
+            if (4*(pu_reads_count.size()-1)+3 < pu_var_count.size()-1)
+                throw runtime_error("encodefile and alignfile don't match");
+            
+            // print
+            ofstream fs_outfile;
+            open_outfile(fs_outfile, outfileArg.getValue());
+            for (auto i=0; i < pu_var_count.size(); ++i){
+                if (pu_var_count[i]==0)
+                    continue;
+                double prop = pu_reads_count[int(i/4)] > 0 ? (double)pu_var_count[i] / pu_reads_count[int(i/4)] : 0;
+                AlignCoderSNV aligncoder;
+                pair<int, char> dc = aligncoder.decode(i);
+                fs_outfile << dc.first << '\t' << dc.second << '\t' << i << '\t' << pu_var_count[i] << '\t' << pu_reads_count[int(i/4)] << '\t' << prop << endl;
+            }
+            fs_outfile.close();
+            
+        }
+        
         // reconstrust reference from m5 file
         if (strcmp(argv[1], "recons_ref") == 0){
             // parse arguments

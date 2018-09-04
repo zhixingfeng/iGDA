@@ -222,16 +222,18 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             if (4*cur_pos+3 > max_code)
                 break;
             // realign if hit detected variants
-            int score_A = -1000000;
-            int score_C = -1000000;
-            int score_G = -1000000;
-            int score_T = -1000000;
-            int score_ref = -1000000;
+            int score_A = MIN_SCORE;
+            int score_C = MIN_SCORE;
+            int score_G = MIN_SCORE;
+            int score_T = MIN_SCORE;
+            int score_ref = MIN_SCORE;
             bool is_var = false;
-            
+
             string cur_qseq;
             string cur_rseq;
             pair<string, string> context;
+            
+            // align local sequence to the referece
             if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
                 bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
                 if (!rl){
@@ -239,23 +241,35 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                     continue;
                 }
                 
+                is_var = true;
+                
                 for (auto j = i - context.first.size() + 1; j <= i + context.second.size(); ++j){
                     if (align.qAlignedSeq[j]!='-')
                         cur_qseq.push_back(align.qAlignedSeq[j]);
                 }
-                string cur_rseq = context.first + context.second;
+                cur_rseq = context.first + context.second;
                 seqan::Align<string, seqan::ArrayGaps> cur_realign;
                 score_ref = this->realign(cur_realign, cur_qseq, cur_rseq);
                 
+            }else{
+                ++cur_pos;
+                continue;
             }
             
+            // align local sequence to the putative variants
             if (var_data_temp[4*cur_pos]){
                 if (align.tAlignedSeq[i] == 'A'){
                     char err_msg[1000];
                     sprintf(err_msg, "read %d: detect variant is equal to reference. var is A, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
                     throw runtime_error(err_msg);
                 }
-                is_var = true;
+                
+                if (cur_rseq.size() != context.first.size() + context.second.size())
+                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
+                cur_rseq[context.first.size()-1] = 'A';
+                seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                score_A = this->realign(cur_realign, cur_qseq, cur_rseq);
+                
             }
             
             if (var_data_temp[4*cur_pos+1]){
@@ -264,7 +278,13 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                     sprintf(err_msg, "read %d: detect variant is equal to reference. var is C, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
                     throw runtime_error(err_msg);
                 }
-                is_var = true;
+                
+                if (cur_rseq.size() != context.first.size() + context.second.size())
+                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
+                cur_rseq[context.first.size()-1] = 'C';
+                seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                score_C = this->realign(cur_realign, cur_qseq, cur_rseq);
+
             }
             
             if (var_data_temp[4*cur_pos+2]){
@@ -273,7 +293,13 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                     sprintf(err_msg, "read %d: detect variant is equal to reference. var is G, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
                     throw runtime_error(err_msg);
                 }
-                is_var = true;
+            
+                if (cur_rseq.size() != context.first.size() + context.second.size())
+                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
+                cur_rseq[context.first.size()-1] = 'G';
+                seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                score_G = this->realign(cur_realign, cur_qseq, cur_rseq);
+
             }
             
             if (var_data_temp[4*cur_pos+3]){
@@ -282,7 +308,34 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                     sprintf(err_msg, "read %d: detect variant is equal to reference. var is T, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
                     throw runtime_error(err_msg);
                 }
-                is_var = true;
+                
+                if (cur_rseq.size() != context.first.size() + context.second.size())
+                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
+                cur_rseq[context.first.size()-1] = 'T';
+                seqan::Align<string, seqan::ArrayGaps> cur_realign;
+                score_T = this->realign(cur_realign, cur_qseq, cur_rseq);
+
+            }
+            
+            // recode
+            if (score_ref > MIN_SCORE){
+                if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
+                    throw runtime_error("score_ref > MIN_SCORE but A,C,G,T == MIN_SCORE");
+                // A
+                if (score_A > score_C && score_A > score_G && score_A > score_T && score_A > score_ref)
+                    p_outfile << 4*cur_pos << '\t';
+                
+                // C
+                if (score_C > score_A && score_C > score_G && score_C > score_T && score_C > score_ref)
+                    p_outfile << 4*cur_pos+1 << '\t';
+                
+                // G
+                if (score_G > score_A && score_G > score_C && score_G > score_T && score_G > score_ref)
+                    p_outfile << 4*cur_pos+2 << '\t';
+                
+                // T
+                if (score_T > score_A && score_T > score_C && score_T > score_G && score_T > score_ref)
+                    p_outfile << 4*cur_pos+3 << '\t';
             }
             
             ++cur_pos;

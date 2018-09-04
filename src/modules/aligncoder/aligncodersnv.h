@@ -10,6 +10,8 @@
 #define __iGDA__aligncodersnv__
 
 #include "aligncoder.h"
+#define MIN_SCORE -1000000
+
 
 class AlignCoderSNV : public AlignCoder
 {
