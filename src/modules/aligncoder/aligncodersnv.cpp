@@ -162,7 +162,6 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
 {
     // load var_file
     vector<VarData> var_data;
-    int64_t max_code = 0;
     ifstream fs_varfile;
     open_infile(fs_varfile, var_file);
     while(true){
@@ -171,16 +170,17 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         if(fs_varfile.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
-        
         var_data.push_back(VarData(stod(buf_vec[0]), buf_vec[1][0], stod(buf_vec[2])));
-        if (int64_t(stod(buf_vec[2])) > max_code)
-            max_code = int64_t(stod(buf_vec[2]));
     }
     fs_varfile.close();
     
     // generate template for var_data
-    if (max_code > pow(2, 34))
-        throw runtime_error("max_code > 2^34");
+    vector<ReadRange> m5_range;
+    loadreadsrange(m5_range, m5_file);
+    int64_t max_code = -1;
+    for (auto i = 0; i < m5_range.size(); ++i)
+        if (4*m5_range[i].second+3 > max_code)
+            max_code = 4*m5_range[i].second+3;
     vector<bool> var_data_temp(max_code + 1, false);
     
     // fill template of var_data
@@ -199,6 +199,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     int nline = 0;
     while(p_alignreader->readline(align)){
         ++nline;
+        //cout << nline << endl;
         
         // expections
         int alen = (int) align.matchPattern.size();
@@ -216,6 +217,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         // encode
         int cur_pos = align.tStart;
         for (int i=0; i<alen; i++){
+            //cout << "i=" << i <<',';
             if (align.tAlignedSeq[i]=='-')
                 continue;
             
@@ -282,30 +284,6 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 }
                 is_var = true;
             }
-            
-            
-            /*if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
-                pair<string, string> context;
-                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
-                if (rl){
-                    string cur_qseq;
-                    for (auto j = i - context.first.size() + 1; j <= i + context.second.size(); ++j){
-                        if (align.qAlignedSeq[j]!='-')
-                            cur_qseq.push_back(align.qAlignedSeq[j]);
-                    }
-                    string cur_rseq = context.first + context.second;
-                    
-                    // realign use global alignment
-                    seqan::Align<string, seqan::ArrayGaps> cur_realign;
-                    
-                    int cur_score = this->realign(cur_realign, cur_qseq, cur_rseq);
-                    
-                    cout << cur_score << endl;
-                    cout << cur_realign << endl;
-                    int x = 1;
-                    
-                }
-            }*/
             
             ++cur_pos;
         }

@@ -14,6 +14,7 @@
 #include "../alignreader/alignreaderm5.h"
 #include "../../../tools/tools.h"
 #include <seqan/align.h>
+#include "../../misc/io.h"
 
 struct VarData
 {

@@ -6103,7 +6103,7 @@
 					tools/seqan/seqan/include,
 				);
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "-std=c++14";
 				OTHER_LDFLAGS = (
@@ -6129,7 +6129,7 @@
 					tools/seqan/seqan/include,
 				);
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "-std=c++14";
 				OTHER_LDFLAGS = (
