@@ -139,9 +139,15 @@ TEST_CASE("test AlignCoderSNV::encode sam format", "[hide]")
 
 TEST_CASE("test AlignCoderSNV::recode()")
 {
-    string m5_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.m5";
-    string var_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.var";
-    string recode_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.recode";
+    //string m5_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.m5";
+    //string var_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.var";
+    //string recode_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.recode";
+    
+    string m5_file = "../results/pt_recode/align_to_consensus_trim.m5";
+    string var_file = "../results/pt_recode/align_to_consensus_trim.var";
+    string recode_file = "../results/pt_recode/align_to_consensus_trim.recode";
+
+    
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;
     AlignReaderM5 alignreaderm5;

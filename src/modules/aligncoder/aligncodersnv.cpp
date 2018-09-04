@@ -197,6 +197,9 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     int nline = 0;
     while(p_alignreader->readline(align)){
         ++nline;
+        if (nline % 1000 == 0)
+            cout << nline << endl;
+        //cout << nline << endl;
         
         // expections
         int alen = (int) align.matchPattern.size();
@@ -214,6 +217,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         // encode
         int cur_pos = align.tStart;
         for (int i=0; i<alen; i++){
+            //cout << "nline=" << nline << ", i=" <<i << endl;
             if (align.tAlignedSeq[i]=='-')
                 continue;
             
@@ -247,12 +251,50 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 }
                 
                 is_var = true;
+
+                // get left query sequence length
+                int64_t k = 0;
+                int64_t cur_qseq_start = i;
+                while(true){
+                    if (align.tAlignedSeq[cur_qseq_start]!='-')
+                        k++;
+                    if (k >= context.first.size())
+                        break;
+                    --cur_qseq_start;
+                }
                 
-                for (auto j = i - context.first.size() + 1; j <= i + context.second.size(); ++j){
+                
+                // get right query sequence length
+                k = 0;
+                int64_t cur_qseq_end = i+1;
+                while(true){
+                    if (align.tAlignedSeq[cur_qseq_end]!='-')
+                        k++;
+                    if (k >= context.second.size())
+                        break;
+                    ++cur_qseq_end;
+                }
+                
+                if (cur_qseq_start < 0)
+                    throw runtime_error("cur_qseq_start < 0");
+                if (cur_qseq_end >= alen)
+                    throw runtime_error("cur_qseq_end >= alen");
+                
+                for (auto j = cur_qseq_start; j <= cur_qseq_end; ++j){
                     if (align.qAlignedSeq[j]!='-')
                         cur_qseq.push_back(align.qAlignedSeq[j]);
                 }
+                
                 cur_rseq = context.first + context.second;
+                
+                if (cur_qseq == ""){
+                    ++cur_pos;
+                    continue;
+                }
+                
+                if (cur_rseq == "")
+                    throw runtime_error("cur_rseq is empty");
+                
                 score_ref = this->realign(cur_realign_ref, cur_qseq, cur_rseq);
                 
             }else{
