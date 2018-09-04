@@ -163,6 +163,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     // load var_file
     vector<VarData> var_data;
     ifstream fs_varfile;
+    int64_t max_code = -1;
     open_infile(fs_varfile, var_file);
     while(true){
         string buf;
@@ -170,20 +171,17 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         if(fs_varfile.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=9)
+            throw runtime_error("incorrect format in " + var_file);
         var_data.push_back(VarData(stod(buf_vec[0]), buf_vec[1][0], stod(buf_vec[2])));
+        
+        if (stod(buf_vec[2]) > max_code)
+            max_code = stod(buf_vec[2]);
     }
     fs_varfile.close();
     
-    // generate template for var_data
-    vector<ReadRange> m5_range;
-    loadreadsrange(m5_range, m5_file);
-    int64_t max_code = -1;
-    for (auto i = 0; i < m5_range.size(); ++i)
-        if (4*m5_range[i].second+3 > max_code)
-            max_code = 4*m5_range[i].second+3;
-    vector<bool> var_data_temp(max_code + 1, false);
-    
     // fill template of var_data
+    vector<bool> var_data_temp(max_code + 1, false);
     for (int64_t i = 0; i < var_data.size(); ++i)
         var_data_temp[var_data[i].code] = true;
     
@@ -221,6 +219,8 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             if (align.tAlignedSeq[i]=='-')
                 continue;
             
+            if (4*cur_pos+3 > max_code)
+                break;
             // realign if hit detected variants
             int score_A = -1000000;
             int score_C = -1000000;
