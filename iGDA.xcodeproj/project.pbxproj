@@ -8778,6 +8778,7 @@
 		DC95DCB71DEF6E66004282DF /* test_pileup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_pileup.cpp; sourceTree = "<group>"; };
 		DC95DCBF1DF0A0C4004282DF /* dforest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforest.cpp; sourceTree = "<group>"; };
 		DC95DCC01DF0A0C4004282DF /* dforest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforest.h; sourceTree = "<group>"; };
+		DCAE06832146CC66007649C8 /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
 		DCAFB4C320B9E76D0092269F /* dforestsnvstxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvstxxl.cpp; sourceTree = "<group>"; };
 		DCAFB4C420B9E76D0092269F /* dforestsnvstxxl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnvstxxl.h; sourceTree = "<group>"; };
 		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
@@ -22013,6 +22014,7 @@
 				DC0FEE821DF63561002B05FB /* sort_order.h */,
 				DC0FEE831DF6580E002B05FB /* basic.h */,
 				DCCACA7B20D3F772008F881A /* dist.h */,
+				DCAE06832146CC66007649C8 /* graph.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";
