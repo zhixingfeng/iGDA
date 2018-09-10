@@ -138,8 +138,8 @@ void ErrorModelSNV::pileup_reads(string align_file, vector<BaseFreq> &pileup)
             break;
         if (align.tStrand != '+')
             throw runtime_error("there are reads aligned to negative strand.");
-        if (align.mapQV!=254)
-            continue;
+        //if (align.mapQV!=254)
+        //    continue;
         
         int locus = align.tStart;    
         for (int i=0; i<(int)align.tAlignedSeq.size(); i++){
