@@ -14,7 +14,7 @@
 #include <boost/graph/transitive_reduction.hpp>
 #include <iostream>
 
-//#include <boost/graph/graph_utility.hpp> // dumping graphs
+#include <boost/graph/graph_utility.hpp> // dumping graphs
 //#include <boost/graph/graphviz.hpp>      // generating pictures
 
 using namespace boost;
@@ -27,8 +27,20 @@ Graph make_random();
 
 TEST_CASE("test transitive reduction")
 {
-    //Graph const g = make_random();
-    Graph const g;
+    Graph g;
+    enum {a,b,c,d,e};
+    add_edge(a,b,g);
+    add_edge(a,c,g);
+    add_edge(a,d,g);
+    add_edge(a,e,g);
+    add_edge(b,d,g);
+    add_edge(c,d,g);
+    add_edge(c,e,g);
+    add_edge(d,e,g);
+    
+    
+    
+    
     Graph tr;
     std::map<Graph::vertex_descriptor, Graph::vertex_descriptor> g_to_tr;
     std::vector<size_t> id_map(num_vertices(g));
@@ -36,14 +48,14 @@ TEST_CASE("test transitive reduction")
     
     transitive_reduction(g, tr, make_assoc_property_map(g_to_tr), id_map.data());
     
-    /*print_graph(g);
+    print_graph(g);
     std::cout << "----------------------------\n";
     for (auto& e : g_to_tr)
         std::cout << "Mapped " << e.first << " to " << e.second << "\n";
     std::cout << "----------------------------\n";
     print_graph(tr);
     
-    // generating graphviz files
+    /*// generating graphviz files
     { std::ofstream dot("g.dot");  write_graphviz(dot, g); }
     { std::ofstream dot("tr.dot"); write_graphviz(dot, tr); }*/
 }
