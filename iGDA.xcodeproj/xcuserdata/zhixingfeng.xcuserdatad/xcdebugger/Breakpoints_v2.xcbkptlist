@@ -16,7 +16,7 @@
             startingLineNumber = "256"
             endingLineNumber = "256"
             landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,7 +32,7 @@
             startingLineNumber = "290"
             endingLineNumber = "290"
             landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

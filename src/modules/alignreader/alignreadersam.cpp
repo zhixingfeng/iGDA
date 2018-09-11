@@ -64,6 +64,7 @@ bool AlignReaderSam::readline(Align &align) {
     }
     
     seqan::Dna5String cur_refseq = ref_seqs[record.rID];
+    align.tName = seqan::toCString(ref_ids[record.rID]);
     int64_t seq_shift = 0;
     int64_t ref_shift = 0;
     align.qAlignedSeq.clear();
@@ -205,7 +206,7 @@ bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file)
     open_outfile(fs_m5_file, m5_file);
     Align align;
     while(this->readline(align)){
-        fs_m5_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << '0' << ' ' << '0' << ' ';
+        fs_m5_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
         fs_m5_file << align.tStart << ' ' << align.tEnd + 1 << ' ' << align.tStrand << ' ';
         fs_m5_file << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ';
         fs_m5_file << align.mapQV << ' ' << align.qAlignedSeq << ' ' << align.matchPattern << ' ' << align.tAlignedSeq << endl;
