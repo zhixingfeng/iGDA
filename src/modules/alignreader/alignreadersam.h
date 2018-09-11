@@ -47,3 +47,4 @@ protected:
 };
 
 #endif /* defined(__iGDA__alignreadersam__) */
+
