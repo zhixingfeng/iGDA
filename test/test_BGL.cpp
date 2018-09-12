@@ -12,7 +12,7 @@
 #include "../src/misc/graph.h"
 
 
-TEST_CASE("test transitive reduction")
+TEST_CASE("test transitive reduction", "[hide]")
 {
     Graph g;
     enum {a,b,c,d,e};

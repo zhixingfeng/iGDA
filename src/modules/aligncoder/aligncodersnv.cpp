@@ -197,7 +197,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     int nline = 0;
     while(p_alignreader->readline(align)){
         ++nline;
-        if (nline % 1000 == 0)
+        if (nline % 100 == 0)
             cout << nline << endl;
         //cout << nline << endl;
         
@@ -229,14 +229,12 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             int score_C = MIN_SCORE;
             int score_G = MIN_SCORE;
             int score_T = MIN_SCORE;
-            int score_ref = MIN_SCORE;
             bool is_var = false;
 
             seqan::Align<string, seqan::ArrayGaps> cur_realign_A;
             seqan::Align<string, seqan::ArrayGaps> cur_realign_C;
             seqan::Align<string, seqan::ArrayGaps> cur_realign_G;
             seqan::Align<string, seqan::ArrayGaps> cur_realign_T;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_ref;
             
             string cur_qseq;
             string cur_rseq;
@@ -295,90 +293,42 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 if (cur_rseq == "")
                     throw runtime_error("cur_rseq is empty");
                 
-                score_ref = this->realign(cur_realign_ref, cur_qseq, cur_rseq);
+                // realign
+                cur_rseq[context.first.size()-1] = 'A';
+                score_A = this->realign(cur_realign_A, cur_qseq, cur_rseq);
+                
+                cur_rseq[context.first.size()-1] = 'C';
+                score_C = this->realign(cur_realign_C, cur_qseq, cur_rseq);
+                
+                cur_rseq[context.first.size()-1] = 'G';
+                score_G = this->realign(cur_realign_G, cur_qseq, cur_rseq);
+                
+                cur_rseq[context.first.size()-1] = 'T';
+                score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
                 
             }else{
                 ++cur_pos;
                 continue;
             }
             
-            // align local sequence to the putative variants
-            if (var_data_temp[4*cur_pos]){
-                if (align.tAlignedSeq[i] == 'A'){
-                    char err_msg[1000];
-                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is A, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
-                    throw runtime_error(err_msg);
-                }
-                
-                if (cur_rseq.size() != context.first.size() + context.second.size())
-                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
-                cur_rseq[context.first.size()-1] = 'A';
-                score_A = this->realign(cur_realign_A, cur_qseq, cur_rseq);
-                
-            }
-            
-            if (var_data_temp[4*cur_pos+1]){
-                if (align.tAlignedSeq[i] == 'C'){
-                    char err_msg[1000];
-                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is C, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
-                    throw runtime_error(err_msg);
-                }
-                
-                if (cur_rseq.size() != context.first.size() + context.second.size())
-                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
-                cur_rseq[context.first.size()-1] = 'C';
-                score_C = this->realign(cur_realign_C, cur_qseq, cur_rseq);
-
-            }
-            
-            if (var_data_temp[4*cur_pos+2]){
-                if (align.tAlignedSeq[i] == 'G'){
-                    char err_msg[1000];
-                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is G, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
-                    throw runtime_error(err_msg);
-                }
-            
-                if (cur_rseq.size() != context.first.size() + context.second.size())
-                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
-                cur_rseq[context.first.size()-1] = 'G';
-                score_G = this->realign(cur_realign_G, cur_qseq, cur_rseq);
-
-            }
-            
-            if (var_data_temp[4*cur_pos+3]){
-                if (align.tAlignedSeq[i] == 'T'){
-                    char err_msg[1000];
-                    sprintf(err_msg, "read %d: detect variant is equal to reference. var is T, and ref at %dth alignment is %c at locus %d", nline, i, align.tAlignedSeq[i], cur_pos);
-                    throw runtime_error(err_msg);
-                }
-                
-                if (cur_rseq.size() != context.first.size() + context.second.size())
-                    throw runtime_error("cur_rseq.size() != context.first.size() + context.second.size()");
-                cur_rseq[context.first.size()-1] = 'T';
-                score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
-
-            }
-            
             // recode
-            if (score_ref > MIN_SCORE){
-                if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
-                    throw runtime_error("score_ref > MIN_SCORE but A,C,G,T == MIN_SCORE");
-                // A
-                if (score_A > score_C && score_A > score_G && score_A > score_T && score_A > score_ref)
-                    p_outfile << 4*cur_pos << '\t';
-                
-                // C
-                if (score_C > score_A && score_C > score_G && score_C > score_T && score_C > score_ref)
-                    p_outfile << 4*cur_pos+1 << '\t';
-                
-                // G
-                if (score_G > score_A && score_G > score_C && score_G > score_T && score_G > score_ref)
-                    p_outfile << 4*cur_pos+2 << '\t';
-                
-                // T
-                if (score_T > score_A && score_T > score_C && score_T > score_G && score_T > score_ref)
-                    p_outfile << 4*cur_pos+3 << '\t';
-            }
+            if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
+                throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
+            // A
+            if (score_A > score_C && score_A > score_G && score_A > score_T && align.tAlignedSeq[i]!='A')
+                p_outfile << 4*cur_pos << '\t';
+            
+            // C
+            if (score_C > score_A && score_C > score_G && score_C > score_T && align.tAlignedSeq[i]!='C')
+                p_outfile << 4*cur_pos+1 << '\t';
+            
+            // G
+            if (score_G > score_A && score_G > score_C && score_G > score_T && align.tAlignedSeq[i]!='G')
+                p_outfile << 4*cur_pos+2 << '\t';
+            
+            // T
+            if (score_T > score_A && score_T > score_C && score_T > score_G && align.tAlignedSeq[i]!='T')
+                p_outfile << 4*cur_pos+3 << '\t';
             
             ++cur_pos;
         }
