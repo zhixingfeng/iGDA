@@ -158,7 +158,7 @@ bool AlignCoderSNV::encode(const StripedSmithWaterman::Alignment &alignment, con
 
 
 
-bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)
+bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
 {
     // load var_file
     vector<VarData> var_data;
@@ -315,20 +315,28 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
                 throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
             // A
-            if (score_A > score_C && score_A > score_G && score_A > score_T && align.tAlignedSeq[i]!='A')
-                p_outfile << 4*cur_pos << '\t';
+            if (score_A > score_C && score_A > score_G && score_A > score_T){
+                if (is_report_ref || align.tAlignedSeq[i]!='A')
+                    p_outfile << 4*cur_pos << '\t';
+            }
             
             // C
-            if (score_C > score_A && score_C > score_G && score_C > score_T && align.tAlignedSeq[i]!='C')
-                p_outfile << 4*cur_pos+1 << '\t';
+            if (score_C > score_A && score_C > score_G && score_C > score_T){
+                if (is_report_ref || align.tAlignedSeq[i]!='C')
+                    p_outfile << 4*cur_pos+1 << '\t';
+            }
             
             // G
-            if (score_G > score_A && score_G > score_C && score_G > score_T && align.tAlignedSeq[i]!='G')
-                p_outfile << 4*cur_pos+2 << '\t';
+            if (score_G > score_A && score_G > score_C && score_G > score_T){
+                if (is_report_ref || align.tAlignedSeq[i]!='G')
+                    p_outfile << 4*cur_pos+2 << '\t';
+            }
             
             // T
-            if (score_T > score_A && score_T > score_C && score_T > score_G && align.tAlignedSeq[i]!='T')
-                p_outfile << 4*cur_pos+3 << '\t';
+            if (score_T > score_A && score_T > score_C && score_T > score_G){
+                if (is_report_ref || align.tAlignedSeq[i]!='T')
+                    p_outfile << 4*cur_pos+3 << '\t';
+            }
             
             ++cur_pos;
         }

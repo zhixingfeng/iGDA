@@ -36,7 +36,7 @@ public:
     virtual pair<int, char> decode(int code)=0; // int is position, char is base
     virtual int binary_code(int pos, char base)=0; 
     
-    virtual bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len)=0;
+    virtual bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = false)=0;
     
     inline void setAlignReader(AlignReader * a_p_alignreader){p_alignreader = a_p_alignreader;}
     
