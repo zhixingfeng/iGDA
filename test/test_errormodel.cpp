@@ -27,3 +27,16 @@ TEST_CASE("test ErrorModelSNV::merge_all()","[hide]")
     model.merge_all(context_effect_all_files);
     
 }
+
+
+TEST_CASE("test ErrorModelSNV::pileup_count_to_context()")
+{
+    ErrorModelSNV model;
+    string pu_count_file = "../results/pileup_count_to_context/ERR2672423_tig00000206_quiver.pu_count";
+    string pu_file = "../results/pileup_count_to_context/ERR2672423_tig00000206_quiver.pileup";
+    string context_file = "../results/pileup_count_to_context/ERR2672423_tig00000206_quiver.pu_count.context_effect";
+    model.pileup_count_to_context(pu_count_file, pu_file, context_file);
+    
+}
+
+

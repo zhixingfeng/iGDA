@@ -110,7 +110,126 @@ void ErrorModelSNV::merge_all(vector<string> &context_all_files)
 }
 
 
-int ErrorModelSNV::get_genomesize(string align_file){
+
+void ErrorModelSNV::pileup_count_to_context(string pu_count_file, string pu_file, string context_file)
+{
+    // load context for each locus
+    unordered_map<int64_t, pair<string, string> > locus_context;
+    unordered_map<int64_t, char > locus_ref;
+    ifstream fs_pu_file;
+    open_infile(fs_pu_file, pu_file);
+    while(true){
+        string buf;
+        getline(fs_pu_file, buf);
+        if(fs_pu_file.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size() != 9)
+            throw runtime_error("incorrect format in " + pu_file);
+        
+        int64_t locus = int64_t(stod(buf_vec[0]));
+        string context_left = buf_vec[1];
+        string context_right = buf_vec[2];
+        char ref = buf_vec[3][0];
+        locus_context[locus] = pair<string, string>(context_left, context_right);
+        locus_ref[locus] = ref;
+        
+    }
+    fs_pu_file.close();
+    
+    // get context effect
+    ContextEffect context_effect;
+    ifstream fs_pu_count_file;
+    open_infile(fs_pu_count_file, pu_count_file);
+    while(true){
+        // read line
+        string buf;
+        getline(fs_pu_count_file, buf);
+        if(fs_pu_count_file.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size() != 6)
+            throw runtime_error("incorrect format in " + pu_file);
+        
+        // get context effect
+        int64_t locus = int64_t(stod(buf_vec[0]));
+        char var_base = buf_vec[1][0];
+        int64_t n_var = int64_t(stod(buf_vec[3]));
+        int64_t cvg = int64_t(stod(buf_vec[4]));
+    
+        auto it = locus_context.find(locus);
+        if (it==locus_context.end())
+            throw runtime_error("fail to find context");
+        
+        string context_left = it->second.first;
+        string context_right = it->second.second;
+        
+        auto it_2 = locus_ref.find(locus);
+        if (it_2 == locus_ref.end())
+            throw runtime_error("fail to find ref");
+        
+        char cur_ref = it_2->second;
+        
+        // fill context effect
+        auto it_left = context_effect.find(context_left);
+        if (it_left == context_effect.end()){
+            context_effect[context_left][context_right].cvg = 0;
+            context_effect[context_left][context_right].nvar[0] = 0;
+            context_effect[context_left][context_right].nvar[1] = 0;
+            context_effect[context_left][context_right].nvar[2] = 0;
+            context_effect[context_left][context_right].nvar[3] = 0;
+        }else{
+            auto it_right = it_left->second.find(context_right);
+            if (it_right == it_left->second.end()){
+                context_effect[context_left][context_right].cvg = 0;
+                context_effect[context_left][context_right].nvar[0] = 0;
+                context_effect[context_left][context_right].nvar[1] = 0;
+                context_effect[context_left][context_right].nvar[2] = 0;
+                context_effect[context_left][context_right].nvar[3] = 0;
+            }
+        }
+        context_effect[context_left][context_right].ref = cur_ref;
+        context_effect[context_left][context_right].cvg += cvg;
+        switch (var_base) {
+            case 'A':
+                context_effect[context_left][context_right].nvar[0] += n_var;
+                break;
+            
+            case 'C':
+                context_effect[context_left][context_right].nvar[1] += n_var;
+                break;
+            
+            case 'G':
+                context_effect[context_left][context_right].nvar[2] += n_var;
+                break;
+            
+            case 'T':
+                context_effect[context_left][context_right].nvar[3] += n_var;
+                break;
+            
+            default:
+                throw runtime_error("incorrect var_base");
+                break;
+        }
+        
+        
+    }
+    
+    fs_pu_count_file.close();
+    
+    this->print_context_effect(context_file, context_effect);
+}
+
+
+
+
+
+
+
+int ErrorModelSNV::get_genomesize(string align_file)
+{
     // tEnd in align is 0-based, should add 1 in the end!
     int g_size = -1;
     AlignReaderM5 alignreader;

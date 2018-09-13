@@ -42,7 +42,12 @@ public:
     void merge(vector<string> &context_files);
     
     void merge_all(vector<string> &context_all_files);
-        
+    
+    
+    // convert pileup_count to context
+    void pileup_count_to_context(string pu_count_file, string pu_file, string context_file);
+    
+    
 protected:
     int get_genomesize(string align_file);
     

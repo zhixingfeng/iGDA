@@ -25,6 +25,9 @@ public:
     virtual void merge(vector<string> &context_files)=0;
     virtual void merge_all(vector<string> &context_all_files)=0;
     
+    // convert pileup_count to context
+    virtual void pileup_count_to_context(string pu_count_file, string pu_file, string context_file)=0;
+    
 protected:
     
     int left_len;

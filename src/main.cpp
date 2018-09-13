@@ -432,7 +432,7 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "pileup_count")==0) {
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
-            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
             cmd.parse(argv2);
             
@@ -464,6 +464,19 @@ int main(int argc, const char * argv[])
             
         }
         
+        // pileup_count_to_context
+        if (strcmp(argv[1], "pileup_count_to_context")==0) {
+            UnlabeledValueArg<string> pu_count_fileArg("pu_count_file", "path of pu_count_file", true, "", "pu_count_file", cmd);
+            UnlabeledValueArg<string> pu_fileArg("pu_file", "path of pu_file (the .pileup file in output of igda contexteffect)", true, "", "pu_file", cmd);
+            UnlabeledValueArg<string> out_fileArg("out_file", "path of out_file", true, "", "out_file", cmd);
+            
+            cmd.parse(argv2);
+            
+            ErrorModelSNV model;
+            model.pileup_count_to_context(pu_count_fileArg.getValue(), pu_fileArg.getValue(), out_fileArg.getValue());
+                        
+        }
+
         // reconstrust reference from m5 file
         if (strcmp(argv[1], "recons_ref") == 0){
             // parse arguments
