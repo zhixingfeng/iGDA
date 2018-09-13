@@ -31,6 +31,12 @@ public:
     ErrorModelSNV() : ErrorModel() {}
     virtual ~ErrorModelSNV() {}
     
+    inline void set_context_size(int left_len, int right_len)
+    {
+        this->left_len = left_len;
+        this->right_len = right_len;
+    }
+    
     void learn(string align_file, string out_prefix);
     
     void merge(vector<string> &context_files);

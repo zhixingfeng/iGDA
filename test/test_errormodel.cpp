@@ -12,6 +12,7 @@ TEST_CASE("test ErrorModelSNV::learn()", "[hide]")
 {
     string align_file = "../data/B_10_cons_forward.m5";
     ErrorModelSNV model;
+    model.set_context_size(10, 10);
     model.learn(align_file, "../results/B_10_cons");
 }
 

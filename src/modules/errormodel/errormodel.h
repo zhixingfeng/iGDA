@@ -17,16 +17,18 @@
 class ErrorModel {
     
 public:
-    ErrorModel(){}
+    ErrorModel():left_len(1),right_len(1){}
     virtual ~ErrorModel(){}
     
+    virtual inline void set_context_size(int left_len, int right_len)=0;
     virtual void learn(string align_file, string out_prefix)=0;
     virtual void merge(vector<string> &context_files)=0;
     virtual void merge_all(vector<string> &context_all_files)=0;
     
 protected:
     
-
+    int left_len;
+    int right_len;
     
 };
 

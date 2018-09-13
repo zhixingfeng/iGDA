@@ -320,8 +320,12 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> outprefixArg("outprefix", "prefix of output files", true, "", "outprefix", cmd);
             
+            ValueArg<int> leftlenArg("l","leftlen","length of the upstream context, default: 1", false , 1, "leftlen", cmd);
+            ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 1", false , 1, "rightlen", cmd);
+            
             cmd.parse(argv2);
             ErrorModelSNV errormodel;
+            errormodel.set_context_size(leftlenArg.getValue(), rightlenArg.getValue());
             errormodel.learn(alignfileArg.getValue(), outprefixArg.getValue());
         }
         

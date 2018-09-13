@@ -148,7 +148,7 @@ void ErrorModelSNV::pileup_reads(string align_file, vector<BaseFreq> &pileup)
             if (align.tAlignedSeq[i]=='-')
                 continue;
             
-            if (get_context_m5(i, 1, 1, align.tAlignedSeq, context)){
+            if (get_context_m5(i, this->left_len, this->right_len, align.tAlignedSeq, context)){
                 pileup[locus].context = context;
 
                 // add coverage 
