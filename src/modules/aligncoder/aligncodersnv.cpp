@@ -311,6 +311,14 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 continue;
             }
             
+            // to be removed
+            if (cur_pos == 16){
+                cout << cur_realign_A << endl;
+                cout << cur_realign_C << endl;
+                cout << cur_realign_G << endl;
+                cout << cur_realign_T << endl;
+            }
+            
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
                 throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");

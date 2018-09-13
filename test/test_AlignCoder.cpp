@@ -158,6 +158,20 @@ TEST_CASE("test AlignCoderSNV::recode()", "[hide]")
 
 
 
+TEST_CASE("test AlignCoderSNV::recode() debug", "[hide]")
+{
+    string m5_file = "../results/recode_debug/ERR2672423_tig00000206_quiver_line_3842.m5";
+    string var_file = "../results/recode_debug/ERR2672423_tig00000206_quiver.var";
+    string recode_file = "../results/recode_debug/ERR2672423_tig00000206_quiver.recode";
+    
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->recode(m5_file, var_file, recode_file, 10, 10, true);
+    
+    
+}
 
 
 
