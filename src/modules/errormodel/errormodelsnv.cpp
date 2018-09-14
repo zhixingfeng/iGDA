@@ -142,6 +142,7 @@ void ErrorModelSNV::pileup_count_to_context(string pu_count_file, string pu_file
     ContextEffect context_effect;
     ifstream fs_pu_count_file;
     open_infile(fs_pu_count_file, pu_count_file);
+    int64_t prev_locus = -1;
     while(true){
         // read line
         string buf;
@@ -191,7 +192,10 @@ void ErrorModelSNV::pileup_count_to_context(string pu_count_file, string pu_file
             }
         }
         context_effect[context_left][context_right].ref = cur_ref;
-        context_effect[context_left][context_right].cvg += cvg;
+        if (locus != prev_locus){
+            context_effect[context_left][context_right].cvg += cvg;
+            prev_locus = locus;
+        }
         switch (var_base) {
             case 'A':
                 context_effect[context_left][context_right].nvar[0] += n_var;
