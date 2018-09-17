@@ -312,12 +312,15 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             }
             
             // to be removed
-            if (cur_pos == 16){
+            /*if (cur_pos == 14864){
+                cout << "read: " << nline << endl;
+                cout << "score: " << endl;
+                cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << endl;
                 cout << cur_realign_A << endl;
                 cout << cur_realign_C << endl;
                 cout << cur_realign_G << endl;
                 cout << cur_realign_T << endl;
-            }
+            }*/
             
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
