@@ -29,7 +29,7 @@ TEST_CASE("test ErrorModelSNV::merge_all()","[hide]")
 }
 
 
-TEST_CASE("test ErrorModelSNV::pileup_count_to_context()")
+TEST_CASE("test ErrorModelSNV::pileup_count_to_context()", "[hide]")
 {
     ErrorModelSNV model;
     string pu_count_file = "../results/pileup_count_to_context/ERR2672423_tig00000206_quiver.pu_count";

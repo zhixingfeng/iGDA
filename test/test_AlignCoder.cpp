@@ -137,21 +137,21 @@ TEST_CASE("test AlignCoderSNV::encode sam format", "[hide]")
     
 }
 
-TEST_CASE("test AlignCoderSNV::recode()", "[hide]")
+TEST_CASE("test AlignCoderSNV::recode()","[hide]")
 {
     //string m5_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.m5";
     //string var_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.var";
     //string recode_file = "../results/recode/m170701_065929_00127_c101204132550000001823285910241766_s1_p0.recode";
     
-    string m5_file = "../results/pt_recode/align_to_consensus_trim.m5";
+    string m5_file = "../results/pt_recode/align_to_consensus_trim.100.m5";
     string var_file = "../results/pt_recode/align_to_consensus_trim.var";
-    string recode_file = "../results/pt_recode/align_to_consensus_trim.recode";
+    string recode_file = "../results/pt_recode/align_to_consensus_trim.100.recode";
 
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;
     AlignReaderM5 alignreaderm5;
     p_aligncoder->setAlignReader(&alignreaderm5);
-    p_aligncoder->recode(m5_file, var_file, recode_file, 10, 10);
+    p_aligncoder->recode(m5_file, var_file, recode_file, 10, 10, true);
     
     
 }

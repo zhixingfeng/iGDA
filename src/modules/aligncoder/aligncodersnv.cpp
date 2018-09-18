@@ -191,6 +191,8 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         throw runtime_error("AlignCoderSNV::recode(): p_alignreader has not be set.");
     ofstream p_outfile;
     open_outfile(p_outfile, recode_file);
+    ofstream p_outfile_ref;
+    open_outfile(p_outfile_ref, recode_file + ".ref");
     
     p_alignreader->open(m5_file);
     Align align;
@@ -327,38 +329,56 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
             // A
             if (score_A > score_C && score_A > score_G && score_A > score_T){
-                if (is_report_ref || align.tAlignedSeq[i]!='A')
+                if (align.tAlignedSeq[i]!='A'){
                     p_outfile << 4*cur_pos << '\t';
+                }else{
+                    if (is_report_ref)
+                        p_outfile_ref << 4*cur_pos << '\t';
+                }
             }
             
             // C
             if (score_C > score_A && score_C > score_G && score_C > score_T){
-                if (is_report_ref || align.tAlignedSeq[i]!='C')
+                if (align.tAlignedSeq[i]!='C'){
                     p_outfile << 4*cur_pos+1 << '\t';
+                }else{
+                    if (is_report_ref)
+                        p_outfile_ref << 4*cur_pos+1 << '\t';
+                }
             }
             
             // G
             if (score_G > score_A && score_G > score_C && score_G > score_T){
-                if (is_report_ref || align.tAlignedSeq[i]!='G')
+                if (align.tAlignedSeq[i]!='G'){
                     p_outfile << 4*cur_pos+2 << '\t';
+                }else{
+                    if (is_report_ref)
+                        p_outfile_ref << 4*cur_pos+2 << '\t';
+                }
             }
             
             // T
             if (score_T > score_A && score_T > score_C && score_T > score_G){
-                if (is_report_ref || align.tAlignedSeq[i]!='T')
+                if (align.tAlignedSeq[i]!='T'){
                     p_outfile << 4*cur_pos+3 << '\t';
+                }else{
+                    if (is_report_ref)
+                        p_outfile_ref << 4*cur_pos+3 << '\t';
+                }
+                
             }
             
             ++cur_pos;
         }
         p_outfile << endl;
+        p_outfile_ref << endl;
     }
     
     p_alignreader->close();
     
     
     p_outfile.close();
-    
+    p_outfile_ref.close();
     
     return true;
 }

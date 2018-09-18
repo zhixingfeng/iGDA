@@ -518,8 +518,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
     // to be removed
-    ofstream fs_outfile;
-    open_outfile(fs_outfile, encode_file + ".igda_dist");
+    //ofstream fs_outfile;
+    //open_outfile(fs_outfile, encode_file + ".igda_dist");
 
     int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
@@ -542,7 +542,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
             topn_id.push(pair<int,double>(j,cur_dist));
             
             // to be removed
-            fs_outfile << i << '\t' << j << '\t' << cur_dist << endl;
+            //fs_outfile << i << '\t' << j << '\t' << cur_dist << endl;
         }
 
         // get max_nn neighbors
@@ -606,8 +606,8 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         
     }
     // to be removed
-    fs_outfile.close();
-    cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
+    //fs_outfile.close();
+    //cout << "processed " << nc_reads_id.size() << " / " << nc_reads_id.size() << endl;
     
     // correct contigs
     //this->correct_contigs(encode_data, reads_range, var_cdf, temp_array, min_cvg, min_prop, max_prop);

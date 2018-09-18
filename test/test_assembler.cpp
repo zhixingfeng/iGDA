@@ -121,15 +121,15 @@ TEST_CASE("test assembler::ann_clust", "[hide]")
     //string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
     //string out_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000.ann";
     
-    string encode_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.encode.rdim";
-    string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam";
-    string var_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.dforest.var";
-    string out_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.encode.rdim.ann";
+    //string encode_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.encode.rdim";
+    //string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam";
+    //string var_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.dforest.var";
+    //string out_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.encode.rdim.ann";
     
-    //string encode_file = "../results/pt/igda_results/align_to_consensus_trim.encode.rdim";
-    //string m5_file = "../results/pt/igda_results/align_to_consensus_trim.m5";
-    //string var_file = "../results/pt/igda_results/align_to_consensus_trim.var";
-    //string out_file = "../results/pt/igda_results/align_to_consensus_trim.ann";
+    string encode_file = "../results/pt_recode/align_to_consensus_trim.withref.5000.recode";
+    string m5_file = "../results/pt_recode/align_to_consensus_trim.5000.m5";
+    string var_file = "../results/pt_recode/align_to_consensus_trim.var";
+    string out_file = "../results/pt_recode/align_to_consensus_trim.ann";
     
     Assembler assembler;
     assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
