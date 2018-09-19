@@ -546,8 +546,10 @@ int main(int argc, const char * argv[])
             ValueArg<double> minpropArg("p","minprop","minimal frequency, default: 0.2", false , 0.2, "minprop", cmd);
             ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.7", false , 0.7, "maxprop", cmd);
             ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 30", false , 30, "topn", cmd);
-            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 200, "maxnn", cmd);
-            ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxprop", cmd);
+            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 60, "maxnn", cmd);
+            ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
+            
+            SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
             
             cmd.parse(argv2);
             cout << "mincvg = " << mincvgArg.getValue() << endl;
@@ -558,8 +560,13 @@ int main(int argc, const char * argv[])
             cout << "maxdist = " << maxdistArg.getValue() << endl;
             
             Assembler assembler;
-            assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+            if (islegacyArg.getValue()){
+                assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
+            }else{
+                assembler.ann_clust_recode(encodefileArg.getValue(), encodefileArg.getValue() + ".ref",alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
+            }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", false, idx);

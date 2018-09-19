@@ -614,6 +614,133 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)
+{
+    /*------------ find nc-reads -----------*/
+    cout << "find non-contained reads" << endl;
+    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    
+    /*------------ use nc-reads seed to cluster ----------*/
+    cout << "use non-contained reads as seed to cluster" << endl;
+    // load recode data
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    // load recode_ref data
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_ref_file);
+    
+    // load reads range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    if (reads_range.size() != recode_data.size())
+        throw runtime_error("reads_range.size() != recode_data.size()");
+    
+    if (reads_range.size() != recode_ref_data.size())
+        throw runtime_error("reads_range.size() != recode_ref_data.size()");
+    
+    // get genome size
+    size_t genome_size = get_genome_size(reads_range);
+    
+    // get cumulative sum of variants
+    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+    
+    // create a template to compare reads
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    vector<int> cur_pu_var_count(4*(genome_size-1)+3+1, 0);
+    vector<int> cur_pu_var_ref_count(4*(genome_size-1)+3+1, 0);
+    vector<int> cur_pu_reads_count(genome_size, 0);
+    
+    // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    int64_t n_nc_reads = 0;
+    for (auto i : nc_reads_id){
+        ++n_nc_reads;
+        if (n_nc_reads % 1000 == 0)
+            cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
+        
+        // calculate hamming distance between reads i and other reads and get topn nearest neighbors
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        for (auto j = 0; j < recode_data.size(); ++j){
+            if (i == j) continue;
+            if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
+                continue;
+            if (reads_range[i].first < reads_range[j].first)
+                continue;
+            
+            double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+            
+            if (cur_dist < 0) continue;
+            
+            topn_id.push(pair<int,double>(j,cur_dist));
+        }
+        
+        // get max_nn neighbors
+        vector<int> cur_neighbors_topn;
+        vector<int> cur_neighbors;
+        vector<double> cur_neighbors_dist;
+        for (auto j = 0; j < max_nn; ++j){
+            if (topn_id.empty()) break;
+            int cur_id = topn_id.top().first;
+            double cur_dist = topn_id.top().second;
+            cur_neighbors.push_back(cur_id);
+            cur_neighbors_dist.push_back(cur_dist);
+            if (j < topn)
+                cur_neighbors_topn.push_back(cur_id);
+            topn_id.pop();
+        }
+        
+        if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
+            continue;
+        
+        // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
+        // pileup topn neighbors
+        
+        unordered_set<int64_t> mod_idx_var;
+        unordered_set<int64_t> mod_idx_var_ref;
+        for (auto j : cur_neighbors){
+            pileup_var_online_count(cur_pu_var_count, recode_data[j], mod_idx_var);
+            pileup_var_online_count(cur_pu_var_ref_count, recode_ref_data[j], mod_idx_var_ref);
+        }
+        
+        // check pileup of all the neighbors
+        bool is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
+        
+        // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
+        if (!is_homo){
+            for (auto j = 0; j < cur_neighbors.size(); ++j){
+                int t = (int)cur_neighbors.size() - 1 - j;
+                if (t < topn) break;
+                pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
+                pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
+                is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
+                if (is_homo) break;
+            }
+        }
+        
+        if (is_homo){
+            ConsensusSeq cur_cons;
+            cur_cons.seed = recode_data[i];
+            cur_cons.neighbors_id = cur_neighbors;
+            this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, min_cvg);
+            rl_ann_clust.push_back(cur_cons);
+        }
+        
+        
+        // clean cur_pu_var_count and cur_pu_reads_count
+        for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+            cur_pu_var_count[*it] = 0;
+        for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+            cur_pu_var_ref_count[*it] = 0;
+        
+    }
+    
+    
+}
+
+
 void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_t> idx)
 {
     if (idx.size() == 0){
@@ -795,6 +922,50 @@ bool Assembler::check_pileup(const vector<int> &pu_var_count, const vector<int> 
     return is_homo;
 }
 
+bool Assembler::check_pileup_recode(const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, const vector<int> &idx, int min_cvg, double min_prop, double max_prop)
+{
+    // validate inputs
+    int start_code = 4*start;
+    int end_code = 4*end+3;
+    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
+    
+    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size())
+        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
+    
+    if (start_code < 0 || end_code < 0)
+        throw runtime_error("start_code < 0 || end_code < 0");
+
+    
+    bool is_homo = true;
+    
+    for (auto i = start; i < end; ++i){
+        // get coverage of the currecnt locus (only count recoded base including the reference base)
+        int64_t cur_cvg = pu_var_count[4*i] + pu_var_count[4*i+1] + pu_var_count[4*i+2] + pu_var_count[4*i+3];
+        cur_cvg += pu_var_ref_count[4*i] + pu_var_ref_count[4*i+1] + pu_var_ref_count[4*i+2] + pu_var_ref_count[4*i+3];
+        
+        if (cur_cvg < min_cvg)
+            continue;
+        
+        // check A, C, G, T
+        double cur_prop_A = double(pu_var_count[4*i]) / cur_cvg;
+        double cur_prop_C = double(pu_var_count[4*i+1]) / cur_cvg;
+        double cur_prop_G = double(pu_var_count[4*i+2]) / cur_cvg;
+        double cur_prop_T = double(pu_var_count[4*i+3]) / cur_cvg;
+        
+        if ((cur_prop_A > min_prop && cur_prop_A < max_prop)||
+            (cur_prop_C > min_prop && cur_prop_C < max_prop)||
+            (cur_prop_G > min_prop && cur_prop_G < max_prop)||
+            (cur_prop_T > min_prop && cur_prop_T < max_prop) ){
+            
+            is_homo = false;
+            break;
+        }
+    }
+   
+    return is_homo;
+}
+
+
 void Assembler::find_nccontigs(vector<int64_t> &idx)
 {
     // get maximal encoded cons_seq
@@ -843,6 +1014,56 @@ void Assembler::find_nccontigs(vector<int64_t> &idx)
     }
 }
 
+void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, int min_cvg)
+{
+    cons.start = start;
+    cons.end = start;
+    vector<double> prop(pu_var_count.size(),-1);
+    
+    // validate inputs
+    if (pu_var_count.size()==0)
+        return;
+    
+    int start_code = 4*start;
+    int end_code = 4*end+3;
+    end_code = end_code <= pu_var_count.size()-1 ? end_code : (int)pu_var_count.size()-1;
+    
+    if (start_code >= pu_var_count.size() || end_code >= pu_var_count.size())
+        throw runtime_error("start_code >= pu_var_count.size() || end_code >= pu_var_count.size()");
+    
+    if (start_code < 0 || end_code < 0)
+        throw runtime_error("start_code < 0 || end_code < 0");
+    
+    for (auto i = start; i < end; ++i){
+        // get coverage of the currecnt locus (only count recoded base including the reference base)
+        int64_t cur_cvg = pu_var_count[4*i] + pu_var_count[4*i+1] + pu_var_count[4*i+2] + pu_var_count[4*i+3];
+        cur_cvg += pu_var_ref_count[4*i] + pu_var_ref_count[4*i+1] + pu_var_ref_count[4*i+2] + pu_var_ref_count[4*i+3];
+        
+        if (cur_cvg < min_cvg)
+            continue;
+        
+        cons.end = i;
+        
+        // check A, C, G, T
+        double cur_prop_A = double(pu_var_count[4*i]) / cur_cvg;
+        double cur_prop_C = double(pu_var_count[4*i+1]) / cur_cvg;
+        double cur_prop_G = double(pu_var_count[4*i+2]) / cur_cvg;
+        double cur_prop_T = double(pu_var_count[4*i+3]) / cur_cvg;
+        
+        if (cur_prop_A > 0.5)
+            cons.cons_seq.push_back(4*i);
+        
+        if (cur_prop_C > 0.5)
+            cons.cons_seq.push_back(4*i+1);
+        
+        if (cur_prop_G > 0.5)
+            cons.cons_seq.push_back(4*i+2);
+        
+        if (cur_prop_T > 0.5)
+            cons.cons_seq.push_back(4*i+3);
+    }
+    
+}
 
 /*void Assembler::correct_contigs(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &var_cdf, const vector<bool> &temp_array, int min_cvg, double min_prop, double max_prop)
 {
