@@ -574,8 +574,8 @@ int main(int argc, const char * argv[])
             string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
             
-            cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
-            cout << cmd << endl; system(cmd.c_str());
+            //cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
+            //cout << cmd << endl; system(cmd.c_str());
             
             assembler.print_nc_reads_id(outfileArg.getValue() + ".nc_idx");
             

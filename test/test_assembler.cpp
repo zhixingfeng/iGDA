@@ -114,7 +114,7 @@ TEST_CASE("test assembler::dist_rdim()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ann_clust")
+TEST_CASE("test assembler::ann_clust", "[hide]")
 {
     //string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
     //string m5_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
@@ -133,7 +133,7 @@ TEST_CASE("test assembler::ann_clust")
     string out_file = "../results/pt_recode/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
+    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.8, 20, 50, 0.02);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     
@@ -144,6 +144,28 @@ TEST_CASE("test assembler::ann_clust")
     
     //assembler.print_rl_ann_clust(out_file+".seq", true);
 }
+
+TEST_CASE("test assembler::ann_clust, debug pt_recode")
+{
+    string recode_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.recode";
+    string recode_ref_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.recode.ref";
+    string m5_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.m5";
+    string var_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.var";
+    string out_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.ann";
+    
+    Assembler assembler;
+    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.8, 20, 50, 0.02);
+    //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
+    
+    
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx);
+    assembler.print_rl_ann_clust(out_file, false, idx);
+    cout << idx << endl;
+    
+    //assembler.print_rl_ann_clust(out_file+".seq", true);
+}
+
 
 
 

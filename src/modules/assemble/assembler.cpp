@@ -618,20 +618,25 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    //this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    this->nc_reads_id = {0};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
     cout << "use non-contained reads as seed to cluster" << endl;
+    
     // load recode data
+    cout << "load recode data" << endl;
     vector<vector<int> > recode_data;
     loadencodedata(recode_data, recode_file);
     
     // load recode_ref data
+    cout << "load recode_ref data" << endl;
     vector<vector<int> > recode_ref_data;
     loadencodedata(recode_ref_data, recode_ref_file);
     
     // load reads range
+    cout << "load m5 data" << endl;
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
     
