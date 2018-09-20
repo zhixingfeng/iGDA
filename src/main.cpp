@@ -544,9 +544,9 @@ int main(int argc, const char * argv[])
             
             ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 20, "mincvg", cmd);
             ValueArg<double> minpropArg("p","minprop","minimal frequency, default: 0.2", false , 0.2, "minprop", cmd);
-            ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.7", false , 0.7, "maxprop", cmd);
-            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 30", false , 30, "topn", cmd);
-            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 60, "maxnn", cmd);
+            ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.7", false , 0.8, "maxprop", cmd);
+            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 30", false , 20, "topn", cmd);
+            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 50, "maxnn", cmd);
             ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
             
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
