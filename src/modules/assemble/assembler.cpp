@@ -527,7 +527,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
         if (n_nc_reads % 1000 == 0)
             cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         // calculate hamming distance between reads i and other reads
-        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
         for (auto j = 0; j < encode_data.size(); ++j){
             if (i == j) continue;
             if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
@@ -618,8 +618,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
-    //this->nc_reads_id = {6467};
+    //this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    this->nc_reads_id = {6467};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -667,7 +667,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         
         // calculate hamming distance between reads i and other reads and get topn nearest neighbors
-        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
+        //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
         for (auto j = 0; j < recode_data.size(); ++j){
             if (i == j) continue;
             if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
@@ -843,7 +844,7 @@ void Assembler::find_ncreads(string encode_file, string align_file, string var_f
         if ((i+1)%1000 == 0)
             cout << "processed " << i+1 << " / " << encode_data.size() << endl;
         // calculate hamming distance between reads i and other reads
-        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare > topn_id;
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
         for (auto j = 0; j < encode_data.size(); ++j){
             if (i == j) continue;
             if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)

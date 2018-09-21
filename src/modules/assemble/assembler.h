@@ -55,8 +55,8 @@ struct AdjEdge
     double similarity;
 };
 
-
-struct reads_compare
+// compare distance
+struct reads_compare_dist
 {
     bool operator()(const pair<int,double>& l, const pair<int,double> &r)
     {
@@ -67,6 +67,20 @@ struct reads_compare
         }
     }
 };
+
+// compare similarity
+struct reads_compare_sim
+{
+    bool operator()(const pair<int,double>& l, const pair<int,double> &r)
+    {
+        if (l.second != r.second){
+            return l.second < r.second;
+        }else{
+            return l.first > r.first;
+        }
+    }
+};
+
 
 
 class Assembler
