@@ -550,6 +550,7 @@ int main(int argc, const char * argv[])
             ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
             
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
+            SwitchArg ismetricArg("e", "metric", "is output metric (seed and neighbor IDs)", cmd, false);
             
             cmd.parse(argv2);
             cout << "mincvg = " << mincvgArg.getValue() << endl;
@@ -569,7 +570,8 @@ int main(int argc, const char * argv[])
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
-            assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", false, idx);
+            //assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", false, idx);
+            assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
             
             string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());

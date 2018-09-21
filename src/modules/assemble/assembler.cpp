@@ -767,7 +767,7 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
             
             fs_outfile << this->rl_ann_clust[i].seed << '\t';
             
-            int start_code = 4*rl_ann_clust[i].start;
+            /*int start_code = 4*rl_ann_clust[i].start;
             int end_code = 4*rl_ann_clust[i].end + 3;
             end_code = end_code <= (int)rl_ann_clust[i].pu_var_count.size()-1?  end_code : (int)rl_ann_clust[i].pu_var_count.size()-1;
             
@@ -792,7 +792,7 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
                     fs_outfile << rl_ann_clust[i].pu_read_count[j_r] << ',';
                 }
             }
-            fs_outfile << '\t';
+            fs_outfile << '\t';*/
             
             fs_outfile << rl_ann_clust[i].neighbors_id;
         }
