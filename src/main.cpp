@@ -565,7 +565,7 @@ int main(int argc, const char * argv[])
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
             }else{
-                assembler.ann_clust_recode(encodefileArg.getValue(), encodefileArg.getValue() + ".ref",alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+                assembler.ann_clust_recode(encodefileArg.getValue(), encodefileArg.getValue() + ".ref", alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                     minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
             }
             vector<int64_t> idx;

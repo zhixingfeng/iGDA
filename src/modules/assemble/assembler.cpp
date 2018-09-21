@@ -619,7 +619,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
     this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
-    //this->nc_reads_id = {11371};
+    //this->nc_reads_id = {6467};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
