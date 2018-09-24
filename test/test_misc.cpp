@@ -596,7 +596,34 @@ TEST_CASE("test cmpreads (fast version)", "[hide]")
     
 }
 
+TEST_CASE("test sim_jaccard", "[hide]")
+{
+    string recode_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.recode";
+    string m5_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.m5";
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
+    
+    size_t genome_size = get_genome_size(reads_range);
+    
+    // create a template to compare reads
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    int i = 17038;
+    int j = 21283;
+    double jaccard_index = sim_jaccard(recode_data[i], recode_data[j], reads_range[i], reads_range[j], temp_array);
+    
+    cout << "recode " << i << ": " << recode_data[i] << endl;
+    cout << "range" << i << ": " << reads_range[i].first << ',' << reads_range[i].second << endl;
+    
+    cout << "recode " << j << ": " << recode_data[j] << endl;
+    cout << "range" << j << ": " << reads_range[j].first << ',' << reads_range[j].second << endl;
+    
+    cout << "jaccard index : " << jaccard_index << endl;
 
+}
 
 
 

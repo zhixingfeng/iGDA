@@ -9,6 +9,47 @@
 #ifndef iGDA_dist_h
 #define iGDA_dist_h
 
+inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2, vector<bool> &temp_array, int min_overlap = 500)
+{
+    ReadRange range_overlap(range_1.first >= range_2.first ? range_1.first : range_2.first, range_1.second <= range_2.second ? range_1.second : range_2.second);
+    
+    // get overlap length
+    int overlap = range_overlap.second - range_overlap.first + 1;
+    if (overlap < min_overlap)
+        return -1;
+    
+    int n_intersect = 0;
+    int n_union = 0;
+    
+    // read 1
+    for (auto i = 0; i < encode_1.size(); ++i){
+        if (encode_1[i] >= 4*range_overlap.first && encode_1[i] <= 4*range_overlap.second+3){
+            temp_array[encode_1[i]] = true;
+            ++n_union;
+        }
+    }
+    
+    if (n_union == 0)
+        return -1;
+    
+    // read_2
+    for (auto i = 0; i < encode_2.size(); ++i){
+        if (encode_2[i] >= 4*range_overlap.first && encode_2[i] <= 4*range_overlap.second+3){
+            if (temp_array[encode_2[i]])
+                ++n_intersect;
+            else
+                ++n_union;
+        }
+    }
+    
+    // clear up temp_array
+    for (auto i = 0; i < encode_1.size(); ++i)
+        temp_array[encode_1[i]] = false;
+    
+    return (double)n_intersect / n_union;
+}
+
+
 inline double dist_hamming(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2,
                            const vector<int> &var_cdf, vector<bool> &temp_array, int min_overlap = 500)
 {

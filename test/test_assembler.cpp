@@ -154,7 +154,7 @@ TEST_CASE("test assembler::ann_clust, debug pt_recode")
     string out_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.8, 20, 50, 0.02);
+    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.02);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     

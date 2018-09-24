@@ -619,7 +619,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
     //this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
-    this->nc_reads_id = {6467};
+    this->nc_reads_id = {17038};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -667,8 +667,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         
         // calculate hamming distance between reads i and other reads and get topn nearest neighbors
-        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
-        //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
+        //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
+        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
         for (auto j = 0; j < recode_data.size(); ++j){
             if (i == j) continue;
             if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
@@ -676,7 +676,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             if (reads_range[i].first < reads_range[j].first)
                 continue;
             
-            double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+            //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+            double cur_dist = sim_jaccard(recode_data[i], recode_data[j], reads_range[i], reads_range[j], temp_array);
             
             if (cur_dist < 0) continue;
             
@@ -1057,7 +1058,7 @@ void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_v
         double cur_prop_T = double(pu_var_count[4*i+3]) / cur_cvg;
         
         if (cur_prop_A > 0.5)
-            cons.cons_seq.push_back(4*i);
+            cons.cons_seq.push_back(4*i); 
         
         if (cur_prop_C > 0.5)
             cons.cons_seq.push_back(4*i+1);
