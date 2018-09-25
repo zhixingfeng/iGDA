@@ -677,7 +677,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 continue;
             
             //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
-            double cur_dist = sim_jaccard(recode_data[i], recode_data[j], reads_range[i], reads_range[j], temp_array);
+            double cur_dist = sim_jaccard(recode_data[i], recode_data[j], reads_range[i], reads_range[j], temp_array, true);
             
             if (cur_dist < 0) continue;
             
@@ -701,6 +701,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         
         if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
             continue;
+        
+        // to be removed
+        cout << cur_neighbors_topn << endl;
+        cout << cur_neighbors << endl;
         
         // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
         // pileup topn neighbors
@@ -744,6 +748,11 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         
     }
     
+    
+}
+
+void ann_clust_recode_recursive(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, int max_iter = 5)
+{
     
 }
 
