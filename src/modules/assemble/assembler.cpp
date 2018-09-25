@@ -618,8 +618,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
-    //this->nc_reads_id = {17038};
+    //this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    this->nc_reads_id = {17038};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -666,86 +666,92 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         if (n_nc_reads % 1000 == 0)
             cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         
-        // calculate hamming distance between reads i and other reads and get topn nearest neighbors
-        //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
-        priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
-        for (auto j = 0; j < recode_data.size(); ++j){
-            if (i == j) continue;
-            if (reads_range[i].first >= reads_range[j].second || reads_range[i].second <= reads_range[j].first)
-                continue;
-            if (reads_range[i].first < reads_range[j].first)
-                continue;
-            
-            //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
-            double cur_dist = sim_jaccard(recode_data[i], recode_data[j], reads_range[i], reads_range[j], temp_array, true);
-            
-            if (cur_dist < 0) continue;
-            
-            topn_id.push(pair<int,double>(j,cur_dist));
-        }
-        
-        // get max_nn neighbors
-        vector<int> cur_neighbors_topn;
-        vector<int> cur_neighbors;
-        vector<double> cur_neighbors_dist;
-        for (auto j = 0; j < max_nn; ++j){
-            if (topn_id.empty()) break;
-            int cur_id = topn_id.top().first;
-            double cur_dist = topn_id.top().second;
-            cur_neighbors.push_back(cur_id);
-            cur_neighbors_dist.push_back(cur_dist);
-            if (j < topn)
-                cur_neighbors_topn.push_back(cur_id);
-            topn_id.pop();
-        }
-        
-        if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
-            continue;
-        
-        // to be removed
-        cout << cur_neighbors_topn << endl;
-        cout << cur_neighbors << endl;
-        
-        // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
-        // pileup topn neighbors
-        
-        unordered_set<int64_t> mod_idx_var;
-        unordered_set<int64_t> mod_idx_var_ref;
-        for (auto j : cur_neighbors){
-            pileup_var_online_count(cur_pu_var_count, recode_data[j], mod_idx_var);
-            pileup_var_online_count(cur_pu_var_ref_count, recode_ref_data[j], mod_idx_var_ref);
-        }
-        
-        // check pileup of all the neighbors
-        bool is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
-        
-        // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
-        if (!is_homo){
-            for (auto j = 0; j < cur_neighbors.size(); ++j){
-                int t = (int)cur_neighbors.size() - 1 - j;
-                if (t < topn) break;
-                pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
-                pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
-                is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, vector<int>(), min_cvg, min_prop, max_prop);
-                if (is_homo) break;
+        ConsensusSeq cur_cons;
+        cur_cons.seed = recode_data[i];
+        cur_cons.cons_seq = recode_data[i];
+        cur_cons.start = reads_range[i].first;
+        cur_cons.end = reads_range[i].second;
+        for (auto b = 0; b < 10; ++b){
+            // calculate hamming distance between reads i and other reads and get topn nearest neighbors
+            //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
+            priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
+            for (auto j = 0; j < recode_data.size(); ++j){
+                if (i == j) continue;
+                
+                if (cur_cons.start >= reads_range[j].second || cur_cons.end <= reads_range[j].first)
+                    continue;
+                
+                if (cur_cons.start < reads_range[j].first)
+                    continue;
+                
+                //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+                double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
+                
+                if (cur_dist < 0) continue;
+                
+                topn_id.push(pair<int,double>(j,cur_dist));
             }
-        }
-        
-        if (is_homo){
-            ConsensusSeq cur_cons;
-            cur_cons.seed = recode_data[i];
+            
+            // get max_nn neighbors
+            vector<int> cur_neighbors_topn;
+            vector<int> cur_neighbors;
+            vector<double> cur_neighbors_dist;
+            for (auto j = 0; j < max_nn; ++j){
+                if (topn_id.empty()) break;
+                int cur_id = topn_id.top().first;
+                double cur_dist = topn_id.top().second;
+                cur_neighbors.push_back(cur_id);
+                cur_neighbors_dist.push_back(cur_dist);
+                if (j < topn)
+                    cur_neighbors_topn.push_back(cur_id);
+                topn_id.pop();
+            }
+            
+            if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
+                break;
+            
+            // to be removed
+            cout << cur_neighbors_topn << endl;
+            cout << cur_neighbors << endl;
+            
+            // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
+            // pileup topn neighbors
+            
+            unordered_set<int64_t> mod_idx_var;
+            unordered_set<int64_t> mod_idx_var_ref;
+            for (auto j : cur_neighbors){
+                pileup_var_online_count(cur_pu_var_count, recode_data[j], mod_idx_var);
+                pileup_var_online_count(cur_pu_var_ref_count, recode_ref_data[j], mod_idx_var_ref);
+            }
+            
+            // check pileup of all the neighbors
+            bool is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);
+            
+            // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
+            if (!is_homo){
+                for (auto j = 0; j < cur_neighbors.size(); ++j){
+                    int t = (int)cur_neighbors.size() - 1 - j;
+                    if (t < topn) break;
+                    pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
+                    pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
+                    is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);
+                    if (is_homo) break;
+                }
+            }
+            
             cur_cons.neighbors_id = cur_neighbors;
-            this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, reads_range[i].first, reads_range[i].second, min_cvg);
-            rl_ann_clust.push_back(cur_cons);
+            this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
+            if (is_homo){
+                rl_ann_clust.push_back(cur_cons);
+                break;
+            }
+            
+            // clean cur_pu_var_count and cur_pu_reads_count
+            for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                cur_pu_var_count[*it] = 0;
+            for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                cur_pu_var_ref_count[*it] = 0;
         }
-        
-        
-        // clean cur_pu_var_count and cur_pu_reads_count
-        for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
-            cur_pu_var_count[*it] = 0;
-        for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
-            cur_pu_var_ref_count[*it] = 0;
-        
     }
     
     
