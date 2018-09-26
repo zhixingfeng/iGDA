@@ -618,8 +618,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    //this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
-    this->nc_reads_id = {17038};
+    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    //this->nc_reads_id = {17038};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -671,7 +671,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         cur_cons.cons_seq = recode_data[i];
         cur_cons.start = reads_range[i].first;
         cur_cons.end = reads_range[i].second;
-        for (auto b = 0; b < 10; ++b){
+        for (auto b = 0; b < 1; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
             //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
             priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
@@ -711,8 +711,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 break;
             
             // to be removed
-            cout << cur_neighbors_topn << endl;
-            cout << cur_neighbors << endl;
+            //cout << "cur_neighbors_topn: " << cur_neighbors_topn << endl;
+            //cout << "cur_neighbors: " << cur_neighbors << endl;
             
             // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
             // pileup topn neighbors
@@ -741,6 +741,9 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             
             cur_cons.neighbors_id = cur_neighbors;
             this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
+            // to be removed
+            //cout << "cur_cons.cons_seq: " << cur_cons.cons_seq << endl;
+            
             if (is_homo){
                 rl_ann_clust.push_back(cur_cons);
                 break;
@@ -1038,6 +1041,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx)
 
 void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, int min_cvg)
 {
+    cons.cons_seq.clear();
     cons.start = start;
     cons.end = start;
     vector<double> prop(pu_var_count.size(),-1);
