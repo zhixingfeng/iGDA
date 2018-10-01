@@ -815,7 +815,8 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
             }
             fs_outfile << '\t';*/
             
-            fs_outfile << rl_ann_clust[i].neighbors_id;
+            fs_outfile << rl_ann_clust[i].neighbors_id << '\t';
+            fs_outfile << rl_ann_clust[i].tested_loci;
         }
         
         fs_outfile << endl;
@@ -1066,12 +1067,11 @@ void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_v
         int64_t cur_cvg = pu_var_count[4*i] + pu_var_count[4*i+1] + pu_var_count[4*i+2] + pu_var_count[4*i+3];
         cur_cvg += pu_var_ref_count[4*i] + pu_var_ref_count[4*i+1] + pu_var_ref_count[4*i+2] + pu_var_ref_count[4*i+3];
         
-        if (cur_cvg < min_cvg){
-            cons.discard_loci.push_back(i);
+        if (cur_cvg < min_cvg)
             continue;
-        }
         
         cons.end = i;
+        cons.tested_loci.push_back(i);
         
         // check A, C, G, T
         double cur_prop_A = double(pu_var_count[4*i]) / cur_cvg;
