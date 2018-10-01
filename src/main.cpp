@@ -542,12 +542,14 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> varfileArg("varfile", "path of variant file", true, "", "varfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
-            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 20, "mincvg", cmd);
+            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 12", false , 12, "mincvg", cmd);
             ValueArg<double> minpropArg("p","minprop","minimal frequency, default: 0.2", false , 0.2, "minprop", cmd);
-            ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.7", false , 0.8, "maxprop", cmd);
-            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 30", false , 20, "topn", cmd);
-            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 200", false , 50, "maxnn", cmd);
-            ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
+            ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.8", false , 0.8, "maxprop", cmd);
+            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 20", false , 20, "topn", cmd);
+            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 50", false , 50, "maxnn", cmd);
+            //ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
+            ValueArg<double> minjaccardArg("j","minjaccard","minimal jaccard index of the initial neighbors, default: 0.5", false , 0.5, "minjaccard", cmd);
+            
             
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
             SwitchArg ismetricArg("e", "metric", "is output metric (seed and neighbor IDs)", cmd, false);
@@ -558,15 +560,15 @@ int main(int argc, const char * argv[])
             cout << "maxprop = " << maxpropArg.getValue() << endl;
             cout << "topn = " << topnArg.getValue() << endl;
             cout << "maxnn = " << maxnnArg.getValue() << endl;
-            cout << "maxdist = " << maxdistArg.getValue() << endl;
+            cout << "minjaccard = " << minjaccardArg.getValue() << endl;
             
             Assembler assembler;
             if (islegacyArg.getValue()){
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
+                                minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
                 assembler.ann_clust_recode(encodefileArg.getValue(), encodefileArg.getValue() + ".ref", alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), maxdistArg.getValue());
+                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);

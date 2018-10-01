@@ -23,6 +23,8 @@ struct ConsensusSeq
     vector<int> seed;
     vector<int> neighbors_id;
     
+    vector<int> discard_loci; // store discarded loci due to low depth
+    
     int start;
     int end;
 };

@@ -614,12 +614,14 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double max_dist)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
 {
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
-    this->find_ncreads(recode_file, align_file, var_file, topn, max_dist);
+    this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
+    //this->nc_reads_id = {121665};
     //this->nc_reads_id = {17038};
+    
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
@@ -687,13 +689,13 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
                 double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
                 
-                if (cur_dist < 0) continue;
+                if (cur_dist < min_jaccard) continue;
                 
                 topn_id.push(pair<int,double>(j,cur_dist));
             }
             
             // get max_nn neighbors
-            vector<int> cur_neighbors_topn;
+            //vector<int> cur_neighbors_topn;
             vector<int> cur_neighbors;
             vector<double> cur_neighbors_dist;
             for (auto j = 0; j < max_nn; ++j){
@@ -702,17 +704,13 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 double cur_dist = topn_id.top().second;
                 cur_neighbors.push_back(cur_id);
                 cur_neighbors_dist.push_back(cur_dist);
-                if (j < topn)
-                    cur_neighbors_topn.push_back(cur_id);
+                //if (j < topn)
+                //    cur_neighbors_topn.push_back(cur_id);
                 topn_id.pop();
             }
             
-            if (cur_neighbors.size() == 0 || cur_neighbors_topn.size() == 0)
+            if (cur_neighbors.size() < min_cvg)
                 break;
-            
-            // to be removed
-            //cout << "cur_neighbors_topn: " << cur_neighbors_topn << endl;
-            //cout << "cur_neighbors: " << cur_neighbors << endl;
             
             // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
             // pileup topn neighbors
@@ -728,9 +726,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             bool is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);
             
             // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
+            int t = (int)cur_neighbors.size();
             if (!is_homo){
                 for (auto j = 0; j < cur_neighbors.size(); ++j){
-                    int t = (int)cur_neighbors.size() - 1 - j;
+                    t = (int)cur_neighbors.size() - 1 - j;
                     if (t < topn) break;
                     pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
                     pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
@@ -738,13 +737,15 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                     if (is_homo) break;
                 }
             }
+            cur_cons.neighbors_id = vector<int> (cur_neighbors.begin(),  cur_neighbors.begin() + t);
             
-            cur_cons.neighbors_id = cur_neighbors;
-            this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
             // to be removed
+            //this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
             //cout << "cur_cons.cons_seq: " << cur_cons.cons_seq << endl;
+            //cout << "cur_cons.neighbors_id: " << cur_cons.neighbors_id << endl;
             
             if (is_homo){
+                this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
                 rl_ann_clust.push_back(cur_cons);
                 break;
             }
@@ -1065,8 +1066,10 @@ void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_v
         int64_t cur_cvg = pu_var_count[4*i] + pu_var_count[4*i+1] + pu_var_count[4*i+2] + pu_var_count[4*i+3];
         cur_cvg += pu_var_ref_count[4*i] + pu_var_ref_count[4*i+1] + pu_var_ref_count[4*i+2] + pu_var_ref_count[4*i+3];
         
-        if (cur_cvg < min_cvg)
+        if (cur_cvg < min_cvg){
+            cons.discard_loci.push_back(i);
             continue;
+        }
         
         cons.end = i;
         
