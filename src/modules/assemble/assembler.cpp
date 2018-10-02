@@ -619,7 +619,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     /*------------ find nc-reads -----------*/
     cout << "find non-contained reads" << endl;
     this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
-    //this->nc_reads_id = {121665};
+    //this->nc_reads_id = {128935 };
     //this->nc_reads_id = {17038};
     
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
@@ -747,7 +747,6 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             if (is_homo){
                 this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
                 rl_ann_clust.push_back(cur_cons);
-                break;
             }
             
             // clean cur_pu_var_count and cur_pu_reads_count
@@ -755,6 +754,9 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 cur_pu_var_count[*it] = 0;
             for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
                 cur_pu_var_ref_count[*it] = 0;
+            
+            if (is_homo)
+                break;
         }
     }
     
