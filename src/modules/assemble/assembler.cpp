@@ -709,7 +709,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 topn_id.pop();
             }
             
-            if (cur_neighbors.size() < min_cvg)
+            if (cur_neighbors.size() < topn || cur_neighbors.size() < min_cvg)
                 break;
             
             // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
