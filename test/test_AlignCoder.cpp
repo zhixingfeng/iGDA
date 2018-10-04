@@ -173,6 +173,20 @@ TEST_CASE("test AlignCoderSNV::recode() debug", "[hide]")
     
 }
 
+TEST_CASE("test AlignCoderSNV::recode() check putative errors")
+{
+    string m5_file = "../results/pt_ann_recode_nb/align_to_consensus_trim.m5.nb";
+    string var_file = "../results/pt_ann_recode_nb/align_to_consensus_trim.var";
+    string recode_file = "../results/pt_ann_recode_nb/align_to_consensus_trim.recode";
+    
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->recode(m5_file, var_file, recode_file, 10, 10, true);
+    
+    
+}
 
 
 

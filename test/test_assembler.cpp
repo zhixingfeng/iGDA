@@ -145,7 +145,7 @@ TEST_CASE("test assembler::ann_clust", "[hide]")
     //assembler.print_rl_ann_clust(out_file+".seq", true);
 }
 
-TEST_CASE("test assembler::ann_clust, debug pt_recode")
+TEST_CASE("test assembler::ann_clust, debug pt_recode", "[hide]")
 {
     string recode_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.recode";
     string recode_ref_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.recode.ref";

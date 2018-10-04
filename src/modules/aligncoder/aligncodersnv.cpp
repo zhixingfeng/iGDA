@@ -314,7 +314,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             }
             
             // to be removed
-            /*if (cur_pos == 14864){
+            /*if (cur_pos == 2829185){
                 cout << "read: " << nline << endl;
                 cout << "score: " << endl;
                 cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << endl;
