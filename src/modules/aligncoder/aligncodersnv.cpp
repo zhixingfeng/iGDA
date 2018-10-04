@@ -157,8 +157,251 @@ bool AlignCoderSNV::encode(const StripedSmithWaterman::Alignment &alignment, con
 }
 
 
-
 bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
+{
+    // load var_file
+    vector<VarData> var_data;
+    ifstream fs_varfile;
+    int64_t max_code = -1;
+    open_infile(fs_varfile, var_file);
+    while(true){
+        string buf;
+        getline(fs_varfile, buf);
+        if(fs_varfile.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=9)
+            throw runtime_error("incorrect format in " + var_file);
+        var_data.push_back(VarData(stod(buf_vec[0]), buf_vec[1][0], stod(buf_vec[2])));
+        
+        if (stod(buf_vec[2]) > max_code)
+            max_code = stod(buf_vec[2]);
+    }
+    fs_varfile.close();
+    
+    // fill template of var_data
+    vector<bool> var_data_temp(max_code + 4, false);
+    for (int64_t i = 0; i < var_data.size(); ++i)
+        var_data_temp[var_data[i].code] = true;
+    
+    
+    // scan m5_file and recode
+    if (p_alignreader==NULL)
+        throw runtime_error("AlignCoderSNV::recode(): p_alignreader has not be set.");
+    ofstream p_outfile;
+    open_outfile(p_outfile, recode_file);
+    ofstream p_outfile_ref;
+    open_outfile(p_outfile_ref, recode_file + ".ref");
+    
+    p_alignreader->open(m5_file);
+    Align align;
+    int nline = 0;
+    while(p_alignreader->readline(align)){
+        ++nline;
+        if (nline % 100 == 0)
+            cout << nline << endl;
+        //cout << nline << endl;
+        
+        // expections
+        int alen = (int) align.matchPattern.size();
+        if ( !(align.qAlignedSeq.size()==alen && align.tAlignedSeq.size()==alen) )
+            throw runtime_error("incorrect match patter in line " + to_string(nline));
+        if (align.qStrand != '+')
+            throw runtime_error("qStrand should be + in line " + to_string(nline));
+        
+        // reverse alignment if it is aligned to negative strand
+        if (align.tStrand != '+'){
+            align.qAlignedSeq = getrevcomp(align.qAlignedSeq);
+            align.tAlignedSeq = getrevcomp(align.tAlignedSeq);
+        }
+        
+        // encode
+        int cur_pos = align.tStart;
+        for (int i=0; i<alen; i++){
+            //cout << "nline=" << nline << ", i=" <<i << endl;
+            if (align.tAlignedSeq[i]=='-')
+                continue;
+            
+            if (4*cur_pos+3 > max_code + 3)
+                break;
+            
+            // realign if hit detected variants
+            int score_A = MIN_SCORE;
+            int score_C = MIN_SCORE;
+            int score_G = MIN_SCORE;
+            int score_T = MIN_SCORE;
+            int score_ref = MIN_SCORE;
+            bool is_var = false;
+            
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_A;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_C;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_G;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_T;
+            seqan::Align<string, seqan::ArrayGaps> cur_realign_ref;
+            
+            string cur_qseq;
+            string cur_rseq;
+            pair<string, string> context;
+            char ref_base;
+            
+            // if the current locus hit a detected variants then realign
+            if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
+                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
+                if (!rl){
+                    ++cur_pos;
+                    continue;
+                }
+                
+                is_var = true;
+                
+                // get left query sequence length
+                int64_t k = 0;
+                int64_t cur_qseq_start = i;
+                while(true){
+                    if (align.tAlignedSeq[cur_qseq_start]!='-')
+                        k++;
+                    if (k >= context.first.size())
+                        break;
+                    --cur_qseq_start;
+                }
+                
+                
+                // get right query sequence length
+                k = 0;
+                int64_t cur_qseq_end = i+1;
+                while(true){
+                    if (align.tAlignedSeq[cur_qseq_end]!='-')
+                        k++;
+                    if (k >= context.second.size())
+                        break;
+                    ++cur_qseq_end;
+                }
+                
+                if (cur_qseq_start < 0)
+                    throw runtime_error("cur_qseq_start < 0");
+                if (cur_qseq_end >= alen)
+                    throw runtime_error("cur_qseq_end >= alen");
+                
+                for (auto j = cur_qseq_start; j <= cur_qseq_end; ++j){
+                    if (align.qAlignedSeq[j]!='-')
+                        cur_qseq.push_back(align.qAlignedSeq[j]);
+                }
+                
+                cur_rseq = context.first + context.second;
+                
+                if (cur_qseq == ""){
+                    ++cur_pos;
+                    continue;
+                }
+                
+                if (cur_rseq == "")
+                    throw runtime_error("cur_rseq is empty");
+                
+                ref_base = cur_rseq[context.first.size()-1];
+                
+                // realign to the reference
+                score_ref = this->realign(cur_realign_ref, cur_qseq, cur_rseq);
+                
+                // realign to variants
+                // realign to A
+                if (var_data_temp[4*cur_pos]){
+                    if (ref_base == 'A')
+                        throw runtime_error("reference is A but variants is also A at line " + to_string(nline) + ":" + to_string(i));
+                    cur_rseq[context.first.size()-1] = 'A';
+                    score_A = this->realign(cur_realign_A, cur_qseq, cur_rseq);
+                }
+                
+                // realign to C
+                if (var_data_temp[4*cur_pos + 1]){
+                    if (ref_base == 'C')
+                        throw runtime_error("reference is C but variants is also C at line " + to_string(nline) + ":" + to_string(i));
+                    cur_rseq[context.first.size()-1] = 'C';
+                    score_C = this->realign(cur_realign_C, cur_qseq, cur_rseq);
+                }
+                
+                // realign to G
+                if (var_data_temp[4*cur_pos + 2]){
+                    if (ref_base == 'G')
+                        throw runtime_error("reference is G but variants is also G at line " + to_string(nline) + ":" + to_string(i));
+                    cur_rseq[context.first.size()-1] = 'G';
+                    score_G = this->realign(cur_realign_G, cur_qseq, cur_rseq);
+                }
+                
+                // realign to T
+                if (var_data_temp[4*cur_pos + 3]){
+                    if (ref_base == 'T')
+                        throw runtime_error("reference is T but variants is also T at line " + to_string(nline) + ":" + to_string(i));
+                    cur_rseq[context.first.size()-1] = 'T';
+                    score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
+                }
+                
+            }else{
+                ++cur_pos;
+                continue;
+            }
+    
+            // recode
+            if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
+                throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
+            
+            // A
+            if (score_A > score_C && score_A > score_G && score_A > score_T && score_A > score_ref){
+                p_outfile << 4*cur_pos << '\t';
+            }
+            
+            // C
+            if (score_C > score_A && score_C > score_G && score_C > score_T && score_C > score_ref){
+                p_outfile << 4*cur_pos+1 << '\t';
+            }
+            
+            // G
+            if (score_G > score_A && score_G > score_C && score_G > score_T && score_G > score_ref){
+                p_outfile << 4*cur_pos+2 << '\t';
+            }
+            
+            // T
+            if (score_T > score_A && score_T > score_C && score_T > score_G && score_T > score_ref){
+                p_outfile << 4*cur_pos+3 << '\t';
+            }
+            
+            // ref
+            if (is_report_ref){
+                if (score_ref > score_A && score_ref > score_C && score_ref > score_T){
+                    switch (ref_base) {
+                        case 'A':
+                            p_outfile_ref << 4*cur_pos << '\t';
+                            break;
+                        case 'C':
+                            p_outfile_ref << 4*cur_pos + 1 << '\t';
+                            break;
+                        case 'G':
+                            p_outfile_ref << 4*cur_pos + 2 << '\t';
+                            break;
+                        case 'T':
+                            p_outfile_ref << 4*cur_pos + 3 << '\t';
+                            break;
+                        default:
+                            throw runtime_error("ref_base is not A, C, G or T");
+                            break;
+                    }
+                }
+            }
+            
+            ++cur_pos;
+        }
+        p_outfile << endl;
+        p_outfile_ref << endl;
+    }
+    
+    p_alignreader->close();
+    
+    
+    p_outfile.close();
+    p_outfile_ref.close();
+    
+    return true;
+}
+bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
 {
     // load var_file
     vector<VarData> var_data;

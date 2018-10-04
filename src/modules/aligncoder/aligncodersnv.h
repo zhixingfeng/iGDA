@@ -30,7 +30,8 @@ public:
                     int start_pos, vector<int> &encode_data);
 
     // recode according to detected variants
-    bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = false);
+    bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true);
+    bool recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = false);
     
 protected:
     bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
