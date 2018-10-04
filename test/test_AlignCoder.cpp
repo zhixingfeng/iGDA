@@ -173,7 +173,7 @@ TEST_CASE("test AlignCoderSNV::recode() debug", "[hide]")
     
 }
 
-TEST_CASE("test AlignCoderSNV::recode() check putative errors")
+TEST_CASE("test AlignCoderSNV::recode() check putative errors", "[hide]")
 {
     string m5_file = "../results/pt_ann_recode_nb/align_to_consensus_trim.m5.nb";
     string var_file = "../results/pt_ann_recode_nb/align_to_consensus_trim.var";

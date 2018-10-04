@@ -616,13 +616,10 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
 
 void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
 {
-    /*------------ find nc-reads -----------*/
-    cout << "find non-contained reads" << endl;
-    this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
-    //this->nc_reads_id = {128935 };
-    //this->nc_reads_id = {17038};
-    
-    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    /*------------ find nc-reads (deperated) -----------*/
+    //cout << "find non-contained reads" << endl;
+    //this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
+    //cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     /*------------ use nc-reads seed to cluster ----------*/
     cout << "use non-contained reads as seed to cluster" << endl;
@@ -647,6 +644,11 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     
     if (reads_range.size() != recode_ref_data.size())
         throw runtime_error("reads_range.size() != recode_ref_data.size()");
+    
+    this->nc_reads_id.resize(reads_range.size());
+    iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
+    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    
     
     // get genome size
     size_t genome_size = get_genome_size(reads_range);
