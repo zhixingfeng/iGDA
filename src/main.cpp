@@ -625,6 +625,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 10", false , 10, "rightlen", cmd);
             
             SwitchArg isreportrefArg("f", "ref", "encode reference", cmd, false);
+            SwitchArg islegacyArg("y", "legacy", "is use legacy algorithm", cmd, false);
             
             cmd.parse(argv2);
             
@@ -632,8 +633,11 @@ int main(int argc, const char * argv[])
             AlignReaderM5 alignreaderm5;
             AlignCoder *p_aligncoder = &aligncodersnv;
             p_aligncoder->setAlignReader(&alignreaderm5);
-
-            p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), isreportrefArg.getValue());
+            
+            if (!islegacyArg.getValue())
+                p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), isreportrefArg.getValue());
+            else
+                p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), isreportrefArg.getValue());
         }
 
         

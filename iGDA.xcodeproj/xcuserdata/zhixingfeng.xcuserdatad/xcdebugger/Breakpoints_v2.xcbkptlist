@@ -274,7 +274,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1046"
             endingLineNumber = "1046"
-            landmarkName = "Assembler::get_consensus_recode(ConsensusSeq &amp;cons, const vector&lt;int&gt; &amp;pu_var_count, const vector&lt;int&gt; &amp;pu_var_ref_count, int start, int end, int min_cvg)"
+            landmarkName = "Assembler::find_nccontigs(vector&lt;int64_t&gt; &amp;idx)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
