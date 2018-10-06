@@ -341,7 +341,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             }
     
             // to be removed
-            if (cur_pos == 2827007){
+            /*if (cur_pos == 2827007){
                 cout << "read: " << nline << endl;
                 cout << "score: " << endl;
                 cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << ", ref = " << score_ref << endl;
@@ -370,7 +370,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 }
                 cout << "ref_base = " << ref_base << endl;
                 getchar();
-             }            
+             }*/
             
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
@@ -592,7 +592,7 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
             }
             
             // to be removed
-            if (cur_pos == 2827007){
+            /*if (cur_pos == 2827007){
                 cout << "read: " << nline << endl;
                 cout << "score: " << endl;
                 cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << endl;
@@ -611,7 +611,7 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
                 
                 cout << "ref_base = " << ref_base << endl;
                 getchar();
-            }
+            }*/
             
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)

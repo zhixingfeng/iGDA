@@ -647,6 +647,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     
     this->nc_reads_id.resize(reads_range.size());
     iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
+    //this->nc_reads_id = {26639};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     
@@ -731,8 +732,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             int t = (int)cur_neighbors.size();
             if (!is_homo){
                 for (auto j = 0; j < cur_neighbors.size(); ++j){
+                    if (t <= topn) break;
                     t = (int)cur_neighbors.size() - 1 - j;
-                    if (t < topn) break;
                     pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
                     pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
                     is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);

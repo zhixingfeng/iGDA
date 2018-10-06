@@ -167,6 +167,19 @@ TEST_CASE("test assembler::ann_clust, debug pt_recode", "[hide]")
 }
 
 
+TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm")
+{
+    string recode_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.recode";
+    string recode_ref_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.recode.ref";
+    string m5_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.m5";
+    string var_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.var";
+    string out_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.ann";
+    
+    Assembler assembler;
+    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
+    
+}
+
 
 
 

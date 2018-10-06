@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "186"
             endingLineNumber = "186"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "187"
             endingLineNumber = "187"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "182"
             endingLineNumber = "182"
-            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;)"
+            landmarkName = "TEST_CASE(&quot;test AlignCoderSNV::recode() check putative errors&quot;, &quot;[hide]&quot;)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -80,6 +80,22 @@
             startingLineNumber = "372"
             endingLineNumber = "372"
             landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "560546735.327461"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "750"
+            endingLineNumber = "750"
+            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
