@@ -340,6 +340,38 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 continue;
             }
     
+            // to be removed
+            if (cur_pos == 2827007){
+                cout << "read: " << nline << endl;
+                cout << "score: " << endl;
+                cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << ", ref = " << score_ref << endl;
+                
+                if (score_A > MIN_SCORE){
+                    cout << "realign A" << endl;
+                    cout << cur_realign_A << endl;
+                }
+                
+                if (score_C > MIN_SCORE){
+                    cout << "realign C" << endl;
+                    cout << cur_realign_C << endl;
+                }
+                if (score_G > MIN_SCORE){
+                    cout << "realign G" << endl;
+                    cout << cur_realign_G << endl;
+                }
+                if (score_T > MIN_SCORE){
+                    cout << "realign T" << endl;
+                    cout << cur_realign_T << endl;
+                }
+                    
+                if (score_ref > MIN_SCORE){
+                    cout << "realign ref" << endl;
+                    cout << cur_realign_ref << endl;
+                }
+                cout << "ref_base = " << ref_base << endl;
+                getchar();
+             }            
+            
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
                 throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
@@ -484,6 +516,7 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
             string cur_qseq;
             string cur_rseq;
             pair<string, string> context;
+            char ref_base;
             
             // align local sequence to the referece
             if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
@@ -538,6 +571,8 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
                 if (cur_rseq == "")
                     throw runtime_error("cur_rseq is empty");
                 
+                ref_base = cur_rseq[context.first.size()-1];
+                
                 // realign
                 cur_rseq[context.first.size()-1] = 'A';
                 score_A = this->realign(cur_realign_A, cur_qseq, cur_rseq);
@@ -557,15 +592,26 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
             }
             
             // to be removed
-            /*if (cur_pos == 2829185){
+            if (cur_pos == 2827007){
                 cout << "read: " << nline << endl;
                 cout << "score: " << endl;
                 cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << endl;
+                
+                cout << "realign A" << endl;
                 cout << cur_realign_A << endl;
+                
+                cout << "realign C" << endl;
                 cout << cur_realign_C << endl;
+                
+                cout << "realign G" << endl;
                 cout << cur_realign_G << endl;
+                
+                cout << "realign T" << endl;
                 cout << cur_realign_T << endl;
-            }*/
+                
+                cout << "ref_base = " << ref_base << endl;
+                getchar();
+            }
             
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)
