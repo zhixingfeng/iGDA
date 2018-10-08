@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "560546735.327461"
+            timestampString = "560703923.945829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "750"
-            endingLineNumber = "750"
+            startingLineNumber = "754"
+            endingLineNumber = "754"
             landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)"
             landmarkType = "5">
          </BreakpointContent>

@@ -157,7 +157,7 @@ bool AlignCoderSNV::encode(const StripedSmithWaterman::Alignment &alignment, con
 }
 
 
-bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
+bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
 {
     // load var_file
     vector<VarData> var_data;
@@ -433,7 +433,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     
     return true;
 }
-bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
+bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
 {
     // load var_file
     vector<VarData> var_data;
