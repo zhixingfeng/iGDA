@@ -134,13 +134,17 @@ public:
        
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
-    void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, double max_dist = 0.02);
-    void ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, double min_jaccard = 0.5);
+    void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double max_dist = 0.02);
+    void ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5);
     
     void find_nccontigs(vector<int64_t> &idx);
     
     void print_rl_ann_clust(string outfile, bool is_metric = false, vector<int64_t> idx = vector<int64_t>());
     void print_nc_reads_id(string outfile);
+    
+    // assign reads to assembled contigs (recode only)
+    void read_ann_results(string ann_file); // used for testing only
+    void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range);
     
 protected:
     // ann sub functions

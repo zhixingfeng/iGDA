@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "613"
             endingLineNumber = "613"
-            landmarkName = "AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
+            landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "372"
             endingLineNumber = "372"
-            landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
+            landmarkName = "AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -96,6 +96,22 @@
             startingLineNumber = "754"
             endingLineNumber = "754"
             landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "560727526.049937"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "863"
+            endingLineNumber = "863"
+            landmarkName = "Assembler::read_ann_results(string ann_file)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

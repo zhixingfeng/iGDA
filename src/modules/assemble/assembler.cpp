@@ -841,6 +841,33 @@ void Assembler::print_nc_reads_id(string outfile)
     fs_outfile.close();
 }
 
+void Assembler::read_ann_results(string ann_file)
+{
+    this->rl_ann_clust.clear();
+    ifstream fs_ann_file;
+    open_infile(fs_ann_file, ann_file);
+    while(true){
+        string buf;
+        getline(fs_ann_file, buf);
+        if(fs_ann_file.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        
+        ConsensusSeq cur_cons;
+        cur_cons.cons_seq = split_int(buf_vec[0], ',');
+        cur_cons.start = stoi(buf_vec[1]);
+        cur_cons.end = stoi(buf_vec[2]);
+        cur_cons.seed = split_int(buf_vec[3], ',');
+        cur_cons.neighbors_id = split_int(buf_vec[4], ',');
+        cur_cons.tested_loci = split_int(buf_vec[5], ',');
+        
+        this->rl_ann_clust.push_back(cur_cons);
+    }
+    
+    fs_ann_file.close();
+    
+}
+
 
 void Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
 {
