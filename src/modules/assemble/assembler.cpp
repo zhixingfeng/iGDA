@@ -786,7 +786,8 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
     //for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
     for (auto &i : idx){
         fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
-        fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end;
+        fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
+        fs_outfile << this->rl_ann_clust[i].contig_reads_count << '\t' << this->rl_ann_clust[i].contig_freq;
         
         if (is_metric){
             fs_outfile << '\t';
@@ -868,6 +869,47 @@ void Assembler::read_ann_results(string ann_file)
     
 }
 
+void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)
+{
+    if (recode_data.size() != reads_range.size())
+        throw runtime_error("In Assembler::assign_reads_to_contigs, recode_data.size() != reads_range.size()");
+    
+    size_t genome_size = get_genome_size(reads_range);
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    for (auto i = 0; i < recode_data.size(); ++i){
+        if (i % 1000 == 0)
+            cout << i << endl;
+        // get maximal similarity
+        vector<double> contig_jaccard;
+        double max_jaccard = -1;
+        for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
+            ReadRange contig_range(this->rl_ann_clust[j].start, this->rl_ann_clust[j].end);
+            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array);
+            if (cur_jaccard > max_jaccard)
+                max_jaccard = cur_jaccard;
+            contig_jaccard.push_back(cur_jaccard);
+        }
+        
+        if (abs(max_jaccard + 1) <= EPS)
+            continue;
+        
+        // get contigs having the maximal similarity
+        vector<int64_t> contig_id;
+        for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
+            if ( abs(contig_jaccard[j] - max_jaccard) <= EPS){
+                contig_id.push_back(j);
+            }
+        }
+        
+        for (auto j = 0; j < contig_id.size(); ++j)
+            this->rl_ann_clust[contig_id[j]].contig_reads_count += 1.0/double(contig_id.size());
+    }
+    
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+        this->rl_ann_clust[i].contig_freq = this->rl_ann_clust[i].contig_reads_count / recode_data.size();
+    
+}
 
 void Assembler::find_ncreads(string encode_file, string align_file, string var_file, int topn, double max_dist)
 {

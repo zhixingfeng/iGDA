@@ -144,7 +144,7 @@ public:
     
     // assign reads to assembled contigs (recode only)
     void read_ann_results(string ann_file); // used for testing only
-    void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range);
+    void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);
     
 protected:
     // ann sub functions
