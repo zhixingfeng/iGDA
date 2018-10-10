@@ -25,8 +25,8 @@ struct ConsensusSeq
     
     vector<int> tested_loci; // store test loci which pass the minimal coverage
     
-    double contig_reads_count;
-    double contig_freq;
+    double contig_count;
+    double contig_cvg;
     
     int start;
     int end;

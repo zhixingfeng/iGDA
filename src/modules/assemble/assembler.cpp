@@ -787,7 +787,7 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
     for (auto &i : idx){
         fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
         fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
-        fs_outfile << this->rl_ann_clust[i].contig_reads_count << '\t' << this->rl_ann_clust[i].contig_freq;
+        fs_outfile << this->rl_ann_clust[i].contig_count << '\t' << this->rl_ann_clust[i].contig_cvg;
         
         if (is_metric){
             fs_outfile << '\t';
@@ -878,17 +878,27 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
     vector<bool> temp_array(genome_size*4+3, false);
     
     for (auto i = 0; i < recode_data.size(); ++i){
-        if (i % 1000 == 0)
-            cout << i << endl;
+        if ((i+1) % 1000 == 0)
+            cout << i + 1<< endl;
         // get maximal similarity
         vector<double> contig_jaccard;
+        vector<double> contig_cvg;
         double max_jaccard = -1;
         for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
             ReadRange contig_range(this->rl_ann_clust[j].start, this->rl_ann_clust[j].end);
             double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array);
+            
+            contig_jaccard.push_back(cur_jaccard);
+            
+            int overlap_start = reads_range[i].first >= contig_range.first ? reads_range[i].first : contig_range.first;
+            int overlap_end = reads_range[i].second <= contig_range.second ? reads_range[i].second : contig_range.second;
+            int overlap_len = overlap_end - overlap_start + 1;
+            
+            overlap_len = overlap_len >= 0 ? overlap_len : 0;
+            contig_cvg.push_back(overlap_len);
+            
             if (cur_jaccard > max_jaccard)
                 max_jaccard = cur_jaccard;
-            contig_jaccard.push_back(cur_jaccard);
         }
         
         if (abs(max_jaccard + 1) <= EPS)
@@ -899,15 +909,20 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
         for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
             if ( abs(contig_jaccard[j] - max_jaccard) <= EPS){
                 contig_id.push_back(j);
+                
             }
         }
         
-        for (auto j = 0; j < contig_id.size(); ++j)
-            this->rl_ann_clust[contig_id[j]].contig_reads_count += 1.0/double(contig_id.size());
+        for (auto j = 0; j < contig_id.size(); ++j){
+            this->rl_ann_clust[contig_id[j]].contig_count += 1.0/double(contig_id.size());
+            this->rl_ann_clust[contig_id[j]].contig_cvg += contig_cvg[contig_id[j]] / double(contig_id.size());
+        }
     }
     
-    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
-        this->rl_ann_clust[i].contig_freq = this->rl_ann_clust[i].contig_reads_count / recode_data.size();
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i) {
+        double cur_contig_len = this->rl_ann_clust[i].end - this->rl_ann_clust[i].start + 1;
+        this->rl_ann_clust[i].contig_cvg = this->rl_ann_clust[i].contig_cvg / cur_contig_len;
+    }
     
 }
 

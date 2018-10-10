@@ -183,8 +183,8 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 TEST_CASE("test assembler::read_ann_results()")
 {
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
-    string recode_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.recode";
-    string m5_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.m5";
+    string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
+    string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
     //string ann_copy_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.copy";
     
     Assembler assembler;
