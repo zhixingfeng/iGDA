@@ -27,6 +27,8 @@ struct ConsensusSeq
     
     double contig_count;
     double contig_cvg;
+    vector<int64_t> nn_reads_id;
+    
     
     int start;
     int end;
