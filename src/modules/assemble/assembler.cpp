@@ -833,9 +833,9 @@ void Assembler::read_ann_results(string ann_file)
         cur_cons.cons_seq = split_int(buf_vec[0], ',');
         cur_cons.start = stoi(buf_vec[1]);
         cur_cons.end = stoi(buf_vec[2]);
-        cur_cons.seed = split_int(buf_vec[3], ',');
-        cur_cons.neighbors_id = split_int(buf_vec[4], ',');
-        cur_cons.tested_loci = split_int(buf_vec[5], ',');
+        cur_cons.seed = split_int(buf_vec[5], ',');
+        cur_cons.neighbors_id = split_int(buf_vec[6], ',');
+        cur_cons.tested_loci = split_int(buf_vec[7], ',');
         
         this->rl_ann_clust.push_back(cur_cons);
     }

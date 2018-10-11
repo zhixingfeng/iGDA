@@ -572,17 +572,32 @@ int main(int argc, const char * argv[])
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
-            //assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", false, idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
             
-            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
+            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue() + ".igda_tmp.sorted";
             cout << cmd << endl; system(cmd.c_str());
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
             cout << cmd << endl; system(cmd.c_str());
             
-            //assembler.print_nc_reads_id(outfileArg.getValue() + ".nc_idx");
+            // calculate abundance
+            cout << "calculate abundance" << endl;
+            cout << "load ann" << endl;
+            assembler.read_ann_results(outfileArg.getValue() + ".igda_tmp.sorted");
             
+            cout << "load recode_data" << endl;
+            vector<vector<int> > recode_data;
+            loadencodedata(recode_data, encodefileArg.getValue());
+            
+            cout << "load reads_range" << endl;
+            vector<ReadRange> reads_range;
+            loadreadsrange(reads_range, alignfileArg.getValue());
+            
+            assembler.assign_reads_to_contigs(recode_data, reads_range);
+            assembler.print_rl_ann_clust(outfileArg.getValue(), true);
+            
+            cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp.sorted";
+            cout << cmd << endl; system(cmd.c_str());
         }
         
         if (strcmp(argv[1], "samtom5")==0){
