@@ -21,6 +21,7 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
     int n_intersect = 0;
     int n_union = 0;
     int n_overlap_1 = 0;
+    int n_overlap_2 = 0;
     // read 1
     for (auto i = 0; i < encode_1.size(); ++i){
         if (encode_1[i] >= 4*range_overlap.first && encode_1[i] <= 4*range_overlap.second+3){
@@ -40,6 +41,7 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
                 ++n_intersect;
             else
                 ++n_union;
+            ++n_overlap_2;
         }
     }
     
@@ -48,7 +50,7 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
         temp_array[encode_1[i]] = false;
     
     if (check_ref){
-        if (2*n_intersect < n_overlap_1){
+        if (2*n_intersect < n_overlap_1 || 2*n_intersect < n_overlap_2){
             return -1;
         }
     }

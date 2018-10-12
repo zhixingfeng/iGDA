@@ -356,7 +356,7 @@ void Assembler::jaccard_index(string encode_file, string align_file, string out_
             
             double jaccard_index = n_union==0 ? 0 : (double)n_intersect / n_union;
             
-            if (jaccard_index < min_jaccard_index)
+            if (jaccard_index <= min_jaccard_index)
                 continue;
             
             fs_out << i <<',' << j << ',' << jaccard_index << ',';
@@ -692,7 +692,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
                 double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
                 
-                if (cur_dist < min_jaccard) continue;
+                if (cur_dist <= min_jaccard) continue;
                 
                 topn_id.push(pair<int,double>(j,cur_dist));
             }
