@@ -29,9 +29,12 @@ struct ConsensusSeq
     double contig_cvg;
     vector<int64_t> nn_reads_id;
     
-    
     int start;
     int end;
+
+    double log_bf_null;
+    double log_bf_pairwise;
+
 };
 
 // pileup variants (input from memory/stxxl)

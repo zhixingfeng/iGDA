@@ -148,7 +148,7 @@ public:
     void read_ann_results(string ann_file);
     
     // test each contig
-    void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop = 0.2, double min_log_bf = 5);
+    void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop = 0.2);
     
     // assign reads to assembled contigs (recode only)
     void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);

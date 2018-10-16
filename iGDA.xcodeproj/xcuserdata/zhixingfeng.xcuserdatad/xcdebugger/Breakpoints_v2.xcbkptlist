@@ -11,12 +11,28 @@
             condition = "i == 1492"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "561407314.527536"
+            timestampString = "561411120.7417409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "897"
-            endingLineNumber = "897"
+            startingLineNumber = "906"
+            endingLineNumber = "906"
             landmarkName = "Assembler::assign_reads_to_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;ReadRange&gt; &amp;reads_range, bool is_random)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "561411115.442585"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "855"
+            endingLineNumber = "855"
+            landmarkName = "Assembler::test_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;ReadRange&gt; &amp;reads_range, double exp_prop)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

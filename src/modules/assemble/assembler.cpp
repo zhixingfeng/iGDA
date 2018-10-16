@@ -844,8 +844,52 @@ void Assembler::read_ann_results(string ann_file)
     
 }
 
-void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop, double min_log_bf)
+void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop)
 {
+    if (recode_data.size() != recode_ref_data.size() || recode_data.size()!= reads_range.size())
+        throw runtime_error("incompatible recode_data, recode_ref_data or reads_range");
+
+    vector<vector<int> > pu_recode = pileup_var(recode_data);
+    vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
+    
+    vector<int64_t> temp_read_id(recode_data.size(), 0);
+    vector<int64_t> temp_read_id_cvg(recode_data.size(), 0);
+    
+    /*for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (this->rl_ann_clust[i].cons_seq.size() == 0)
+            continue;
+        
+        // test if the contig come from the consensus sequence
+        vector<int> margin_count(this->rl_ann_clust[i].cons_seq.size(), 0);
+        vector<int> margin_cvg(this->rl_ann_clust[i].cons_seq.size(), 0);
+        vector<double> margin_prop(this->rl_ann_clust[i].cons_seq.size(), -1);
+        
+        int joint_count = 0;
+        int joint_cvg = 0;
+        double joint_prop = -1;
+        
+        unordered_set<int64_t> checked_read_id;
+        unordered_set<int64_t> checked_read_id_cvg;
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            // calculate marginal probability
+            margin_count[cur_code] = (int)pu_recode[cur_code].size();
+            margin_cvg[cur_code] = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+            margin_cvg[cur_code] += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
+            
+            if (margin_cvg[cur_code] > 0)
+                margin_prop[cur_code] = double(margin_count[cur_code]) / margin_cvg[cur_code];
+            
+            // calculate joint probability
+            for (auto k = 0; k < pu_recode[cur_code].size(); ++k){
+                
+            }
+            
+        }
+        
+    }*/
     
 }
 
