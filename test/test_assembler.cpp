@@ -180,7 +180,7 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 
 }
 
-TEST_CASE("test assembler::read_ann_results()")
+TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
 {
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
@@ -203,10 +203,36 @@ TEST_CASE("test assembler::read_ann_results()")
     
     assembler.print_rl_ann_clust(ann_file + ".count", true);
     
+}
+
+TEST_CASE("test assembler::test_contigs()")
+{
+    string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
+    string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
+    string recode_ref_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ref";
+    string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
+    
+    Assembler assembler;
+    cout << "load ann" << endl;
+    assembler.read_ann_results(ann_file);
+    
+    cout << "load recode_data" << endl;
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    cout << "load recode_ref_data" << endl;
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_ref_file);
+
+    
+    cout << "load reads_range" << endl;
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
+    
+    assembler.test_contigs(recode_data, recode_ref_data, reads_range);
     
     
 }
-
 
 
 

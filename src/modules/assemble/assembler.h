@@ -137,14 +137,22 @@ public:
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double max_dist = 0.02);
     void ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5);
     
+    // get non-contained contigs
     void find_nccontigs(vector<int64_t> &idx);
     
+    // print results
     void print_rl_ann_clust(string outfile, bool is_metric = false, vector<int64_t> idx = vector<int64_t>());
     void print_nc_reads_id(string outfile);
     
+    // read ann file
+    void read_ann_results(string ann_file);
+    
+    // test each contig
+    void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop = 0.2, double min_log_bf = 5);
+    
     // assign reads to assembled contigs (recode only)
-    void read_ann_results(string ann_file); // used for testing only
     void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);
+    
     
 protected:
     // ann sub functions
@@ -152,8 +160,6 @@ protected:
     bool check_pileup(const vector<int> &pu_var_count, const vector<int> &pu_reads_count, int start, int end, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
     bool check_pileup_recode(const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, const vector<int> &idx = vector<int>(), int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
     void get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, int min_cvg = 20);
-    
-    //void correct_contigs(const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range, const vector<int> &var_cdf, const vector<bool> &temp_array, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7);
     
     // output correct reads
     void print_correct_reads_raw(const CmpreadsDiffRead &cmpread, ofstream &fs_testfile);

@@ -844,6 +844,12 @@ void Assembler::read_ann_results(string ann_file)
     
 }
 
+void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop, double min_log_bf)
+{
+    
+}
+
+
 void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)
 {
     if (recode_data.size() != reads_range.size())
