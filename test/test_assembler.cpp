@@ -205,7 +205,7 @@ TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
     
 }
 
-TEST_CASE("test assembler::test_contigs()", "[hide]")
+TEST_CASE("test assembler::test_contigs()")
 {
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
@@ -233,7 +233,6 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     assembler.test_contigs(recode_data, recode_ref_data, reads_range);
     
     int x = 0;
-    //assembler.print_rl_ann_clust(<#string outfile#>)
     
     
 }

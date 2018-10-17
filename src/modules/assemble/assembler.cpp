@@ -873,9 +873,16 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
         }
         
         // to be removed
-        double rl_beta = r8_beta(cur_count + 1, cur_cvg - cur_count + 1);
-        double rl_beta_cdf = beta_cdf(exp_prop, cur_count + 1, cur_cvg - cur_count + 1);
-        double rl_beta_pdf = beta_pdf(exp_prop, cur_count + 1, cur_cvg - cur_count + 1);
+        double H1_part1 = boost::math::beta(cur_count + 1, cur_cvg - cur_count + 1);
+        H1_part1 = H1_part1 < EPS ? EPS : H1_part1;
+        
+        double H1_part2 = boost::math::ibetac(cur_count + 1, cur_cvg - cur_count + 1, 0.02);
+        H1_part2 = H1_part2 < EPS ? EPS : H1_part2;
+        
+        double log_H1 = log(H1_part1) + log(H1_part2);
+        double log_H0 = cur_count*log(0.02) + (cur_cvg - cur_count)*log(1-0.02);
+        double log_bf = log_H1 - log_H0;
+        
         int tmp = 0;
     }
     
