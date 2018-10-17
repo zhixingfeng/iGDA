@@ -852,8 +852,35 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     vector<vector<int> > pu_recode = pileup_var(recode_data);
     vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
     
-    vector<int64_t> temp_read_id(recode_data.size(), 0);
-    vector<int64_t> temp_read_id_cvg(recode_data.size(), 0);
+    // test single locus contig
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (this->rl_ann_clust[i].cons_seq.size() != 1)
+            continue;
+        int cur_count = 0;
+        int cur_cvg = 0;
+        
+        int64_t cur_code = this->rl_ann_clust[i].cons_seq[0];
+        int64_t cur_locus = cur_code / 4;
+        
+        // calculate marginal probability
+        cur_count = (int)pu_recode[cur_code].size();
+        cur_cvg = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+        cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
+        
+        
+        if (cur_cvg > 0 ){
+            this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, exp_prop);
+        }
+        
+        // to be removed
+        double rl_beta = r8_beta(cur_count + 1, cur_cvg - cur_count + 1);
+        double rl_beta_cdf = beta_cdf(exp_prop, cur_count + 1, cur_cvg - cur_count + 1);
+        double rl_beta_pdf = beta_pdf(exp_prop, cur_count + 1, cur_cvg - cur_count + 1);
+        int tmp = 0;
+    }
+    
+    //vector<int64_t> temp_read_id(recode_data.size(), 0);
+    //vector<int64_t> temp_read_id_cvg(recode_data.size(), 0);
     
     /*for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
         if (this->rl_ann_clust[i].cons_seq.size() == 0)
@@ -875,9 +902,9 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             int64_t cur_locus = cur_code / 4;
             
             // calculate marginal probability
-            margin_count[cur_code] = (int)pu_recode[cur_code].size();
-            margin_cvg[cur_code] = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
-            margin_cvg[cur_code] += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
+            margin_count[j] = (int)pu_recode[cur_code].size();
+            margin_cvg[j] = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+            margin_cvg[j] += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
             
             if (margin_cvg[cur_code] > 0)
                 margin_prop[cur_code] = double(margin_count[cur_code]) / margin_cvg[cur_code];

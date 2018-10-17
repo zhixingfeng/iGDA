@@ -211,6 +211,7 @@ TEST_CASE("test assembler::test_contigs()")
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
     string recode_ref_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ref";
     string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
+    //string out_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.test";
     
     Assembler assembler;
     cout << "load ann" << endl;
@@ -230,6 +231,9 @@ TEST_CASE("test assembler::test_contigs()")
     loadreadsrange(reads_range, m5_file);
     
     assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+    
+    int x = 0;
+    //assembler.print_rl_ann_clust(<#string outfile#>)
     
     
 }
