@@ -8,7 +8,7 @@
 
 #include "../include/catch.hpp"
 #include "../tools/prob/prob.hpp"
-
+#include <boost/math/distributions/beta.hpp>
 
 TEST_CASE("test cdf of beta distribution", "[hide]")
 {
@@ -20,3 +20,9 @@ TEST_CASE("test cdf of beta function", "[hide]")
     cout << "r8_beta(2, 5) = " << r8_beta(2, 5) << endl;
     cout << "r8_beta(1, 1) = " << r8_beta(1, 1) << endl;
 }
+
+TEST_CASE("test beta distribution of boost")
+{
+    cout << "ibeta(2,5,0.02) = " << boost::math::ibeta(2,5,0.02);
+}
+
