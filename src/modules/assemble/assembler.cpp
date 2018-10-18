@@ -871,19 +871,6 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
         if (cur_cvg > 0 ){
             this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, exp_prop);
         }
-        
-        // to be removed
-        double H1_part1 = boost::math::beta(cur_count + 1, cur_cvg - cur_count + 1);
-        H1_part1 = H1_part1 < EPS ? EPS : H1_part1;
-        
-        double H1_part2 = boost::math::ibetac(cur_count + 1, cur_cvg - cur_count + 1, 0.02);
-        H1_part2 = H1_part2 < EPS ? EPS : H1_part2;
-        
-        double log_H1 = log(H1_part1) + log(H1_part2);
-        double log_H0 = cur_count*log(0.02) + (cur_cvg - cur_count)*log(1-0.02);
-        double log_bf = log_H1 - log_H0;
-        
-        int tmp = 0;
     }
     
     //vector<int64_t> temp_read_id(recode_data.size(), 0);

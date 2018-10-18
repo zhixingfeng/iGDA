@@ -6,33 +6,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "561568430.722047"
+            timestampString = "561597821.547868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
             endingLineNumber = "233"
-            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;, &quot;[hide]&quot;)"
+            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "561565158.572781"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "886"
-            endingLineNumber = "886"
-            landmarkName = "Assembler::test_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;ReadRange&gt; &amp;reads_range, double exp_prop)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

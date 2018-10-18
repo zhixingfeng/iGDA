@@ -65,16 +65,7 @@ inline double binom_log_bf(double x, double n, double p0)
     double a = 1;
     double b = 1;
     
-    //double H1_part1 = r8_beta(x+a, n-x+b);
-    double H1_part1 = boost::math::beta(x+a, n-x+b);
-    H1_part1 = H1_part1 < EPS ? EPS : H1_part1;
-    
-    //double H1_part2 = 1 - beta_cdf(p0, x+a, n-x+b);
-    double H1_part2 = boost::math::ibetac(x+a, n-x+b, p0);
-    H1_part2 = H1_part2 < EPS ? EPS : H1_part2;
-    
-    double log_H1 = log(H1_part1) + log(H1_part2);
-    //double log_H1 = log(r8_beta(x+a, n-x+b)) + log(1 - beta_cdf(p0, x+a, n-x+b));
+    double log_H1 = lbeta(x+a, n-x+b) + log(boost::math::ibetac(x+a, n-x+b, p0));
     double log_H0 = x*log(p0) + (n-x)*log(1-p0);
     double log_bf = log_H1 - log_H0;
     
