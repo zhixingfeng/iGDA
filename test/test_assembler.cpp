@@ -205,7 +205,7 @@ TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
     
 }
 
-TEST_CASE("test assembler::test_contigs()")
+TEST_CASE("test assembler::test_contigs()", "[hide]")
 {
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";

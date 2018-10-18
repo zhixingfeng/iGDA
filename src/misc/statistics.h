@@ -12,6 +12,12 @@
 #include <cmath>
 #include "../tools/prob/prob.hpp"
 #include <boost/math/distributions/beta.hpp>
+#include "../../include/headers.h"
+inline double lbeta(double a, double b)
+{
+    return boost::math::lgamma(a) + boost::math::lgamma(b) - boost::math::lgamma(a + b) ;
+}
+
 
 inline double pnorm(double x)
 {
