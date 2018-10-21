@@ -30,7 +30,8 @@ TEST_CASE("test beta distribution of boost", "[hide]")
     
 }
 
-TEST_CASE("test log beta", "[hide]"){
+TEST_CASE("test log beta", "[hide]")
+{
     double a = 702 + 1;
     double b = 26377 - 702 + 1;
     double lgamma_a = boost::math::lgamma(a);
@@ -40,3 +41,5 @@ TEST_CASE("test log beta", "[hide]"){
     cout << "lbeta = " << lbeta(a, b) << endl;
     
 }
+
+

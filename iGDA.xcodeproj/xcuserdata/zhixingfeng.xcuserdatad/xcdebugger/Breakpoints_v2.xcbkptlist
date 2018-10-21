@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "561597821.547868"
+            timestampString = "561845615.822479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;)"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -586,6 +586,18 @@ TEST_CASE("test binom_log_bf", "[hide]")
     cout << "binom_log_bf(4, 373, 0.006426349) = " << binom_log_bf(4, 373, 0.006426349) << endl;
 }
 
+TEST_CASE("test binom_log_bf with prior of null hypothesis", "[hide]")
+{
+    cout << "binom_log_bf(1, 20000) = " << binom_log_bf(1, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(10, 20000) = " << binom_log_bf(10, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(200, 20000) = " << binom_log_bf(200, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(1000, 20000) = " << binom_log_bf(1000, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(1500, 20000) = " << binom_log_bf(1500, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(2000, 20000) = " << binom_log_bf(2000, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(3000, 20000) = " << binom_log_bf(3000, 20000, ALPHA_NULL, BETA_NULL) << endl;
+    cout << "binom_log_bf(5000, 20000) = " << binom_log_bf(5000, 20000, ALPHA_NULL, BETA_NULL) << endl;
+}
+
 TEST_CASE("test cmpreads (fast version)", "[hide]")
 {
     string encode_file = "../results/pt/igda_results/align_to_consensus.encode.5000";

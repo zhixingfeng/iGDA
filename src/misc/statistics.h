@@ -9,6 +9,9 @@
 #ifndef iGDA_statistics_h
 #define iGDA_statistics_h
 
+#define ALPHA_NULL 1.332824
+#define BETA_NULL 89.04769
+
 #include <cmath>
 #include "../tools/prob/prob.hpp"
 #include <boost/math/distributions/beta.hpp>
@@ -71,6 +74,22 @@ inline double binom_log_bf(double x, double n, double p0)
     
     return log_bf;
 }
+
+// binomial log bayes factor with prior of the null hypothesis
+inline double binom_log_bf(double x, double n, double alpha_0, double beta_0)
+{
+    double a = 1;
+    double b = 1;
+    
+    double log_H1 = lbeta(x + a, n - x + b) - lbeta(a, b);
+    double log_H0 = lbeta(x + alpha_0, n - x + beta_0) - lbeta(alpha_0, beta_0);
+    
+    double log_bf = log_H1 - log_H0;
+    
+    return log_bf;
+}
+
+
 
 // binomial log bayes factor (legacy, actually it is a two-side test not an exact one-side test)
 inline double binom_log_bf_legacy (double x, double n, double p0)
