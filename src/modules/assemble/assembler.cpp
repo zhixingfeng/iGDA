@@ -844,7 +844,7 @@ void Assembler::read_ann_results(string ann_file)
     
 }
 
-void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range, double exp_prop)
+void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range)
 {
     if (recode_data.size() != recode_ref_data.size() || recode_data.size()!= reads_range.size())
         throw runtime_error("incompatible recode_data, recode_ref_data or reads_range");
@@ -869,7 +869,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
         
         
         if (cur_cvg > 0 ){
-            this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, exp_prop);
+            this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
         }
     }
     

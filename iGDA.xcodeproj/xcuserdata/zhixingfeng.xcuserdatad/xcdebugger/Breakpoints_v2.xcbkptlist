@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "561845615.822479"
+            timestampString = "561847916.187589"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "235"
             endingLineNumber = "235"
-            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;, &quot;[hide]&quot;)"
+            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
