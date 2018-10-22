@@ -10,27 +10,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "561864138.768661"
+            timestampString = "561866186.030164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;, &quot;[hide]&quot;)"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "TEST_CASE(&quot;test assembler::test_contigs()&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "561864138.768779"
+            timestampString = "561866186.0310529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "644"
-            endingLineNumber = "644"
+            startingLineNumber = "649"
+            endingLineNumber = "649"
             landmarkName = "TEST_CASE(&quot;test get_homo_blocks&quot;)"
             landmarkType = "9">
          </BreakpointContent>

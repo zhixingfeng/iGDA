@@ -205,8 +205,9 @@ TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
     
 }
 
-TEST_CASE("test assembler::test_contigs()", "[hide]")
+TEST_CASE("test assembler::test_contigs()")
 {
+    string ref_file = "../results/pt_ann_assign_reads/consensus.fasta";
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
     string recode_ref_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ref";
@@ -214,6 +215,9 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     //string out_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.test";
     
     Assembler assembler;
+    cout << "load ref_file" << endl;
+    assembler.load_homo_blocks(ref_file);
+    
     cout << "load ann" << endl;
     assembler.read_ann_results(ann_file);
     
@@ -229,6 +233,7 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     cout << "load reads_range" << endl;
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, m5_file);
+    
     
     assembler.test_contigs(recode_data, recode_ref_data, reads_range);
     

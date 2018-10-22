@@ -637,11 +637,15 @@ TEST_CASE("test sim_jaccard", "[hide]")
 
 }
 
-TEST_CASE("test get_homo_blocks")
+TEST_CASE("test get_homo_blocks","[hide]")
 {
     
     vector<int64_t> homo_blocks = get_homo_blocks("../results/pt_ann_assign_reads/consensus.fasta");
-    int tmp = -1;
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, "../results/pt_ann_assign_reads/consensus_homo_blocks.txt");
+    for (auto i = 0; i < homo_blocks.size(); ++i)
+        fs_outfile << homo_blocks[i] << endl;
+    fs_outfile.close();
 }
 
 

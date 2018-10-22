@@ -849,6 +849,15 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     if (recode_data.size() != recode_ref_data.size() || recode_data.size()!= reads_range.size())
         throw runtime_error("incompatible recode_data, recode_ref_data or reads_range");
 
+    // check homo_blocks
+    int64_t max_range = -1;
+    for (auto i = 0; i < reads_range.size(); ++i)
+        if (reads_range[i].second > max_range)
+            max_range = reads_range[i].second;
+    if (max_range + 1 > this->homo_blocks.size())
+        throw runtime_error("Assembler::test_contigs, max_range + 1 > this->homo_blocks.size()");
+        
+    
     vector<vector<int> > pu_recode = pileup_var(recode_data);
     vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
     
