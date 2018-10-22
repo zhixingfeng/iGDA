@@ -873,6 +873,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
         }
     }
     
+    
     //vector<int64_t> temp_read_id(recode_data.size(), 0);
     //vector<int64_t> temp_read_id_cvg(recode_data.size(), 0);
     

@@ -9,6 +9,9 @@
 #ifndef assemble_h
 #define assemble_h
 
+#define MIN_LOCI_BLOCK_SIZE 5
+
+
 #include <stxxl.h>
 #include "../../../include/headers.h"
 #include "../../misc/misc.h"

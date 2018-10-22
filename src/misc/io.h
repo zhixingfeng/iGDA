@@ -233,7 +233,7 @@ inline void select_lines(const vector<int> &idx, string infile, string outfile)
 
 KSEQ_INIT(gzFile, gzread)
 
-inline void read_fasta(string fasta_file, unordered_map<string, string> &fasta_data)
+inline void read_fasta(const string fasta_file, unordered_map<string, string> &fasta_data)
 {
     gzFile fp;
     kseq_t *seq;
@@ -281,6 +281,32 @@ inline unordered_map<int, int> load_ncread(string check_follower_file, int min_f
     return ncread_id;
 }
 
+// get number of homopolymer blocks between each locus
+inline vector<int64_t> get_homo_blocks(const string fasta_file)
+{
+    unordered_map<string, string> fasta_data;
+    read_fasta(fasta_file, fasta_data);
+    if (fasta_data.size()!=1)
+        throw runtime_error("get_homo_blocks: fasta_data.size()!=1");
+    auto it = fasta_data.begin();
+    string cur_seq = it->second;
+    if (cur_seq.size() == 0)
+        throw runtime_error("get_homo_blocks: cur_seq.size() == 0");
+    vector<int64_t> homo_blocks(cur_seq.size(), -1);
+    char pre_base = '#';
+    int64_t cur_idx = -1;
+    for (auto i = 0; i < cur_seq.size(); ++i){
+        char cur_base =  toupper(cur_seq[i]);
+        if (cur_base != pre_base){
+            pre_base = cur_base;
+            ++cur_idx;
+        }
+        homo_blocks[i] = cur_idx;
+    }
+    
+    return homo_blocks;
+    
+}
 
 
 #endif /* io_h */

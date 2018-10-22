@@ -637,8 +637,12 @@ TEST_CASE("test sim_jaccard", "[hide]")
 
 }
 
-
-
+TEST_CASE("test get_homo_blocks")
+{
+    
+    vector<int64_t> homo_blocks = get_homo_blocks("../results/pt_ann_assign_reads/consensus.fasta");
+    int tmp = -1;
+}
 
 
 
