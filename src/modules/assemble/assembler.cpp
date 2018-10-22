@@ -893,8 +893,8 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             continue;
         
         // get marginal freqency
-        vector<int> margin_count(this->rl_ann_clust[i].cons_seq.size(), 0);
-        vector<int> margin_cvg(this->rl_ann_clust[i].cons_seq.size(), 0);
+        vector<double> margin_count(this->rl_ann_clust[i].cons_seq.size(), 0);
+        vector<double> margin_cvg(this->rl_ann_clust[i].cons_seq.size(), 0);
         vector<double> margin_prop(this->rl_ann_clust[i].cons_seq.size(), -1);
         
         for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
@@ -902,12 +902,12 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             int64_t cur_locus = cur_code / 4;
             
             // calculate marginal probability
-            margin_count[j] = (int)pu_recode[cur_code].size();
-            margin_cvg[j] = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+            margin_count[j] = pu_recode[cur_code].size();
+            margin_cvg[j] = pu_recode[4*cur_locus].size() + pu_recode[4*cur_locus + 1].size() + pu_recode[4*cur_locus + 2].size() + pu_recode[4*cur_locus + 3].size();
             margin_cvg[j] += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
             
-            if (margin_cvg[cur_code] > 0)
-                margin_prop[cur_code] = double(margin_count[cur_code]) / margin_cvg[cur_code];
+            if (margin_cvg[j] > 0)
+                margin_prop[j] = margin_count[j] / margin_cvg[j];
         }
         
         // pairwise test
