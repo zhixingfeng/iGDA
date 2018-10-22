@@ -857,11 +857,11 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     if (max_range + 1 > this->homo_blocks.size())
         throw runtime_error("Assembler::test_contigs, max_range + 1 > this->homo_blocks.size()");
         
-    
     vector<vector<int> > pu_recode = pileup_var(recode_data);
     vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
     
     // test single locus contig
+    cout << "test single locus contigs" << endl;
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
         if (this->rl_ann_clust[i].cons_seq.size() != 1)
             continue;
@@ -876,31 +876,27 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
         cur_cvg = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
         cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
         
-        
         if (cur_cvg > 0 ){
             this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
         }
     }
     
+    // test pairwise independence
+    cout << "test multiple loci contigs" << endl;
     
-    //vector<int64_t> temp_read_id(recode_data.size(), 0);
-    //vector<int64_t> temp_read_id_cvg(recode_data.size(), 0);
-    
-    /*for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        if (this->rl_ann_clust[i].cons_seq.size() == 0)
+    vector<int64_t> temp_read_id(recode_data.size(), -1);
+    vector<int64_t> temp_read_id_cvg(recode_data.size(), -1);
+    int64_t counter = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        cout << i << endl;
+        if (this->rl_ann_clust[i].cons_seq.size() < 2)
             continue;
         
-        // test if the contig come from the consensus sequence
+        // get marginal freqency
         vector<int> margin_count(this->rl_ann_clust[i].cons_seq.size(), 0);
         vector<int> margin_cvg(this->rl_ann_clust[i].cons_seq.size(), 0);
         vector<double> margin_prop(this->rl_ann_clust[i].cons_seq.size(), -1);
         
-        int joint_count = 0;
-        int joint_cvg = 0;
-        double joint_prop = -1;
-        
-        unordered_set<int64_t> checked_read_id;
-        unordered_set<int64_t> checked_read_id_cvg;
         for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
             int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
             int64_t cur_locus = cur_code / 4;
@@ -912,15 +908,57 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             
             if (margin_cvg[cur_code] > 0)
                 margin_prop[cur_code] = double(margin_count[cur_code]) / margin_cvg[cur_code];
+        }
+        
+        // pairwise test
+        
+        /*for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size() - 1; ++j){
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
             
-            // calculate joint probability
-            for (auto k = 0; k < pu_recode[cur_code].size(); ++k){
+            int joint_count = 0;
+            int joint_cvg = 0;
+            double joint_prop = -1;
+            
+            // fill in template for the left locus
+            for (auto k = 0; k < pu_recode[cur_code].size(); ++k)
+                temp_read_id[pu_recode[cur_code][k]] = counter;
+            
+            for (auto k = 0; k <= 3 ; ++k){
+                for (auto s = 0; s < pu_recode[4*cur_locus + k].size(); ++k)
+                    temp_read_id_cvg[pu_recode[4*cur_locus + k][s]] = counter;
+                
+                for (auto s = 0; s < pu_recode_ref[4*cur_locus + k].size(); ++k)
+                    temp_read_id_cvg[pu_recode_ref[4*cur_locus + k][s]] = counter;
+            }
+            
+            // check the right locus
+            for (auto k = j + 1; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
+                int64_t cur_code_pair = this->rl_ann_clust[i].cons_seq[k];
+                int64_t cur_locus_pair = cur_code_pair / 4;
+                
+                for (auto s = 0; s < pu_recode[cur_code_pair].size(); ++s)
+                    if (temp_read_id[pu_recode[cur_code_pair][s]] == counter)
+                        ++joint_count;
+                
+                for (auto t = 0; t <= 3; ++t){
+                    for (auto s = 0; s < pu_recode[4*cur_locus + t].size(); ++s)
+                        if (temp_read_id_cvg[pu_recode[4*cur_locus + t][s]] == counter)
+                            ++joint_cvg;
+                    
+                    for (auto s = 0; s < pu_recode_ref[4*cur_locus + t].size(); ++s)
+                        if (temp_read_id_cvg[pu_recode_ref[4*cur_locus + t][s]] == counter)
+                            ++joint_cvg;
+                }
                 
             }
             
-        }
-        
-    }*/
+            ++counter;
+            if (counter >= numeric_limits<int64_t>::max()-1)
+                throw runtime_error("Assembler::test_contigs, counter >= numeric_limits<int64_t>::max()-1");
+            
+        }*/
+    }
     
 }
 
