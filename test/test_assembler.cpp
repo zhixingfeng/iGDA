@@ -243,7 +243,13 @@ TEST_CASE("test assembler::test_contigs()")
     
 }
 
-
+TEST_CASE("test assembler::read_ann_results()", "[hide]")
+{
+    string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    assembler.print_rl_ann_clust(ann_file + ".copy", true);
+}
 
 
 

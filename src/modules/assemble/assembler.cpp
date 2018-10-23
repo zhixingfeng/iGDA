@@ -795,9 +795,9 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
             fs_outfile << this->rl_ann_clust[i].seed << '\t';
             
             fs_outfile << rl_ann_clust[i].neighbors_id << '\t';
-            fs_outfile << rl_ann_clust[i].tested_loci << '\t';
+            fs_outfile << rl_ann_clust[i].tested_loci;
             
-            fs_outfile << rl_ann_clust[i].nn_reads_id;
+            //fs_outfile << rl_ann_clust[i].nn_reads_id;
         }
         
         fs_outfile << endl;
@@ -828,15 +828,21 @@ void Assembler::read_ann_results(string ann_file)
         if(fs_ann_file.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
-        
+        if (buf_vec.size() != 10)
+            throw runtime_error("Assembler::read_ann_results, buf_vect.size() != 10");
         ConsensusSeq cur_cons;
         cur_cons.cons_seq = split_int(buf_vec[0], ',');
         cur_cons.start = stoi(buf_vec[1]);
         cur_cons.end = stoi(buf_vec[2]);
-        cur_cons.seed = split_int(buf_vec[5], ',');
-        cur_cons.neighbors_id = split_int(buf_vec[6], ',');
-        cur_cons.tested_loci = split_int(buf_vec[7], ',');
-        
+        //cur_cons.contig_count = stod(buf_vec[3]);
+        //cur_cons.contig_cvg = stod(buf_vec[4]);
+        cur_cons.contig_count = 0;
+        cur_cons.contig_cvg = 0;
+        cur_cons.log_bf_null = stod(buf_vec[5]);
+        cur_cons.log_bf_ind = stod(buf_vec[6]);
+        cur_cons.seed = split_int(buf_vec[7], ',');
+        cur_cons.neighbors_id = split_int(buf_vec[8], ',');
+        cur_cons.tested_loci = split_int(buf_vec[9], ',');
         this->rl_ann_clust.push_back(cur_cons);
     }
     
@@ -1070,7 +1076,7 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
             this->rl_ann_clust[contig_id[j]].contig_count += 1.0/double(contig_id.size());
             this->rl_ann_clust[contig_id[j]].contig_cvg += contig_cvg[contig_id[j]] / double(contig_id.size());
             
-            this->rl_ann_clust[contig_id[j]].nn_reads_id.push_back(i);
+            //this->rl_ann_clust[contig_id[j]].nn_reads_id.push_back(i);
         }
     }
     
