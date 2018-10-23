@@ -236,6 +236,7 @@ TEST_CASE("test assembler::test_contigs()")
     
     
     assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+    assembler.print_rl_ann_clust("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested", true);
     
     int x = 0;
     

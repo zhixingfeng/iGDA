@@ -11,6 +11,17 @@
 
 #include "../../include/headers.h"
 
+// product of a vector
+inline double prod(const vector<double> &x)
+{
+    if (x.size() == 0)
+        throw runtime_error("product of an tempty vector");
+    double y = 1;
+    for (auto i = 0; i < x.size(); ++i)
+        y *= x[i];
+    return y;
+}
+
 // define "<<" to output vector
 template<typename T>
 std::ostream& operator<<(std::ostream& s, std::vector<T> t) { 

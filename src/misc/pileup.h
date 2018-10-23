@@ -16,6 +16,7 @@
 ////////// pileup read ID and locus are 0-based ///////////
 struct ConsensusSeq
 {
+    ConsensusSeq(){log_bf_null = -1000;  log_bf_ind = -1000;}
     vector<int> pu_var_count;
     vector<int> pu_read_count;
     vector<double> prop;
@@ -32,8 +33,8 @@ struct ConsensusSeq
     int start;
     int end;
 
-    double log_bf_null;
-    double log_bf_pairwise;
+    double log_bf_null; // test against the consensus
+    double log_bf_ind; // test if variants are independent
 
 };
 

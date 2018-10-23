@@ -787,8 +787,8 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
     for (auto &i : idx){
         fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
         fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
-        fs_outfile << this->rl_ann_clust[i].contig_count << '\t' << this->rl_ann_clust[i].contig_cvg;
-        
+        fs_outfile << this->rl_ann_clust[i].contig_count << '\t' << this->rl_ann_clust[i].contig_cvg << '\t';
+        fs_outfile << this->rl_ann_clust[i].log_bf_null << '\t' << this->rl_ann_clust[i].log_bf_ind;
         if (is_metric){
             fs_outfile << '\t';
             
@@ -863,21 +863,23 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     // test single locus contig
     cout << "test single locus contigs" << endl;
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        if (this->rl_ann_clust[i].cons_seq.size() != 1)
-            continue;
-        int cur_count = 0;
-        int cur_cvg = 0;
-        
-        int64_t cur_code = this->rl_ann_clust[i].cons_seq[0];
-        int64_t cur_locus = cur_code / 4;
-        
-        // calculate marginal probability
-        cur_count = (int)pu_recode[cur_code].size();
-        cur_cvg = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
-        cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
-        
-        if (cur_cvg > 0 ){
-            this->rl_ann_clust[i].log_bf_null = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int cur_count = 0;
+            int cur_cvg = 0;
+            
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            // calculate marginal probability
+            cur_count = (int)pu_recode[cur_code].size();
+            cur_cvg = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+            cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
+            
+            if (cur_cvg > 0 ){
+                double cur_log_bf_null = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+                if (cur_log_bf_null < this->rl_ann_clust[i].log_bf_null || j == 0)
+                    this->rl_ann_clust[i].log_bf_null = cur_log_bf_null;
+            }
         }
     }
     
@@ -892,7 +894,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     
     int64_t counter = 0;
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        cout << i << endl;
+        //cout << i << endl;
         if (this->rl_ann_clust[i].cons_seq.size() < 2)
             continue;
         
@@ -981,6 +983,10 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
                 
             }
             
+            ++counter;
+            if (counter >= numeric_limits<int64_t>::max() - 1)
+                throw runtime_error("Assembler::test_contigs, counter >= numeric_limits<int64_t>::max() - 1");
+            
             // calculate block probability
             if (cur_block_cvg > 0)
                 cur_block_prop = cur_block_count / cur_block_cvg;
@@ -988,11 +994,6 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             // calculater current joint probablity
             if (joint_cvg > 0 && j == this->rl_ann_clust[i].cons_seq.size() - 1)
                 joint_prop = joint_count / joint_cvg;
-            
-            ++counter;
-            if (counter >= numeric_limits<int64_t>::max() - 1)
-                throw runtime_error("Assembler::test_contigs, counter >= numeric_limits<int64_t>::max() - 1");
-
             
             // record block info
             if (j == this->rl_ann_clust[i].cons_seq.size() - 1){
@@ -1004,7 +1005,18 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             prev_locus = cur_locus;
         }
         
-        int tmp = -1;
+        // don't test if joint count is 0 (two many loci so too few reads having all of them)
+        if (joint_count == 0)
+            continue;
+        
+        // only test independence if there are two or more
+        if (block_prop.size() >= 2){
+            double exp_prop = prod(block_prop);
+            if (exp_prop > 0){
+                this->rl_ann_clust[i].log_bf_ind = binom_log_bf(joint_count, joint_cvg, exp_prop);
+            }
+        }
+        
     }
     
 }

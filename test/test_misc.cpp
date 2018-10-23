@@ -648,6 +648,8 @@ TEST_CASE("test get_homo_blocks","[hide]")
     fs_outfile.close();
 }
 
-
-
-
+TEST_CASE("test prod", "[hide]")
+{
+    vector<double> x = {1.1, 0.0483, 9.593, 0.1};
+    cout << prod(x) << endl;
+}
