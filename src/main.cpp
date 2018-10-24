@@ -540,6 +540,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> varfileArg("varfile", "path of variant file", true, "", "varfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
             ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 12", false , 12, "mincvg", cmd);
@@ -563,6 +564,22 @@ int main(int argc, const char * argv[])
             cout << "minjaccard = " << minjaccardArg.getValue() << endl;
             
             Assembler assembler;
+
+            cout << "load recode_data" << endl;
+            vector<vector<int> > recode_data;
+            loadencodedata(recode_data, encodefileArg.getValue());
+            
+            cout << "load recode_ref_data" << endl;
+            vector<vector<int> > recode_ref_data;
+            loadencodedata(recode_ref_data, encodefileArg.getValue() + ".ref");
+            
+            cout << "load reads_range" << endl;
+            vector<ReadRange> reads_range;
+            loadreadsrange(reads_range, alignfileArg.getValue());
+            
+            cout << "load ref_file" << endl;
+            assembler.load_homo_blocks(reffileArg.getValue());
+            
             if (islegacyArg.getValue()){
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
@@ -580,20 +597,12 @@ int main(int argc, const char * argv[])
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
             cout << cmd << endl; system(cmd.c_str());
             
-            // calculate abundance
-            cout << "calculate abundance" << endl;
+            // test contigs
+            cout << "test contigs" << endl;
             cout << "load ann" << endl;
             assembler.read_ann_results(outfileArg.getValue() + ".igda_tmp.sorted");
             
-            cout << "load recode_data" << endl;
-            vector<vector<int> > recode_data;
-            loadencodedata(recode_data, encodefileArg.getValue());
-            
-            cout << "load reads_range" << endl;
-            vector<ReadRange> reads_range;
-            loadreadsrange(reads_range, alignfileArg.getValue());
-            
-            assembler.assign_reads_to_contigs(recode_data, reads_range);
+            assembler.test_contigs(recode_data, recode_ref_data, reads_range);
             assembler.print_rl_ann_clust(outfileArg.getValue(), true);
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp.sorted";

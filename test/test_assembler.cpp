@@ -228,7 +228,6 @@ TEST_CASE("test assembler::test_contigs()")
     cout << "load recode_ref_data" << endl;
     vector<vector<int> > recode_ref_data;
     loadencodedata(recode_ref_data, recode_ref_file);
-
     
     cout << "load reads_range" << endl;
     vector<ReadRange> reads_range;
