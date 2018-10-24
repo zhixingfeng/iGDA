@@ -609,6 +609,41 @@ int main(int argc, const char * argv[])
             cout << cmd << endl; system(cmd.c_str());
         }
         
+        if (strcmp(argv[1], "test_contigs")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            
+            
+            cmd.parse(argv2);
+            Assembler assembler;
+            
+            cout << "load ann" << endl;
+            assembler.read_ann_results(annfileArg.getValue());
+
+            cout << "load recode_data" << endl;
+            vector<vector<int> > recode_data;
+            loadencodedata(recode_data, encodefileArg.getValue());
+            
+            cout << "load recode_ref_data" << endl;
+            vector<vector<int> > recode_ref_data;
+            loadencodedata(recode_ref_data, encodefileArg.getValue() + ".ref");
+            
+            cout << "load reads_range" << endl;
+            vector<ReadRange> reads_range;
+            loadreadsrange(reads_range, alignfileArg.getValue());
+            
+            cout << "load ref_file" << endl;
+            assembler.load_homo_blocks(reffileArg.getValue());
+            
+            cout << "test contigs" << endl;
+            assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+            assembler.print_rl_ann_clust(annfileArg.getValue() + ".tested", true);
+            
+        }
+        
+        
         if (strcmp(argv[1], "samtom5")==0){
             UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
