@@ -565,7 +565,7 @@ int main(int argc, const char * argv[])
             
             Assembler assembler;
 
-            cout << "load recode_data" << endl;
+            /*cout << "load recode_data" << endl;
             vector<vector<int> > recode_data;
             loadencodedata(recode_data, encodefileArg.getValue());
             
@@ -578,7 +578,7 @@ int main(int argc, const char * argv[])
             loadreadsrange(reads_range, alignfileArg.getValue());
             
             cout << "load ref_file" << endl;
-            assembler.load_homo_blocks(reffileArg.getValue());
+            assembler.load_homo_blocks(reffileArg.getValue());*/
             
             if (islegacyArg.getValue()){
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
@@ -591,14 +591,15 @@ int main(int argc, const char * argv[])
             assembler.find_nccontigs(idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
             
-            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue() + ".igda_tmp.sorted";
+            //string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue() + ".igda_tmp.sorted";
+            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
             cout << cmd << endl; system(cmd.c_str());
             
             // test contigs
-            cout << "test contigs" << endl;
+            /*cout << "test contigs" << endl;
             cout << "load ann" << endl;
             assembler.read_ann_results(outfileArg.getValue() + ".igda_tmp.sorted");
             
@@ -606,7 +607,7 @@ int main(int argc, const char * argv[])
             assembler.print_rl_ann_clust(outfileArg.getValue(), true);
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp.sorted";
-            cout << cmd << endl; system(cmd.c_str());
+            cout << cmd << endl; system(cmd.c_str());*/
         }
         
         if (strcmp(argv[1], "test_contigs")==0){
