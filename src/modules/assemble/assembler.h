@@ -146,7 +146,8 @@ public:
     void ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5);
     
     // get non-contained contigs
-    void find_nccontigs(vector<int64_t> &idx);
+    void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5);
+    void find_nccontigs_legacy(vector<int64_t> &idx);
     
     // print results
     void print_rl_ann_clust(string outfile, bool is_metric = false, vector<int64_t> idx = vector<int64_t>());

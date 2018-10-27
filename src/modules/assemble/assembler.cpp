@@ -1243,7 +1243,112 @@ bool Assembler::check_pileup_recode(const vector<int> &pu_var_count, const vecto
 }
 
 
-void Assembler::find_nccontigs(vector<int64_t> &idx)
+void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop)
+{
+    if (this->rl_ann_clust.size() == 0)
+        throw runtime_error("Assembler::find_nccontigs, this->rl_ann_clust.size() == 0");
+    
+    // get maximal encoded cons_seq and tested_loci
+    int64_t temp_size = 0;
+    int64_t temp_tested_size = 0;
+    for (int64_t i = 0; i < this->rl_ann_clust.size(); ++i){
+        for (int64_t j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j)
+            if (rl_ann_clust[i].cons_seq[j] > temp_size)
+                temp_size = rl_ann_clust[i].cons_seq[j];
+        
+        for (int64_t j = 0; j < this->rl_ann_clust[i].tested_loci.size(); ++j)
+            if (rl_ann_clust[i].tested_loci[j] > temp_tested_size)
+                temp_tested_size = rl_ann_clust[i].tested_loci[j];
+        
+    }
+    if (temp_size == 0)
+        throw runtime_error("Assembler::find_nccontigs, temp_size == 0");
+    if (temp_tested_size == 0)
+        throw runtime_error("Assembler::find_nccontigs, temp_tested_size == 0");
+    
+    ++temp_size;
+    ++temp_tested_size;
+    
+    // generate a template vector, note that temp_vec is as least 4 times larger than temp_tested_vec
+    vector<bool> temp_vec_i(temp_size, false);
+    vector<bool> temp_vec_j(temp_size, false);
+    vector<bool> temp_tested_vec_i(temp_tested_size, false);
+    vector<bool> temp_tested_vec_j(temp_tested_size, false);
+    
+    // pairwise compare contigs
+    for (int64_t i = 0; i < rl_ann_clust.size(); ++i){
+        // fill in template by the ith cons_seq and tested_loci
+        for (int64_t k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_vec_i[rl_ann_clust[i].cons_seq[k]] = true;
+        
+        for (int64_t k = 0; k < rl_ann_clust[i].tested_loci.size(); ++k)
+            temp_tested_vec_i[rl_ann_clust[i].tested_loci[k]] = true;
+        
+        // compare contigs
+        bool is_nc = true;
+        int start_code = 4*rl_ann_clust[i].start;
+        int end_code = 4*rl_ann_clust[i].end +3;
+        
+        for (int64_t j = 0; j < this->rl_ann_clust.size(); ++j){
+            if (j == i) continue;
+            if ((rl_ann_clust[j].start <= rl_ann_clust[i].start && rl_ann_clust[j].end > rl_ann_clust[i].end) || (rl_ann_clust[j].start < rl_ann_clust[i].start && rl_ann_clust[j].end >= rl_ann_clust[i].end) ){
+                double n_cons_seq_i = rl_ann_clust[i].cons_seq.size();
+                double n_cons_seq_j = 0;
+                double n_overlap = 0;
+                // fill in template by the jth cons_seq and tested_loci
+                bool is_diff = false;
+                for (int64_t k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
+                    temp_vec_j[rl_ann_clust[j].cons_seq[k]] = true;
+                    if (!temp_vec_i[rl_ann_clust[j].cons_seq[k]] && temp_tested_vec_i[rl_ann_clust[j].cons_seq[k] / 4])
+                        is_diff = true;
+                    
+                    if (temp_vec_i[rl_ann_clust[j].cons_seq[k]])
+                        ++n_overlap;
+                    
+                    if (rl_ann_clust[j].cons_seq[k] >= start_code && rl_ann_clust[j].cons_seq[k] <= end_code)
+                        ++n_cons_seq_j;
+                }
+                
+                for (int64_t k = 0; k < rl_ann_clust[j].tested_loci.size(); ++k){
+                    temp_tested_vec_j[rl_ann_clust[j].tested_loci[k]] = true;
+                }
+                
+                // scan the ith contig again
+                for (int64_t k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k){
+                    if (!temp_vec_j[rl_ann_clust[i].cons_seq[k]] && temp_tested_vec_j[rl_ann_clust[i].cons_seq[k] / 4])
+                        is_diff = true;
+                }
+                
+                if (!is_diff && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+                    is_nc = false;
+                
+                // clear template of the jth contig
+                for (int64_t k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
+                    temp_vec_j[rl_ann_clust[j].cons_seq[k]] = false;
+                }
+                
+                for (int64_t k = 0; k < rl_ann_clust[j].tested_loci.size(); ++k){
+                    temp_tested_vec_j[rl_ann_clust[j].tested_loci[k]] = false;
+                }
+                
+            }
+            if(!is_nc) break;
+        }
+        if (is_nc)
+            idx.push_back(i);
+        
+        
+        // clear template
+        for (int64_t k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_vec_i[rl_ann_clust[i].cons_seq[k]] = false;
+        
+        for (int64_t k = 0; k < rl_ann_clust[i].tested_loci.size(); ++k)
+            temp_tested_vec_i[rl_ann_clust[i].tested_loci[k]] = false;
+        
+    }
+}
+
+void Assembler::find_nccontigs_legacy(vector<int64_t> &idx)
 {
     // get maximal encoded cons_seq
     int64_t temp_size = 0;
@@ -1255,7 +1360,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx)
     
     // generate a template vector
     vector<bool> temp_vec(temp_size, false);
-
+    
     // pairwise compare cons_seq
     for (int64_t i = 0; i < this->rl_ann_clust.size(); ++i){
         // fill in template by the ith cons_seq

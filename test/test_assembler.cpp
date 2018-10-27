@@ -205,7 +205,7 @@ TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
     
 }
 
-TEST_CASE("test assembler::test_contigs()")
+TEST_CASE("test assembler::test_contigs()", "[hide]")
 {
     string ref_file = "../results/pt_ann_assign_reads/consensus.fasta";
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
@@ -251,7 +251,15 @@ TEST_CASE("test assembler::read_ann_results()", "[hide]")
 }
 
 
-
+TEST_CASE("test assembler::find_nccontigs()")
+{
+    string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx);
+    cout << idx << endl;
+}
 
 
 
