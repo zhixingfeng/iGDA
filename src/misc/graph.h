@@ -13,7 +13,7 @@
 #include <boost/graph/graph_utility.hpp> // dumping graphs
 #include "../../include/headers.h"
 
-using namespace boost;
+//using namespace boost;
 struct IQsNode { };
 typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS, IQsNode*> Graph;
 

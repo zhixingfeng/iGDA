@@ -18,4 +18,5 @@
 #include "./sort_order.h"
 #include "./basic.h"
 #include "./dist.h"
+#include "./graph.h"
 #endif

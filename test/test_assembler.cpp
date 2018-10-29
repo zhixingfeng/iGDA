@@ -261,5 +261,21 @@ TEST_CASE("test assembler::find_nccontigs()", "[hide]")
     cout << idx << endl;
 }
 
+TEST_CASE("test assembler::filter_ann()", "[hide]")
+{
+    Assembler assembler;
+    assembler.filter_ann("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested");
+}
+
+
+TEST_CASE("test assembler::ann_to_graph()", "[hide]")
+{
+    Assembler assembler;
+    Graph gp;
+    assembler.ann_to_graph(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft");
+    print_graph(gp);
+}
+
+
 
 

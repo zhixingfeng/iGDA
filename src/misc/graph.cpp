@@ -13,5 +13,5 @@ void igda_transitive_reduction(const Graph in_g, Graph &out_g)
     std::vector<size_t> id_map(num_vertices(in_g));
     std::iota(id_map.begin(), id_map.end(), 0u);
     
-    transitive_reduction(in_g, out_g, make_assoc_property_map(g_to_tr), id_map.data());
+    transitive_reduction(in_g, out_g, boost::make_assoc_property_map(g_to_tr), id_map.data());
 }
