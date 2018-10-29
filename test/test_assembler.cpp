@@ -251,7 +251,7 @@ TEST_CASE("test assembler::read_ann_results()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::find_nccontigs()")
+TEST_CASE("test assembler::find_nccontigs()", "[hide]")
 {
     string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
     Assembler assembler;
