@@ -553,7 +553,7 @@ int main(int argc, const char * argv[])
             
             
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
-            SwitchArg ismetricArg("e", "metric", "is output metric (seed and neighbor IDs)", cmd, false);
+            //SwitchArg ismetricArg("e", "metric", "is output metric (seed and neighbor IDs)", cmd, false);
             
             cmd.parse(argv2);
             cout << "mincvg = " << mincvgArg.getValue() << endl;
@@ -589,8 +589,8 @@ int main(int argc, const char * argv[])
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
-            assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
-            
+            //assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
+            assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", true, idx);
             //string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue() + ".igda_tmp.sorted";
             string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
@@ -616,6 +616,8 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
             
+            ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 5", false , 5, "minlogbf", cmd);
+            ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 10, "maxloci", cmd);
             
             cmd.parse(argv2);
             Assembler assembler;
@@ -641,6 +643,9 @@ int main(int argc, const char * argv[])
             cout << "test contigs" << endl;
             assembler.test_contigs(recode_data, recode_ref_data, reads_range);
             assembler.print_rl_ann_clust(annfileArg.getValue() + ".tested", true);
+            
+            cout << "filter contigs" << endl;
+            assembler.filter_ann(annfileArg.getValue() + ".tested", minlogbfArg.getValue(), maxlociArg.getValue());
             
         }
         

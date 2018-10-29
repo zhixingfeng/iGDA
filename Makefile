@@ -12,12 +12,13 @@ SRC_CXX = $(wildcard src/*.cpp)\
 	$(wildcard src/modules/hclust/*.cpp)\
 	$(wildcard src/modules/sclust/*.cpp)\
 	$(wildcard src/modules/assemble/*.cpp)\
-    $(wildcard src/modules/detectsingle/*.cpp)\
+    	$(wildcard src/modules/detectsingle/*.cpp)\
 	$(wildcard test/*.cpp)\
 	$(wildcard tools/boost/src/filesystem/*.cpp)\
 	$(wildcard tools/boost/src/system/*.cpp)\
 	$(wildcard tools/ssw/*.cpp)\
-    $(wildcard tools/prob/*.cpp)
+    	$(wildcard tools/prob/*.cpp)\
+	$(wildcard src/misc/*.cpp)
 
 SRC_C = $(wildcard tools/ssw/*.c)
 
