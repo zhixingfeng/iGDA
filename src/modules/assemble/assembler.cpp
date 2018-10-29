@@ -900,7 +900,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     
     int64_t counter = 0;
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        cout << i << endl;
+        //cout << i << endl;
         if (this->rl_ann_clust[i].cons_seq.size() < 2)
             continue;
         
