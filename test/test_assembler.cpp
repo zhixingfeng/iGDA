@@ -268,12 +268,16 @@ TEST_CASE("test assembler::filter_ann()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ann_to_graph()", "[hide]")
+TEST_CASE("test assembler::ann_to_graph()")
 {
     Assembler assembler;
-    Graph gp;
+    Graph gp, gp_red;
     assembler.ann_to_graph(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft");
+    igda_transitive_reduction(gp, gp_red);
     print_graph(gp);
+    
+    cout << "transitive reduction" << endl;
+    print_graph(gp_red);
 }
 
 

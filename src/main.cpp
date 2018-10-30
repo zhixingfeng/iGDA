@@ -548,12 +548,10 @@ int main(int argc, const char * argv[])
             ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.8", false , 0.8, "maxprop", cmd);
             ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 20", false , 20, "topn", cmd);
             ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 50", false , 50, "maxnn", cmd);
-            //ValueArg<double> maxdistArg("d","maxdist","maximal hamming distance of the initial neighbors, default: 0.02", false , 0.02, "maxdist", cmd);
             ValueArg<double> minjaccardArg("j","minjaccard","minimal jaccard index of the initial neighbors, default: 0.5", false , 0.5, "minjaccard", cmd);
             
             
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
-            //SwitchArg ismetricArg("e", "metric", "is output metric (seed and neighbor IDs)", cmd, false);
             
             cmd.parse(argv2);
             cout << "mincvg = " << mincvgArg.getValue() << endl;
@@ -565,21 +563,6 @@ int main(int argc, const char * argv[])
             
             Assembler assembler;
 
-            /*cout << "load recode_data" << endl;
-            vector<vector<int> > recode_data;
-            loadencodedata(recode_data, encodefileArg.getValue());
-            
-            cout << "load recode_ref_data" << endl;
-            vector<vector<int> > recode_ref_data;
-            loadencodedata(recode_ref_data, encodefileArg.getValue() + ".ref");
-            
-            cout << "load reads_range" << endl;
-            vector<ReadRange> reads_range;
-            loadreadsrange(reads_range, alignfileArg.getValue());
-            
-            cout << "load ref_file" << endl;
-            assembler.load_homo_blocks(reffileArg.getValue());*/
-            
             if (islegacyArg.getValue()){
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
@@ -589,25 +572,13 @@ int main(int argc, const char * argv[])
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
-            //assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", ismetricArg.getValue(), idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", true, idx);
-            //string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue() + ".igda_tmp.sorted";
             string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";
             cout << cmd << endl; system(cmd.c_str());
             
-            // test contigs
-            /*cout << "test contigs" << endl;
-            cout << "load ann" << endl;
-            assembler.read_ann_results(outfileArg.getValue() + ".igda_tmp.sorted");
-            
-            assembler.test_contigs(recode_data, recode_ref_data, reads_range);
-            assembler.print_rl_ann_clust(outfileArg.getValue(), true);
-            
-            cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp.sorted";
-            cout << cmd << endl; system(cmd.c_str());*/
         }
         
         if (strcmp(argv[1], "test_contigs")==0){
