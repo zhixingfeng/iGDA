@@ -273,11 +273,28 @@ TEST_CASE("test assembler::ann_to_graph()")
     Assembler assembler;
     Graph gp, gp_red;
     assembler.ann_to_graph(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft");
+    
+    // transitive reduction using BGL, but it seems incorrect
     igda_transitive_reduction(gp, gp_red);
     print_graph(gp);
-    
     cout << "transitive reduction" << endl;
     print_graph(gp_red);
+    
+    // transitive reduction using graphviz
+    ofstream fs_temp_graph("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot");
+    boost::write_graphviz(fs_temp_graph, gp);
+    
+    string cmd = "tred ../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot ";
+    cmd = cmd + "> ../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot";
+    cout << cmd << endl;
+    system(cmd.c_str());
+    
+    Graph gp_tred;
+    ifstream fs_infile("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
+    //boost::dynamic_properties dp(boost::ignore_other_properties);
+    //boost::read_graphviz(fs_infile, gp_red, dp);
+    //print_graph(gp_red);
+    
 }
 
 

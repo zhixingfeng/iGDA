@@ -10,7 +10,9 @@
 #define iGDA_graph_h
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/transitive_reduction.hpp>
-#include <boost/graph/graph_utility.hpp> // dumping graphs
+#include <boost/graph/graph_utility.hpp>
+#include <boost/graph/graphviz.hpp>
+
 #include "../../include/headers.h"
 
 //using namespace boost;
