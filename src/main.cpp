@@ -21,11 +21,11 @@
 
 #ifdef _UNITTEST
 
-using namespace boost::filesystem;
+//using namespace boost::filesystem;
 
 int main(int argc, char* argv[]) {
-    if (!exists("../results"))
-        create_directory("../results");
+    //if (!exists("../results"))
+    //    create_directory("../results");
     int result = Catch::Session().run( argc, argv );
     return result;
 }
