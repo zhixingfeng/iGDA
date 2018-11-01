@@ -1,8 +1,0 @@
-makecw.lo: makecw.c ../../lib/pathplan/pathutil.h \
-  ../../lib/pathplan/pathplan.h ../../lib/pathplan/pathgeom.h
-
-../../lib/pathplan/pathutil.h:
-
-../../lib/pathplan/pathplan.h:
-
-../../lib/pathplan/pathgeom.h:

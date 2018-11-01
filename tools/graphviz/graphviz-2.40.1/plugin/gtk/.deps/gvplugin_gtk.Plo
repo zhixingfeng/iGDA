@@ -1,6 +1,0 @@
-gvplugin_gtk.lo: gvplugin_gtk.c ../../lib/gvc/gvplugin.h \
-  ../../lib/gvc/gvcext.h
-
-../../lib/gvc/gvplugin.h:
-
-../../lib/gvc/gvcext.h:
