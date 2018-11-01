@@ -26,6 +26,6 @@ echo "build iGDA"
 make
 
 # copy tred into bin folder
-cp ./tools/graphviz/graphviz/build/bin/tred bin/
+cp ./tools/graphviz/graphviz/build/bin/tred bin/igda_tred
 
 

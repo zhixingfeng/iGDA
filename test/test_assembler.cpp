@@ -284,7 +284,7 @@ TEST_CASE("test assembler::ann_to_graph()", "[hide]")
     ofstream fs_temp_graph("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot");
     boost::write_graphviz(fs_temp_graph, gp);
     
-    string cmd = "tred ../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot ";
+    string cmd = "igda_tred ../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot ";
     cmd = cmd + "> ../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot";
     cout << cmd << endl;
     system(cmd.c_str());
