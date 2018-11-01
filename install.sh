@@ -4,8 +4,8 @@ echo "install stxxl"
 cd tools/stxxl
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./local/stxxl .. > build.log
-make install >> build.log
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./local/stxxl
+make install
 cd ../../..
 
 # configure stxxl
@@ -15,9 +15,9 @@ echo "disk=./tmp_stxxl,32G,syscall unlink" > $HOME/.stxxl
 echo "install graphviz"
 cd tools/graphviz/graphviz
 mkdir -p build
-./configure --prefix=$(pwd)/build > build.log
-make >> build.log
-make install >> build.log
+./configure --prefix=$(pwd)/build
+make
+make install
 
 cd ../../..
 
