@@ -22,6 +22,7 @@ make install >> build.log
 cd ../../..
 
 # compile iGDA
+echo "build iGDA"
 make
 
 # copy tred into bin folder
