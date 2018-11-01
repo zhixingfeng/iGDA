@@ -4248,7 +4248,6 @@
 		DCAFB4C320B9E76D0092269F /* dforestsnvstxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvstxxl.cpp; sourceTree = "<group>"; };
 		DCAFB4C420B9E76D0092269F /* dforestsnvstxxl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnvstxxl.h; sourceTree = "<group>"; };
 		DCB714DD1D620F4800666D59 /* seqopt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = seqopt.h; sourceTree = "<group>"; };
-		DCB714DE1D62426000666D59 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		DCCACA7B20D3F772008F881A /* dist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dist.h; sourceTree = "<group>"; };
 		DCD493931FB4BCC20011F28B /* pcg_extras.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_extras.hpp; sourceTree = "<group>"; };
 		DCD493941FB4BCC20011F28B /* pcg_random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_random.hpp; sourceTree = "<group>"; };
@@ -4345,7 +4344,6 @@
 				DC5829802052E361001BFE6D /* uninstall.sh */,
 				DCE2FA181FE1863E00E629D0 /* Makefile */,
 				DCE2FA131FE183DF00E629D0 /* install.sh */,
-				DCB714DE1D62426000666D59 /* data */,
 				DC930F1F1D5527CF00640B65 /* include */,
 				DC930F261D5527CF00640B65 /* src */,
 				DC930F341D5527CF00640B65 /* test */,

@@ -289,15 +289,6 @@ TEST_CASE("test assembler::ann_to_graph()", "[hide]")
     cout << cmd << endl;
     system(cmd.c_str());
     
-    //Graph gp_tred;
-    //read_dot_file(gp_tred, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
-    //ifstream fs_infile("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
-    //boost::dynamic_properties dp(boost::ignore_other_properties);
-    
-    
-    //boost::read_graphviz(fs_infile, gp_red, dp);
-    //print_graph(gp_red);
-    
 }
 
 TEST_CASE("read_dot_file", "[hide]")
