@@ -1,0 +1,756 @@
+gvgetfontlist_pango.lo: gvgetfontlist_pango.c ../../config.h \
+  /usr/include/stdio.h /usr/include/sys/cdefs.h \
+  /usr/include/sys/_symbol_aliasing.h \
+  /usr/include/sys/_posix_availability.h /usr/include/Availability.h \
+  /usr/include/AvailabilityInternal.h /usr/include/_types.h \
+  /usr/include/sys/_types.h /usr/include/machine/_types.h \
+  /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h \
+  /usr/include/sys/_types/_va_list.h /usr/include/sys/_types/_size_t.h \
+  /usr/include/sys/_types/_null.h /usr/include/sys/stdio.h \
+  /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_ssize_t.h \
+  /usr/include/secure/_stdio.h /usr/include/secure/_common.h \
+  /usr/include/stdlib.h /usr/include/sys/wait.h \
+  /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_id_t.h \
+  /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h \
+  /usr/include/machine/signal.h /usr/include/i386/signal.h \
+  /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h \
+  /usr/include/mach/i386/_structs.h \
+  /usr/include/sys/_pthread/_pthread_attr_t.h \
+  /usr/include/sys/_types/_sigaltstack.h \
+  /usr/include/sys/_types/_ucontext.h \
+  /usr/include/sys/_types/_sigset_t.h /usr/include/sys/_types/_uid_t.h \
+  /usr/include/sys/resource.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stdint.h \
+  /usr/include/stdint.h /usr/include/sys/_types/_int8_t.h \
+  /usr/include/sys/_types/_int16_t.h /usr/include/sys/_types/_int32_t.h \
+  /usr/include/sys/_types/_int64_t.h /usr/include/_types/_uint8_t.h \
+  /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h \
+  /usr/include/_types/_uint64_t.h /usr/include/sys/_types/_intptr_t.h \
+  /usr/include/sys/_types/_uintptr_t.h /usr/include/_types/_intmax_t.h \
+  /usr/include/_types/_uintmax_t.h /usr/include/sys/_types/_timeval.h \
+  /usr/include/machine/endian.h /usr/include/i386/endian.h \
+  /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h \
+  /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h \
+  /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h \
+  /usr/include/sys/_types/_wchar_t.h /usr/include/machine/types.h \
+  /usr/include/i386/types.h /usr/include/sys/_types/_dev_t.h \
+  /usr/include/sys/_types/_mode_t.h /usr/include/string.h \
+  /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h \
+  /usr/include/strings.h /usr/include/secure/_string.h \
+  /usr/include/ctype.h /usr/include/runetype.h \
+  /usr/include/sys/_types/_wint_t.h ../../lib/cgraph/agxbuf.h \
+  ../../lib/gvc/gvplugin_textlayout.h ../../lib/common/types.h \
+  /usr/include/assert.h /usr/include/signal.h \
+  /usr/include/sys/_pthread/_pthread_t.h ../../lib/common/geom.h \
+  ../../lib/common/arith.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/limits.h \
+  /usr/include/limits.h /usr/include/machine/limits.h \
+  /usr/include/i386/limits.h /usr/include/i386/_limits.h \
+  /usr/include/sys/syslimits.h /usr/include/math.h \
+  ../../lib/gvc/gvcext.h ../../lib/pathplan/pathgeom.h \
+  ../../lib/common/textspan.h ../../lib/cgraph/cgraph.h \
+  /usr/include/inttypes.h ../../lib/cdt/cdt.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stddef.h \
+  ../../lib/common/usershape.h ../../lib/gvc/gvplugin.h \
+  ../../lib/gvc/gvcjob.h ../../lib/gvc/gvcommon.h \
+  ../../lib/common/color.h \
+  /opt/local/include/pango-1.0/pango/pangocairo.h \
+  /opt/local/include/pango-1.0/pango/pango.h \
+  /opt/local/include/pango-1.0/pango/pango-attributes.h \
+  /opt/local/include/pango-1.0/pango/pango-font.h \
+  /opt/local/include/pango-1.0/pango/pango-coverage.h \
+  /opt/local/include/glib-2.0/glib.h \
+  /opt/local/include/glib-2.0/glib/galloca.h \
+  /opt/local/include/glib-2.0/glib/gtypes.h \
+  /opt/local/lib/glib-2.0/include/glibconfig.h \
+  /opt/local/include/glib-2.0/glib/gmacros.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/float.h \
+  /opt/local/include/glib-2.0/glib/gversionmacros.h /usr/include/time.h \
+  /usr/include/sys/_types/_clock_t.h /usr/include/sys/_types/_time_t.h \
+  /usr/include/sys/_types/_timespec.h \
+  /opt/local/include/glib-2.0/glib/garray.h \
+  /opt/local/include/glib-2.0/glib/gasyncqueue.h \
+  /opt/local/include/glib-2.0/glib/gthread.h \
+  /opt/local/include/glib-2.0/glib/gatomic.h \
+  /opt/local/include/glib-2.0/glib/gerror.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stdarg.h \
+  /opt/local/include/glib-2.0/glib/gquark.h \
+  /opt/local/include/glib-2.0/glib/gutils.h \
+  /opt/local/include/glib-2.0/glib/gbacktrace.h \
+  /opt/local/include/glib-2.0/glib/gbase64.h \
+  /opt/local/include/glib-2.0/glib/gbitlock.h \
+  /opt/local/include/glib-2.0/glib/gbookmarkfile.h \
+  /opt/local/include/glib-2.0/glib/gbytes.h \
+  /opt/local/include/glib-2.0/glib/gcharset.h \
+  /opt/local/include/glib-2.0/glib/gchecksum.h \
+  /opt/local/include/glib-2.0/glib/gconvert.h \
+  /opt/local/include/glib-2.0/glib/gdataset.h \
+  /opt/local/include/glib-2.0/glib/gdate.h \
+  /opt/local/include/glib-2.0/glib/gdatetime.h \
+  /opt/local/include/glib-2.0/glib/gtimezone.h \
+  /opt/local/include/glib-2.0/glib/gdir.h /usr/include/dirent.h \
+  /usr/include/sys/dirent.h /usr/include/sys/_types/_ino_t.h \
+  /opt/local/include/glib-2.0/glib/genviron.h \
+  /opt/local/include/glib-2.0/glib/gfileutils.h \
+  /opt/local/include/glib-2.0/glib/ggettext.h \
+  /opt/local/include/glib-2.0/glib/ghash.h \
+  /opt/local/include/glib-2.0/glib/glist.h \
+  /opt/local/include/glib-2.0/glib/gmem.h \
+  /opt/local/include/glib-2.0/glib/gnode.h \
+  /opt/local/include/glib-2.0/glib/ghmac.h \
+  /opt/local/include/glib-2.0/glib/ghook.h \
+  /opt/local/include/glib-2.0/glib/ghostutils.h \
+  /opt/local/include/glib-2.0/glib/giochannel.h \
+  /opt/local/include/glib-2.0/glib/gmain.h \
+  /opt/local/include/glib-2.0/glib/gpoll.h \
+  /opt/local/include/glib-2.0/glib/gslist.h \
+  /opt/local/include/glib-2.0/glib/gstring.h \
+  /opt/local/include/glib-2.0/glib/gunicode.h \
+  /opt/local/include/glib-2.0/glib/gkeyfile.h \
+  /opt/local/include/glib-2.0/glib/gmappedfile.h \
+  /opt/local/include/glib-2.0/glib/gmarkup.h \
+  /opt/local/include/glib-2.0/glib/gmessages.h \
+  /opt/local/include/glib-2.0/glib/gvariant.h \
+  /opt/local/include/glib-2.0/glib/gvarianttype.h \
+  /opt/local/include/glib-2.0/glib/goption.h \
+  /opt/local/include/glib-2.0/glib/gpattern.h \
+  /opt/local/include/glib-2.0/glib/gprimes.h \
+  /opt/local/include/glib-2.0/glib/gqsort.h \
+  /opt/local/include/glib-2.0/glib/gqueue.h \
+  /opt/local/include/glib-2.0/glib/grand.h \
+  /opt/local/include/glib-2.0/glib/gregex.h \
+  /opt/local/include/glib-2.0/glib/gscanner.h \
+  /opt/local/include/glib-2.0/glib/gsequence.h \
+  /opt/local/include/glib-2.0/glib/gshell.h \
+  /opt/local/include/glib-2.0/glib/gslice.h \
+  /opt/local/include/glib-2.0/glib/gspawn.h \
+  /opt/local/include/glib-2.0/glib/gstrfuncs.h \
+  /opt/local/include/glib-2.0/glib/gstringchunk.h \
+  /opt/local/include/glib-2.0/glib/gtestutils.h \
+  /opt/local/include/glib-2.0/glib/gthreadpool.h \
+  /opt/local/include/glib-2.0/glib/gtimer.h \
+  /opt/local/include/glib-2.0/glib/gtrashstack.h \
+  /opt/local/include/glib-2.0/glib/gtree.h \
+  /opt/local/include/glib-2.0/glib/gurifuncs.h \
+  /opt/local/include/glib-2.0/glib/guuid.h \
+  /opt/local/include/glib-2.0/glib/gversion.h \
+  /opt/local/include/glib-2.0/glib/deprecated/gallocator.h \
+  /opt/local/include/glib-2.0/glib/deprecated/gcache.h \
+  /opt/local/include/glib-2.0/glib/deprecated/gcompletion.h \
+  /opt/local/include/glib-2.0/glib/deprecated/gmain.h \
+  /opt/local/include/glib-2.0/glib/deprecated/grel.h \
+  /opt/local/include/glib-2.0/glib/deprecated/gthread.h \
+  /usr/include/sys/types.h /usr/include/sys/_types/_blkcnt_t.h \
+  /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h \
+  /usr/include/sys/_types/_in_addr_t.h \
+  /usr/include/sys/_types/_in_port_t.h \
+  /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h \
+  /usr/include/sys/_types/_nlink_t.h \
+  /usr/include/sys/_types/_useconds_t.h \
+  /usr/include/sys/_types/_suseconds_t.h \
+  /usr/include/sys/_types/_fd_def.h \
+  /usr/include/sys/_types/_fd_setsize.h \
+  /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h \
+  /usr/include/sys/_types/_fd_zero.h /usr/include/sys/_types/_fd_isset.h \
+  /usr/include/sys/_types/_fd_copy.h \
+  /usr/include/sys/_pthread/_pthread_cond_t.h \
+  /usr/include/sys/_pthread/_pthread_condattr_t.h \
+  /usr/include/sys/_pthread/_pthread_mutex_t.h \
+  /usr/include/sys/_pthread/_pthread_mutexattr_t.h \
+  /usr/include/sys/_pthread/_pthread_once_t.h \
+  /usr/include/sys/_pthread/_pthread_rwlock_t.h \
+  /usr/include/sys/_pthread/_pthread_rwlockattr_t.h \
+  /usr/include/sys/_pthread/_pthread_key_t.h \
+  /usr/include/sys/_types/_fsblkcnt_t.h \
+  /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/pthread.h \
+  /usr/include/pthread/pthread_impl.h /usr/include/pthread/sched.h \
+  /usr/include/pthread/qos.h /usr/include/sys/qos.h \
+  /usr/include/sys/_types/_mach_port_t.h \
+  /opt/local/include/glib-2.0/glib/glib-autocleanups.h \
+  /opt/local/include/pango-1.0/pango/pango-version-macros.h \
+  /opt/local/include/pango-1.0/pango/pango-features.h \
+  /opt/local/include/pango-1.0/pango/pango-types.h \
+  /opt/local/include/glib-2.0/glib-object.h \
+  /opt/local/include/glib-2.0/gobject/gbinding.h \
+  /opt/local/include/glib-2.0/gobject/gobject.h \
+  /opt/local/include/glib-2.0/gobject/gtype.h \
+  /opt/local/include/glib-2.0/gobject/gvalue.h \
+  /opt/local/include/glib-2.0/gobject/gparam.h \
+  /opt/local/include/glib-2.0/gobject/gclosure.h \
+  /opt/local/include/glib-2.0/gobject/gsignal.h \
+  /opt/local/include/glib-2.0/gobject/gmarshal.h \
+  /opt/local/include/glib-2.0/gobject/gboxed.h \
+  /opt/local/include/glib-2.0/gobject/glib-types.h \
+  /opt/local/include/glib-2.0/gobject/genums.h \
+  /opt/local/include/glib-2.0/gobject/gparamspecs.h \
+  /opt/local/include/glib-2.0/gobject/gsourceclosure.h \
+  /opt/local/include/glib-2.0/gobject/gtypemodule.h \
+  /opt/local/include/glib-2.0/gobject/gtypeplugin.h \
+  /opt/local/include/glib-2.0/gobject/gvaluearray.h \
+  /opt/local/include/glib-2.0/gobject/gvaluetypes.h \
+  /opt/local/include/glib-2.0/gobject/gobject-autocleanups.h \
+  /opt/local/include/pango-1.0/pango/pango-gravity.h \
+  /opt/local/include/pango-1.0/pango/pango-matrix.h \
+  /opt/local/include/pango-1.0/pango/pango-script.h \
+  /opt/local/include/pango-1.0/pango/pango-language.h \
+  /opt/local/include/pango-1.0/pango/pango-bidi-type.h \
+  /opt/local/include/pango-1.0/pango/pango-break.h \
+  /opt/local/include/pango-1.0/pango/pango-item.h \
+  /opt/local/include/pango-1.0/pango/pango-context.h \
+  /opt/local/include/pango-1.0/pango/pango-fontmap.h \
+  /opt/local/include/pango-1.0/pango/pango-fontset.h \
+  /opt/local/include/pango-1.0/pango/pango-engine.h \
+  /opt/local/include/pango-1.0/pango/pango-glyph.h \
+  /opt/local/include/pango-1.0/pango/pango-enum-types.h \
+  /opt/local/include/pango-1.0/pango/pango-glyph-item.h \
+  /opt/local/include/pango-1.0/pango/pango-layout.h \
+  /opt/local/include/pango-1.0/pango/pango-tabs.h \
+  /opt/local/include/pango-1.0/pango/pango-renderer.h \
+  /opt/local/include/pango-1.0/pango/pango-utils.h \
+  /opt/local/include/cairo/cairo.h \
+  /opt/local/include/cairo/cairo-version.h \
+  /opt/local/include/cairo/cairo-features.h \
+  /opt/local/include/cairo/cairo-deprecated.h gvgetfontlist.h \
+  ../../lib/common/ps_font_equiv.h
+
+../../config.h:
+
+/usr/include/stdio.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/sys/_symbol_aliasing.h:
+
+/usr/include/sys/_posix_availability.h:
+
+/usr/include/Availability.h:
+
+/usr/include/AvailabilityInternal.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+/usr/include/sys/_pthread/_pthread_types.h:
+
+/usr/include/sys/_types/_va_list.h:
+
+/usr/include/sys/_types/_size_t.h:
+
+/usr/include/sys/_types/_null.h:
+
+/usr/include/sys/stdio.h:
+
+/usr/include/sys/_types/_off_t.h:
+
+/usr/include/sys/_types/_ssize_t.h:
+
+/usr/include/secure/_stdio.h:
+
+/usr/include/secure/_common.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/sys/wait.h:
+
+/usr/include/sys/_types/_pid_t.h:
+
+/usr/include/sys/_types/_id_t.h:
+
+/usr/include/sys/signal.h:
+
+/usr/include/sys/appleapiopts.h:
+
+/usr/include/machine/signal.h:
+
+/usr/include/i386/signal.h:
+
+/usr/include/machine/_mcontext.h:
+
+/usr/include/i386/_mcontext.h:
+
+/usr/include/mach/i386/_structs.h:
+
+/usr/include/sys/_pthread/_pthread_attr_t.h:
+
+/usr/include/sys/_types/_sigaltstack.h:
+
+/usr/include/sys/_types/_ucontext.h:
+
+/usr/include/sys/_types/_sigset_t.h:
+
+/usr/include/sys/_types/_uid_t.h:
+
+/usr/include/sys/resource.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/sys/_types/_int8_t.h:
+
+/usr/include/sys/_types/_int16_t.h:
+
+/usr/include/sys/_types/_int32_t.h:
+
+/usr/include/sys/_types/_int64_t.h:
+
+/usr/include/_types/_uint8_t.h:
+
+/usr/include/_types/_uint16_t.h:
+
+/usr/include/_types/_uint32_t.h:
+
+/usr/include/_types/_uint64_t.h:
+
+/usr/include/sys/_types/_intptr_t.h:
+
+/usr/include/sys/_types/_uintptr_t.h:
+
+/usr/include/_types/_intmax_t.h:
+
+/usr/include/_types/_uintmax_t.h:
+
+/usr/include/sys/_types/_timeval.h:
+
+/usr/include/machine/endian.h:
+
+/usr/include/i386/endian.h:
+
+/usr/include/sys/_endian.h:
+
+/usr/include/libkern/_OSByteOrder.h:
+
+/usr/include/libkern/i386/_OSByteOrder.h:
+
+/usr/include/alloca.h:
+
+/usr/include/sys/_types/_ct_rune_t.h:
+
+/usr/include/sys/_types/_rune_t.h:
+
+/usr/include/sys/_types/_wchar_t.h:
+
+/usr/include/machine/types.h:
+
+/usr/include/i386/types.h:
+
+/usr/include/sys/_types/_dev_t.h:
+
+/usr/include/sys/_types/_mode_t.h:
+
+/usr/include/string.h:
+
+/usr/include/sys/_types/_rsize_t.h:
+
+/usr/include/sys/_types/_errno_t.h:
+
+/usr/include/strings.h:
+
+/usr/include/secure/_string.h:
+
+/usr/include/ctype.h:
+
+/usr/include/runetype.h:
+
+/usr/include/sys/_types/_wint_t.h:
+
+../../lib/cgraph/agxbuf.h:
+
+../../lib/gvc/gvplugin_textlayout.h:
+
+../../lib/common/types.h:
+
+/usr/include/assert.h:
+
+/usr/include/signal.h:
+
+/usr/include/sys/_pthread/_pthread_t.h:
+
+../../lib/common/geom.h:
+
+../../lib/common/arith.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/limits.h:
+
+/usr/include/limits.h:
+
+/usr/include/machine/limits.h:
+
+/usr/include/i386/limits.h:
+
+/usr/include/i386/_limits.h:
+
+/usr/include/sys/syslimits.h:
+
+/usr/include/math.h:
+
+../../lib/gvc/gvcext.h:
+
+../../lib/pathplan/pathgeom.h:
+
+../../lib/common/textspan.h:
+
+../../lib/cgraph/cgraph.h:
+
+/usr/include/inttypes.h:
+
+../../lib/cdt/cdt.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stddef.h:
+
+../../lib/common/usershape.h:
+
+../../lib/gvc/gvplugin.h:
+
+../../lib/gvc/gvcjob.h:
+
+../../lib/gvc/gvcommon.h:
+
+../../lib/common/color.h:
+
+/opt/local/include/pango-1.0/pango/pangocairo.h:
+
+/opt/local/include/pango-1.0/pango/pango.h:
+
+/opt/local/include/pango-1.0/pango/pango-attributes.h:
+
+/opt/local/include/pango-1.0/pango/pango-font.h:
+
+/opt/local/include/pango-1.0/pango/pango-coverage.h:
+
+/opt/local/include/glib-2.0/glib.h:
+
+/opt/local/include/glib-2.0/glib/galloca.h:
+
+/opt/local/include/glib-2.0/glib/gtypes.h:
+
+/opt/local/lib/glib-2.0/include/glibconfig.h:
+
+/opt/local/include/glib-2.0/glib/gmacros.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/float.h:
+
+/opt/local/include/glib-2.0/glib/gversionmacros.h:
+
+/usr/include/time.h:
+
+/usr/include/sys/_types/_clock_t.h:
+
+/usr/include/sys/_types/_time_t.h:
+
+/usr/include/sys/_types/_timespec.h:
+
+/opt/local/include/glib-2.0/glib/garray.h:
+
+/opt/local/include/glib-2.0/glib/gasyncqueue.h:
+
+/opt/local/include/glib-2.0/glib/gthread.h:
+
+/opt/local/include/glib-2.0/glib/gatomic.h:
+
+/opt/local/include/glib-2.0/glib/gerror.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/include/stdarg.h:
+
+/opt/local/include/glib-2.0/glib/gquark.h:
+
+/opt/local/include/glib-2.0/glib/gutils.h:
+
+/opt/local/include/glib-2.0/glib/gbacktrace.h:
+
+/opt/local/include/glib-2.0/glib/gbase64.h:
+
+/opt/local/include/glib-2.0/glib/gbitlock.h:
+
+/opt/local/include/glib-2.0/glib/gbookmarkfile.h:
+
+/opt/local/include/glib-2.0/glib/gbytes.h:
+
+/opt/local/include/glib-2.0/glib/gcharset.h:
+
+/opt/local/include/glib-2.0/glib/gchecksum.h:
+
+/opt/local/include/glib-2.0/glib/gconvert.h:
+
+/opt/local/include/glib-2.0/glib/gdataset.h:
+
+/opt/local/include/glib-2.0/glib/gdate.h:
+
+/opt/local/include/glib-2.0/glib/gdatetime.h:
+
+/opt/local/include/glib-2.0/glib/gtimezone.h:
+
+/opt/local/include/glib-2.0/glib/gdir.h:
+
+/usr/include/dirent.h:
+
+/usr/include/sys/dirent.h:
+
+/usr/include/sys/_types/_ino_t.h:
+
+/opt/local/include/glib-2.0/glib/genviron.h:
+
+/opt/local/include/glib-2.0/glib/gfileutils.h:
+
+/opt/local/include/glib-2.0/glib/ggettext.h:
+
+/opt/local/include/glib-2.0/glib/ghash.h:
+
+/opt/local/include/glib-2.0/glib/glist.h:
+
+/opt/local/include/glib-2.0/glib/gmem.h:
+
+/opt/local/include/glib-2.0/glib/gnode.h:
+
+/opt/local/include/glib-2.0/glib/ghmac.h:
+
+/opt/local/include/glib-2.0/glib/ghook.h:
+
+/opt/local/include/glib-2.0/glib/ghostutils.h:
+
+/opt/local/include/glib-2.0/glib/giochannel.h:
+
+/opt/local/include/glib-2.0/glib/gmain.h:
+
+/opt/local/include/glib-2.0/glib/gpoll.h:
+
+/opt/local/include/glib-2.0/glib/gslist.h:
+
+/opt/local/include/glib-2.0/glib/gstring.h:
+
+/opt/local/include/glib-2.0/glib/gunicode.h:
+
+/opt/local/include/glib-2.0/glib/gkeyfile.h:
+
+/opt/local/include/glib-2.0/glib/gmappedfile.h:
+
+/opt/local/include/glib-2.0/glib/gmarkup.h:
+
+/opt/local/include/glib-2.0/glib/gmessages.h:
+
+/opt/local/include/glib-2.0/glib/gvariant.h:
+
+/opt/local/include/glib-2.0/glib/gvarianttype.h:
+
+/opt/local/include/glib-2.0/glib/goption.h:
+
+/opt/local/include/glib-2.0/glib/gpattern.h:
+
+/opt/local/include/glib-2.0/glib/gprimes.h:
+
+/opt/local/include/glib-2.0/glib/gqsort.h:
+
+/opt/local/include/glib-2.0/glib/gqueue.h:
+
+/opt/local/include/glib-2.0/glib/grand.h:
+
+/opt/local/include/glib-2.0/glib/gregex.h:
+
+/opt/local/include/glib-2.0/glib/gscanner.h:
+
+/opt/local/include/glib-2.0/glib/gsequence.h:
+
+/opt/local/include/glib-2.0/glib/gshell.h:
+
+/opt/local/include/glib-2.0/glib/gslice.h:
+
+/opt/local/include/glib-2.0/glib/gspawn.h:
+
+/opt/local/include/glib-2.0/glib/gstrfuncs.h:
+
+/opt/local/include/glib-2.0/glib/gstringchunk.h:
+
+/opt/local/include/glib-2.0/glib/gtestutils.h:
+
+/opt/local/include/glib-2.0/glib/gthreadpool.h:
+
+/opt/local/include/glib-2.0/glib/gtimer.h:
+
+/opt/local/include/glib-2.0/glib/gtrashstack.h:
+
+/opt/local/include/glib-2.0/glib/gtree.h:
+
+/opt/local/include/glib-2.0/glib/gurifuncs.h:
+
+/opt/local/include/glib-2.0/glib/guuid.h:
+
+/opt/local/include/glib-2.0/glib/gversion.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/gallocator.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/gcache.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/gcompletion.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/gmain.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/grel.h:
+
+/opt/local/include/glib-2.0/glib/deprecated/gthread.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/sys/_types/_blkcnt_t.h:
+
+/usr/include/sys/_types/_blksize_t.h:
+
+/usr/include/sys/_types/_gid_t.h:
+
+/usr/include/sys/_types/_in_addr_t.h:
+
+/usr/include/sys/_types/_in_port_t.h:
+
+/usr/include/sys/_types/_ino64_t.h:
+
+/usr/include/sys/_types/_key_t.h:
+
+/usr/include/sys/_types/_nlink_t.h:
+
+/usr/include/sys/_types/_useconds_t.h:
+
+/usr/include/sys/_types/_suseconds_t.h:
+
+/usr/include/sys/_types/_fd_def.h:
+
+/usr/include/sys/_types/_fd_setsize.h:
+
+/usr/include/sys/_types/_fd_set.h:
+
+/usr/include/sys/_types/_fd_clr.h:
+
+/usr/include/sys/_types/_fd_zero.h:
+
+/usr/include/sys/_types/_fd_isset.h:
+
+/usr/include/sys/_types/_fd_copy.h:
+
+/usr/include/sys/_pthread/_pthread_cond_t.h:
+
+/usr/include/sys/_pthread/_pthread_condattr_t.h:
+
+/usr/include/sys/_pthread/_pthread_mutex_t.h:
+
+/usr/include/sys/_pthread/_pthread_mutexattr_t.h:
+
+/usr/include/sys/_pthread/_pthread_once_t.h:
+
+/usr/include/sys/_pthread/_pthread_rwlock_t.h:
+
+/usr/include/sys/_pthread/_pthread_rwlockattr_t.h:
+
+/usr/include/sys/_pthread/_pthread_key_t.h:
+
+/usr/include/sys/_types/_fsblkcnt_t.h:
+
+/usr/include/sys/_types/_fsfilcnt_t.h:
+
+/usr/include/pthread.h:
+
+/usr/include/pthread/pthread_impl.h:
+
+/usr/include/pthread/sched.h:
+
+/usr/include/pthread/qos.h:
+
+/usr/include/sys/qos.h:
+
+/usr/include/sys/_types/_mach_port_t.h:
+
+/opt/local/include/glib-2.0/glib/glib-autocleanups.h:
+
+/opt/local/include/pango-1.0/pango/pango-version-macros.h:
+
+/opt/local/include/pango-1.0/pango/pango-features.h:
+
+/opt/local/include/pango-1.0/pango/pango-types.h:
+
+/opt/local/include/glib-2.0/glib-object.h:
+
+/opt/local/include/glib-2.0/gobject/gbinding.h:
+
+/opt/local/include/glib-2.0/gobject/gobject.h:
+
+/opt/local/include/glib-2.0/gobject/gtype.h:
+
+/opt/local/include/glib-2.0/gobject/gvalue.h:
+
+/opt/local/include/glib-2.0/gobject/gparam.h:
+
+/opt/local/include/glib-2.0/gobject/gclosure.h:
+
+/opt/local/include/glib-2.0/gobject/gsignal.h:
+
+/opt/local/include/glib-2.0/gobject/gmarshal.h:
+
+/opt/local/include/glib-2.0/gobject/gboxed.h:
+
+/opt/local/include/glib-2.0/gobject/glib-types.h:
+
+/opt/local/include/glib-2.0/gobject/genums.h:
+
+/opt/local/include/glib-2.0/gobject/gparamspecs.h:
+
+/opt/local/include/glib-2.0/gobject/gsourceclosure.h:
+
+/opt/local/include/glib-2.0/gobject/gtypemodule.h:
+
+/opt/local/include/glib-2.0/gobject/gtypeplugin.h:
+
+/opt/local/include/glib-2.0/gobject/gvaluearray.h:
+
+/opt/local/include/glib-2.0/gobject/gvaluetypes.h:
+
+/opt/local/include/glib-2.0/gobject/gobject-autocleanups.h:
+
+/opt/local/include/pango-1.0/pango/pango-gravity.h:
+
+/opt/local/include/pango-1.0/pango/pango-matrix.h:
+
+/opt/local/include/pango-1.0/pango/pango-script.h:
+
+/opt/local/include/pango-1.0/pango/pango-language.h:
+
+/opt/local/include/pango-1.0/pango/pango-bidi-type.h:
+
+/opt/local/include/pango-1.0/pango/pango-break.h:
+
+/opt/local/include/pango-1.0/pango/pango-item.h:
+
+/opt/local/include/pango-1.0/pango/pango-context.h:
+
+/opt/local/include/pango-1.0/pango/pango-fontmap.h:
+
+/opt/local/include/pango-1.0/pango/pango-fontset.h:
+
+/opt/local/include/pango-1.0/pango/pango-engine.h:
+
+/opt/local/include/pango-1.0/pango/pango-glyph.h:
+
+/opt/local/include/pango-1.0/pango/pango-enum-types.h:
+
+/opt/local/include/pango-1.0/pango/pango-glyph-item.h:
+
+/opt/local/include/pango-1.0/pango/pango-layout.h:
+
+/opt/local/include/pango-1.0/pango/pango-tabs.h:
+
+/opt/local/include/pango-1.0/pango/pango-renderer.h:
+
+/opt/local/include/pango-1.0/pango/pango-utils.h:
+
+/opt/local/include/cairo/cairo.h:
+
+/opt/local/include/cairo/cairo-version.h:
+
+/opt/local/include/cairo/cairo-features.h:
+
+/opt/local/include/cairo/cairo-deprecated.h:
+
+gvgetfontlist.h:
+
+../../lib/common/ps_font_equiv.h:
