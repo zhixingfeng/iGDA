@@ -1,0 +1,6 @@
+libtcldot_la-no_builtins.lo: no_builtins.c ../../lib/gvc/gvplugin.h \
+  ../../lib/gvc/gvcext.h
+
+../../lib/gvc/gvplugin.h:
+
+../../lib/gvc/gvcext.h:

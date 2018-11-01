@@ -16,12 +16,11 @@ echo "install graphviz"
 cd tools/graphviz/graphviz-2.40.1
 ./autogen.sh
 mkdir -p build
-cd build
-../configure --prefix=$(pwd)
+./configure --prefix=$(pwd)/build
 make
 make install
 
-cd ../../../..
+cd ../../..
 
 # compile iGDA
 echo "build iGDA"

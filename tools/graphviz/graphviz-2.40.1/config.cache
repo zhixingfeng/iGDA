@@ -1,0 +1,375 @@
+# This file is a shell script that caches the results of configure
+# tests run on this system so they can be shared between configure
+# scripts and configure runs, see configure's option --config-cache.
+# It is not useful on other systems.  If it contains results you don't
+# want to keep, you may remove or edit it.
+#
+# config.status only pays attention to the cache file if you give it
+# the --recheck option to rerun configure.
+#
+# `ac_cv_env_foo' variables (set or unset) will be overridden when
+# loading this file, other *unset* `ac_cv_foo' will be assigned the
+# following values.
+
+ac_cv_build=${ac_cv_build=x86_64-apple-darwin14.5.0}
+ac_cv_c_compiler_gnu=${ac_cv_c_compiler_gnu=yes}
+ac_cv_c_inline=${ac_cv_c_inline=inline}
+ac_cv_cxx_compiler_gnu=${ac_cv_cxx_compiler_gnu=yes}
+ac_cv_env_ANN_CFLAGS_set=
+ac_cv_env_ANN_CFLAGS_value=
+ac_cv_env_ANN_LIBS_set=
+ac_cv_env_ANN_LIBS_value=
+ac_cv_env_CCC_set=
+ac_cv_env_CCC_value=
+ac_cv_env_CC_set=
+ac_cv_env_CC_value=
+ac_cv_env_CFLAGS_set=
+ac_cv_env_CFLAGS_value=
+ac_cv_env_CPPFLAGS_set=
+ac_cv_env_CPPFLAGS_value=
+ac_cv_env_CPP_set=
+ac_cv_env_CPP_value=
+ac_cv_env_CXXCPP_set=
+ac_cv_env_CXXCPP_value=
+ac_cv_env_CXXFLAGS_set=
+ac_cv_env_CXXFLAGS_value=
+ac_cv_env_CXX_set=
+ac_cv_env_CXX_value=
+ac_cv_env_FONTCONFIG_CFLAGS_set=
+ac_cv_env_FONTCONFIG_CFLAGS_value=
+ac_cv_env_FONTCONFIG_LIBS_set=
+ac_cv_env_FONTCONFIG_LIBS_value=
+ac_cv_env_FREETYPE2_CFLAGS_set=
+ac_cv_env_FREETYPE2_CFLAGS_value=
+ac_cv_env_FREETYPE2_LIBS_set=
+ac_cv_env_FREETYPE2_LIBS_value=
+ac_cv_env_GDK_CFLAGS_set=
+ac_cv_env_GDK_CFLAGS_value=
+ac_cv_env_GDK_LIBS_set=
+ac_cv_env_GDK_LIBS_value=
+ac_cv_env_GDK_PIXBUF_CFLAGS_set=
+ac_cv_env_GDK_PIXBUF_CFLAGS_value=
+ac_cv_env_GDK_PIXBUF_LIBS_set=
+ac_cv_env_GDK_PIXBUF_LIBS_value=
+ac_cv_env_GLADE_CFLAGS_set=
+ac_cv_env_GLADE_CFLAGS_value=
+ac_cv_env_GLADE_LIBS_set=
+ac_cv_env_GLADE_LIBS_value=
+ac_cv_env_GLITZ_CFLAGS_set=
+ac_cv_env_GLITZ_CFLAGS_value=
+ac_cv_env_GLITZ_LIBS_set=
+ac_cv_env_GLITZ_LIBS_value=
+ac_cv_env_GTKGLEXT_CFLAGS_set=
+ac_cv_env_GTKGLEXT_CFLAGS_value=
+ac_cv_env_GTKGLEXT_LIBS_set=
+ac_cv_env_GTKGLEXT_LIBS_value=
+ac_cv_env_GTKGL_CFLAGS_set=
+ac_cv_env_GTKGL_CFLAGS_value=
+ac_cv_env_GTKGL_LIBS_set=
+ac_cv_env_GTKGL_LIBS_value=
+ac_cv_env_GTK_CFLAGS_set=
+ac_cv_env_GTK_CFLAGS_value=
+ac_cv_env_GTK_LIBS_set=
+ac_cv_env_GTK_LIBS_value=
+ac_cv_env_GTS_CFLAGS_set=
+ac_cv_env_GTS_CFLAGS_value=
+ac_cv_env_GTS_LIBS_set=
+ac_cv_env_GTS_LIBS_value=
+ac_cv_env_GUILE_CFLAGS_set=
+ac_cv_env_GUILE_CFLAGS_value=
+ac_cv_env_GUILE_LIBS_set=
+ac_cv_env_GUILE_LIBS_value=
+ac_cv_env_INTGOSIZE_set=
+ac_cv_env_INTGOSIZE_value=
+ac_cv_env_LASI_CFLAGS_set=
+ac_cv_env_LASI_CFLAGS_value=
+ac_cv_env_LASI_LIBS_set=
+ac_cv_env_LASI_LIBS_value=
+ac_cv_env_LDFLAGS_set=
+ac_cv_env_LDFLAGS_value=
+ac_cv_env_LIBPOSTFIX_set=
+ac_cv_env_LIBPOSTFIX_value=
+ac_cv_env_LIBS_set=
+ac_cv_env_LIBS_value=
+ac_cv_env_LT_SYS_LIBRARY_PATH_set=
+ac_cv_env_LT_SYS_LIBRARY_PATH_value=
+ac_cv_env_MING_CFLAGS_set=
+ac_cv_env_MING_CFLAGS_value=
+ac_cv_env_MING_LIBS_set=
+ac_cv_env_MING_LIBS_value=
+ac_cv_env_OBJCFLAGS_set=
+ac_cv_env_OBJCFLAGS_value=
+ac_cv_env_OBJC_set=
+ac_cv_env_OBJC_value=
+ac_cv_env_PANGOCAIRO_CFLAGS_set=
+ac_cv_env_PANGOCAIRO_CFLAGS_value=
+ac_cv_env_PANGOCAIRO_LIBS_set=
+ac_cv_env_PANGOCAIRO_LIBS_value=
+ac_cv_env_PANGOFT2_CFLAGS_set=
+ac_cv_env_PANGOFT2_CFLAGS_value=
+ac_cv_env_PANGOFT2_LIBS_set=
+ac_cv_env_PANGOFT2_LIBS_value=
+ac_cv_env_PKG_CONFIG_LIBDIR_set=
+ac_cv_env_PKG_CONFIG_LIBDIR_value=
+ac_cv_env_PKG_CONFIG_PATH_set=
+ac_cv_env_PKG_CONFIG_PATH_value=
+ac_cv_env_PKG_CONFIG_set=
+ac_cv_env_PKG_CONFIG_value=
+ac_cv_env_POPPLER_CFLAGS_set=
+ac_cv_env_POPPLER_CFLAGS_value=
+ac_cv_env_POPPLER_LIBS_set=
+ac_cv_env_POPPLER_LIBS_value=
+ac_cv_env_QTCORE_CFLAGS_set=
+ac_cv_env_QTCORE_CFLAGS_value=
+ac_cv_env_QTCORE_LIBS_set=
+ac_cv_env_QTCORE_LIBS_value=
+ac_cv_env_QTGUI_CFLAGS_set=
+ac_cv_env_QTGUI_CFLAGS_value=
+ac_cv_env_QTGUI_LIBS_set=
+ac_cv_env_QTGUI_LIBS_value=
+ac_cv_env_RSVG_CFLAGS_set=
+ac_cv_env_RSVG_CFLAGS_value=
+ac_cv_env_RSVG_LIBS_set=
+ac_cv_env_RSVG_LIBS_value=
+ac_cv_env_RUBY_CFLAGS_set=
+ac_cv_env_RUBY_CFLAGS_value=
+ac_cv_env_RUBY_LIBS_set=
+ac_cv_env_RUBY_LIBS_value=
+ac_cv_env_R_CFLAGS_set=
+ac_cv_env_R_CFLAGS_value=
+ac_cv_env_R_LIBS_set=
+ac_cv_env_R_LIBS_value=
+ac_cv_env_SVG_2_36_CFLAGS_set=
+ac_cv_env_SVG_2_36_CFLAGS_value=
+ac_cv_env_SVG_2_36_LIBS_set=
+ac_cv_env_SVG_2_36_LIBS_value=
+ac_cv_env_WEBP_CFLAGS_set=
+ac_cv_env_WEBP_CFLAGS_value=
+ac_cv_env_WEBP_LIBS_set=
+ac_cv_env_WEBP_LIBS_value=
+ac_cv_env_XMKMF_set=
+ac_cv_env_XMKMF_value=
+ac_cv_env_XRENDER_CFLAGS_set=
+ac_cv_env_XRENDER_CFLAGS_value=
+ac_cv_env_XRENDER_LIBS_set=
+ac_cv_env_XRENDER_LIBS_value=
+ac_cv_env_YACC_set=
+ac_cv_env_YACC_value=
+ac_cv_env_YFLAGS_set=
+ac_cv_env_YFLAGS_value=
+ac_cv_env_build_alias_set=
+ac_cv_env_build_alias_value=
+ac_cv_env_host_alias_set=
+ac_cv_env_host_alias_value=
+ac_cv_env_target_alias_set=
+ac_cv_env_target_alias_value=
+ac_cv_func__NSGetEnviron=${ac_cv_func__NSGetEnviron=yes}
+ac_cv_func_argz_add=${ac_cv_func_argz_add=no}
+ac_cv_func_argz_append=${ac_cv_func_argz_append=no}
+ac_cv_func_argz_count=${ac_cv_func_argz_count=no}
+ac_cv_func_argz_create_sep=${ac_cv_func_argz_create_sep=no}
+ac_cv_func_argz_insert=${ac_cv_func_argz_insert=no}
+ac_cv_func_argz_next=${ac_cv_func_argz_next=no}
+ac_cv_func_argz_stringify=${ac_cv_func_argz_stringify=no}
+ac_cv_func_cbrt=${ac_cv_func_cbrt=yes}
+ac_cv_func_closedir=${ac_cv_func_closedir=yes}
+ac_cv_func_connect=${ac_cv_func_connect=yes}
+ac_cv_func_deflateBound=${ac_cv_func_deflateBound=yes}
+ac_cv_func_dlerror=${ac_cv_func_dlerror=yes}
+ac_cv_func_drand48=${ac_cv_func_drand48=yes}
+ac_cv_func_g_object_unref=${ac_cv_func_g_object_unref=yes}
+ac_cv_func_g_type_init=${ac_cv_func_g_type_init=yes}
+ac_cv_func_getenv=${ac_cv_func_getenv=yes}
+ac_cv_func_gethostbyname=${ac_cv_func_gethostbyname=yes}
+ac_cv_func_log2=${ac_cv_func_log2=yes}
+ac_cv_func_lrand48=${ac_cv_func_lrand48=yes}
+ac_cv_func_opendir=${ac_cv_func_opendir=yes}
+ac_cv_func_pango_fc_font_lock_face=${ac_cv_func_pango_fc_font_lock_face=yes}
+ac_cv_func_pango_fc_font_unlock_face=${ac_cv_func_pango_fc_font_unlock_face=yes}
+ac_cv_func_pango_font_map_create_context=${ac_cv_func_pango_font_map_create_context=yes}
+ac_cv_func_readdir=${ac_cv_func_readdir=yes}
+ac_cv_func_setenv=${ac_cv_func_setenv=yes}
+ac_cv_func_setmode=${ac_cv_func_setmode=yes}
+ac_cv_func_shl_load=${ac_cv_func_shl_load=no}
+ac_cv_func_sincos=${ac_cv_func_sincos=no}
+ac_cv_func_srand48=${ac_cv_func_srand48=yes}
+ac_cv_func_strcasecmp=${ac_cv_func_strcasecmp=yes}
+ac_cv_func_strcasestr=${ac_cv_func_strcasestr=yes}
+ac_cv_func_strerror=${ac_cv_func_strerror=yes}
+ac_cv_func_strlcat=${ac_cv_func_strlcat=yes}
+ac_cv_func_strlcpy=${ac_cv_func_strlcpy=yes}
+ac_cv_func_strncasecmp=${ac_cv_func_strncasecmp=yes}
+ac_cv_func_vsnprintf=${ac_cv_func_vsnprintf=yes}
+ac_cv_have_x=${ac_cv_have_x=have_x=no}
+ac_cv_header_GL_glut_h=${ac_cv_header_GL_glut_h=no}
+ac_cv_header_IL_il_h=${ac_cv_header_IL_il_h=no}
+ac_cv_header_X11_Intrinsic_h=${ac_cv_header_X11_Intrinsic_h=no}
+ac_cv_header_X11_Xaw_Text_h=${ac_cv_header_X11_Xaw_Text_h=no}
+ac_cv_header_argz_h=${ac_cv_header_argz_h=no}
+ac_cv_header_crt_externs_h=${ac_cv_header_crt_externs_h=yes}
+ac_cv_header_dirent_dirent_h=${ac_cv_header_dirent_dirent_h=yes}
+ac_cv_header_dirent_h=${ac_cv_header_dirent_h=yes}
+ac_cv_header_dl_h=${ac_cv_header_dl_h=no}
+ac_cv_header_dld_h=${ac_cv_header_dld_h=no}
+ac_cv_header_dlfcn_h=${ac_cv_header_dlfcn_h=yes}
+ac_cv_header_errno_h=${ac_cv_header_errno_h=yes}
+ac_cv_header_expat_h=${ac_cv_header_expat_h=yes}
+ac_cv_header_fcntl_h=${ac_cv_header_fcntl_h=yes}
+ac_cv_header_gd_h=${ac_cv_header_gd_h=no}
+ac_cv_header_inttypes_h=${ac_cv_header_inttypes_h=yes}
+ac_cv_header_libgen_h=${ac_cv_header_libgen_h=yes}
+ac_cv_header_limits_h=${ac_cv_header_limits_h=yes}
+ac_cv_header_ltdl_h=${ac_cv_header_ltdl_h=no}
+ac_cv_header_mach_o_dyld_h=${ac_cv_header_mach_o_dyld_h=yes}
+ac_cv_header_malloc_h=${ac_cv_header_malloc_h=no}
+ac_cv_header_memory_h=${ac_cv_header_memory_h=yes}
+ac_cv_header_search_h=${ac_cv_header_search_h=yes}
+ac_cv_header_stdbool_h=${ac_cv_header_stdbool_h=yes}
+ac_cv_header_stdc=${ac_cv_header_stdc=yes}
+ac_cv_header_stdint_h=${ac_cv_header_stdint_h=yes}
+ac_cv_header_stdlib_h=${ac_cv_header_stdlib_h=yes}
+ac_cv_header_string_h=${ac_cv_header_string_h=yes}
+ac_cv_header_strings_h=${ac_cv_header_strings_h=yes}
+ac_cv_header_sys_dl_h=${ac_cv_header_sys_dl_h=no}
+ac_cv_header_sys_inotify_h=${ac_cv_header_sys_inotify_h=no}
+ac_cv_header_sys_ioctl_h=${ac_cv_header_sys_ioctl_h=yes}
+ac_cv_header_sys_mman_h=${ac_cv_header_sys_mman_h=yes}
+ac_cv_header_sys_select_h=${ac_cv_header_sys_select_h=yes}
+ac_cv_header_sys_stat_h=${ac_cv_header_sys_stat_h=yes}
+ac_cv_header_sys_time_h=${ac_cv_header_sys_time_h=yes}
+ac_cv_header_sys_types_h=${ac_cv_header_sys_types_h=yes}
+ac_cv_header_tcl_h=${ac_cv_header_tcl_h=yes}
+ac_cv_header_termios_h=${ac_cv_header_termios_h=yes}
+ac_cv_header_time=${ac_cv_header_time=yes}
+ac_cv_header_unistd_h=${ac_cv_header_unistd_h=yes}
+ac_cv_header_values_h=${ac_cv_header_values_h=no}
+ac_cv_header_zlib_h=${ac_cv_header_zlib_h=yes}
+ac_cv_host=${ac_cv_host=x86_64-apple-darwin14.5.0}
+ac_cv_lib_IL_main=${ac_cv_lib_IL_main=no}
+ac_cv_lib_Xpm_main=${ac_cv_lib_Xpm_main=no}
+ac_cv_lib_criterion_main=${ac_cv_lib_criterion_main=no}
+ac_cv_lib_dl_dlopen=${ac_cv_lib_dl_dlopen=yes}
+ac_cv_lib_dld_dld_link=${ac_cv_lib_dld_dld_link=no}
+ac_cv_lib_dld_shl_load=${ac_cv_lib_dld_shl_load=no}
+ac_cv_lib_expat_main=${ac_cv_lib_expat_main=yes}
+ac_cv_lib_gen_basename=${ac_cv_lib_gen_basename=no}
+ac_cv_lib_lex=${ac_cv_lib_lex=-ll}
+ac_cv_lib_m_main=${ac_cv_lib_m_main=yes}
+ac_cv_lib_z_main=${ac_cv_lib_z_main=yes}
+ac_cv_objc_compiler_gnu=${ac_cv_objc_compiler_gnu=yes}
+ac_cv_objext=${ac_cv_objext=o}
+ac_cv_path_EGREP=${ac_cv_path_EGREP='/usr/bin/grep -E'}
+ac_cv_path_FGREP=${ac_cv_path_FGREP='/usr/bin/grep -F'}
+ac_cv_path_GREP=${ac_cv_path_GREP=/usr/bin/grep}
+ac_cv_path_SED=${ac_cv_path_SED=/opt/local/bin/gsed}
+ac_cv_path_TCLSH=${ac_cv_path_TCLSH=/usr/local/bin/tclsh8.6}
+ac_cv_path_ac_pt_PKG_CONFIG=${ac_cv_path_ac_pt_PKG_CONFIG=/opt/local/bin/pkg-config}
+ac_cv_path_install=${ac_cv_path_install='/usr/bin/install -c'}
+ac_cv_path_lt_DD=${ac_cv_path_lt_DD=/bin/dd}
+ac_cv_prog_AWK=${ac_cv_prog_AWK=gawk}
+ac_cv_prog_CPP=${ac_cv_prog_CPP='gcc -E'}
+ac_cv_prog_CXXCPP=${ac_cv_prog_CXXCPP='g++ -E'}
+ac_cv_prog_EGREP=${ac_cv_prog_EGREP='/usr/bin/grep -E'}
+ac_cv_prog_GROFF=${ac_cv_prog_GROFF=groff}
+ac_cv_prog_LEX=${ac_cv_prog_LEX=flex}
+ac_cv_prog_PS2PDF=${ac_cv_prog_PS2PDF=ps2pdf}
+ac_cv_prog_SED=${ac_cv_prog_SED=/opt/local/bin/gsed}
+ac_cv_prog_SORT=${ac_cv_prog_SORT=sort}
+ac_cv_prog_YACC=${ac_cv_prog_YACC='bison -y'}
+ac_cv_prog_ac_ct_AR=${ac_cv_prog_ac_ct_AR=ar}
+ac_cv_prog_ac_ct_CC=${ac_cv_prog_ac_ct_CC=gcc}
+ac_cv_prog_ac_ct_CXX=${ac_cv_prog_ac_ct_CXX=g++}
+ac_cv_prog_ac_ct_DSYMUTIL=${ac_cv_prog_ac_ct_DSYMUTIL=dsymutil}
+ac_cv_prog_ac_ct_LIPO=${ac_cv_prog_ac_ct_LIPO=lipo}
+ac_cv_prog_ac_ct_NMEDIT=${ac_cv_prog_ac_ct_NMEDIT=nmedit}
+ac_cv_prog_ac_ct_OBJC=${ac_cv_prog_ac_ct_OBJC=gcc}
+ac_cv_prog_ac_ct_OTOOL=${ac_cv_prog_ac_ct_OTOOL=otool}
+ac_cv_prog_ac_ct_RANLIB=${ac_cv_prog_ac_ct_RANLIB=ranlib}
+ac_cv_prog_ac_ct_STRIP=${ac_cv_prog_ac_ct_STRIP=strip}
+ac_cv_prog_cc_c89=${ac_cv_prog_cc_c89=}
+ac_cv_prog_cc_c99=${ac_cv_prog_cc_c99=}
+ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
+ac_cv_prog_cxx_g=${ac_cv_prog_cxx_g=yes}
+ac_cv_prog_lex_root=${ac_cv_prog_lex_root=lex.yy}
+ac_cv_prog_lex_yytext_pointer=${ac_cv_prog_lex_yytext_pointer=yes}
+ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
+ac_cv_prog_objc_g=${ac_cv_prog_objc_g=yes}
+ac_cv_search_dlopen=${ac_cv_search_dlopen='none required'}
+ac_cv_search_opendir=${ac_cv_search_opendir='none required'}
+ac_cv_search_strerror=${ac_cv_search_strerror='none required'}
+ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
+ac_cv_sizeof_long_long=${ac_cv_sizeof_long_long=8}
+ac_cv_type__Bool=${ac_cv_type__Bool=yes}
+ac_cv_type_error_t=${ac_cv_type_error_t=no}
+ac_cv_type_pid_t=${ac_cv_type_pid_t=yes}
+ac_cv_type_ssize_t=${ac_cv_type_ssize_t=yes}
+ac_cv_type_uid_t=${ac_cv_type_uid_t=yes}
+am_cv_CC_dependencies_compiler_type=${am_cv_CC_dependencies_compiler_type=gcc3}
+am_cv_CXX_dependencies_compiler_type=${am_cv_CXX_dependencies_compiler_type=gcc3}
+am_cv_OBJC_dependencies_compiler_type=${am_cv_OBJC_dependencies_compiler_type=gcc3}
+am_cv_make_support_nested_variables=${am_cv_make_support_nested_variables=yes}
+am_cv_prog_cc_c_o=${am_cv_prog_cc_c_o=yes}
+libltdl_cv_lib_dl_dlopen=${libltdl_cv_lib_dl_dlopen=yes}
+libltdl_cv_need_uscore=${libltdl_cv_need_uscore=no}
+libltdl_cv_preloaded_symbols=${libltdl_cv_preloaded_symbols=yes}
+libltdl_cv_shlibext=${libltdl_cv_shlibext=.so}
+libltdl_cv_shrext=${libltdl_cv_shrext=.dylib}
+lt_cv_apple_cc_single_mod=${lt_cv_apple_cc_single_mod=yes}
+lt_cv_ar_at_file=${lt_cv_ar_at_file=no}
+lt_cv_deplibs_check_method=${lt_cv_deplibs_check_method=pass_all}
+lt_cv_dlopen=${lt_cv_dlopen=dlopen}
+lt_cv_dlopen_libs=${lt_cv_dlopen_libs=-ldl}
+lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
+lt_cv_dlopen_self_static=${lt_cv_dlopen_self_static=yes}
+lt_cv_file_magic_cmd=${lt_cv_file_magic_cmd='$MAGIC_CMD'}
+lt_cv_file_magic_test_file=${lt_cv_file_magic_test_file=}
+lt_cv_ld_exported_symbols_list=${lt_cv_ld_exported_symbols_list=yes}
+lt_cv_ld_force_load=${lt_cv_ld_force_load=yes}
+lt_cv_ld_reload_flag=${lt_cv_ld_reload_flag=-r}
+lt_cv_module_path_var=${lt_cv_module_path_var=DYLD_LIBRARY_PATH}
+lt_cv_nm_interface=${lt_cv_nm_interface='BSD nm'}
+lt_cv_objdir=${lt_cv_objdir=.libs}
+lt_cv_path_LD=${lt_cv_path_LD=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld}
+lt_cv_path_LDCXX=${lt_cv_path_LDCXX=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld}
+lt_cv_path_NM=${lt_cv_path_NM='/opt/local/bin/nm -B'}
+lt_cv_path_mainfest_tool=${lt_cv_path_mainfest_tool=no}
+lt_cv_prog_compiler_c_o=${lt_cv_prog_compiler_c_o=yes}
+lt_cv_prog_compiler_c_o_CXX=${lt_cv_prog_compiler_c_o_CXX=yes}
+lt_cv_prog_compiler_pic=${lt_cv_prog_compiler_pic='-fno-common -DPIC'}
+lt_cv_prog_compiler_pic_CXX=${lt_cv_prog_compiler_pic_CXX='-fno-common -DPIC'}
+lt_cv_prog_compiler_pic_works=${lt_cv_prog_compiler_pic_works=yes}
+lt_cv_prog_compiler_pic_works_CXX=${lt_cv_prog_compiler_pic_works_CXX=yes}
+lt_cv_prog_compiler_rtti_exceptions=${lt_cv_prog_compiler_rtti_exceptions=yes}
+lt_cv_prog_compiler_static_works=${lt_cv_prog_compiler_static_works=no}
+lt_cv_prog_compiler_static_works_CXX=${lt_cv_prog_compiler_static_works_CXX=no}
+lt_cv_prog_gnu_ld=${lt_cv_prog_gnu_ld=no}
+lt_cv_prog_gnu_ldcxx=${lt_cv_prog_gnu_ldcxx=no}
+lt_cv_sharedlib_from_linklib_cmd=${lt_cv_sharedlib_from_linklib_cmd='printf %s\n'}
+lt_cv_sys_dlopen_deplibs=${lt_cv_sys_dlopen_deplibs=yes}
+lt_cv_sys_dlsearch_path=${lt_cv_sys_dlsearch_path='/usr/local/lib /lib /usr/lib'}
+lt_cv_sys_global_symbol_pipe=${lt_cv_sys_global_symbol_pipe='sed -n -e '\''s/^.*[	 ]\([BCDEGRST][BCDEGRST]*\)[	 ][	 ]*_\([_A-Za-z][_A-Za-z0-9]*\)$/\1 _\2 \2/p'\'' | sed '\''/ __gnu_lto/d'\'''}
+test "${lt_cv_sys_global_symbol_to_c_name_address+set}" = set || lt_cv_sys_global_symbol_to_c_name_address='sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[BCDEGRST][BCDEGRST]* .* \(.*\)$/  {"\1", (void *) \&\1},/p'\'''
+test "${lt_cv_sys_global_symbol_to_c_name_address_lib_prefix+set}" = set || lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='sed -n -e '\''s/^: \(.*\) .*$/  {"\1", (void *) 0},/p'\'' -e '\''s/^[BCDEGRST][BCDEGRST]* .* \(lib.*\)$/  {"\1", (void *) \&\1},/p'\'' -e '\''s/^[BCDEGRST][BCDEGRST]* .* \(.*\)$/  {"lib\1", (void *) \&\1},/p'\'''
+lt_cv_sys_global_symbol_to_cdecl=${lt_cv_sys_global_symbol_to_cdecl='sed -n -e '\''s/^T .* \(.*\)$/extern int \1();/p'\'' -e '\''s/^[BCDEGRST][BCDEGRST]* .* \(.*\)$/extern char \1;/p'\'''}
+lt_cv_sys_global_symbol_to_import=${lt_cv_sys_global_symbol_to_import=}
+lt_cv_sys_max_cmd_len=${lt_cv_sys_max_cmd_len=196608}
+lt_cv_sys_symbol_underscore=${lt_cv_sys_symbol_underscore=yes}
+lt_cv_to_host_file_cmd=${lt_cv_to_host_file_cmd=func_convert_file_noop}
+lt_cv_to_tool_file_cmd=${lt_cv_to_tool_file_cmd=func_convert_file_noop}
+lt_cv_truncate_bin=${lt_cv_truncate_bin='/bin/dd bs=4096 count=1'}
+pkg_cv_FONTCONFIG_CFLAGS=${pkg_cv_FONTCONFIG_CFLAGS='-I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2'}
+pkg_cv_FONTCONFIG_LIBS=${pkg_cv_FONTCONFIG_LIBS='-L/opt/local/lib -lfontconfig -lfreetype'}
+pkg_cv_FREETYPE2_CFLAGS=${pkg_cv_FREETYPE2_CFLAGS=-I/opt/local/include/freetype2}
+pkg_cv_FREETYPE2_LIBS=${pkg_cv_FREETYPE2_LIBS='-L/opt/local/lib -lfreetype'}
+pkg_cv_GDK_CFLAGS=${pkg_cv_GDK_CFLAGS='-D_REENTRANT -I/opt/local/include/gtk-2.0 -I/opt/local/lib/gtk-2.0/include -I/opt/local/include/pango-1.0 -I/opt/local/include/harfbuzz -I/opt/local/include -I/opt/local/include/pango-1.0 -I/opt/local/include/gdk-pixbuf-2.0 -I/opt/local/include/libpng16 -I/opt/local/include/cairo -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include -I/opt/local/include/pixman-1 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include/libpng16 -I/opt/local/include'}
+pkg_cv_GDK_LIBS=${pkg_cv_GDK_LIBS='-L/opt/local/lib -lgdk-quartz-2.0 -framework Cocoa -lpangocairo-1.0 -lpango-1.0 -lgio-2.0 -lgdk_pixbuf-2.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation -lcairo'}
+pkg_cv_GDK_PIXBUF_CFLAGS=${pkg_cv_GDK_PIXBUF_CFLAGS='-D_REENTRANT -I/opt/local/include/gdk-pixbuf-2.0 -I/opt/local/include/libpng16 -I/opt/local/include -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include'}
+pkg_cv_GDK_PIXBUF_LIBS=${pkg_cv_GDK_PIXBUF_LIBS='-L/opt/local/lib -lgdk_pixbuf-2.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation'}
+pkg_cv_GTK_CFLAGS=${pkg_cv_GTK_CFLAGS='-D_REENTRANT -I/opt/local/include/gtk-2.0 -I/opt/local/lib/gtk-2.0/include -I/opt/local/include/pango-1.0 -I/opt/local/include/harfbuzz -I/opt/local/include -I/opt/local/include/pango-1.0 -I/opt/local/include/cairo -I/opt/local/include/atk-1.0 -I/opt/local/include/cairo -I/opt/local/include/pixman-1 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include/libpng16 -I/opt/local/include -I/opt/local/include/gdk-pixbuf-2.0 -I/opt/local/include/libpng16 -I/opt/local/include -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include'}
+pkg_cv_GTK_LIBS=${pkg_cv_GTK_LIBS='-L/opt/local/lib -lgtk-quartz-2.0 -lgdk-quartz-2.0 -framework Cocoa -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation'}
+pkg_cv_PANGOCAIRO_CFLAGS=${pkg_cv_PANGOCAIRO_CFLAGS='-I/opt/local/include/pango-1.0 -I/opt/local/include/harfbuzz -I/opt/local/include -I/opt/local/include/pango-1.0 -I/opt/local/include/cairo -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include -I/opt/local/include/pixman-1 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include/libpng16 -I/opt/local/include'}
+pkg_cv_PANGOCAIRO_LIBS=${pkg_cv_PANGOCAIRO_LIBS='-L/opt/local/lib -lpangocairo-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation -lcairo'}
+pkg_cv_PANGOFT2_CFLAGS=${pkg_cv_PANGOFT2_CFLAGS='-I/opt/local/include/pango-1.0 -I/opt/local/include/harfbuzz -I/opt/local/include -I/opt/local/include/pango-1.0 -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2'}
+pkg_cv_PANGOFT2_LIBS=${pkg_cv_PANGOFT2_LIBS='-L/opt/local/lib -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation -lfontconfig -lfreetype'}
+pkg_cv_POPPLER_CFLAGS=${pkg_cv_POPPLER_CFLAGS='-D_REENTRANT -I/opt/local/include/poppler/glib -I/opt/local/include/poppler -I/opt/local/include/cairo -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include -I/opt/local/include/pixman-1 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include -I/opt/local/include/freetype2 -I/opt/local/include/libpng16 -I/opt/local/include'}
+pkg_cv_POPPLER_LIBS=${pkg_cv_POPPLER_LIBS='-L/opt/local/lib -lpoppler-glib -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -Wl,-framework -Wl,CoreFoundation -lcairo'}

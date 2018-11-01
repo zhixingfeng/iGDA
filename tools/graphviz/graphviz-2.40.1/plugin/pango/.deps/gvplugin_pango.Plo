@@ -1,0 +1,6 @@
+gvplugin_pango.lo: gvplugin_pango.c ../../lib/gvc/gvplugin.h \
+  ../../lib/gvc/gvcext.h
+
+../../lib/gvc/gvplugin.h:
+
+../../lib/gvc/gvcext.h:

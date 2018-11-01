@@ -1,0 +1,8 @@
+dot_builtins-dot_builtins.o: dot_builtins.c ../../config.h \
+  ../../lib/gvc/gvplugin.h ../../lib/gvc/gvcext.h
+
+../../config.h:
+
+../../lib/gvc/gvplugin.h:
+
+../../lib/gvc/gvcext.h:

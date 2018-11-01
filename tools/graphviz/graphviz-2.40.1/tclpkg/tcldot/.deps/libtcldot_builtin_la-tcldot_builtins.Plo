@@ -1,0 +1,8 @@
+libtcldot_builtin_la-tcldot_builtins.lo: tcldot_builtins.c ../../config.h \
+  ../../lib/gvc/gvplugin.h ../../lib/gvc/gvcext.h
+
+../../config.h:
+
+../../lib/gvc/gvplugin.h:
+
+../../lib/gvc/gvcext.h:
