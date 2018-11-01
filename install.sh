@@ -4,7 +4,7 @@ echo "install stxxl"
 cd tools/stxxl
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./local/stxxl
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./local/stxxl ..
 make install
 cd ../../..
 
@@ -13,19 +13,20 @@ echo "disk=./tmp_stxxl,32G,syscall unlink" > $HOME/.stxxl
 
 # compile graphviz
 echo "install graphviz"
-cd tools/graphviz/graphviz
+cd tools/graphviz/graphviz-2.40.1
 mkdir -p build
-./configure --prefix=$(pwd)/build
+cd build
+../configure --prefix=$(pwd)
 make
 make install
 
-cd ../../..
+cd ../../../..
 
 # compile iGDA
 echo "build iGDA"
 make
 
 # copy tred into bin folder
-cp ./tools/graphviz/graphviz/build/bin/tred bin/igda_tred
+cp ./tools/graphviz/graphviz-2.40.1/build/bin/tred bin/igda_tred
 
 

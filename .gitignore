@@ -30,4 +30,5 @@
 # Build
 bin/
 tools/stxxl/build/
+tools/graphviz/graphviz-2.40.1/build/
 
