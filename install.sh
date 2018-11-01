@@ -13,7 +13,9 @@ echo "disk=./tmp_stxxl,32G,syscall unlink" > $HOME/.stxxl
 
 # compile graphviz
 echo "install graphviz"
-cd tools/graphviz/graphviz-2.40.1
+cd tools/graphviz/
+tar -zxvf graphviz.tar.gz
+cd ./graphviz-2.40.1
 ./autogen.sh
 mkdir -p build
 ./configure --prefix=$(pwd)/build
