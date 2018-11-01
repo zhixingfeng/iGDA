@@ -14,6 +14,7 @@
 #include <boost/graph/graphviz.hpp>
 
 #include "../../include/headers.h"
+#include "./basic.h"
 
 //using namespace boost;
 struct IQsNode { };
@@ -21,5 +22,6 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS, I
 
 void igda_transitive_reduction(const Graph in_g, Graph &out_g);
 
+void read_dot_file(Graph &gp, string dot_file);
 
 #endif

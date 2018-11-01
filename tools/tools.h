@@ -4,7 +4,7 @@
 
 
 #include "tclap/CmdLine.h"
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 #include "khash.h"
 #include "pcg/pcg_random.hpp"
 #include "ssw/ssw_cpp.h"

@@ -877,6 +877,9 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
     if (this->rl_ann_clust.size() == 0)
         throw runtime_error("Assembler::ann_to_graph, this->rl_ann_clust.size() == 0");
     
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+        add_vertex(gp);
+    
     // get maximal encoded cons_seq and tested_loci
     int64_t temp_size = 0;
     int64_t temp_tested_size = 0;
