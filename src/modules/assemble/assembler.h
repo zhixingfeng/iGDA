@@ -161,6 +161,11 @@ public:
     // test each contig
     void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range);
     
+    
+    // assemble
+    void assemble(Graph &gp, string out_ann_file);
+    
+    
     // assign reads to assembled contigs (recode only)
     void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);
     

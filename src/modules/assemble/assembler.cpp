@@ -1162,6 +1162,10 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     
 }
 
+void Assembler::assemble(Graph &gp, string out_ann_file)
+{
+    
+}
 
 void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)
 {
