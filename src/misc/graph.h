@@ -25,7 +25,7 @@ typedef boost::graph_traits<Graph>::vertex_iterator VertexIter;
 typedef boost::graph_traits<Graph>::edge_iterator EdgeIter;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIter;
 typedef boost::graph_traits<Graph>::in_edge_iterator InEdgeIter;
-
+typedef vector<Vertex> GraphPath;
 
 // transtive reduction of BGL is INCORRECT, NEVER USE IT!!!
 void igda_transitive_reduction(const Graph in_g, Graph &out_g);
@@ -35,6 +35,15 @@ void read_dot_file(Graph &gp, string dot_file);
 
 // get vertices with no in-edge
 vector<Vertex> get_vertices_no_inedge(const Graph &gp);
+
+// get number of out-edges for a vertex
+vector<Vertex> get_out_vertex(const Graph &gp, const Vertex &v);
+
+// travel through a path until hit a vertex with no or more than 1 out edges
+GraphPath travel_path(const Graph &gp, const Vertex &v_start, int i = 0);
+
+// get unambigious paths
+set<GraphPath> get_unambigious_paths(const Graph &gp);
 
 
 

@@ -119,7 +119,28 @@ TEST_CASE("test accessing graph vertex set", "[hide]")
     
 }
 
-TEST_CASE("get_vertices_no_inedge", "[hide]")
+TEST_CASE("test get_out_vertex", "[hide]")
+{
+    Graph gp;
+    read_dot_file(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.dot");
+    pair<VertexIter, VertexIter> v_iter;
+    IndexMap index = get(boost::vertex_index, gp);
+    for (v_iter = boost::vertices(gp); v_iter.first != v_iter.second; ++v_iter.first){
+        Vertex v = *v_iter.first;
+        vector<Vertex> out_vertex = get_out_vertex(gp, v);
+        cout << index(v) << " -> ";
+        for (auto i = 0; i < out_vertex.size(); ++i){
+            cout << index(out_vertex[i]) << ",";
+        }
+        cout << endl;
+    }
+
+    //print_graph(gp);
+}
+
+
+
+TEST_CASE("test get_vertices_no_inedge", "[hide]")
 {
     Assembler assembler;
     Graph gp;
@@ -131,6 +152,25 @@ TEST_CASE("get_vertices_no_inedge", "[hide]")
         cout << index(v_no_inedge[i]) << endl;
     
 }
+
+TEST_CASE("test get_unambigious_paths", "[hide]")
+{
+    Graph gp;
+    read_dot_file(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
+    
+    //print_graph(gp);
+    set<GraphPath> paths = get_unambigious_paths(gp);
+    for (auto it = paths.begin(); it != paths.end(); ++it){
+        for (auto i = 0; i < it->size(); ++i){
+            cout << (*it)[i] << ',';
+        }
+        cout << endl;
+    }
+    
+}
+
+
+
 
 
 

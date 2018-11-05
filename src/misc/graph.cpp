@@ -126,6 +126,77 @@ vector<Vertex> get_vertices_no_inedge(const Graph &gp)
 }
 
 
+vector<Vertex> get_out_vertex(const Graph &gp, const Vertex &v)
+{
+    OutEdgeIter out_edge_i, out_edge_end;
+    vector<Vertex> out_vertext;
+    for (boost::tie(out_edge_i, out_edge_end) = out_edges(v, gp); out_edge_i != out_edge_end; ++out_edge_i)
+        out_vertext.push_back(target(*out_edge_i, gp));
+    return out_vertext;
+}
+
+
+GraphPath travel_path(const Graph &gp, const Vertex &v_start, int i)
+{
+    GraphPath path;
+    Vertex cur_v = v_start;
+    while(true){
+        path.push_back(cur_v);
+        vector<Vertex> out_vertex = get_out_vertex(gp, cur_v);
+        
+        if (out_vertex.size() == 0)
+            break;
+        
+        if (out_vertex.size() > 1){
+            if (cur_v != v_start)
+                break;
+            else{
+                if (i >= out_vertex.size())
+                    throw runtime_error("travel_path(): i >= out_vertex.size()");
+                cur_v = out_vertex[i];
+            }
+        }else{
+            cur_v = out_vertex[0];
+        }
+        
+        
+    }
+    return path;
+}
+
+
+set<GraphPath> get_unambigious_paths(const Graph &gp)
+{
+    //IndexMap index = get(boost::vertex_index, gp);
+    
+    set<GraphPath> paths;
+    vector<Vertex> v_no_inedge = get_vertices_no_inedge(gp);
+    stack<Vertex, vector<Vertex> > v_active (v_no_inedge);
+    
+    // if find the second break points in the paths, stop, record the paths and add the break point to v_active
+    while(v_active.size()>0){
+        Vertex cur_vertex = v_active.top();
+        v_active.pop();
+        
+        vector<Vertex> cur_out_vertex = get_out_vertex(gp, cur_vertex);
+        
+        for (auto i = 0; i < cur_out_vertex.size(); ++i){
+            GraphPath cur_path = travel_path(gp, cur_vertex, i);
+            paths.insert(cur_path);
+            size_t num_out_vertex = get_out_vertex(gp, cur_path.back()).size();
+            
+            if (num_out_vertex == 1)
+                throw runtime_error("get_unambigious_paths(): num_out_vertex == 1");
+            
+            if (cur_path.back() != cur_vertex && get_out_vertex(gp, cur_path.back()).size() > 1)
+                v_active.push(cur_path.back());
+        }
+       
+            
+    }
+    
+    return paths;
+}
 
 
 
