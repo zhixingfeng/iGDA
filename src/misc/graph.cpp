@@ -7,6 +7,8 @@
 //
 
 #include "./graph.h"
+
+// transtive reduction of BGL is INCORRECT, NEVER USE IT!!!
 void igda_transitive_reduction(const Graph in_g, Graph &out_g)
 {
     std::map<Graph::vertex_descriptor, Graph::vertex_descriptor> g_to_tr;
@@ -108,4 +110,22 @@ void read_dot_file(Graph &gp, string dot_file)
     }
     
 }
+
+vector<Vertex> get_vertices_no_inedge(const Graph &gp)
+{
+    vector<Vertex> v_no_inedge;
+    pair<VertexIter, VertexIter> v_iter;
+    for (v_iter = boost::vertices(gp); v_iter.first != v_iter.second; ++v_iter.first){
+        Vertex v = *v_iter.first;
+        InEdgeIter in_edge_i, in_edge_end;
+        boost::tie(in_edge_i, in_edge_end) = in_edges(v, gp);
+        if (in_edge_i == in_edge_end)
+            v_no_inedge.push_back(v);
+    }
+    return v_no_inedge;
+}
+
+
+
+
 
