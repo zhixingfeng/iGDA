@@ -621,6 +621,29 @@ int main(int argc, const char * argv[])
         }
         
         
+        if (strcmp(argv[1], "tred")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            
+            ValueArg<double> minpropArg("p","minprop","minimal proportion of common variants between two contigs, default: 0.5", false , 0.5, "minprop", cmd);
+            ValueArg<double> minlenpropArg("l","minlenprop","minimal proportion of overlaping length between two contigs, default: 0.5", false , 0.5, "minlenprop", cmd);
+            
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            Graph gp;
+            assembler.ann_to_graph(gp, annfileArg.getValue());
+            
+            ofstream fs_graph(annfileArg.getValue() + ".dot");
+            boost::write_graphviz(fs_graph, gp);
+            
+            string cmd = "igda_tred " + annfileArg.getValue() + ".dot";
+            cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
+            cout << cmd << endl;
+            system(cmd.c_str());
+            
+            
+        }
+        
         if (strcmp(argv[1], "samtom5")==0){
             UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
