@@ -1164,6 +1164,8 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
 
 void Assembler::assemble(Graph &gp, string out_ann_file)
 {
+    if (this->rl_ann_clust.size() == 0)
+        throw runtime_error("Assembler::assemble(), this->rl_ann_clust.size() == 0");
     
 }
 

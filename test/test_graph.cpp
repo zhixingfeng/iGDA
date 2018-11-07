@@ -156,7 +156,9 @@ TEST_CASE("test get_vertices_no_inedge", "[hide]")
 TEST_CASE("test get_unambigious_paths", "[hide]")
 {
     Graph gp;
-    read_dot_file(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
+    //read_dot_file(gp, "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested.ft.transitive_reduction.dot");
+    read_dot_file(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.tred.dot");
+    
     
     //print_graph(gp);
     set<GraphPath> paths = get_unambigious_paths(gp);
@@ -166,6 +168,14 @@ TEST_CASE("test get_unambigious_paths", "[hide]")
         }
         cout << endl;
     }
+}
+
+TEST_CASE("test Assembler::assemble")
+{
+    Assembler assembler;
+    Graph gp;
+    assembler.read_ann_results("../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft");
+    read_dot_file(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.tred.dot");
     
 }
 
