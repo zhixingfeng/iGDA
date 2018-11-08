@@ -1164,9 +1164,66 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
 
 void Assembler::assemble(Graph &gp, string out_ann_file)
 {
+    // get number of the graph
+    size_t nv = get_num_vertices(gp);
+    
     if (this->rl_ann_clust.size() == 0)
         throw runtime_error("Assembler::assemble(), this->rl_ann_clust.size() == 0");
     
+    if (this->rl_ann_clust.size() != nv)
+        throw runtime_error("unmatched graph and ann_clust");
+    
+    // get unambigious path in the graph
+    set<GraphPath> upaths = get_unambigious_paths(gp);
+    
+    // merge consensus sequences in each path
+    vector<ConsensusSeq> ann_upath;
+    IndexMap index = get(boost::vertex_index, gp);
+    for (auto it = upaths.begin(); it != upaths.end(); ++it){
+        ConsensusSeq cur_cons;
+        cur_cons.seed.push_back(-1);
+        cur_cons.neighbors_id.push_back(-1);
+        set<int> cur_cons_seq;
+        set<int> cur_tested_loci;
+        
+        for (auto i = 0; i < (*it).size(); ++i){
+            int64_t k = index((*it)[i]);
+            
+            // merge cons_seq
+            for (auto j = 0; j < this->rl_ann_clust[k].cons_seq.size(); ++j)
+                cur_cons_seq.insert(this->rl_ann_clust[k].cons_seq[j]);
+            
+            // merge tested_loci
+            for (auto j = 0; j < this->rl_ann_clust[k].tested_loci.size(); ++j)
+                cur_tested_loci.insert(this->rl_ann_clust[k].tested_loci[j]);
+            
+            // merge range
+            if (i == 0){
+                cur_cons.start = this->rl_ann_clust[k].start;
+                cur_cons.end = this->rl_ann_clust[k].end;
+            }else{
+                if (this->rl_ann_clust[k].start < cur_cons.start)
+                    cur_cons.start = this->rl_ann_clust[k].start;
+                
+                if (this->rl_ann_clust[k].end > cur_cons.end)
+                    cur_cons.end = this->rl_ann_clust[k].end;
+            }
+            
+        }
+        
+        for (auto it = cur_cons_seq.begin(); it != cur_cons_seq.end(); ++it)
+            cur_cons.cons_seq.push_back(*it);
+        
+        for (auto it = cur_tested_loci.begin(); it != cur_tested_loci.end(); ++it)
+            cur_cons.tested_loci.push_back(*it);
+        
+        ann_upath.push_back(cur_cons);
+    }
+    
+    this->rl_ann_clust.clear();
+    this->rl_ann_clust = ann_upath;
+    
+    this->print_rl_ann_clust(out_ann_file, true);
 }
 
 void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)

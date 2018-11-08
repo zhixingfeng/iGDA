@@ -640,9 +640,23 @@ int main(int argc, const char * argv[])
             cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
             cout << cmd << endl;
             system(cmd.c_str());
+        }
+        
+        if (strcmp(argv[1], "assemble")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> dotfileArg("dotfile", "path of dot file (with transitive reduction)", true, "", "dotfile", cmd);
             
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            Graph gp;
+            assembler.read_ann_results(annfileArg.getValue());
+            read_dot_file(gp, dotfileArg.getValue());
+            assembler.assemble(gp, annfileArg.getValue() + ".assembled");
             
         }
+
+        
         
         if (strcmp(argv[1], "samtom5")==0){
             UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);

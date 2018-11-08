@@ -33,6 +33,9 @@ void igda_transitive_reduction(const Graph in_g, Graph &out_g);
 // read dot file
 void read_dot_file(Graph &gp, string dot_file);
 
+// get number of vertices
+size_t get_num_vertices(const Graph &gp);
+
 // get vertices with no in-edge
 vector<Vertex> get_vertices_no_inedge(const Graph &gp);
 

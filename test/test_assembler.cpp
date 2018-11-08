@@ -305,10 +305,15 @@ TEST_CASE("read_dot_file", "[hide]")
     
 }
 
-TEST_CASE("test Assembler.assemble()")
+TEST_CASE("test Assembler::assemble")
 {
+    Assembler assembler;
+    Graph gp;
+    assembler.read_ann_results("../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft");
+    read_dot_file(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.tred.dot");
+    assembler.assemble(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.assembled");
+    
     
 }
-
 
 

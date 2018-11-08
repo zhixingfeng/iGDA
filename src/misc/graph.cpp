@@ -111,6 +111,16 @@ void read_dot_file(Graph &gp, string dot_file)
     
 }
 
+size_t get_num_vertices(const Graph &gp)
+{
+    size_t num_vertices = 0;
+    pair<VertexIter, VertexIter> v_iter;
+    for (v_iter = boost::vertices(gp); v_iter.first != v_iter.second; ++v_iter.first)
+        ++num_vertices;
+    return num_vertices;
+}
+
+
 vector<Vertex> get_vertices_no_inedge(const Graph &gp)
 {
     vector<Vertex> v_no_inedge;
