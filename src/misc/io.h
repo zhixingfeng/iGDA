@@ -308,9 +308,8 @@ inline vector<int64_t> get_homo_blocks(const string fasta_file)
     
 }
 
-
 // load var_file
-vector<int> load_varfile(string var_file)
+inline vector<int> load_varfile(string var_file)
 {
     ifstream fs_var_file;
     open_infile(fs_var_file, var_file);
@@ -333,3 +332,7 @@ vector<int> load_varfile(string var_file)
 
 
 #endif /* io_h */
+
+
+
+

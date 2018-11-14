@@ -654,6 +654,11 @@ TEST_CASE("test prod", "[hide]")
     cout << prod(x) << endl;
 }
 
+TEST_CASE("test load_varfile", "[hide]")
+{
+    string var_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.var";
+    cout << load_varfile(var_file) << endl;
+}
 
 TEST_CASE("cal_locus_specific_mi")
 {
@@ -662,6 +667,16 @@ TEST_CASE("cal_locus_specific_mi")
     string var_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.var";
     string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
     
+    vector<vector<int> > recode_data, recode_ref_data;
+    loadencodedata(recode_data, recode_file);
+    loadencodedata(recode_ref_data, recode_ref_file);
+    vector<int> pu_var_count = pileup_var_count(recode_data);
+    vector<int> pu_var_ref_count = pileup_var_count(recode_ref_data);
+    
+    vector<int> var_encode = load_varfile(var_file);
+    
+    vector<double> weights_11, weights_10, weights_01, weights_00;
+    cal_locus_specific_mi(pu_var_count, pu_var_ref_count, var_encode, weights_11, weights_10, weights_01, weights_00);
     
 }
 

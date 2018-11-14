@@ -58,9 +58,14 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
 }
 
 // mutual information weighted hamming distance
-inline void cal_locus_specific_mi(const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count,
+inline void cal_locus_specific_mi(const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, const vector<int> &var_encode,
                                   vector<double> &weights_11, vector<double> &weights_10, vector<double> &weights_01, vector<double> &weights_00)
 {
+    weights_11.clear();
+    weights_10.clear();
+    weights_01.clear();
+    weights_00.clear();
+    
     
 }
 
