@@ -653,3 +653,22 @@ TEST_CASE("test prod", "[hide]")
     vector<double> x = {1.1, 0.0483, 9.593, 0.1};
     cout << prod(x) << endl;
 }
+
+
+TEST_CASE("cal_locus_specific_mi")
+{
+    string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
+    string recode_ref_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ref";
+    string var_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.var";
+    string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
+    
+    
+}
+
+
+
+
+
+
+
+

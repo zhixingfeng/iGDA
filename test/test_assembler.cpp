@@ -305,7 +305,7 @@ TEST_CASE("read_dot_file", "[hide]")
     
 }
 
-TEST_CASE("test Assembler::assemble")
+TEST_CASE("test Assembler::assemble", "[hide]")
 {
     Assembler assembler;
     Graph gp;

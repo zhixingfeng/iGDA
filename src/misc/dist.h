@@ -57,7 +57,21 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
     return (double)n_intersect / n_union;
 }
 
+// mutual information weighted hamming distance
+inline void cal_locus_specific_mi(const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count,
+                                  vector<double> &weights_11, vector<double> &weights_10, vector<double> &weights_01, vector<double> &weights_00)
+{
+    
+}
 
+inline double dist_hamming_mi(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2,
+                           const vector<int> &var_cdf, vector<bool> &temp_array, int min_overlap = 500)
+{
+    
+    return -1;
+}
+
+// hamming distance
 inline double dist_hamming(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2,
                            const vector<int> &var_cdf, vector<bool> &temp_array, int min_overlap = 500)
 {

@@ -309,4 +309,27 @@ inline vector<int64_t> get_homo_blocks(const string fasta_file)
 }
 
 
+// load var_file
+vector<int> load_varfile(string var_file)
+{
+    ifstream fs_var_file;
+    open_infile(fs_var_file, var_file);
+
+    vector<int> var_data;
+    while (1){
+        string buf;
+        getline(fs_var_file, buf);
+        if (fs_var_file.eof())
+            break;
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size()!=9)
+            throw runtime_error("incorrect format in var_file");
+        int cur_var = stod(buf_vec[2]);
+        var_data.push_back(cur_var);
+    }
+
+    return var_data;
+}
+
+
 #endif /* io_h */
