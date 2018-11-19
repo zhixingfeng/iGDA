@@ -537,6 +537,7 @@ int main(int argc, const char * argv[])
         }
 
         if (strcmp(argv[1], "ann")==0){
+            UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> varfileArg("varfile", "path of variant file", true, "", "varfile", cmd);
@@ -567,7 +568,7 @@ int main(int argc, const char * argv[])
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
-                assembler.ann_clust_recode(encodefileArg.getValue(), encodefileArg.getValue() + ".ref", alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+                assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                     minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }
             vector<int64_t> idx;

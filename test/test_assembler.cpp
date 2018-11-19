@@ -133,7 +133,7 @@ TEST_CASE("test assembler::ann_clust", "[hide]")
     string out_file = "../results/pt_recode/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.7, 20, 50, 0.02);
+    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.7, 20, 50, 0.02);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     
@@ -154,7 +154,7 @@ TEST_CASE("test assembler::ann_clust, debug pt_recode", "[hide]")
     string out_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
+    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     
@@ -176,7 +176,7 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
     string out_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
+    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
 
 }
 
@@ -312,7 +312,6 @@ TEST_CASE("test Assembler::assemble", "[hide]")
     assembler.read_ann_results("../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft");
     read_dot_file(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.tred.dot");
     assembler.assemble(gp, "../results/sa/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.ann.tested.ft.assembled");
-    
     
 }
 

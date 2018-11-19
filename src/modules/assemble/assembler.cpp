@@ -614,7 +614,170 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
+{
+    /*------------ find nc-reads (deperated) -----------*/
+    //cout << "find non-contained reads" << endl;
+    //this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
+    //cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    
+    /*------------ use nc-reads seed to cluster ----------*/
+    //cout << "use non-contained reads as seed to cluster" << endl;
+    
+    // load recode data
+    cout << "load encode data" << endl;
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
+
+    
+    // load recode data
+    cout << "load recode data" << endl;
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    // load recode_ref data
+    cout << "load recode_ref data" << endl;
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_ref_file);
+    
+    // load reads range
+    cout << "load m5 data" << endl;
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    if (reads_range.size() != encode_data.size())
+        throw runtime_error("reads_range.size() != encode_data.size()");
+    
+    if (reads_range.size() != recode_data.size())
+        throw runtime_error("reads_range.size() != recode_data.size()");
+    
+    if (reads_range.size() != recode_ref_data.size())
+        throw runtime_error("reads_range.size() != recode_ref_data.size()");
+    
+    this->nc_reads_id.resize(reads_range.size());
+    iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
+    //this->nc_reads_id = {26639};
+    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    
+    
+    // get genome size
+    size_t genome_size = get_genome_size(reads_range);
+    
+    // get cumulative sum of variants
+    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+    
+    // create a template to compare reads
+    vector<bool> temp_array(genome_size*4+3, false);
+    
+    vector<int> cur_pu_var_count(4*(genome_size-1)+3+1, 0);
+    vector<int> cur_pu_var_ref_count(4*(genome_size-1)+3+1, 0);
+    vector<int> cur_pu_reads_count(genome_size, 0);
+    
+    // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    int64_t n_nc_reads = 0;
+    for (auto i : nc_reads_id){
+        ++n_nc_reads;
+        if (n_nc_reads % 1000 == 0)
+            cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
+        
+        ConsensusSeq cur_cons;
+        cur_cons.seed = recode_data[i];
+        cur_cons.cons_seq = recode_data[i];
+        cur_cons.start = reads_range[i].first;
+        cur_cons.end = reads_range[i].second;
+        for (auto b = 0; b < 1; ++b){
+            // calculate hamming distance between reads i and other reads and get topn nearest neighbors
+            //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
+            priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
+            for (auto j = 0; j < recode_data.size(); ++j){
+                if (i == j) continue;
+                
+                if (cur_cons.start >= reads_range[j].second || cur_cons.end <= reads_range[j].first)
+                    continue;
+                
+                if (cur_cons.start < reads_range[j].first)
+                    continue;
+                
+                //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
+                //double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
+                double cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true);
+                
+                if (cur_dist <= min_jaccard) continue;
+                
+                topn_id.push(pair<int,double>(j,cur_dist));
+            }
+            
+            // get max_nn neighbors
+            //vector<int> cur_neighbors_topn;
+            vector<int> cur_neighbors;
+            vector<double> cur_neighbors_dist;
+            for (auto j = 0; j < max_nn; ++j){
+                if (topn_id.empty()) break;
+                int cur_id = topn_id.top().first;
+                double cur_dist = topn_id.top().second;
+                cur_neighbors.push_back(cur_id);
+                cur_neighbors_dist.push_back(cur_dist);
+                //if (j < topn)
+                //    cur_neighbors_topn.push_back(cur_id);
+                topn_id.pop();
+            }
+            
+            if (cur_neighbors.size() < topn || cur_neighbors.size() < min_cvg)
+                break;
+            
+            // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
+            // pileup topn neighbors
+            
+            unordered_set<int64_t> mod_idx_var;
+            unordered_set<int64_t> mod_idx_var_ref;
+            for (auto j : cur_neighbors){
+                pileup_var_online_count(cur_pu_var_count, recode_data[j], mod_idx_var);
+                pileup_var_online_count(cur_pu_var_ref_count, recode_ref_data[j], mod_idx_var_ref);
+            }
+            
+            // check pileup of all the neighbors
+            bool is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);
+            
+            // if not all loci are homogeneous, pop neighbors from the most distant one until all loci are homogeneous or number of neighbors <= topn
+            int t = (int)cur_neighbors.size();
+            if (!is_homo){
+                for (auto j = 0; j < cur_neighbors.size(); ++j){
+                    if (t <= topn) break;
+                    t = (int)cur_neighbors.size() - 1 - j;
+                    pileup_var_online_count_pop(cur_pu_var_count, recode_data[cur_neighbors[t]]);
+                    pileup_var_online_count_pop(cur_pu_var_ref_count, recode_ref_data[cur_neighbors[t]]);
+                    is_homo = this->check_pileup_recode(cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, vector<int>(), min_cvg, min_prop, max_prop);
+                    if (is_homo) break;
+                }
+            }
+            cur_cons.neighbors_id = vector<int> (cur_neighbors.begin(),  cur_neighbors.begin() + t);
+            
+            // to be removed
+            //this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
+            //cout << "cur_cons.cons_seq: " << cur_cons.cons_seq << endl;
+            //cout << "cur_cons.neighbors_id: " << cur_cons.neighbors_id << endl;
+            
+            if (is_homo){
+                this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
+                rl_ann_clust.push_back(cur_cons);
+            }
+            
+            // clean cur_pu_var_count and cur_pu_reads_count
+            for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                cur_pu_var_count[*it] = 0;
+            for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                cur_pu_var_ref_count[*it] = 0;
+            
+            if (is_homo)
+                break;
+        }
+    }
+    
+    
+}
+
+
+void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -785,17 +948,31 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
     
     //for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
     for (auto &i : idx){
-        fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
+        if (rl_ann_clust[i].cons_seq.size() == 0)
+            fs_outfile << -1 << '\t';
+        else
+            fs_outfile << this->rl_ann_clust[i].cons_seq << '\t';
+        
         fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
         fs_outfile << this->rl_ann_clust[i].contig_count << '\t' << this->rl_ann_clust[i].contig_cvg << '\t';
         fs_outfile << this->rl_ann_clust[i].log_bf_null << '\t' << this->rl_ann_clust[i].log_bf_ind;
         if (is_metric){
             fs_outfile << '\t';
             
-            fs_outfile << this->rl_ann_clust[i].seed << '\t';
+            if (this->rl_ann_clust[i].seed.size() == 0)
+                fs_outfile << -1 << '\t';
+            else
+                fs_outfile << this->rl_ann_clust[i].seed << '\t';
             
-            fs_outfile << rl_ann_clust[i].neighbors_id << '\t';
-            fs_outfile << rl_ann_clust[i].tested_loci;
+            if (rl_ann_clust[i].neighbors_id.size() == 0)
+                fs_outfile << -1 << '\t';
+            else
+                fs_outfile << rl_ann_clust[i].neighbors_id << '\t';
+            
+            if (rl_ann_clust[i].tested_loci.size() == 0)
+                fs_outfile << -1;
+            else
+                fs_outfile << rl_ann_clust[i].tested_loci;
             
             //fs_outfile << rl_ann_clust[i].nn_reads_id;
         }
@@ -822,14 +999,17 @@ void Assembler::read_ann_results(string ann_file)
     this->rl_ann_clust.clear();
     ifstream fs_ann_file;
     open_infile(fs_ann_file, ann_file);
+    int64_t n_lines = 0;
     while(true){
         string buf;
         getline(fs_ann_file, buf);
         if(fs_ann_file.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size() != 10)
-            throw runtime_error("Assembler::read_ann_results, buf_vect.size() != 10");
+        if (buf_vec.size() != 10){
+            cerr << "buf_vec.size() = " << buf_vec.size() << endl;
+            throw runtime_error("Line " + to_string(n_lines) + ": Assembler::read_ann_results, buf_vect.size() != 10");
+        }
         ConsensusSeq cur_cons;
         cur_cons.cons_seq = split_int(buf_vec[0], ',');
         cur_cons.start = stoi(buf_vec[1]);
@@ -844,6 +1024,8 @@ void Assembler::read_ann_results(string ann_file)
         cur_cons.neighbors_id = split_int(buf_vec[8], ',');
         cur_cons.tested_loci = split_int(buf_vec[9], ',');
         this->rl_ann_clust.push_back(cur_cons);
+        
+        ++n_lines;
     }
     
     fs_ann_file.close();

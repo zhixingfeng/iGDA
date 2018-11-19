@@ -14,7 +14,7 @@ TEST_CASE("Test m5tofa", "[hide]"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");
 }
 
-TEST_CASE("Test seqopt, getrevcomp"){
+TEST_CASE("Test seqopt, getrevcomp", "[hide]"){
     string originseq = "CTAGTCNN-N--CGTAGT-CGT-CGATGCTGTAGCTA";
     string revseq = getrevcomp(originseq);
     REQUIRE(revseq == "TAGCTACAGCATCG-ACG-ACTACG--N-NNGACTAG");
@@ -660,7 +660,7 @@ TEST_CASE("test load_varfile", "[hide]")
     cout << load_varfile(var_file) << endl;
 }
 
-TEST_CASE("cal_locus_specific_mi")
+TEST_CASE("cal_locus_specific_mi", "[hide]")
 {
     string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
     string recode_ref_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ref";
