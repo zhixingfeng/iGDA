@@ -44,7 +44,7 @@ TEST_CASE("test DetectSingleSNV::detect (pt)", "[hide]")
     
 }
 
-TEST_CASE("test DetectSingleSNV::detect (HBV)")
+TEST_CASE("test DetectSingleSNV::detect (HBV)", "[hide]")
 {
     string context_file = "../results/LoFreq_HBV/NCTC3000.context";
     string pileup_file = "../results/LoFreq_HBV/igda_result_large/realign.pileup";
