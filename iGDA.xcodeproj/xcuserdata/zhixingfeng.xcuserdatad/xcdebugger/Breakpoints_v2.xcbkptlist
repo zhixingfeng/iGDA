@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "564349807.691875"
+            timestampString = "564433067.186352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1292"
-            endingLineNumber = "1292"
+            startingLineNumber = "1321"
+            endingLineNumber = "1321"
             landmarkName = "Assembler::test_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;ReadRange&gt; &amp;reads_range)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "564349807.691875"
+            timestampString = "564433067.186352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1034"
-            endingLineNumber = "1034"
+            startingLineNumber = "1063"
+            endingLineNumber = "1063"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "564349807.691875"
+            timestampString = "564433067.186352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1083"
-            endingLineNumber = "1083"
+            startingLineNumber = "1112"
+            endingLineNumber = "1112"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "5">
          </BreakpointContent>

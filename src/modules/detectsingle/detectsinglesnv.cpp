@@ -120,6 +120,7 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_log
             continue;
         
         // test A
+        //cout << cur_result.A_freq_ref << "," << cur_result.C_freq_ref << "," << cur_result.G_freq_ref << "," <<
         if (it_2->second[0] > 0){
             cur_result.A_freq_ref = it_2->second[0];
             cur_result.A_log_bf = binom_log_bf(cur_result.A_count, cur_result.cvg, cur_result.A_freq_ref);
@@ -140,7 +141,7 @@ void DetectSingleSNV::detect(string pileup_file, string out_file, double min_log
         // test T
         if (it_2->second[3] > 0){
             cur_result.T_freq_ref = it_2->second[3];
-            cur_result.G_log_bf = binom_log_bf(cur_result.G_count, cur_result.cvg, cur_result.G_freq_ref);
+            cur_result.T_log_bf = binom_log_bf(cur_result.T_count, cur_result.cvg, cur_result.T_freq_ref);
         }
         
         if (it_2->second[4] > 0)

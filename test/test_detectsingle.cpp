@@ -43,3 +43,18 @@ TEST_CASE("test DetectSingleSNV::detect (pt)", "[hide]")
     p_detectsingle->detect(pileup_file, out_file, log(0.0000001), 0.00001);
     
 }
+
+TEST_CASE("test DetectSingleSNV::detect (HBV)")
+{
+    string context_file = "../results/LoFreq_HBV/NCTC3000.context";
+    string pileup_file = "../results/LoFreq_HBV/igda_result_large/realign.pileup";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/realign.detectsingle";
+    DetectSingleSNV detectsinglesnv;
+    DetectSingle *p_detectsingle = &detectsinglesnv;
+    p_detectsingle->loadcontexteffect(context_file);
+    p_detectsingle->detect(pileup_file, out_file, log(0.0000001), 0.00001);
+    
+}
+
+
+
