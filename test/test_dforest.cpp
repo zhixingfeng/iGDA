@@ -11,7 +11,7 @@
 #include "../src/modules/alignreader/alignreaderm5.h"
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-
+#include "../src/modules/dforest/dforestsnvstxxl.h"
 #include <ctime>
 
 /*TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
@@ -122,6 +122,27 @@ TEST_CASE("test DForest::filter()", "[hide]")
 }
 */
 
+
+TEST_CASE("test DForest::run() (hbv)")
+{
+    string encode_file = "../results/LoFreq_HBV/igda_result_large/realign.encode";
+    string align_file = "../results/LoFreq_HBV/igda_result_large/realign.m5";
+    string cmpreads_file = "../results/LoFreq_HBV/igda_result_large/realign.cmpreads";
+    string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/realign.dforest.debug.v2";
+    
+    
+    AlignReaderM5 alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+    ptr_forest->load_homo_blocks(ref_file);
+    int start_time= (int)clock();
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/LoFreq_HBV/igda_result_large/tmp" , 12, 10000, 1);
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+}
 
 
 

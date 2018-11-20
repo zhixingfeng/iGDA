@@ -97,6 +97,11 @@ public:
     virtual unordered_map<int, DforestResult> get_result()=0;
     void filter(string dforest_file, string out_file, double minfreq);
     
+    inline void load_homo_blocks(const string fasta_file)
+    {
+        this->homo_blocks = get_homo_blocks(fasta_file);
+    }
+    
 protected:
     AlignReader *p_alignreader;
     AlignCoder *p_aligncoder;
@@ -106,6 +111,7 @@ protected:
     
     int64_t n_reads;
     
+    vector<int64_t> homo_blocks;
     
     
     

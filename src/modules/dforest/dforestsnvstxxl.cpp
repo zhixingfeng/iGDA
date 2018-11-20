@@ -31,6 +31,17 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     cout << "filter encode_data" << endl;
     this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     
+    // check homo_blocks
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    int64_t max_range = -1;
+    for (auto i = 0; i < reads_range.size(); ++i)
+        if (reads_range[i].second > max_range)
+            max_range = reads_range[i].second;
+    if (max_range + 1 > this->homo_blocks.size())
+        throw runtime_error("Assembler::test_contigs, max_range + 1 > this->homo_blocks.size().");
+
+    
     // single thread
     cout << "run dforest" << endl;
     if (n_thread==1){
@@ -145,6 +156,17 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
             continue;
         }
         
+        // exclude neighbors loci that are too close
+        if (abs ( this->homo_blocks[int(cand_loci[j] / 4)] - this->homo_blocks[y_read_locus] ) < 5){
+            p_y_x[j] = -1;
+            continue;
+        }
+        
+        /*if (abs( int(cand_loci[j] / 4) - y_read_locus ) < 10){
+            p_y_x[j] = -1;
+            continue;
+        }*/
+        
         if (p_y_x_archive[cand_loci[j]] != -1){
             p_y_x[j] = p_y_x_archive[cand_loci[j]];
         }else{
@@ -182,6 +204,7 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
         if (cand_loci[ idx_p_y_x[j] ] == y_locus)
             continue;
         if (depth >= max_depth) break;
+        if (p_y_x[idx_p_y_x[j]] < 0) break;
         
         int cur_locus = cand_loci[idx_p_y_x[j]];
         
