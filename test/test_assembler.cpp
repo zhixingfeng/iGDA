@@ -350,7 +350,7 @@ TEST_CASE("test assembler::test_contigs() (hbv)", "[hide]")
     int x = 0;
 }
 
-TEST_CASE("test assembler::ann_clust(), HBV")
+TEST_CASE("test assembler::ann_clust(), HBV", "[hide]")
 {
     string recode_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode";
     string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode.ref";
@@ -370,5 +370,19 @@ TEST_CASE("test assembler::ann_clust(), HBV")
     
     //assembler.print_rl_ann_clust(out_file+".seq", true);
 }
+
+
+TEST_CASE("test Assembler::assemble (HBV)")
+{
+    Assembler assembler;
+    Graph gp;
+    assembler.read_ann_results("../results/LoFreq_HBV/igda_result_large/3l/realign.ann.tested.ft");
+    read_dot_file(gp, "../results/LoFreq_HBV/igda_result_large/3l/realign.ann.tested.ft.tred.dot");
+    assembler.assemble(gp, "../results/LoFreq_HBV/igda_result_large/3l/realign.ann.tested.ft.assembled.debug");
+    
+}
+
+
+
 
 

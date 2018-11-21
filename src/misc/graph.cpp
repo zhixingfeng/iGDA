@@ -190,6 +190,13 @@ set<GraphPath> get_unambigious_paths(const Graph &gp)
         
         vector<Vertex> cur_out_vertex = get_out_vertex(gp, cur_vertex);
         
+        if (cur_out_vertex.size() == 0){
+            GraphPath cur_path;
+            cur_path.push_back(cur_vertex);
+            paths.insert(cur_path);
+            continue;
+        }
+        
         for (auto i = 0; i < cur_out_vertex.size(); ++i){
             GraphPath cur_path = travel_path(gp, cur_vertex, i);
             paths.insert(cur_path);
@@ -201,8 +208,7 @@ set<GraphPath> get_unambigious_paths(const Graph &gp)
             if (cur_path.back() != cur_vertex && get_out_vertex(gp, cur_path.back()).size() > 1)
                 v_active.push(cur_path.back());
         }
-       
-            
+        
     }
     
     return paths;
