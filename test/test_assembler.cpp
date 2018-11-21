@@ -316,7 +316,7 @@ TEST_CASE("test Assembler::assemble", "[hide]")
 }
 
 
-TEST_CASE("test assembler::test_contigs() (hbv)")
+TEST_CASE("test assembler::test_contigs() (hbv)", "[hide]")
 {
     string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
     string ann_file = "../results/LoFreq_HBV/igda_result_large/realign.ann";
@@ -344,11 +344,31 @@ TEST_CASE("test assembler::test_contigs() (hbv)")
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, m5_file);
     
-    
     assembler.test_contigs(recode_data, recode_ref_data, reads_range);
     assembler.print_rl_ann_clust(out_file, true);
     
     int x = 0;
-    
-    
 }
+
+TEST_CASE("test assembler::ann_clust(), HBV")
+{
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode";
+    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode.ref";
+    string encode_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.encode.rdim";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.m5";
+    string var_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.var";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/3l/align_to_consensus_trim.ann.debug";
+    
+    Assembler assembler;
+    
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, m5_file, var_file, 10, 0.2, 0.8, 12, 30, 0.5);
+    
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx);
+    assembler.print_rl_ann_clust(out_file, true, idx);
+    //cout << idx << endl;
+    
+    //assembler.print_rl_ann_clust(out_file+".seq", true);
+}
+
+

@@ -576,7 +576,7 @@ int main(int argc, const char * argv[])
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", true, idx);
-            string cmd = "sort -u -s -k2n -k3n " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
+            string cmd = "sort -u -s -k2,2n -k3,3n -k1,1" + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
             
             cmd = "rm -f " + outfileArg.getValue() + ".igda_tmp";

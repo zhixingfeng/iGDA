@@ -1626,7 +1626,7 @@ bool Assembler::check_pileup_recode(const vector<int> &pu_var_count, const vecto
 void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop)
 {
     if (this->rl_ann_clust.size() == 0)
-        throw runtime_error("Assembler::find_nccontigs, this->rl_ann_clust.size() == 0");
+        return;
     
     // get maximal encoded cons_seq and tested_loci
     int64_t temp_size = 0;
