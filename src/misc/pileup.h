@@ -103,7 +103,7 @@ inline int get_pu_var_size(const vector<vector<int> > &encode_data, const vector
 // pileup variants (input from encode_data and reads_range)
 inline vector<vector<int> > pileup_var(const vector<vector<int> > &encode_data, const vector<int> &idx = vector<int>())
 {
-    int pu_size = get_pu_var_size(encode_data, idx);
+    int pu_size = get_pu_var_size(encode_data, idx) + 4;
     
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());

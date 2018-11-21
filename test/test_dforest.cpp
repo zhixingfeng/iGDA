@@ -123,7 +123,7 @@ TEST_CASE("test DForest::filter()", "[hide]")
 */
 
 
-TEST_CASE("test DForest::run() (hbv)")
+TEST_CASE("test DForest::run() (hbv)", "[hide]")
 {
     string encode_file = "../results/LoFreq_HBV/igda_result_large/realign.encode";
     string align_file = "../results/LoFreq_HBV/igda_result_large/realign.m5";

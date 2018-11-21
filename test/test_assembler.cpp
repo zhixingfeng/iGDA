@@ -316,3 +316,39 @@ TEST_CASE("test Assembler::assemble", "[hide]")
 }
 
 
+TEST_CASE("test assembler::test_contigs() (hbv)")
+{
+    string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
+    string ann_file = "../results/LoFreq_HBV/igda_result_large/realign.ann";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/realign.recode";
+    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/realign.recode.ref";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/realign.m5";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/realign.ann.tested";
+    
+    Assembler assembler;
+    cout << "load ref_file" << endl;
+    assembler.load_homo_blocks(ref_file);
+    
+    cout << "load ann" << endl;
+    assembler.read_ann_results(ann_file);
+    
+    cout << "load recode_data" << endl;
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    cout << "load recode_ref_data" << endl;
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_ref_file);
+    
+    cout << "load reads_range" << endl;
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
+    
+    
+    assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+    assembler.print_rl_ann_clust(out_file, true);
+    
+    int x = 0;
+    
+    
+}
