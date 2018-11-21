@@ -1035,9 +1035,7 @@ void Assembler::read_ann_results(string ann_file)
 void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci)
 {
     this->read_ann_results(ann_file);
-    if (this->rl_ann_clust.size() == 0)
-        throw runtime_error("Assembler::ann_to_graph, this->rl_ann_clust.size() == 0");
-    
+       
     vector<int64_t> idx_ft;
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
@@ -1057,7 +1055,8 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
 {
     this->read_ann_results(ann_file);
     if (this->rl_ann_clust.size() == 0)
-        throw runtime_error("Assembler::ann_to_graph, this->rl_ann_clust.size() == 0");
+        return;
+        //throw runtime_error("Assembler::ann_to_graph, this->rl_ann_clust.size() == 0");
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
         add_vertex(gp);
@@ -1349,8 +1348,11 @@ void Assembler::assemble(Graph &gp, string out_ann_file)
     // get number of the graph
     size_t nv = get_num_vertices(gp);
     
-    if (this->rl_ann_clust.size() == 0)
-        throw runtime_error("Assembler::assemble(), this->rl_ann_clust.size() == 0");
+    if (this->rl_ann_clust.size() == 0){
+        this->print_rl_ann_clust(out_ann_file, true);
+        return;
+    }
+        //throw runtime_error("Assembler::assemble(), this->rl_ann_clust.size() == 0");
     
     if (this->rl_ann_clust.size() != nv)
         throw runtime_error("unmatched graph and ann_clust");
