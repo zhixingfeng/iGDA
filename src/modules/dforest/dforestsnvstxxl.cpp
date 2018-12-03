@@ -200,6 +200,7 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
     // calculate conditional probability
     int n_y_xp = 0; int n_xp = 0;
     int depth = 0;
+    bool is_calculated = false;
     for (int j = 0; j < idx_p_y_x.size(); j++){
         if (cand_loci[ idx_p_y_x[j] ] == y_locus)
             continue;
@@ -237,10 +238,13 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
         cur_rl.n_xp = n_xp;
         cur_rl.p_y_xp = p_y_xp;
         
+        is_calculated = true;
         ++depth;
     }
     
     // record result
+    if (!is_calculated) return;
+    
     if (cur_rl.p_y_xp >= minfreq){
         // record maximal conditional probability of each locus
         if (cur_rl.p_y_xp > result[cur_rl.focal_locus].p_y_xp){
