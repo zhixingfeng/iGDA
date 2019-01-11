@@ -972,9 +972,12 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
             if (rl_ann_clust[i].tested_loci.size() == 0)
                 fs_outfile << -1;
             else
-                fs_outfile << rl_ann_clust[i].tested_loci;
+                fs_outfile << rl_ann_clust[i].tested_loci << '\t';
             
-            //fs_outfile << rl_ann_clust[i].nn_reads_id;
+            if (rl_ann_clust[i].nn_reads_id.size() == 0)
+                fs_outfile << -1;
+            else
+                fs_outfile << rl_ann_clust[i].nn_reads_id;
         }
         
         fs_outfile << endl;
@@ -1006,7 +1009,7 @@ void Assembler::read_ann_results(string ann_file)
         if(fs_ann_file.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size() != 10){
+        if (buf_vec.size() != 10 && buf_vec.size() != 11){
             cerr << "buf_vec.size() = " << buf_vec.size() << endl;
             throw runtime_error("Line " + to_string(n_lines) + ": Assembler::read_ann_results, buf_vect.size() != 10");
         }
@@ -1014,15 +1017,25 @@ void Assembler::read_ann_results(string ann_file)
         cur_cons.cons_seq = split_int(buf_vec[0], ',');
         cur_cons.start = stoi(buf_vec[1]);
         cur_cons.end = stoi(buf_vec[2]);
-        //cur_cons.contig_count = stod(buf_vec[3]);
-        //cur_cons.contig_cvg = stod(buf_vec[4]);
-        cur_cons.contig_count = 0;
-        cur_cons.contig_cvg = 0;
+        cur_cons.contig_count = stod(buf_vec[3]);
+        cur_cons.contig_cvg = stod(buf_vec[4]);
+        //cur_cons.contig_count = 0;
+        //cur_cons.contig_cvg = 0;
         cur_cons.log_bf_null = stod(buf_vec[5]);
         cur_cons.log_bf_ind = stod(buf_vec[6]);
         cur_cons.seed = split_int(buf_vec[7], ',');
         cur_cons.neighbors_id = split_int(buf_vec[8], ',');
         cur_cons.tested_loci = split_int(buf_vec[9], ',');
+        if (buf_vec.size() == 11){
+            vector<int64_t> cur_tmp = split_int64_t(buf_vec[10], ',');
+            if (cur_tmp.size() >= 1){
+                if (cur_tmp[0] != -1){
+                    cur_cons.nn_reads_id = cur_tmp;
+                }
+            }
+            
+        }
+        
         this->rl_ann_clust.push_back(cur_cons);
         
         ++n_lines;
@@ -1419,6 +1432,9 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
     vector<bool> temp_array(genome_size*4+3, false);
     
     for (auto i = 0; i < recode_data.size(); ++i){
+        // to be removed
+        //i = 99774;
+        
         if ((i+1) % 1000 == 0)
             cout << i + 1<< endl;
         // get maximal similarity
@@ -1442,6 +1458,9 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
                 max_jaccard = cur_jaccard;
         }
         
+        if (max_jaccard <= 0.5)
+            continue;
+        
         if (abs(max_jaccard + 1) <= EPS)
             continue;
         
@@ -1455,10 +1474,12 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
         }
         
         for (auto j = 0; j < contig_id.size(); ++j){
-            this->rl_ann_clust[contig_id[j]].contig_count += 1.0/double(contig_id.size());
-            this->rl_ann_clust[contig_id[j]].contig_cvg += contig_cvg[contig_id[j]] / double(contig_id.size());
+            //this->rl_ann_clust[contig_id[j]].contig_count += 1.0/double(contig_id.size());
+            //this->rl_ann_clust[contig_id[j]].contig_cvg += contig_cvg[contig_id[j]] / double(contig_id.size());
+            this->rl_ann_clust[contig_id[j]].contig_count += 1.0;
+            this->rl_ann_clust[contig_id[j]].contig_cvg += contig_cvg[contig_id[j]];
             
-            //this->rl_ann_clust[contig_id[j]].nn_reads_id.push_back(i);
+            this->rl_ann_clust[contig_id[j]].nn_reads_id.push_back(i);
         }
     }
     

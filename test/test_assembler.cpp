@@ -182,10 +182,12 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 
 TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
 {
-    string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
-    string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
-    string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
-    //string ann_copy_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.copy";
+    //string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
+    //string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
+    //string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
+    string ann_file = "../results/pt_rpoBC/igda/realign.ann.tested.ft";
+    string recode_file = "../results/pt_rpoBC/igda/realign.recode";
+    string m5_file = "../results/pt_rpoBC/igda/realign.m5";
     
     Assembler assembler;
     cout << "load ann" << endl;
@@ -372,7 +374,7 @@ TEST_CASE("test assembler::ann_clust(), HBV", "[hide]")
 }
 
 
-TEST_CASE("test Assembler::assemble (HBV)")
+TEST_CASE("test Assembler::assemble (HBV)", "[hide]")
 {
     Assembler assembler;
     Graph gp;

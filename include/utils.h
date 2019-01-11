@@ -100,6 +100,18 @@ inline vector<int> split_int(const string &s, char delim) {
     return tokens;
 }
 
+inline vector<int64_t> split_int64_t(const string &s, char delim) {
+    stringstream ss(s);
+    string item;
+    vector<int64_t> tokens;
+    while (getline(ss, item, delim)) {
+        if (item!="")
+            tokens.push_back(stoll(item));
+    }
+    return tokens;
+}
+
+
 inline vector<double> split_double(const string &s, char delim) {
     stringstream ss(s);
     string item;
