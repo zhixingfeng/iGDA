@@ -114,35 +114,36 @@ TEST_CASE("test assembler::dist_rdim()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ann_clust", "[hide]")
+TEST_CASE("test assembler::ann_clust")
 {
-    //string encode_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000";
-    //string m5_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.m5.5000";
-    //string var_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.top20.var";
-    //string out_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.rdim.5000.ann";
+    //string recode_file = "../results/pt_recode/align_to_consensus_trim.5000.recode";
+    //string recode_ref_file = "../results/pt_recode/align_to_consensus_trim.5000.recode.ref";
+    //string m5_file = "../results/pt_recode/align_to_consensus_trim.5000.m5";
+    //string var_file = "../results/pt_recode/align_to_consensus_trim.var";
+    //string out_file = "../results/pt_recode/align_to_consensus_trim.ann";
     
-    //string encode_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.encode.rdim";
-    //string m5_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.m5.fromsam";
-    //string var_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.dforest.var";
-    //string out_file = "../results/encode_from_sam/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.5000.sam.encode.rdim.ann";
-    
-    string recode_file = "../results/pt_recode/align_to_consensus_trim.5000.recode";
-    string recode_ref_file = "../results/pt_recode/align_to_consensus_trim.5000.recode.ref";
-    string m5_file = "../results/pt_recode/align_to_consensus_trim.5000.m5";
-    string var_file = "../results/pt_recode/align_to_consensus_trim.var";
-    string out_file = "../results/pt_recode/align_to_consensus_trim.ann";
+    string encode_file = "../results/pt_rpoBC/igda/realign.encode.rdim";
+    string recode_file = "../results/pt_rpoBC/igda/realign.recode";
+    string recode_ref_file = "../results/pt_rpoBC/igda/realign.recode.ref";
+    string m5_file = "../results/pt_rpoBC/igda/realign.m5";
+    string var_file = "../results/pt_rpoBC/igda/realign.var";
+    string out_file = "../results/pt_rpoBC/igda/realign.ann.debug";
     
     Assembler assembler;
-    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.7, 20, 50, 0.02);
+    
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, m5_file, var_file, 10, 0.2, 0.8, 23, 46, 0.5);
+    
+    //assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 20, 0.2, 0.7, 20, 50, 0.02);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     
     vector<int64_t> idx;
     assembler.find_nccontigs(idx);
-    assembler.print_rl_ann_clust(out_file, false, idx);
-    cout << idx << endl;
+    assembler.print_rl_ann_clust(out_file + ".igda_tmp", true, idx);
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + out_file + ".igda_tmp" + " > " + out_file;
+    cout << cmd << endl; system(cmd.c_str());
+    //cout << idx << endl;
     
-    //assembler.print_rl_ann_clust(out_file+".seq", true);
 }
 
 TEST_CASE("test assembler::ann_clust, debug pt_recode", "[hide]")

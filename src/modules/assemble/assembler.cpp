@@ -656,7 +656,9 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     
     this->nc_reads_id.resize(reads_range.size());
     iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
-    //this->nc_reads_id = {26639};
+    
+    // to be removed
+    //this->nc_reads_id = {63740};
     cout << "number of nc-reads: " << nc_reads_id.size() << endl;
     
     
