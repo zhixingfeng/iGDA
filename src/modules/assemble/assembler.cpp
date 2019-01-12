@@ -702,7 +702,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 
                 //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
                 //double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
-                int min_overlap = int(0.75*(cur_cons.end - cur_cons.start));
+                int min_overlap = int(0.75*(cur_cons.end - cur_cons.start)); 
                 double cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
                 
                 if (cur_dist <= min_jaccard) continue;
