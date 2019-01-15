@@ -319,7 +319,7 @@ TEST_CASE("test Assembler::assemble", "[hide]")
 }
 
 
-TEST_CASE("test assembler::test_contigs() (hbv)", "[hide]")
+TEST_CASE("test assembler::test_contigs() (hbv)","[hide]")
 {
     string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann";
@@ -355,20 +355,23 @@ TEST_CASE("test assembler::test_contigs() (hbv)", "[hide]")
 
 TEST_CASE("test assembler::ann_clust(), HBV", "[hide]")
 {
-    string recode_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode";
-    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.recode.ref";
-    string encode_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.encode.rdim";
-    string m5_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.m5";
-    string var_file = "../results/LoFreq_HBV/igda_result_large/3l/realign.var";
-    string out_file = "../results/LoFreq_HBV/igda_result_large/3l/align_to_consensus_trim.ann.debug";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
+    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode.ref";
+    string encode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.encode.rdim";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.m5";
+    string var_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.var";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.debug";
     
     Assembler assembler;
     
-    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, m5_file, var_file, 10, 0.2, 0.8, 12, 30, 0.5);
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, m5_file, var_file, 10, 0.2, 0.8, 15, 30, 0.5);
     
     vector<int64_t> idx;
     assembler.find_nccontigs(idx);
-    assembler.print_rl_ann_clust(out_file, true, idx);
+    assembler.print_rl_ann_clust(out_file + ".igda_tmp", true, idx);
+    
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + out_file + ".igda_tmp" + " > " + out_file;
+    cout << cmd << endl; system(cmd.c_str());
     //cout << idx << endl;
     
     //assembler.print_rl_ann_clust(out_file+".seq", true);
