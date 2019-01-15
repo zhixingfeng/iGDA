@@ -1055,11 +1055,16 @@ void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci)
     vector<int64_t> idx_ft;
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        if ((rl_ann_clust[i].log_bf_ind == -1000 && rl_ann_clust[i].log_bf_null >= min_log_bf) ||
+        if (rl_ann_clust[i].log_bf_null >= min_log_bf ||
             rl_ann_clust[i].log_bf_ind >= min_log_bf ||
             rl_ann_clust[i].cons_seq.size() >= max_loci){
             idx_ft.push_back(i);
         }
+        /*if ((rl_ann_clust[i].log_bf_ind == -1000 && rl_ann_clust[i].log_bf_null >= min_log_bf) ||
+            rl_ann_clust[i].log_bf_ind >= min_log_bf ||
+            rl_ann_clust[i].cons_seq.size() >= max_loci){
+            idx_ft.push_back(i);
+        }*/
     }
     
     this->print_rl_ann_clust(ann_file + ".ft", true, idx_ft);

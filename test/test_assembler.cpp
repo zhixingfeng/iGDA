@@ -114,7 +114,7 @@ TEST_CASE("test assembler::dist_rdim()", "[hide]")
 }
 
 
-TEST_CASE("test assembler::ann_clust")
+TEST_CASE("test assembler::ann_clust", "[hide]")
 {
     //string recode_file = "../results/pt_recode/align_to_consensus_trim.5000.recode";
     //string recode_ref_file = "../results/pt_recode/align_to_consensus_trim.5000.recode.ref";
@@ -322,11 +322,11 @@ TEST_CASE("test Assembler::assemble", "[hide]")
 TEST_CASE("test assembler::test_contigs() (hbv)", "[hide]")
 {
     string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
-    string ann_file = "../results/LoFreq_HBV/igda_result_large/realign.ann";
-    string recode_file = "../results/LoFreq_HBV/igda_result_large/realign.recode";
-    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/realign.recode.ref";
-    string m5_file = "../results/LoFreq_HBV/igda_result_large/realign.m5";
-    string out_file = "../results/LoFreq_HBV/igda_result_large/realign.ann.tested";
+    string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
+    string recode_ref_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode.ref";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.m5";
+    string out_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.debug";
     
     Assembler assembler;
     cout << "load ref_file" << endl;
