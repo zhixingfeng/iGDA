@@ -1451,7 +1451,7 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
         double max_jaccard = -1;
         for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
             ReadRange contig_range(this->rl_ann_clust[j].start, this->rl_ann_clust[j].end);
-            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array);
+            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, false, 0);
             
             contig_jaccard.push_back(cur_jaccard);
             

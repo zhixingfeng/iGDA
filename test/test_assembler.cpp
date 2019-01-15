@@ -183,12 +183,12 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 
 TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
 {
-    //string ann_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann";
-    //string recode_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.recode";
-    //string m5_file = "../results/pt_ann_assign_reads/align_to_consensus_trim.m5";
-    string ann_file = "../results/pt_rpoBC/igda/realign.ann.tested.ft";
-    string recode_file = "../results/pt_rpoBC/igda/realign.recode";
-    string m5_file = "../results/pt_rpoBC/igda/realign.m5";
+    string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.m5";
+    //string ann_file = "../results/pt_rpoBC/igda/realign.ann.tested.ft";
+    //string recode_file = "../results/pt_rpoBC/igda/realign.recode";
+    //string m5_file = "../results/pt_rpoBC/igda/realign.m5";
     
     Assembler assembler;
     cout << "load ann" << endl;
