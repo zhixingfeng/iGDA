@@ -586,32 +586,19 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 cur_rseq[context.first.size()-1] = 'T';
                 score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
                 
+                // to be removed
+                /*if ((cur_pos==253 || cur_pos==319 || cur_pos==325) && nline == 7445){
+                    cout << "cur_pos = " << cur_pos << endl;
+                    cout << "A: " << score_A << endl << cur_realign_A;
+                    cout << "C: " << score_C << endl << cur_realign_C;
+                    cout << "G: " << score_G << endl << cur_realign_G;
+                    cout << "T: " << score_T << endl << cur_realign_T;
+                    int tmp = 0;
+                }*/
             }else{
                 ++cur_pos;
                 continue;
             }
-            
-            // to be removed
-            /*if (cur_pos == 2827007){
-                cout << "read: " << nline << endl;
-                cout << "score: " << endl;
-                cout << "A = " << score_A << ", " << "C = " << score_C << ", " << "G = " << score_G << ", " << "T = " << score_T << endl;
-                
-                cout << "realign A" << endl;
-                cout << cur_realign_A << endl;
-                
-                cout << "realign C" << endl;
-                cout << cur_realign_C << endl;
-                
-                cout << "realign G" << endl;
-                cout << cur_realign_G << endl;
-                
-                cout << "realign T" << endl;
-                cout << cur_realign_T << endl;
-                
-                cout << "ref_base = " << ref_base << endl;
-                getchar();
-            }*/
             
             // recode
             if (score_A == MIN_SCORE && score_C == MIN_SCORE && score_G == MIN_SCORE && score_T == MIN_SCORE)

@@ -175,9 +175,9 @@ TEST_CASE("test AlignCoderSNV::recode() debug", "[hide]")
 
 TEST_CASE("test AlignCoderSNV::recode() check putative errors", "[hide]")
 {
-    string m5_file = "../results/pt_ann_recode/align_to_consensus_trim.m5.1000";
-    string var_file = "../results/pt_ann_recode/align_to_consensus_trim.var";
-    string recode_file = "../results/pt_ann_recode/align_to_consensus_trim.m5.1000.recode.test";
+    string m5_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.m5";
+    string var_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.var";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode.debug";
     
     AlignCoderSNV aligncodersnv;
     AlignCoder *p_aligncoder = &aligncodersnv;
