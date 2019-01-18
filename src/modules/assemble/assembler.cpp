@@ -1364,6 +1364,184 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     
 }
 
+void Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)
+{
+    // load ann
+    this->read_ann_results(ann_file);
+    
+    // load recode and recode_ref
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_file + ".ref");
+    
+    if (recode_data.size() != recode_ref_data.size())
+        throw runtime_error("recode_data.size() != recode_ref_data.size()");
+        
+    // pileup
+    vector<vector<int> > pu_recode = pileup_var(recode_data);
+    vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
+    
+    // get maximal contig locus
+    size_t contig_size = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j)
+            if (this->rl_ann_clust[i].cons_seq[j] + 1 > contig_size)
+                contig_size = this->rl_ann_clust[i].cons_seq[j] + 1;
+    if (contig_size == 0)
+        return;
+    
+    // merge close contigs
+    vector<bool> temp_reads(recode_data.size(), false);
+    vector<int> temp_var(contig_size, 0);
+    vector<int64_t> idx;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (rl_ann_clust[i].cons_seq.size() == 0)
+            continue;
+        
+        // fill temp_var
+        for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+        
+        // get close neighbor contigs
+        vector<int64_t> neighbor_ids;
+        unordered_set<int> fp_var;
+        unordered_set<int> fn_var;
+        unordered_set<int64_t> nn_reads_ids;
+        for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
+            if (j == i) continue;
+            
+            // check overlap of two contigs
+            int64_t overlap_start = this->rl_ann_clust[i].start >= this->rl_ann_clust[j].start ?
+                                    this->rl_ann_clust[i].start : this->rl_ann_clust[j].start;
+            int64_t overlap_end = this->rl_ann_clust[i].end <= this->rl_ann_clust[j].end ?
+                                  this->rl_ann_clust[i].end : this->rl_ann_clust[j].end;
+            int64_t overlap_len = overlap_end - overlap_start + 1;
+            if(overlap_len <= 0) continue;
+            
+            // check similarity
+            int64_t n_common = 0;
+            int64_t n_union = this->rl_ann_clust[i].cons_seq.size();
+            
+            for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
+                if (temp_var[this->rl_ann_clust[j].cons_seq[k]] == 1){
+                    ++n_common;
+                    temp_var[this->rl_ann_clust[j].cons_seq[k]] = 2;
+                }else{
+                    ++n_union;
+                }
+            }
+            
+            int64_t n_diff = n_union - n_common;
+            if (n_diff > max_loci ||
+                n_common < int(0.5*(this->rl_ann_clust[i].cons_seq.size()) + 0.5) ||
+                n_common < int(0.5*(this->rl_ann_clust[j].cons_seq.size()) + 0.5) ){
+                continue;
+            }
+            
+            // record different variants
+            neighbor_ids.push_back(j);
+            
+            for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
+                if (temp_var[this->rl_ann_clust[i].cons_seq[k]] == 1)
+                    fp_var.insert(this->rl_ann_clust[i].cons_seq[k]);
+            }
+            
+            for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
+                if (temp_var[this->rl_ann_clust[j].cons_seq[k]] == 0)
+                    fn_var.insert(this->rl_ann_clust[j].cons_seq[k]);
+            }
+            
+            for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+                temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+            
+            // record neighbor reads
+            nn_reads_ids.insert(this->rl_ann_clust[j].nn_reads_id.begin(), this->rl_ann_clust[j].nn_reads_id.end());
+        }
+        
+        // clean temp_var
+        for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_var[this->rl_ann_clust[i].cons_seq[k]] = 0;
+        
+        // quit if no neighbor contigs
+        if (neighbor_ids.size() == 0) continue;
+        
+        // check if the ith contig is from noise
+        nn_reads_ids.insert(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
+        
+        for (auto it = nn_reads_ids.begin(); it != nn_reads_ids.end(); ++it)
+            temp_reads[*it] = true;
+
+        // test putative false positives
+        bool is_noise = false;
+        for (auto it = fp_var.begin(); it != fp_var.end(); ++it){
+            double cur_count = 0, cur_cvg = 0;
+            int64_t cur_locus = int64_t( (*it) / 4);
+            if (4*cur_locus+3 >= pu_recode.size() || 4*cur_locus+3 >= pu_recode_ref.size())
+                continue;
+            
+            // get count
+            for (auto k = 0; k < pu_recode[*it].size(); ++k){
+                if (temp_reads[ pu_recode[*it][k] ])
+                    ++cur_count;
+            }
+            
+            // get coverage
+            for (int t = 0; t <= 3; ++t){
+                for (auto k = 0; k < pu_recode[4*cur_locus+t].size(); ++k){
+                    if (temp_reads[ pu_recode[4*cur_locus+t][k] ])
+                        ++cur_cvg;
+                }
+                
+                for (auto k = 0; k < pu_recode_ref[4*cur_locus+t].size(); ++k){
+                    if (temp_reads[ pu_recode_ref[4*cur_locus+t][k] ])
+                        ++cur_cvg;
+                }
+            }
+            
+            // test
+            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+            if (cur_log_bf < min_log_bf)
+                is_noise = true;
+        }
+        
+        // test putative false negatives
+        for (auto it = fn_var.begin(); it != fn_var.end(); ++it){
+            double cur_count = 0, cur_cvg = 0;
+            int64_t cur_locus = int64_t( (*it) / 4);
+            if (4*cur_locus+3 >= pu_recode.size() || 4*cur_locus+3 >= pu_recode_ref.size())
+                continue;
+            
+            // get count and coverage
+            for (int t = 0; t <= 3; ++t){
+                for (auto k = 0; k < pu_recode[4*cur_locus+t].size(); ++k){
+                    if (temp_reads[ pu_recode[4*cur_locus+t][k] ])
+                        ++cur_cvg;
+                }
+                
+                for (auto k = 0; k < pu_recode_ref[4*cur_locus+t].size(); ++k){
+                    if (temp_reads[ pu_recode_ref[4*cur_locus+t][k] ]){
+                        ++cur_count;
+                        ++cur_cvg;
+                    }
+                }
+            }
+            
+            // test
+            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+            if (cur_log_bf < min_log_bf)
+                is_noise = true;
+        }
+        
+        if (!is_noise) idx.push_back(i);
+        for (auto it = nn_reads_ids.begin(); it != nn_reads_ids.end(); ++it)
+            temp_reads[*it] = false;
+    }
+    
+    this->print_rl_ann_clust(out_file, true, idx);
+}
+
 void Assembler::assemble(Graph &gp, string out_ann_file)
 {
     // get number of the graph

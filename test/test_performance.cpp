@@ -11,7 +11,7 @@
 #include "../src/misc/misc.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
 TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search", "[hide]"){
-    // conclustion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
+    // conclusion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
     int N = 1;
     int n = 1048576;
     

@@ -241,7 +241,15 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     assembler.print_rl_ann_clust("../results/pt_ann_assign_reads/align_to_consensus_trim.recode.ann.tested", true);
     
     int x = 0;
-    
+}
+
+TEST_CASE("test assembler::test_contigs_pairwise()")
+{
+    string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft.count";
+    string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
+    Assembler assembler;
+    cout << "load ann" << endl;
+    assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft");
     
 }
 

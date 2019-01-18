@@ -161,7 +161,7 @@ public:
     
     // test each contig
     void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range);
-    
+    void test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf = 5, int max_loci = 3, int min_cvg= 10);
     
     // assemble
     void assemble(Graph &gp, string out_ann_file);
