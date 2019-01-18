@@ -243,12 +243,11 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     int x = 0;
 }
 
-TEST_CASE("test assembler::test_contigs_pairwise()")
+TEST_CASE("test assembler::test_contigs_pairwise()", "[hide]")
 {
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft.count";
     string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
     Assembler assembler;
-    cout << "load ann" << endl;
     assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft");
     
 }

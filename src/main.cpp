@@ -623,6 +623,40 @@ int main(int argc, const char * argv[])
             
         }
         
+        if (strcmp(argv[1], "test_contigs_pairwise")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);
+           
+            cmd.parse(argv2);
+         
+            Assembler assembler;
+            assembler.test_contigs_pairwise(annfileArg.getValue(), recodefileArg.getValue(), annfileArg.getValue() + ".ft");
+            
+        }
+        if (strcmp(argv[1], "abundance")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            cout << "load ann" << endl;
+            assembler.read_ann_results(annfileArg.getValue());
+            
+            cout << "load recode_data" << endl;
+            vector<vector<int> > recode_data;
+            loadencodedata(recode_data, recodefileArg.getValue());
+            
+            cout << "load reads_range" << endl;
+            vector<ReadRange> reads_range;
+            loadreadsrange(reads_range, m5fileArg.getValue());
+            
+            assembler.assign_reads_to_contigs(recode_data, reads_range);
+            
+            assembler.print_rl_ann_clust(annfileArg.getValue() + ".count", true);
+          
+        }
         
         if (strcmp(argv[1], "tred")==0){
             UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
