@@ -1465,7 +1465,12 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             temp_var[this->rl_ann_clust[i].cons_seq[k]] = 0;
         
         // quit if no neighbor contigs
-        if (neighbor_ids.size() == 0) continue;
+        if (neighbor_ids.size() == 0){
+            idx.push_back(i);
+            for (auto it = nn_reads_ids.begin(); it != nn_reads_ids.end(); ++it)
+                temp_reads[*it] = false;
+            continue;
+        }
         
         // check if the ith contig is from noise
         nn_reads_ids.insert(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
