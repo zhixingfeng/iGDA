@@ -181,7 +181,7 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 
 }
 
-TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
+TEST_CASE("test assembler::assign_reads_to_contigs()")
 {
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft";
     string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
@@ -205,6 +205,11 @@ TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
     assembler.assign_reads_to_contigs(recode_data, reads_range);
     
     assembler.print_rl_ann_clust(ann_file + ".count", true);
+    
+    Assembler assembler_2;
+    assembler_2.read_ann_results(ann_file + ".count");
+    assembler_2.print_rl_ann_clust(ann_file + ".count.copy", true);
+    int tmp = -1;
     
 }
 

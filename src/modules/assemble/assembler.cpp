@@ -973,7 +973,7 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
                 fs_outfile << rl_ann_clust[i].neighbors_id << '\t';
             
             if (rl_ann_clust[i].tested_loci.size() == 0)
-                fs_outfile << -1;
+                fs_outfile << -1 << '\t';
             else
                 fs_outfile << rl_ann_clust[i].tested_loci << '\t';
             
@@ -1017,18 +1017,41 @@ void Assembler::read_ann_results(string ann_file)
             throw runtime_error("Line " + to_string(n_lines) + ": Assembler::read_ann_results, buf_vect.size() != 10");
         }
         ConsensusSeq cur_cons;
-        cur_cons.cons_seq = split_int(buf_vec[0], ',');
+        vector<int> cur_tmp_0 = split_int(buf_vec[0], ',');
+        if (cur_tmp_0.size() >= 1){
+            if (cur_tmp_0[0] != -1){
+                cur_cons.cons_seq = cur_tmp_0;
+            }
+        }
+        
         cur_cons.start = stoi(buf_vec[1]);
         cur_cons.end = stoi(buf_vec[2]);
         cur_cons.contig_count = stod(buf_vec[3]);
         cur_cons.contig_cvg = stod(buf_vec[4]);
-        //cur_cons.contig_count = 0;
-        //cur_cons.contig_cvg = 0;
         cur_cons.log_bf_null = stod(buf_vec[5]);
         cur_cons.log_bf_ind = stod(buf_vec[6]);
-        cur_cons.seed = split_int(buf_vec[7], ',');
-        cur_cons.neighbors_id = split_int(buf_vec[8], ',');
-        cur_cons.tested_loci = split_int(buf_vec[9], ',');
+        
+        vector<int> cur_tmp_7 = split_int(buf_vec[7], ',');
+        if (cur_tmp_7.size() >= 1){
+            if (cur_tmp_7[0] != -1){
+                cur_cons.seed = cur_tmp_7;
+            }
+        }
+
+        vector<int> cur_tmp_8 = split_int(buf_vec[8], ',');
+        if (cur_tmp_8.size() >= 1){
+            if (cur_tmp_8[0] != -1){
+                cur_cons.neighbors_id = cur_tmp_8;
+            }
+        }
+        
+        vector<int> cur_tmp_9 = split_int(buf_vec[9], ',');
+        if (cur_tmp_9.size() >= 1){
+            if (cur_tmp_9[0] != -1){
+                cur_cons.tested_loci = cur_tmp_9;
+            }
+        }
+                
         if (buf_vec.size() == 11){
             vector<int64_t> cur_tmp = split_int64_t(buf_vec[10], ',');
             if (cur_tmp.size() >= 1){
@@ -1622,6 +1645,9 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
     size_t genome_size = get_genome_size(reads_range);
     vector<bool> temp_array(genome_size*4+3, false);
     
+    ConsensusSeq ref_cons;
+    ref_cons.start = 0;
+    ref_cons.end = int(genome_size) - 1;
     for (auto i = 0; i < recode_data.size(); ++i){
         // to be removed
         //i = 99774;
@@ -1634,7 +1660,8 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
         double max_jaccard = -1;
         for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
             ReadRange contig_range(this->rl_ann_clust[j].start, this->rl_ann_clust[j].end);
-            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, false, 0);
+            //int min_len = 0.75*(contig_range.second - contig_range.first + 1);
+            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, true, 0);
             
             contig_jaccard.push_back(cur_jaccard);
             
@@ -1649,10 +1676,14 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
                 max_jaccard = cur_jaccard;
         }
         
-        if (max_jaccard <= 0.5)
+        if (abs(max_jaccard + 1) <= EPS){
+            ref_cons.contig_count += 1.0;
+            ref_cons.contig_cvg += reads_range[i].second - reads_range[i].first + 1;
+            ref_cons.nn_reads_id.push_back(i);
             continue;
+        }
         
-        if (abs(max_jaccard + 1) <= EPS)
+        if (max_jaccard <= 0.5)
             continue;
         
         // get contigs having the maximal similarity
@@ -1673,6 +1704,8 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
             this->rl_ann_clust[contig_id[j]].nn_reads_id.push_back(i);
         }
     }
+    
+    this->rl_ann_clust.push_back(ref_cons);
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i) {
         double cur_contig_len = this->rl_ann_clust[i].end - this->rl_ann_clust[i].start + 1;
