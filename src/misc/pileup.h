@@ -96,8 +96,9 @@ inline int get_pu_var_size(const vector<vector<int> > &encode_data, const vector
             for (int j=0; j<(int)encode_data[i].size(); j++)
                 pu_size = encode_data[i][j] > pu_size ? encode_data[i][j] : pu_size;
     }
-    pu_size++;
-    return pu_size;
+    //pu_size++;
+    if (pu_size == -1) return 0;
+    return 4*(pu_size/4) + 3 + 1;
 }
 
 // pileup variants (input from encode_data and reads_range)

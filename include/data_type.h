@@ -16,7 +16,7 @@
 #ifndef DATA_TYPE_H
 #define DATA_TYPE_H
 
-#define EPS 1e-16
+#define EPS 1e-12
 
 #ifndef MAX_NMOL
     #define MAX_NMOL 10000000

@@ -181,7 +181,7 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
 
 }
 
-TEST_CASE("test assembler::assign_reads_to_contigs()")
+TEST_CASE("test assembler::assign_reads_to_contigs()", "[hide]")
 {
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft";
     string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
@@ -248,11 +248,12 @@ TEST_CASE("test assembler::test_contigs()", "[hide]")
     int x = 0;
 }
 
-TEST_CASE("test assembler::test_contigs_pairwise()", "[hide]")
+TEST_CASE("test assembler::test_contigs_pairwise()")
 {
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft.count";
     string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
     Assembler assembler;
+    assembler.load_homo_blocks("../results/LoFreq_HBV/cat_wild_large.fasta");
     assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft");
     
 }

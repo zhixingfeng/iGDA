@@ -1401,6 +1401,229 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
     
     if (recode_data.size() != recode_ref_data.size())
         throw runtime_error("recode_data.size() != recode_ref_data.size()");
+    
+    // pileup
+    vector<vector<int> > pu_recode = pileup_var(recode_data);
+    vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
+    
+    if (pu_recode.size()/4 + 1 > this->homo_blocks.size() || pu_recode_ref.size()/4 + 1 > this->homo_blocks.size())
+        throw runtime_error("Assembler::test_contigs_pairwise, pu_recode.size() + 1 > this->homo_blocks.size() || pu_recode_ref.size() + 1 > this->homo_blocks.size().");
+    
+    // get maximal contig locus
+    size_t contig_size = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j)
+            if (this->rl_ann_clust[i].cons_seq[j] + 1 > contig_size)
+                contig_size = this->rl_ann_clust[i].cons_seq[j] + 1;
+    if (contig_size == 0)
+        return;
+    
+    // merge close contigs
+    vector<bool> temp_reads(recode_data.size(), false);
+    vector<int> temp_var(contig_size, 0);
+    vector<int64_t> temp_count(recode_data.size(), -1);
+    vector<int64_t> temp_count_cvg(recode_data.size(), -1);
+    int64_t counter = -1;
+    vector<int64_t> idx;
+    
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (rl_ann_clust[i].cons_seq.size() == 0)
+            continue;
+        
+        // fill temp_var
+        for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+        
+        // get close neighbor contigs
+        vector<int64_t> neighbor_ids;
+        bool is_noise = false;
+        
+        for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
+            if (j == i) continue;
+            
+            vector<int> diff_var;
+            vector<bool> diff_var_type; // true for putative false positives (i has j doesn't) and false for putative false negatives (j has i doesn't)
+            
+            // check overlap of two contigs
+            int64_t overlap_start = this->rl_ann_clust[i].start >= this->rl_ann_clust[j].start ?
+                                    this->rl_ann_clust[i].start : this->rl_ann_clust[j].start;
+            
+            int64_t overlap_end = this->rl_ann_clust[i].end <= this->rl_ann_clust[j].end ?
+                                  this->rl_ann_clust[i].end : this->rl_ann_clust[j].end;
+            
+            int64_t overlap_len = overlap_end - overlap_start + 1;
+            
+            if(overlap_len <= 0) continue;
+            
+            vector<int> cons_seq_i;
+            vector<int> cons_seq_j;
+            
+            for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
+                if (this->rl_ann_clust[i].cons_seq[k] >= 4*overlap_start &&
+                    this->rl_ann_clust[i].cons_seq[k] <= 4*overlap_end + 3){
+                    cons_seq_i.push_back(this->rl_ann_clust[i].cons_seq[k]);
+                }
+            }
+            
+            for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
+                if (this->rl_ann_clust[j].cons_seq[k] >= 4*overlap_start &&
+                    this->rl_ann_clust[j].cons_seq[k] <= 4*overlap_end + 3){
+                    cons_seq_j.push_back(this->rl_ann_clust[j].cons_seq[k]);
+                }
+            }
+            
+            // check similarity
+            int64_t n_common = 0;
+            int64_t n_union = cons_seq_i.size();
+            
+            for (auto k = 0; k < cons_seq_j.size(); ++k){
+                if (temp_var[cons_seq_j[k]] == 1){
+                    ++n_common;
+                    temp_var[cons_seq_j[k]] = 2;
+                }else{
+                    ++n_union;
+                }
+            }
+            
+            int64_t n_diff = n_union - n_common;
+            if ( (n_diff > max_loci ||
+                n_common < int(0.5*(cons_seq_i.size())) ||
+                n_common < int(0.5*(cons_seq_j.size()))) && cons_seq_j.size() > 0 ){
+                
+                for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+                    temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+                continue;
+            }
+            
+            // record different variants
+            neighbor_ids.push_back(j);
+            
+            for (auto k = 0; k < cons_seq_i.size(); ++k){
+                if (temp_var[cons_seq_i[k]] == 1){
+                    diff_var.push_back(cons_seq_i[k]);
+                    diff_var_type.push_back(true);
+                }
+            }
+            
+            for (auto k = 0; k < cons_seq_j.size(); ++k){
+                if (temp_var[cons_seq_j[k]] == 0){
+                    diff_var.push_back(cons_seq_j[k]);
+                    diff_var_type.push_back(false);
+                }
+            }
+            
+            for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+                temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+            
+            // calculate joint frequency of the differences
+            unordered_set<int64_t> nn_reads_ids(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
+            nn_reads_ids.insert(this->rl_ann_clust[j].nn_reads_id.begin(), this->rl_ann_clust[j].nn_reads_id.end());
+            
+            for (auto it = nn_reads_ids.begin(); it != nn_reads_ids.end(); ++it)
+                temp_reads[*it] = true;
+            
+            double joint_count = 0;
+            double joint_cvg = 0;
+            for (auto s = 0; s < diff_var.size(); ++s){
+                ++counter;
+                if (counter >= numeric_limits<int64_t>::max() - 1)
+                    throw runtime_error("Assembler::test_contigs, counter >= numeric_limits<int64_t>::max() - 1");
+                
+                int cur_locus = diff_var[s] / 4;
+                joint_count = 0;
+                joint_cvg = 0;
+                
+                // calculate joint count
+                if (diff_var_type[s]){
+                    for (auto k = 0; k < pu_recode[diff_var[s]].size(); ++k){
+                        if ( temp_reads[pu_recode[diff_var[s]][k]] && (temp_count[pu_recode[diff_var[s]][k]] == counter - 1 || s == 0) ){
+                            temp_count[pu_recode[diff_var[s]][k]] = counter;
+                            ++joint_count;
+                        }
+                    }
+                }else{
+                    for (int t = 0; t <= 3; ++t){
+                        for (auto k = 0; k < pu_recode_ref[4*cur_locus+t].size(); ++k){
+                            if ( temp_reads[pu_recode_ref[4*cur_locus+t][k]] && (temp_count[pu_recode_ref[4*cur_locus+t][k]] == counter - 1 || s == 0) ){
+                                temp_count[pu_recode_ref[4*cur_locus+t][k]] = counter;
+                                ++joint_count;
+                            }
+                        }
+                    }
+                }
+                
+                // calculate joint coverage
+                for (int t = 0; t <= 3; ++t){
+                    for (auto k = 0; k < pu_recode[4*cur_locus+t].size(); ++k){
+                        if ( temp_reads[ pu_recode[4*cur_locus+t][k] ] && ( temp_count_cvg[ pu_recode[4*cur_locus+t][k] ] == counter - 1 || s == 0) ){
+                            temp_count_cvg[ pu_recode[4*cur_locus+t][k] ] = counter;
+                            ++joint_cvg;
+                        }
+                    }
+                    
+                    for (auto k = 0; k < pu_recode_ref[4*cur_locus+t].size(); ++k){
+                        if ( temp_reads[ pu_recode_ref[4*cur_locus+t][k] ] && ( temp_count_cvg[ pu_recode_ref[4*cur_locus+t][k] ] == counter - 1 || s == 0) ){
+                            temp_count_cvg[ pu_recode_ref[4*cur_locus+t][k] ] = counter;
+                            ++joint_cvg;
+                        }
+                    }
+                }
+            }
+            
+            for (auto it = nn_reads_ids.begin(); it != nn_reads_ids.end(); ++it)
+                temp_reads[*it] = false;
+            
+            // calculate bayes factor
+            sort(diff_var.begin(), diff_var.end());
+            int n_blocks = 0;
+            for (auto k = 0; k < diff_var.size(); ++k){
+                if (k == 0){
+                    ++n_blocks;
+                }else{
+                    if (this->homo_blocks[diff_var[k]/4] - this->homo_blocks[diff_var[k-1]/4] > MIN_LOCI_BLOCK_SIZE )
+                        ++n_blocks;
+                }
+            }
+            
+            if (n_blocks == 0) throw runtime_error("n_blocks == 0");
+            
+            double exp_prop = pow(ALPHA_NULL/(ALPHA_NULL + BETA_NULL), n_blocks);
+            if (exp_prop < EPS) throw runtime_error("exp_prop < EPS");
+            
+            if (joint_cvg >= min_cvg){
+                double cur_log_bf = binom_log_bf(joint_count, joint_cvg, exp_prop);
+                if (cur_log_bf < min_log_bf){
+                    is_noise = true;
+                    break;
+                }
+            }
+        }
+        
+        // clean temp_var
+        for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
+            temp_var[this->rl_ann_clust[i].cons_seq[k]] = 0;
+        
+        if (!is_noise) idx.push_back(i);
+    }
+    
+    // print results
+    this->print_rl_ann_clust(out_file, true, idx);
+}
+
+void Assembler::test_contigs_pairwise_legacy(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)
+{
+    // load ann
+    this->read_ann_results(ann_file);
+    
+    // load recode and recode_ref
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_file + ".ref");
+    
+    if (recode_data.size() != recode_ref_data.size())
+        throw runtime_error("recode_data.size() != recode_ref_data.size()");
         
     // pileup
     vector<vector<int> > pu_recode = pileup_var(recode_data);
