@@ -252,8 +252,12 @@ TEST_CASE("test assembler::test_contigs_pairwise()", "[hide]")
 {
     string ann_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.ann.tested.ft.count";
     string recode_file = "../results/LoFreq_HBV/igda_result_large/m90min_1389bp_11l_aligned_reads/realign.recode";
+    string ref_file = "../results/LoFreq_HBV/cat_wild_large.fasta";
+    //string ann_file = "../results/pt_ecoli/igda/realign.ann.tested.ft.count";
+    //string recode_file = "../results/pt_ecoli/igda/realign.recode";
+    //string ref_file = "../results/pt_ecoli/ecoli_K12_MG1655.fasta";
     Assembler assembler;
-    assembler.load_homo_blocks("../results/LoFreq_HBV/cat_wild_large.fasta");
+    assembler.load_homo_blocks(ref_file);
     assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft");
     
 }

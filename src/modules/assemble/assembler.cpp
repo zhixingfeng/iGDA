@@ -1486,9 +1486,8 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             }
             
             int64_t n_diff = n_union - n_common;
-            if ( (n_diff > max_loci || 5*this->rl_ann_clust[i].contig_cvg > this->rl_ann_clust[j].contig_cvg ||
-                (n_common < int(0.5*(cons_seq_i.size())) &&
-                n_common < int(0.5*(cons_seq_j.size()))) ) && cons_seq_j.size() > 0 ){
+            if ( n_diff > max_loci || 5*this->rl_ann_clust[i].contig_cvg > this->rl_ann_clust[j].contig_cvg ||
+                ( n_common < int(0.5*(cons_seq_i.size())) && n_common < int(0.5*(cons_seq_j.size())) ) ){
                 
                 for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
                     temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
@@ -1514,6 +1513,7 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             
             for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
                 temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
+            
             
             // calculate joint frequency of the differences
             unordered_set<int64_t> nn_reads_ids(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
@@ -1585,16 +1585,18 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
                 }
             }
             
-            if (n_blocks == 0) throw runtime_error("n_blocks == 0");
-            
-            double exp_prop = pow(ALPHA_NULL/(ALPHA_NULL + BETA_NULL), n_blocks);
-            if (exp_prop < EPS) throw runtime_error("exp_prop < EPS");
-            
-            if (joint_cvg >= min_cvg){
-                double cur_log_bf = binom_log_bf(joint_count, joint_cvg, exp_prop);
-                if (cur_log_bf < min_log_bf){
-                    is_noise = true;
-                    break;
+            //if (n_blocks == 0) throw runtime_error("n_blocks == 0");
+            if (n_blocks > 0){
+                //cout << i << "," << j << endl;
+                double exp_prop = pow(ALPHA_NULL/(ALPHA_NULL + BETA_NULL), n_blocks);
+                if (exp_prop < EPS) throw runtime_error("exp_prop < EPS");
+                
+                if (joint_cvg >= min_cvg){
+                    double cur_log_bf = binom_log_bf(joint_count, joint_cvg, exp_prop);
+                    if (cur_log_bf < min_log_bf){
+                        is_noise = true;
+                        break;
+                    }
                 }
             }
         }
