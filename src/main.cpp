@@ -626,10 +626,12 @@ int main(int argc, const char * argv[])
         if (strcmp(argv[1], "test_contigs_pairwise")==0){
             UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
             UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
            
             cmd.parse(argv2);
          
             Assembler assembler;
+            assembler.load_homo_blocks(reffileArg.getValue());
             assembler.test_contigs_pairwise(annfileArg.getValue(), recodefileArg.getValue(), annfileArg.getValue() + ".ft");
             
         }

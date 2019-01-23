@@ -1486,9 +1486,9 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             }
             
             int64_t n_diff = n_union - n_common;
-            if ( (n_diff > max_loci ||
-                n_common < int(0.5*(cons_seq_i.size())) ||
-                n_common < int(0.5*(cons_seq_j.size()))) && cons_seq_j.size() > 0 ){
+            if ( (n_diff > max_loci || 5*this->rl_ann_clust[i].contig_cvg > this->rl_ann_clust[j].contig_cvg ||
+                (n_common < int(0.5*(cons_seq_i.size())) &&
+                n_common < int(0.5*(cons_seq_j.size()))) ) && cons_seq_j.size() > 0 ){
                 
                 for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
                     temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;
