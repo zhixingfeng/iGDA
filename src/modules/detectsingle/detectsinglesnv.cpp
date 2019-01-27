@@ -173,7 +173,7 @@ void DetectSingleSNV::print_result(string out_file, double min_log_bf, double mi
             fs_outfile << this->result[i].A_freq << '\t';
             fs_outfile << this->result[i].A_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
-            fs_outfile << 0 << '\t' << -1 << endl;
+            fs_outfile << this->result[i].A_freq_ref << '\t' << -1 << endl;
         }
         
         // check C
@@ -183,7 +183,7 @@ void DetectSingleSNV::print_result(string out_file, double min_log_bf, double mi
             fs_outfile << this->result[i].C_freq << '\t';
             fs_outfile << this->result[i].C_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
-            fs_outfile << 0 << '\t' << -1 << endl;
+            fs_outfile << this->result[i].C_freq_ref << '\t' << -1 << endl;
         }
         
         // check G
@@ -193,7 +193,7 @@ void DetectSingleSNV::print_result(string out_file, double min_log_bf, double mi
             fs_outfile << this->result[i].G_freq << '\t';
             fs_outfile << this->result[i].G_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
-            fs_outfile << 0 << '\t' << -1 << endl;
+            fs_outfile << this->result[i].G_freq_ref << '\t' << -1 << endl;
         }
         
         // check T
@@ -203,7 +203,7 @@ void DetectSingleSNV::print_result(string out_file, double min_log_bf, double mi
             fs_outfile << this->result[i].T_freq << '\t';
             fs_outfile << this->result[i].T_count << '\t';
             fs_outfile << this->result[i].cvg << '\t';
-            fs_outfile << 0 << '\t' << -1 << endl;
+            fs_outfile << this->result[i].T_freq_ref << '\t' << -1 << endl;
         }
         
     }
