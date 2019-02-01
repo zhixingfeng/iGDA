@@ -195,6 +195,15 @@ bool AlignReaderSam::read(string filename, stxxl::vector<Align> &align_vec)
         return false;
     }
     
+    for (auto i = 0; i < seqan::length(ref_ids); ++i){
+        stringstream ss;
+        ss << ref_ids[i];
+        vector<string> buf = split(ss.str(), ' ');
+        if (buf.size() == 0)
+            throw runtime_error("AlignReaderSam::getref(): buf.size() == 0");
+        ref_ids[i] = buf[0];
+        //cout << ref_ids[i] << endl;
+    }
     return true;
 }
 
