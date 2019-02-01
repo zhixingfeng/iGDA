@@ -67,7 +67,7 @@ TEST_CASE("Test AlignReaderSam read()", "[hide]"){
     //cout << align.tAlignedSeq << endl;
 }
 
-TEST_CASE("AlignReaderSam::samtom5()"){
+TEST_CASE("AlignReaderSam::samtom5()", "[hide]"){
     string samfile = "../results/NCTC3000/ERS950465_head.sam";
     string reffile = "../results/NCTC3000/ERS950465.fna";
     string m5file = "../results/NCTC3000/ERS950465_head.m5";
