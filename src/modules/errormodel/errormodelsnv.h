@@ -37,6 +37,18 @@ public:
         this->right_len = right_len;
     }
     
+    int get_genomesize(string align_file);
+    
+    void pileup_reads(string align_file, vector<BaseFreq> &pileup);
+    void print_pileup(string out_file, const vector<BaseFreq> &pileup);
+    vector<BaseFreq> load_pileup(string pu_file);
+    
+    void get_context_effect_all (const vector<BaseFreq> &pileup, ContextEffectAll &context_effect_all);
+    void get_context_effect(const vector<BaseFreq> &pileup, ContextEffect &context_effect);
+    
+    void print_context_effect_all(string out_file, ContextEffectAll &context_effect_all);
+    void print_context_effect(string out_file, ContextEffect &context_effect);
+    
     void learn(string align_file, string out_prefix);
     
     void merge(vector<string> &context_files);
@@ -49,17 +61,10 @@ public:
     
     
 protected:
-    int get_genomesize(string align_file);
     
-    void pileup_reads(string align_file, vector<BaseFreq> &pileup);
     
-    void print_pileup(string out_file, const vector<BaseFreq> &pileup);
-
-    void get_context_effect_all (const vector<BaseFreq> &pileup, ContextEffectAll &context_effect_all);
-    void get_context_effect(const vector<BaseFreq> &pileup, ContextEffect &context_effect);
     
-    void print_context_effect_all(string out_file, ContextEffectAll &context_effect_all);
-    void print_context_effect(string out_file, ContextEffect &context_effect);
+    
 
     bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
     

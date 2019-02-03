@@ -335,6 +335,64 @@ void ErrorModelSNV::print_pileup(string out_file, const vector<BaseFreq> &pileup
     fs_out.close();
 }
 
+vector<BaseFreq> ErrorModelSNV::load_pileup(string pu_file)
+{
+    // scan the pileup file to get the genome_size;
+    int g_size = -1;
+    ifstream fs_in;
+    open_infile(fs_in, pu_file);
+    while (true) {
+        string buf;
+        getline(fs_in, buf);
+        
+        if (fs_in.eof()) break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        
+        if (buf_vec.size() != 9)
+            throw runtime_error("load_pileup(): buf_vec.size() != 9");
+        
+        int locus = stoi(buf_vec[0]);
+        if (locus > g_size)
+            g_size = locus;
+    }
+    ++g_size;
+    fs_in.close();
+    
+    // load pileup
+    vector<BaseFreq> pileup(g_size, BaseFreq());
+    open_infile(fs_in, pu_file);
+    while (true) {
+        string buf;
+        getline(fs_in, buf);
+        
+        if (fs_in.eof()) break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        
+        if (buf_vec.size() != 9)
+            throw runtime_error("load_pileup(): buf_vec.size() != 9");
+        
+        if (buf_vec[3].size() != 1)
+            throw runtime_error("load_pileup(): buf_vec[3].size() != 1");
+        
+        int locus = stoi(buf_vec[0]);
+        BaseFreq basefreq;
+        basefreq.context.first = buf_vec[1];
+        basefreq.context.second = buf_vec[2];
+        basefreq.ref = buf_vec[3][0];
+        basefreq.nvar[0] = stoi(buf_vec[4]);
+        basefreq.nvar[1] = stoi(buf_vec[5]);
+        basefreq.nvar[2] = stoi(buf_vec[6]);
+        basefreq.nvar[3] = stoi(buf_vec[7]);
+        basefreq.cvg = stoi(buf_vec[8]);
+        pileup[locus] = basefreq;
+    }
+    //cout << g_size << endl;
+    return pileup;
+}
+
+
 void ErrorModelSNV::get_context_effect_all(const vector<BaseFreq> &pileup, ContextEffectAll &context_effect_all)
 {
     for (int i=0; i<(int) pileup.size(); i++){

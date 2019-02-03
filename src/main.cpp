@@ -319,16 +319,26 @@ int main(int argc, const char * argv[])
         
         // learn context effect
         if (strcmp(argv[1], "contexteffect")==0) {
-            UnlabeledValueArg<string> alignfileArg("alignfile", "path of alignment file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> infileArg("infile", "path of input file (m5 file if no -p, pileup file if -p)", true, "", "infile", cmd);
             UnlabeledValueArg<string> outprefixArg("outprefix", "prefix of output files", true, "", "outprefix", cmd);
             
             ValueArg<int> leftlenArg("l","leftlen","length of the upstream context, default: 1", false , 1, "leftlen", cmd);
             ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 1", false , 1, "rightlen", cmd);
             
+            SwitchArg ispileupArg("p", "ispileup", "is use pileup file as input", cmd, false);
+            
             cmd.parse(argv2);
             ErrorModelSNV errormodel;
             errormodel.set_context_size(leftlenArg.getValue(), rightlenArg.getValue());
-            errormodel.learn(alignfileArg.getValue(), outprefixArg.getValue());
+            
+            if (ispileupArg.getValue()){
+                vector<BaseFreq> pileup = errormodel.load_pileup(infileArg.getValue());
+                ContextEffect context_effect;
+                errormodel.get_context_effect(pileup, context_effect);
+                errormodel.print_context_effect(outprefixArg.getValue() + ".context", context_effect);
+            }else{
+                errormodel.learn(infileArg.getValue(), outprefixArg.getValue());
+            }
         }
         
         // merge context effect
@@ -406,6 +416,21 @@ int main(int argc, const char * argv[])
             assembler.jaccard_index_min(encodefileArg.getValue(), alignfileArg.getValue(), outfileArg.getValue(), minjaccardArg.getValue());
         }
 
+        // pileup
+        if (strcmp(argv[1], "pileup")==0) {
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            ErrorModelSNV errormodel;
+            int g_size = errormodel.get_genomesize(m5fileArg.getValue());
+            vector<BaseFreq> pileup(g_size, BaseFreq());
+            errormodel.pileup_reads(m5fileArg.getValue(), pileup);
+            errormodel.print_pileup(outfileArg.getValue(), pileup);
+           
+        }
+        
         // pileup encode
         if (strcmp(argv[1], "pileup_var")==0) {
             UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);

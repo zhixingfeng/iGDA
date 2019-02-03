@@ -16,6 +16,14 @@ TEST_CASE("test ErrorModelSNV::learn()", "[hide]")
     model.learn(align_file, "../results/B_10_cons");
 }
 
+TEST_CASE("test ErrorModelSNV::load_pileup()", "[hide]")
+{
+    string pu_file = "../results/pt_ecoli/igda/tmp/realign.pileup";
+    ErrorModelSNV model;
+    vector<BaseFreq> pileup = model.load_pileup(pu_file);
+    model.print_pileup(pu_file + ".copy", pileup);
+}
+
 
 TEST_CASE("test ErrorModelSNV::merge_all()","[hide]")
 {
