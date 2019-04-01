@@ -220,6 +220,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 12", false , 12, "minreads", cmd);
             ValueArg<int> maxdepthArg("d","maxdepth","maximal depth of a tree, default: 1000", false , 1000, "maxdepth", cmd);
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
+            ValueArg<double> maxfreqArg("q","maxfreq","maximal frequency: 1.0 (substantially increase speed if it is small, but restrict the maximal conditional frequency)", false , 1.0, "maxfreq", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
             SwitchArg islegacyArg("l", "legacy", "use the legacy algorithm (no stxxl) to run dforest", cmd, false);
@@ -229,7 +230,11 @@ int main(int argc, const char * argv[])
             cout << "minreads = " << minreadsArg.getValue() << endl;
             cout << "maxdepth = " << maxdepthArg.getValue() << endl;
             cout << "minfreq = " << minfreqArg.getValue() << endl;
+            cout << "maxfreq = " << maxfreqArg.getValue() << endl;
             cout << "nthread = " << nthreadArg.getValue() << endl;
+            
+            if (minfreqArg.getValue() > maxfreqArg.getValue())
+                throw runtime_error("minfreqArg.getValue() > maxfreqArg.getValue()");
             
             AlignReaderM5 alignreaderm5;
             AlignReaderSam alignreadersam;
@@ -258,7 +263,7 @@ int main(int argc, const char * argv[])
             
             ptr_forest->load_homo_blocks(reffileArg.getValue());
             ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(),
-                            minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(), isinterArg.getValue());
+                            minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(), maxfreqArg.getValue(), isinterArg.getValue());
         }
         
         // sort output

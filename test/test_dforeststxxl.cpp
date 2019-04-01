@@ -87,4 +87,26 @@ TEST_CASE("test dforeststxxl (use sam file)", "[hide]")
 }
 
 
+TEST_CASE("test dforeststxxl report progresss", "[hide]")
+{
+    string align_file = "../data/loman/even/realign.m5";
+    string encode_file = "../data/loman/even/realign.encode";
+    string cmpreads_file = "../data/loman/even/realign.cmpreads";
+    string ref_file = "../data/loman/Listeria_monocytogenes_complete_genome_masked.fasta";
+    string out_file = "../data/loman/igda_even/realign.dforest";
+    string tmp_dir = "../data/loman/igda_even/tmp";
+    
+    AlignReaderSam alignreader;
+    AlignCoderSNV aligncoder;
+    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForest *ptr_forest = &forestsnv;
+    
+    int start_time= (int)clock();
+    
+    ptr_forest->load_homo_blocks(ref_file);
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, tmp_dir, 15, 10000, 1, 0, 0.75, false);
+   
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+}
 

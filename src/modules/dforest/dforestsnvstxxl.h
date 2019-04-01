@@ -26,7 +26,7 @@ public:
              const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
              int n_thread=1, double minfreq=0);
     
-    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, bool isinter=false);
+    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, bool isinter=false);
     
     void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter=false);
     
@@ -41,7 +41,7 @@ public:
     
 protected:
     
-    bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, bool isinter=false);
+    bool run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, double maxfreq, bool isinter=false);
     void build_index(stxxl_vector_type &cmpreads_index, const stxxl_vector_type_int &cmpreads_data);
     
 protected:
