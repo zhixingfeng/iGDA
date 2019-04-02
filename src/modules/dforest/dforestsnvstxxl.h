@@ -9,6 +9,10 @@
 #ifndef dforestsnvstxxl_hpp
 #define dforestsnvstxxl_hpp
 
+#ifndef MIN_HOMO_BLOCK_DIST
+    #define MIN_HOMO_BLOCK_DIST 25
+#endif
+
 #include "./dforest.h"
 
 

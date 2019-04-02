@@ -152,7 +152,7 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
         }
         
         // exclude neighbors loci that are too close
-        if (abs ( this->homo_blocks[int(cand_loci[j] / 4)] - this->homo_blocks[y_read_locus] ) < 5){
+        if (abs ( this->homo_blocks[int(cand_loci[j] / 4)] - this->homo_blocks[y_read_locus] ) < MIN_HOMO_BLOCK_DIST){
             p_y_x[j] = -1;
             continue;
         }
