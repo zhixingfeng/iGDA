@@ -12,7 +12,7 @@
 #include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstxxl.h"
 
-TEST_CASE("test dforest", "[hide]")
+/*TEST_CASE("test dforest", "[hide]")
 {
     string align_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.m5.5000";
     string encode_file = "../results/dforeststxxl/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.encode.5000";
@@ -84,7 +84,7 @@ TEST_CASE("test dforeststxxl (use sam file)", "[hide]")
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/dforeststxxl/tmp" , 8, 5, 1, 0, true);
     int stop_time= (int)clock();
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-}
+}*/
 
 
 TEST_CASE("test dforeststxxl report progresss", "[hide]")
@@ -104,7 +104,7 @@ TEST_CASE("test dforeststxxl report progresss", "[hide]")
     int start_time= (int)clock();
     
     ptr_forest->load_homo_blocks(ref_file);
-    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, tmp_dir, 15, 10000, 1, 0, 0.75, false);
+    ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, tmp_dir, 15, 10000, 1, 0, 0.75, 25, false);
    
     int stop_time= (int)clock();
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;

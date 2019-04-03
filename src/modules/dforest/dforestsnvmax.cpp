@@ -37,7 +37,7 @@ bool DForestSNVMax::run(const vector<vector<int> > &encode_data, const stxxl::ve
 
 
 /*-------------- input from files---------------*/
-bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, bool isinter)
+bool DForestSNVMax::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
 {
     this->result.clear();
     cout << "number of threads: " << n_thread << endl;

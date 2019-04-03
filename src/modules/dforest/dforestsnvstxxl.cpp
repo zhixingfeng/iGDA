@@ -15,7 +15,7 @@ bool DForestSNVSTXXL::run(const vector<vector<int> > &encode_data, const stxxl::
     return true;
 }
 
-bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, bool isinter)
+bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
 {
     this->result.clear();
     this->result_all.clear();
@@ -31,6 +31,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     cout << "filter encode_data" << endl;
     this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     
+    this->min_homo_block_dist = min_homo_block_dist;
     // check homo_blocks
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
@@ -45,7 +46,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     // single thread
     cout << "run dforest" << endl;
     if (n_thread==1){
-        run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, isinter);
+        run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter);
     }else {
        
     }
@@ -59,7 +60,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     
 }
 
-bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, double maxfreq, bool isinter)
+bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
 {
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);
@@ -152,7 +153,7 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
         }
         
         // exclude neighbors loci that are too close
-        if (abs ( this->homo_blocks[int(cand_loci[j] / 4)] - this->homo_blocks[y_read_locus] ) < MIN_HOMO_BLOCK_DIST){
+        if (abs ( this->homo_blocks[int(cand_loci[j] / 4)] - this->homo_blocks[y_read_locus] ) < this->min_homo_block_dist){
             p_y_x[j] = -1;
             continue;
         }

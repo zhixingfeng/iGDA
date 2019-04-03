@@ -629,7 +629,6 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     vector<vector<int> > encode_data;
     loadencodedata(encode_data, encode_file);
 
-    
     // load recode data
     cout << "load recode data" << endl;
     vector<vector<int> > recode_data;

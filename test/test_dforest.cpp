@@ -63,7 +63,7 @@
 }*/
 
 
-TEST_CASE("test DForest::run()", "[hide]")
+/*TEST_CASE("test DForest::run()", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
     string encode_file = "../results/B_10_cons.encode";
@@ -93,7 +93,7 @@ TEST_CASE("test DForest::filter()", "[hide]")
     DForestSNVMax forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     ptr_forest->filter(dforest_file, out_file, 0.5);
-}
+}*/
 
 
 /*TEST_CASE("test DForest::build_tree()", "[hide]")
@@ -123,7 +123,7 @@ TEST_CASE("test DForest::filter()", "[hide]")
 */
 
 
-TEST_CASE("test DForest::run() (hbv)", "[hide]")
+/*TEST_CASE("test DForest::run() (hbv)", "[hide]")
 {
     string encode_file = "../results/LoFreq_HBV/igda_result_large/realign.encode";
     string align_file = "../results/LoFreq_HBV/igda_result_large/realign.m5";
@@ -142,7 +142,7 @@ TEST_CASE("test DForest::run() (hbv)", "[hide]")
     ptr_forest->run(encode_file, align_file, cmpreads_file, out_file, "../results/LoFreq_HBV/igda_result_large/tmp" , 12, 10000, 1);
     int stop_time= (int)clock();
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-}
+}*/
 
 
 
