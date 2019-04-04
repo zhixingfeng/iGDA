@@ -188,7 +188,17 @@ TEST_CASE("test AlignCoderSNV::recode() check putative errors", "[hide]")
 }
 
 
-
+TEST_CASE("test AlignCoderSNV::encode() encode reference", "[hide]")
+{
+    string m5_file = "../data/test_encode/realign.m5.1000";
+    string encode_file = "../data/test_encode/realign.encode.1000";
+    
+    AlignCoderSNV aligncodersnv;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->encode(m5_file, encode_file);
+}
 
 
 

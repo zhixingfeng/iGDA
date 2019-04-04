@@ -20,6 +20,9 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
     ofstream p_outfile;
     open_outfile(p_outfile, outfile);
     
+    ofstream p_reffile;
+    open_outfile(p_reffile, outfile + ".ref");
+    
     p_alignreader->open(alignfile);
     Align align;
     int nline = 0;
@@ -42,18 +45,34 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
         // encode
         int cur_pos = align.tStart;
         for (int i=0; i<alen; i++){
-            if (align.tAlignedSeq[i]!=align.qAlignedSeq[i] && align.tAlignedSeq[i]!='-' && align.qAlignedSeq[i]!='-')
+            if (align.tAlignedSeq[i] == 'A' || align.tAlignedSeq[i] == 'C' || align.tAlignedSeq[i] == 'G' || align.tAlignedSeq[i] == 'T'){
+                if (align.qAlignedSeq[i] != '-'){
+                    if (align.tAlignedSeq[i] != align.qAlignedSeq[i]){
+                        p_outfile << this->binary_code(cur_pos, align.qAlignedSeq[i]) << '\t';
+                    }else{
+                        p_reffile << this->binary_code(cur_pos, align.tAlignedSeq[i]) << '\t';
+                    }
+                }
+                ++cur_pos;
+            }else{
+                if (align.tAlignedSeq[i]!='-')
+                    ++cur_pos;
+            }
+            
+            /*if (align.tAlignedSeq[i]!=align.qAlignedSeq[i] && align.tAlignedSeq[i]!='-' && align.qAlignedSeq[i]!='-')
                 p_outfile << this->binary_code(cur_pos, align.qAlignedSeq[i]) << '\t';
             if (align.tAlignedSeq[i]!='-')
-                cur_pos++;
+                cur_pos++;*/
         }
         p_outfile << endl;
+        p_reffile << endl;
     }
     
     p_alignreader->close();
     
     
     p_outfile.close();
+    p_reffile.close();
     return true;
 }
 
