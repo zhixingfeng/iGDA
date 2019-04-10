@@ -254,13 +254,15 @@ void ErrorModelSNV::pileup_reads(string align_file, vector<BaseFreq> &pileup)
 {
     AlignReaderM5 alignreader;
     alignreader.open(align_file);
+    bool is_neg_strand = false;
     int64_t n_reads = 0;
     while (1){
         Align align;
         if (!alignreader.readline(align))
             break;
         if (align.tStrand != '+')
-            throw runtime_error("there are reads aligned to negative strand.");
+            is_neg_strand = true;
+        //    throw runtime_error("there are reads aligned to negative strand.");
         //if (align.mapQV!=254)
         //    continue;
         
@@ -316,6 +318,9 @@ void ErrorModelSNV::pileup_reads(string align_file, vector<BaseFreq> &pileup)
     }
     cout << "processed " << n_reads << " reads" << endl;
     alignreader.close();
+    
+    if (is_neg_strand)
+        cout << "Warning: input file contains reads aligned to negative strand";
 }
 
 void ErrorModelSNV::print_pileup(string out_file, const vector<BaseFreq> &pileup){
