@@ -9,7 +9,7 @@ make install
 cd ../../..
 
 # configure stxxl
-echo "disk=./tmp_stxxl,32G,syscall unlink" > $HOME/.stxxl
+echo "disk=./tmp_stxxl,8G,syscall unlink" > $HOME/.stxxl
 
 # compile graphviz
 echo "install graphviz"
