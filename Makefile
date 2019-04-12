@@ -1,8 +1,7 @@
 CXX = g++
 CC = gcc
-INCLUDES = -I include -I tools/boost/include -I tools -I tools/stxxl/build/local/stxxl/include -I tools/seqan/seqan/include
-LIBS = -L tools/stxxl/build/local/stxxl/lib
-CXX_FLAGS = -pthread -std=c++14 -w -O2 -lstxxl -lz
+INCLUDES = -I include -I tools/boost/include -I tools -I tools/seqan/seqan/include
+CXX_FLAGS = -pthread -std=c++14 -w -O2 -lz
 
 SRC_CXX = $(wildcard src/*.cpp)\
 	$(wildcard src/modules/aligncoder/*.cpp)\

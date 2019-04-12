@@ -11,7 +11,7 @@
 
 #include "./cmpreads.h"
 #include "basic.h"
-#include <stxxl.h>
+//#include <stxxl.h>
 // coverage should NOT exceed range of int !!!!!
 ////////// pileup read ID and locus are 0-based ///////////
 struct ConsensusSeq

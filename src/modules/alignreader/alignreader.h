@@ -10,7 +10,7 @@
 #define __iGDA__alignreader__
 
 #include <headers.h>
-#include <stxxl.h>
+//#include <stxxl.h>
 #include "../../misc/seqopt.h"
 // position in m5 format is 1-based and (], and convert to 0-based [] when reading
 struct Align

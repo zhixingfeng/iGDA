@@ -16,7 +16,7 @@
 #include <ctime>
 
 
-TEST_CASE("test stxxl", "[hide]")
+/*TEST_CASE("test stxxl", "[hide]")
 {
     typedef stxxl::VECTOR_GENERATOR<int>::result vector;
     vector my_vector;
@@ -57,6 +57,6 @@ TEST_CASE("test vector of vector", "[hide]")
     cout << "time elapse: " << double(time_end - time_begin) / CLOCKS_PER_SEC << endl;
 }
 
-
+*/
 
 

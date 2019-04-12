@@ -8,7 +8,7 @@
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
 #include <thread>
-#include <stxxl.h>
+//#include <stxxl.h>
 
 TEST_CASE("Test m5tofa", "[hide]"){
     m5tofa("../data/MSSA_61_forward.m5", "../results/MSSA_61_forward.fa");

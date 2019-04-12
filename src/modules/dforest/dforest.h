@@ -25,7 +25,7 @@
 #include "../aligncoder/aligncodersnv.h"
 #include <thread>
 #include <mutex>
-#include <stxxl.h>
+//#include <stxxl.h>
 
 // define final result. (locus here means coded locus)
 struct DforestResult{

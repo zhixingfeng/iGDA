@@ -12,7 +12,7 @@
 #define MIN_LOCI_BLOCK_SIZE 5
 
 
-#include <stxxl.h>
+//#include <stxxl.h>
 #include "../../../include/headers.h"
 #include "../../misc/misc.h"
 #include "../aligncoder/aligncodersnv.h"

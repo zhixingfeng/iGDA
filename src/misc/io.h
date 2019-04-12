@@ -11,7 +11,7 @@
 #include "../../include/headers.h"
 #include "../modules/alignreader/alignreaderm5.h"
 #include "../modules/alignreader/alignreadersam.h"
-#include <stxxl.h>
+//#include <stxxl.h>
 #include <zlib.h>
 #include "../../tools/kseq.h"
 #include "../../include/utils.h"
