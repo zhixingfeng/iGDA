@@ -58,7 +58,7 @@ public:
     virtual bool close()=0;
     
     // read all alignment and store it into stxxl vector
-    virtual bool read(string filename, stxxl::vector<Align> &align_vec)=0;
+    virtual bool read(string filename, vector<Align> &align_vec)=0;
         
     virtual bool getref(string filename) = 0;
 protected:

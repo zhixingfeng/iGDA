@@ -42,7 +42,7 @@ inline bool readmatch_compare(const ReadMatch& l, const ReadMatch& r)
     return l.end > r.end;
 }
 
-inline bool group_cmpreadsdiff(const stxxl::vector<ReadMatch> &cmpreadsdiff_data, stxxl::vector<vector<ReadMatch> > &cmpreadsdiff_data_grouped, bool is_sort = true)
+inline bool group_cmpreadsdiff(const vector<ReadMatch> &cmpreadsdiff_data, vector<vector<ReadMatch> > &cmpreadsdiff_data_grouped, bool is_sort = true)
 {
     // get maximal code
     int max_code = 0;

@@ -17,8 +17,10 @@
 #include "../../include/utils.h"
 #include "./basic.h"
 
-typedef stxxl::VECTOR_GENERATOR<vector<int64_t>, 16, 16, 10*1048576>::result stxxl_vector_type;
-typedef stxxl::VECTOR_GENERATOR<vector<int>, 16, 16, 10*1048576>::result stxxl_vector_type_int;
+//typedef stxxl::VECTOR_GENERATOR<vector<int64_t>, 16, 16, 10*1048576>::result stxxl_vector_type;
+//typedef stxxl::VECTOR_GENERATOR<vector<int>, 16, 16, 10*1048576>::result stxxl_vector_type_int;
+typedef vector<vector<int64_t> > stxxl_vector_type;
+typedef vector<vector<int> > stxxl_vector_type_int;
 
 typedef pair<int,int> ReadRange;
 
@@ -38,7 +40,7 @@ struct ReadMatch
 
 
 // read cmpreads from .cmpreads files (text format)
-inline bool loadcmpreads_txt(stxxl::vector<vector<int> > &cmpreads_data, string cmpreads_file)
+inline bool loadcmpreads_txt(vector<vector<int> > &cmpreads_data, string cmpreads_file)
 {
     ifstream p_cmpreads_file; open_infile(p_cmpreads_file, cmpreads_file);
     while (true) {
@@ -76,7 +78,7 @@ inline bool loadcmpreads(stxxl_vector_type_int &cmpreads_data, string cmpreads_f
     cout << "n_cand = " << n_cand << endl;
     // load the data
     cmpreads_data.resize(n_cand);
-    //cmpreads_data = stxxl::vector<vector<int> >(n_cand, 1);
+    //cmpreads_data = vector<vector<int> >(n_cand, 1);
     
     p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
@@ -122,7 +124,7 @@ inline bool loadcmpreads(stxxl_vector_type_int &cmpreads_data, string cmpreads_f
 
 
 // read cmpreads_diff from .cmpreads_diff files (binary format)
-inline bool loadcmpreadsdiff(stxxl::vector<ReadMatch> &cmpreadsdiff_data, string cmpreadsdiff_file)
+inline bool loadcmpreadsdiff(vector<ReadMatch> &cmpreadsdiff_data, string cmpreadsdiff_file)
 {
     FILE *p_infile = fopen(cmpreadsdiff_file.c_str(), "rb");
     if (p_infile == NULL)

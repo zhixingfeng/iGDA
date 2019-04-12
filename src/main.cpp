@@ -523,7 +523,7 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             Assembler assembler;
             AlignReaderM5 AlignReaderM5_obj;
-            stxxl::vector<Align> align_data;
+            vector<Align> align_data;
             AlignReaderM5_obj.read(alignfileArg.getValue(), align_data);
             
             string ref_name; string ref_seq;

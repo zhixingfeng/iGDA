@@ -31,7 +31,7 @@
 
     cout << "load alignment" << endl;
     AlignReaderM5 AlignReaderM5_obj;
-    stxxl::vector<Align> align_data;
+    vector<Align> align_data;
     AlignReaderM5_obj.read(align_file, align_data);
 
     cout << "cmpreads" << endl;

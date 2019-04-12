@@ -57,7 +57,7 @@ public:
         pu_var.clear();
         pu_var = pileup_var(encode_data, n_reads);
     }
-    inline void call_pileup_reads(const stxxl::vector<Align> &align_data, char format = 'a'){
+    inline void call_pileup_reads(const vector<Align> &align_data, char format = 'a'){
         pu_read.clear();
         int64_t cur_n_reads;
         pu_read = pileup_reads(align_data, cur_n_reads, format);
@@ -85,8 +85,8 @@ public:
         p_aligncoder->setAlignReader(p_alignreader);
     }
     
-    virtual bool run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
-                     const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+    virtual bool run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
+                     const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
                      int n_thread=1, double minfreq=0)=0;
     
     virtual bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, int min_homo_block_dist = 15, bool isinter=false)=0;

@@ -26,8 +26,8 @@ public:
     
     virtual ~DForestSNVSTXXL(){}
     
-    bool run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
-             const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+    bool run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
+             const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
              int n_thread=1, double minfreq=0);
     
     bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, int min_homo_block_dist = 15, bool isinter=false);
@@ -50,7 +50,7 @@ protected:
     
 protected:
     vector<DforestResult> result;
-    stxxl::vector<DforestResult> result_all;
+    vector<DforestResult> result_all;
         
     int focal_locus;
     vector<double> p_y_x_archive;

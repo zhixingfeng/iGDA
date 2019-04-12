@@ -10,8 +10,8 @@
 mutex mtx_snvmax;
 
 /*---------input from memory/stxxl containers------------*/
-bool DForestSNVMax::run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
-         const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+bool DForestSNVMax::run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
+         const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
          int n_thread, double minfreq)
 {
     this->result.clear();
@@ -219,7 +219,7 @@ void DForestSNVMax::build_tree(ofstream &fs_outfile, const vector<int> &cand_loc
     
 }
 
-bool DForestSNVMax::run_thread_stxxl(const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth, double minfreq)
+bool DForestSNVMax::run_thread_stxxl(const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth, double minfreq)
 {
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);

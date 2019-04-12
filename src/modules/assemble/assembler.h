@@ -131,7 +131,7 @@ public:
         this->homo_blocks = get_homo_blocks(fasta_file);
     }
     // reconstruct reference genome from alignment
-    void ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq);
+    void ref_reconstruct(const vector<Align> &align_data, string &ref_name, string &ref_seq);
     
     // construct haplotype sequence
     void haplo_seq_construct(const vector<int> centroid, const string &ref_seq, string &haplo_seq);

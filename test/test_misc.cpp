@@ -247,7 +247,7 @@ TEST_CASE("Test load_ncread()", "[hide]")
 TEST_CASE("test loadcmpreadsdiff", "[hide]")
 {
     string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
-    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    vector<ReadMatch> cmpreadsdiff_data;
     loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
     
     ofstream fs_outfile;
@@ -262,10 +262,10 @@ TEST_CASE("test loadcmpreadsdiff", "[hide]")
 TEST_CASE("test readmatch_compare", "[hide]")
 {
     string cmpreads_diff_file = "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.recode.cmpreads_diff.5000";
-    stxxl::vector<ReadMatch> cmpreadsdiff_data;
+    vector<ReadMatch> cmpreadsdiff_data;
     loadcmpreadsdiff(cmpreadsdiff_data, cmpreads_diff_file);
     
-    stxxl::vector<vector<ReadMatch> > cmpreadsdiff_data_grouped;
+    vector<vector<ReadMatch> > cmpreadsdiff_data_grouped;
     group_cmpreadsdiff(cmpreadsdiff_data, cmpreadsdiff_data_grouped, true);
     
     ofstream fs_outfile;

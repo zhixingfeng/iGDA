@@ -165,7 +165,7 @@ inline void pileup_var_online_count_pop(vector<int> &pu_count, const vector<int>
 
 
 // pileup reads (input from memory/stxxl)
-inline vector<vector<int> > pileup_reads_m5(const stxxl::vector<Align> &align_data, int64_t &n_reads)
+inline vector<vector<int> > pileup_reads_m5(const vector<Align> &align_data, int64_t &n_reads)
 {
     vector<ReadRange> reads_range;
     for (int i=0; i<(int)align_data.size(); ++i)
@@ -187,7 +187,7 @@ inline vector<vector<int> > pileup_reads_m5(const stxxl::vector<Align> &align_da
     return pu;
 }
 
-inline vector<vector<int> > pileup_reads(const stxxl::vector<Align> &align_data, int64_t &n_reads, char format = 'a')
+inline vector<vector<int> > pileup_reads(const vector<Align> &align_data, int64_t &n_reads, char format = 'a')
 {
     switch (format) {
         case 'a':

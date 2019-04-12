@@ -56,7 +56,7 @@ TEST_CASE("test pileup_reads() (input from memory/stxxl)", "[hide]")
     clock_t t_begin = clock();
     string align_file = "../data/B_10_cons.m5";
     AlignReaderM5 AlignReaderM5_obj;
-    stxxl::vector<Align> align_data;
+    vector<Align> align_data;
     AlignReaderM5_obj.read(align_file, align_data);
     
     int64_t n_reads;

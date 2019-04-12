@@ -35,7 +35,7 @@ TEST_CASE("test stxxl", "[hide]")
 
 TEST_CASE("test vector of vector", "[hide]")
 {
-    stxxl::vector<vector<int> > cmpreads;
+    vector<vector<int> > cmpreads;
     // read
     ifstream fs_infile; open_infile(fs_infile, "../results/B_10_cons_cmpreads.txt");
     while(true){

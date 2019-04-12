@@ -30,7 +30,7 @@ public:
     bool close();
     
     // read all alignment and store it into stxxl vector
-    bool read(string filename, stxxl::vector<Align> &align_vec);
+    bool read(string filename, vector<Align> &align_vec);
     
     // get reference
     bool getref(string filename);

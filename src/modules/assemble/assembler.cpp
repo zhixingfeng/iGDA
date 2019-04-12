@@ -433,7 +433,7 @@ void Assembler::jaccard_index_min(string encode_file, string align_file, string 
 }
 
 
-void Assembler::ref_reconstruct(const stxxl::vector<Align> &align_data, string &ref_name, string &ref_seq)
+void Assembler::ref_reconstruct(const vector<Align> &align_data, string &ref_name, string &ref_seq)
 {
     // get reference genome name (only 1 chromosome is allowed)
     if (align_data.size() == 0)

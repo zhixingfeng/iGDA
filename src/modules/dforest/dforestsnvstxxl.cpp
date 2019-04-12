@@ -8,8 +8,8 @@
 
 #include "dforestsnvstxxl.h"
 
-bool DForestSNVSTXXL::run(const vector<vector<int> > &encode_data, const stxxl::vector<Align> &align_data,
-         const stxxl::vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
+bool DForestSNVSTXXL::run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
+         const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
          int n_thread, double minfreq)
 {
     return true;

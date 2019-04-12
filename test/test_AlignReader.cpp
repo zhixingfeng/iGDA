@@ -28,7 +28,7 @@ TEST_CASE("Test AlignReaderM5 read()", "[hide]"){
     AlignReader *p_align = &AlignReaderM5_obj;
     
     // read m5 file
-    stxxl::vector<Align> align_vec;
+    vector<Align> align_vec;
     p_align->read("../data/MSSA_61_forward.m5", align_vec);
     
     // write m5 file

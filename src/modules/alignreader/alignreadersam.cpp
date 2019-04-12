@@ -172,7 +172,7 @@ bool AlignReaderSam::close() {
 }
 
 
-bool AlignReaderSam::read(string filename, stxxl::vector<Align> &align_vec)
+bool AlignReaderSam::read(string filename, vector<Align> &align_vec)
 {
         
     return true;

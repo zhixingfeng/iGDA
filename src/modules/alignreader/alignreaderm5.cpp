@@ -54,7 +54,7 @@ bool AlignReaderM5::close() {
 }
 
 
-bool AlignReaderM5::read(string filename, stxxl::vector<Align> &align_vec)
+bool AlignReaderM5::read(string filename, vector<Align> &align_vec)
 {
     Align align;
     
