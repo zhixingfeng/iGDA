@@ -356,9 +356,6 @@ int main(int argc, const char * argv[])
             while (getline(cin, buf)) {
                 context_files.push_back(buf);
             }
-            cout << "merge the following files:" << endl;
-            for (auto i = 0; i < context_files.size(); ++i)
-                cout << context_files[i] << endl;
             
             ErrorModelSNV errormodel;
             errormodel.merge(context_files);
