@@ -9,8 +9,7 @@
 #ifndef iGDA_statistics_h
 #define iGDA_statistics_h
 
-#define ALPHA_NULL 1.332824
-#define BETA_NULL 89.04769
+
 
 #include <cmath>
 #include "../tools/prob/prob.hpp"

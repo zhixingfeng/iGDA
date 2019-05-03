@@ -89,13 +89,15 @@ struct reads_compare_sim
 class Assembler
 {
 public:
-    Assembler():cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75){}
+    Assembler():cand_size(5),resampling_size(20),min_count(10),min_condprob(0.15),max_condprob(0.75), alpha(-1), beta(-1){}
     Assembler(int cand_size, int resampling_size, int min_count, double min_condprob, double max_condprob):
             cand_size(cand_size),resampling_size(resampling_size),min_count(min_count),
             min_condprob(min_condprob),max_condprob(max_condprob){}
     virtual ~Assembler(){}
     
 public:
+    void set_null_betadist(double alpha, double beta){this->alpha = alpha; this->beta = beta;}
+    
     void get_variants(string dforest_file, string out_file, double min_condprob);
     void reduce_dim(string encode_file, string var_file, string out_file);
     void dist(string encode_file, string align_file, string out_file);
@@ -200,6 +202,9 @@ protected:
     vector<ConsensusSeq> rl_ann_clust;
     vector<int> nc_reads_id;
     vector<int64_t> homo_blocks;
+    
+    double alpha;  // distrbituion of the null beta distribution
+    double beta;
 }
 ;
 

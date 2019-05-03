@@ -1241,7 +1241,9 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
             
             if (cur_cvg > 0 ){
-                double cur_log_bf_null = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+                if (this->alpha == -1 || this->beta == -1)
+                    throw runtime_error("this->alpha == -1 || this->beta == -1");
+                double cur_log_bf_null = binom_log_bf(cur_count, cur_cvg, this->alpha, this->beta);
                 if (cur_log_bf_null < this->rl_ann_clust[i].log_bf_null || j == 0)
                     this->rl_ann_clust[i].log_bf_null = cur_log_bf_null;
             }
@@ -1587,7 +1589,10 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             //if (n_blocks == 0) throw runtime_error("n_blocks == 0");
             if (n_blocks > 0){
                 //cout << i << "," << j << endl;
-                double exp_prop = pow(ALPHA_NULL/(ALPHA_NULL + BETA_NULL), n_blocks);
+                if (this->alpha == -1 || this->beta == -1)
+                    throw runtime_error("this->alpha == -1 || this->beta == -1");
+                
+                double exp_prop = pow(this->alpha/(this->alpha + this->beta), n_blocks);
                 if (exp_prop < EPS) throw runtime_error("exp_prop < EPS");
                 
                 if (joint_cvg >= min_cvg){
@@ -1753,7 +1758,10 @@ void Assembler::test_contigs_pairwise_legacy(string ann_file, string recode_file
             }
             
             // test
-            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+            if (this->alpha == -1 || this->beta == -1)
+                throw runtime_error("this->alpha == -1 || this->beta == -1");
+            
+            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, this->alpha, this->beta);
             if (cur_log_bf < min_log_bf)
                 is_noise = true;
         }
@@ -1781,7 +1789,10 @@ void Assembler::test_contigs_pairwise_legacy(string ann_file, string recode_file
             }
             
             // test
-            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, ALPHA_NULL, BETA_NULL);
+            if (this->alpha == -1 || this->beta == -1)
+                throw runtime_error("this->alpha == -1 || this->beta == -1");
+            
+            double cur_log_bf = binom_log_bf(cur_count, cur_cvg, this->alpha, this->beta);
             if (cur_log_bf < min_log_bf)
                 is_noise = true;
         }

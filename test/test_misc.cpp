@@ -588,6 +588,8 @@ TEST_CASE("test binom_log_bf", "[hide]")
 
 TEST_CASE("test binom_log_bf with prior of null hypothesis", "[hide]")
 {
+    double ALPHA_NULL = 1.332824;
+    double BETA_NULL = 89.04769;
     cout << "binom_log_bf(1, 20000) = " << binom_log_bf(1, 20000, ALPHA_NULL, BETA_NULL) << endl;
     cout << "binom_log_bf(10, 20000) = " << binom_log_bf(10, 20000, ALPHA_NULL, BETA_NULL) << endl;
     cout << "binom_log_bf(200, 20000) = " << binom_log_bf(200, 20000, ALPHA_NULL, BETA_NULL) << endl;

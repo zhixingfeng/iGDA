@@ -625,6 +625,10 @@ int main(int argc, const char * argv[])
             ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 5", false , 5, "minlogbf", cmd);
             ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 10, "maxloci", cmd);
             
+            ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
+            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "alpha", cmd);
+            
+            
             cmd.parse(argv2);
             Assembler assembler;
             
@@ -647,6 +651,7 @@ int main(int argc, const char * argv[])
             assembler.load_homo_blocks(reffileArg.getValue());
             
             cout << "test contigs" << endl;
+            assembler.set_null_betadist(alphaArg.getValue(), betaArg.getValue());
             assembler.test_contigs(recode_data, recode_ref_data, reads_range);
             assembler.print_rl_ann_clust(annfileArg.getValue() + ".tested", true);
             
@@ -660,10 +665,14 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
            
+            ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
+            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "alpha", cmd);
+            
             cmd.parse(argv2);
          
             Assembler assembler;
             assembler.load_homo_blocks(reffileArg.getValue());
+            assembler.set_null_betadist(alphaArg.getValue(), betaArg.getValue());
             assembler.test_contigs_pairwise(annfileArg.getValue(), recodefileArg.getValue(), annfileArg.getValue() + ".ft");
             
         }
