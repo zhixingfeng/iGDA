@@ -777,7 +777,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> leftlenArg("l","leftlen","length of the upstream context, default: 10", false , 10, "leftlen", cmd);
             ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 10", false , 10, "rightlen", cmd);
             
-            //SwitchArg isreportrefArg("f", "ref", "encode reference", cmd, false);
+            SwitchArg isnorefArg("n", "noref", "is not encode reference", cmd, false);
             SwitchArg islegacyArg("y", "legacy", "is use legacy algorithm", cmd, false);
             
             cmd.parse(argv2);
@@ -788,9 +788,9 @@ int main(int argc, const char * argv[])
             p_aligncoder->setAlignReader(&alignreaderm5);
             
             if (!islegacyArg.getValue())
-                p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), true);
+                p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
             else
-                p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), true);
+                p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
         }
 
         
