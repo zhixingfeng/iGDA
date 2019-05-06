@@ -486,7 +486,8 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     ofstream p_outfile;
     open_outfile(p_outfile, recode_file);
     ofstream p_outfile_ref;
-    open_outfile(p_outfile_ref, recode_file + ".ref");
+    if (is_report_ref)
+        open_outfile(p_outfile_ref, recode_file + ".ref");
     
     p_alignreader->open(m5_file);
     Align align;
@@ -666,14 +667,16 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             ++cur_pos;
         }
         p_outfile << endl;
-        p_outfile_ref << endl;
+        if (is_report_ref)
+            p_outfile_ref << endl;
     }
     
     p_alignreader->close();
     
     
     p_outfile.close();
-    p_outfile_ref.close();
+    if (is_report_ref)
+        p_outfile_ref.close();
     
     return true;
 }
