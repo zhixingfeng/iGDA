@@ -626,7 +626,7 @@ int main(int argc, const char * argv[])
             ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 10, "maxloci", cmd);
             
             ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
-            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "alpha", cmd);
+            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "beta", cmd);
             
             
             cmd.parse(argv2);
@@ -666,7 +666,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
            
             ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
-            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "alpha", cmd);
+            ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "beta", cmd);
             
             cmd.parse(argv2);
          
