@@ -11,11 +11,11 @@
             condition = "i==901"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.376219"
+            timestampString = "580170836.98971"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1893"
-            endingLineNumber = "1893"
+            startingLineNumber = "1911"
+            endingLineNumber = "1911"
             landmarkName = "Assembler::assign_reads_to_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;ReadRange&gt; &amp;reads_range, bool is_random)"
             landmarkType = "7">
          </BreakpointContent>
@@ -27,11 +27,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.376663"
+            timestampString = "580170836.990115"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1907"
-            endingLineNumber = "1907"
+            startingLineNumber = "1925"
+            endingLineNumber = "1925"
             landmarkName = "Assembler::assign_reads_to_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;ReadRange&gt; &amp;reads_range, bool is_random)"
             landmarkType = "7">
          </BreakpointContent>
@@ -43,11 +43,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.3769799"
+            timestampString = "580170836.99038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1908"
-            endingLineNumber = "1908"
+            startingLineNumber = "1926"
+            endingLineNumber = "1926"
             landmarkName = "Assembler::assign_reads_to_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;ReadRange&gt; &amp;reads_range, bool is_random)"
             landmarkType = "7">
          </BreakpointContent>
@@ -59,11 +59,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.377298"
+            timestampString = "580170836.990661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1933"
-            endingLineNumber = "1933"
+            startingLineNumber = "1951"
+            endingLineNumber = "1951"
             landmarkName = "Assembler::assign_reads_to_contigs(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;ReadRange&gt; &amp;reads_range, bool is_random)"
             landmarkType = "7">
          </BreakpointContent>
@@ -75,7 +75,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_assembler.cpp"
-            timestampString = "569925314.539564"
+            timestampString = "580170836.990929"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
@@ -91,11 +91,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.377618"
+            timestampString = "580170836.990976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1476"
-            endingLineNumber = "1476"
+            startingLineNumber = "1494"
+            endingLineNumber = "1494"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -107,11 +107,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.377885"
+            timestampString = "580170836.991218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1498"
-            endingLineNumber = "1498"
+            startingLineNumber = "1516"
+            endingLineNumber = "1516"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -123,11 +123,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.378318"
+            timestampString = "580170836.9914941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1441"
-            endingLineNumber = "1441"
+            startingLineNumber = "1459"
+            endingLineNumber = "1459"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -139,11 +139,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.3786"
+            timestampString = "580170836.9917589"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1507"
-            endingLineNumber = "1507"
+            startingLineNumber = "1525"
+            endingLineNumber = "1525"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -155,39 +155,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.37887"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1501"
-            endingLineNumber = "1501"
-            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.3791389"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1502"
-            endingLineNumber = "1502"
-            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.379389"
+            timestampString = "580170836.992026"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1519"
@@ -203,11 +171,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.379668"
+            timestampString = "580170836.992303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1500"
-            endingLineNumber = "1500"
+            startingLineNumber = "1520"
+            endingLineNumber = "1520"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -219,11 +187,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.379903"
+            timestampString = "580170836.992575"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1448"
-            endingLineNumber = "1448"
+            startingLineNumber = "1537"
+            endingLineNumber = "1537"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -235,11 +203,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.380149"
+            timestampString = "580170836.9928401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1538"
-            endingLineNumber = "1538"
+            startingLineNumber = "1518"
+            endingLineNumber = "1518"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -251,11 +219,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.38046"
+            timestampString = "580170836.9931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1571"
-            endingLineNumber = "1571"
+            startingLineNumber = "1466"
+            endingLineNumber = "1466"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -267,11 +235,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.3807729"
+            timestampString = "580170836.993363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1573"
-            endingLineNumber = "1573"
+            startingLineNumber = "1556"
+            endingLineNumber = "1556"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -283,11 +251,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.381108"
+            timestampString = "580170836.993626"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1596"
-            endingLineNumber = "1596"
+            startingLineNumber = "1589"
+            endingLineNumber = "1589"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -299,11 +267,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.381418"
+            timestampString = "580170836.993899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1592"
-            endingLineNumber = "1592"
+            startingLineNumber = "1591"
+            endingLineNumber = "1591"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -315,11 +283,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580169577.381672"
+            timestampString = "580170836.9942811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1488"
-            endingLineNumber = "1488"
+            startingLineNumber = "1614"
+            endingLineNumber = "1614"
+            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "580170836.994554"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1610"
+            endingLineNumber = "1610"
+            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "580170836.9948159"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1506"
+            endingLineNumber = "1506"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -331,12 +331,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_misc.cpp"
-            timestampString = "580169577.381936"
+            timestampString = "580170836.99508"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "696"
             endingLineNumber = "696"
-            landmarkName = "TEST_CASE(&quot;test correct_reads&quot;)"
+            landmarkName = "TEST_CASE(&quot;test correct_reads&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -405,6 +405,24 @@ TEST_CASE("test Assembler::assemble (HBV)", "[hide]")
     
 }
 
+TEST_CASE("test Assembler::ann_clust_recode (which reads correction)", "[hide]")
+{
+    string recode_file = "../data/test_correct_reads/SRR8054532.recode";
+    string recode_ref_file = "../data/test_correct_reads/SRR8054532.recode.ref";
+    string encode_file = "../data/test_correct_reads/SRR8054532.encode";
+    string m5_file = "../data/test_correct_reads/SRR8054532.m5";
+    string var_file = "../data/test_correct_reads/SRR8054532.var";
+    string ann_file = "../data/test_correct_reads/SRR8054532.ann";
+    
+    Assembler assembler;
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, m5_file, var_file, 10, 0.3, 0.7, 25, 50, 0.5, true);
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx);
+    assembler.print_rl_ann_clust(ann_file + ".igda_tmp", true, idx);
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + ann_file + ".igda_tmp" + " > " + ann_file;
+    cout << cmd << endl; system(cmd.c_str());
+}
+
 
 
 

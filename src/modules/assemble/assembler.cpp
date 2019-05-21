@@ -614,7 +614,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -624,9 +624,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     /*------------ use nc-reads seed to cluster ----------*/
     //cout << "use non-contained reads as seed to cluster" << endl;
     
-    // load recode data
+    // load encode data
     cout << "load encode data" << endl;
     vector<vector<int> > encode_data;
+    vector<vector<int> > encode_data_cd;
     loadencodedata(encode_data, encode_file);
 
     // load recode data
@@ -642,6 +643,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     // load reads range
     cout << "load m5 data" << endl;
     vector<ReadRange> reads_range;
+    vector<ReadRange> reads_range_cd;
     loadreadsrange(reads_range, align_file);
     
     if (reads_range.size() != encode_data.size())
@@ -675,6 +677,11 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     vector<int> cur_pu_reads_count(genome_size, 0);
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+    if (is_correct){
+        cout << "correct reads" << endl;
+        correct_reads(encode_data, reads_range, encode_data_cd, reads_range_cd);
+    }
+    
     int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
         ++n_nc_reads;
@@ -682,10 +689,17 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
         
         ConsensusSeq cur_cons;
-        cur_cons.seed = recode_data[i];
-        cur_cons.cons_seq = recode_data[i];
-        cur_cons.start = reads_range[i].first;
-        cur_cons.end = reads_range[i].second;
+        if (is_correct){
+            cur_cons.seed = encode_data_cd[i];
+            cur_cons.cons_seq = encode_data_cd[i];
+            cur_cons.start = reads_range_cd[i].first;
+            cur_cons.end = reads_range_cd[i].second;
+        }else{
+            cur_cons.seed = recode_data[i];
+            cur_cons.cons_seq = recode_data[i];
+            cur_cons.start = reads_range[i].first;
+            cur_cons.end = reads_range[i].second;
+        }
         for (auto b = 0; b < 1; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
             //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
@@ -701,8 +715,12 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 
                 //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
                 //double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
-                int min_overlap = int(0.75*(cur_cons.end - cur_cons.start)); 
-                double cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
+                int min_overlap = int(0.75*(cur_cons.end - cur_cons.start));
+                double cur_dist;
+                if (is_correct)
+                    cur_dist = sim_jaccard(encode_data_cd[i], encode_data[j], reads_range_cd[i], reads_range[j], temp_array, true, min_overlap);
+                else
+                    cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
                 
                 if (cur_dist <= min_jaccard) continue;
                 
