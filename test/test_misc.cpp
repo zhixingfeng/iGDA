@@ -682,7 +682,26 @@ TEST_CASE("cal_locus_specific_mi", "[hide]")
     
 }
 
+TEST_CASE("test correct_reads", "[hide]")
+{
+    vector<vector<int> > encode_data;
+    vector<ReadRange> reads_range;
+    vector<vector<int> > encode_data_cd;
+    vector<ReadRange> reads_range_cd;
+    loadencodedata(encode_data, "../data/test_correct_reads/SRR8054532.encode");
+    loadreadsrange(reads_range, "../data/test_correct_reads/SRR8054532.m5");
+    
+    correct_reads(encode_data, reads_range, encode_data_cd, reads_range_cd);
+    
+    int tmp = 1;
+}
 
+TEST_CASE("test intersect", "[hide]")
+{
+    vector<int> vec_1({1,2,3, 4,5,6,7});
+    vector<int> vec_2({3,5,7,8,10});
+    cout << intersect(vec_1, vec_2) << endl;
+}
 
 
 

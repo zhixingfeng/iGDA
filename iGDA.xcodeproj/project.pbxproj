@@ -4262,6 +4262,7 @@
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
 		DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforeststxxl.cpp; sourceTree = "<group>"; };
 		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
+		DCF9B0BF22948F01002F5D8C /* correctreads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = correctreads.h; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
 		DCFEC5951D5BCD370025E57C /* misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
 		DCFEC5961D5BD12B0025E57C /* test_misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_misc.cpp; sourceTree = "<group>"; };
@@ -11585,6 +11586,7 @@
 				DCCACA7B20D3F772008F881A /* dist.h */,
 				DCAE06832146CC66007649C8 /* graph.h */,
 				DCAF850A218783EF00C757AE /* graph.cpp */,
+				DCF9B0BF22948F01002F5D8C /* correctreads.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";

@@ -19,4 +19,5 @@
 #include "./basic.h"
 #include "./dist.h"
 #include "./graph.h"
+#include "./correctreads.h"
 #endif

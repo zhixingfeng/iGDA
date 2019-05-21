@@ -51,4 +51,19 @@ inline void slide_win(const vector<T> &vec_in, vector<T> &vec_out, int start, in
         vec_out.push_back(vec_in[i]);
 }
 
+// intersect of sets
+inline vector<int> intersect(const vector<int> &vec_1, const vector<int> &vec_2)
+{
+    unordered_set<int> vec_1_set(vec_1.begin(), vec_1.end());
+    vector<int> vec_inter;
+    for (auto i = 0; i < vec_2.size(); ++i){
+        if (vec_1_set.find(vec_2[i]) != vec_1_set.end()){
+            vec_inter.push_back(vec_2[i]);
+        }
+    }
+    return vec_inter;
+}
+
+
+
 #endif /* basic_h */
