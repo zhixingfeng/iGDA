@@ -585,7 +585,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 30", false , 30, "maxnn", cmd);
             ValueArg<double> minjaccardArg("j","minjaccard","minimal jaccard index of the initial neighbors, default: 0.5", false , 0.5, "minjaccard", cmd);
             
-            
+            SwitchArg iscorrectArg("r", "correct", "is use corrected reads as seeds", cmd, false);
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
             
             cmd.parse(argv2);
@@ -603,7 +603,7 @@ int main(int argc, const char * argv[])
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
                 assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
+                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue());
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
