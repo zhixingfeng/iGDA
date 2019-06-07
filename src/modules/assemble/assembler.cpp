@@ -1261,9 +1261,14 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             if (cur_cvg > 0 ){
                 if (this->alpha == -1 || this->beta == -1)
                     throw runtime_error("this->alpha == -1 || this->beta == -1");
+                
                 double cur_log_bf_null = binom_log_bf(cur_count, cur_cvg, this->alpha, this->beta);
                 if (cur_log_bf_null < this->rl_ann_clust[i].log_bf_null || j == 0)
                     this->rl_ann_clust[i].log_bf_null = cur_log_bf_null;
+                
+                double cur_rr = cur_count / cur_cvg;
+                if (cur_rr < this->rl_ann_clust[i].rr_null || j ==0)
+                    this->rl_ann_clust[i].rr_null = cur_rr;
             }
         }
     }
@@ -1399,6 +1404,8 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             double exp_prop = prod(block_prop);
             if (exp_prop > 0){
                 this->rl_ann_clust[i].log_bf_ind = binom_log_bf(joint_count, joint_cvg, exp_prop);
+                this->rl_ann_clust[i].rr_ind = joint_count / joint_cvg;
+                
             }
         }
         

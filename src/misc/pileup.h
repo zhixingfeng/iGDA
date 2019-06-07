@@ -35,6 +35,9 @@ struct ConsensusSeq
 
     double log_bf_null; // test against the consensus
     double log_bf_ind; // test if variants are independent
+    
+    double rr_null; // relative risk against the consensus
+    double rr_ind; // relative risk to test if variants are independent
 
 };
 

@@ -91,43 +91,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580170836.990976"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1494"
-            endingLineNumber = "1494"
-            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
             timestampString = "580170836.991218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1516"
             endingLineNumber = "1516"
-            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580170836.9914941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1459"
-            endingLineNumber = "1459"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -208,22 +176,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1518"
             endingLineNumber = "1518"
-            landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "580170836.9931"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1466"
-            endingLineNumber = "1466"
             landmarkName = "Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)"
             landmarkType = "7">
          </BreakpointContent>
