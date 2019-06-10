@@ -462,3 +462,15 @@ TEST_CASE("test assembler::test_contigs() (relative risk)", "[hide]")
 }
 
 
+TEST_CASE("test assembler::test_contigs_pairwise() (relative risk)", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/debug_realign_multi_nm.ann.tested.ft.count";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/realign_multi_nm.recode";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/k_pneumoniae_hs11286_chr.fasta";
+    Assembler assembler;
+    
+    assembler.set_null_betadist(0.6466251, 21.90139);
+    assembler.load_homo_blocks(ref_file);
+    assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft.debug", 5, 3, 10, 5);
+    
+}

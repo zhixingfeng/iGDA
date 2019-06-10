@@ -163,7 +163,7 @@ public:
     
     // test each contig
     void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range);
-    void test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf = 5, int max_loci = 3, int min_cvg= 10);
+    void test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf = 5, int max_loci = 3, int min_cvg= 10, double min_rr = 5);
     void test_contigs_pairwise_legacy(string ann_file, string recode_file, string out_file, double min_log_bf = 5, int max_loci = 3, int min_cvg= 10);
 
     // assemble

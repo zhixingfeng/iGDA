@@ -1411,7 +1411,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
     
 }
 
-void Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg)
+void Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg, double min_rr)
 {
     // load ann
     this->read_ann_results(ann_file);
@@ -1620,7 +1620,8 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
                 
                 if (joint_cvg >= min_cvg){
                     double cur_log_bf = binom_log_bf(joint_count, joint_cvg, exp_prop);
-                    if (cur_log_bf < min_log_bf){
+                    double cur_rr = joint_count / (joint_cvg * exp_prop);
+                    if (cur_log_bf < min_log_bf || cur_rr < min_rr){
                         is_noise = true;
                         break;
                     }
