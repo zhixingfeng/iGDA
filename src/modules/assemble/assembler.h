@@ -158,7 +158,7 @@ public:
     
     // read ann file
     void read_ann_results(string ann_file);
-    void filter_ann(string ann_file, double min_log_bf = 5, double max_loci = 10);
+    void filter_ann(string ann_file, double min_log_bf = 5, double max_loci = 10, double min_rr = 5);
     void ann_to_graph(Graph &gp, string ann_file, double min_prop = 0.5, double min_len_prop = 0.5);
     
     // test each contig

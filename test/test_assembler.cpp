@@ -424,6 +424,41 @@ TEST_CASE("test Assembler::ann_clust_recode (which reads correction)", "[hide]")
 }
 
 
-
+TEST_CASE("test assembler::test_contigs() (relative risk)", "[hide]")
+{
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/k_pneumoniae_hs11286_chr.fasta";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/debug_realign_multi_nm.ann";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/realign_multi_nm.recode";
+    string recode_ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/realign_multi_nm.recode.ref";
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/realign.m5";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/igda_pipe/debug_realign_multi_nm.ann.tested";
+    
+    Assembler assembler;
+    cout << "load ref_file" << endl;
+    assembler.load_homo_blocks(ref_file);
+    
+    cout << "load ann" << endl;
+    assembler.read_ann_results(ann_file);
+    
+    cout << "load recode_data" << endl;
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    cout << "load recode_ref_data" << endl;
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_ref_file);
+    
+    cout << "load reads_range" << endl;
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
+    
+    assembler.set_null_betadist(0.6466251, 21.90139);
+    assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+    assembler.print_rl_ann_clust(out_file, true);
+    
+    assembler.filter_ann(out_file, 5, 10, 5);
+    
+    int x = 0;
+}
 
 

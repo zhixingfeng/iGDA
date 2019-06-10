@@ -975,7 +975,8 @@ void Assembler::print_rl_ann_clust(string outfile, bool is_metric, vector<int64_
         
         fs_outfile << this->rl_ann_clust[i].start << '\t' << this->rl_ann_clust[i].end << '\t';
         fs_outfile << this->rl_ann_clust[i].contig_count << '\t' << this->rl_ann_clust[i].contig_cvg << '\t';
-        fs_outfile << this->rl_ann_clust[i].log_bf_null << '\t' << this->rl_ann_clust[i].log_bf_ind;
+        fs_outfile << this->rl_ann_clust[i].log_bf_null << '\t' << this->rl_ann_clust[i].log_bf_ind << '\t';
+        fs_outfile << this->rl_ann_clust[i].rr_null << '\t' << this->rl_ann_clust[i].rr_ind;
         if (is_metric){
             fs_outfile << '\t';
             
@@ -1029,9 +1030,9 @@ void Assembler::read_ann_results(string ann_file)
         if(fs_ann_file.eof())
             break;
         vector<string> buf_vec = split(buf, '\t');
-        if (buf_vec.size() != 10 && buf_vec.size() != 11){
+        if (buf_vec.size() != 12 && buf_vec.size() != 13){
             cerr << "buf_vec.size() = " << buf_vec.size() << endl;
-            throw runtime_error("Line " + to_string(n_lines) + ": Assembler::read_ann_results, buf_vect.size() != 10");
+            throw runtime_error("Line " + to_string(n_lines) + ": Assembler::read_ann_results, buf_vect.size() != 12 && buf_vec.size() != 13");
         }
         ConsensusSeq cur_cons;
         vector<int> cur_tmp_0 = split_int(buf_vec[0], ',');
@@ -1047,30 +1048,32 @@ void Assembler::read_ann_results(string ann_file)
         cur_cons.contig_cvg = stod(buf_vec[4]);
         cur_cons.log_bf_null = stod(buf_vec[5]);
         cur_cons.log_bf_ind = stod(buf_vec[6]);
-        
-        vector<int> cur_tmp_7 = split_int(buf_vec[7], ',');
-        if (cur_tmp_7.size() >= 1){
-            if (cur_tmp_7[0] != -1){
-                cur_cons.seed = cur_tmp_7;
-            }
-        }
-
-        vector<int> cur_tmp_8 = split_int(buf_vec[8], ',');
-        if (cur_tmp_8.size() >= 1){
-            if (cur_tmp_8[0] != -1){
-                cur_cons.neighbors_id = cur_tmp_8;
-            }
-        }
+        cur_cons.rr_null = stod(buf_vec[7]);
+        cur_cons.rr_ind = stod(buf_vec[8]);
         
         vector<int> cur_tmp_9 = split_int(buf_vec[9], ',');
         if (cur_tmp_9.size() >= 1){
             if (cur_tmp_9[0] != -1){
-                cur_cons.tested_loci = cur_tmp_9;
+                cur_cons.seed = cur_tmp_9;
+            }
+        }
+
+        vector<int> cur_tmp_10 = split_int(buf_vec[10], ',');
+        if (cur_tmp_10.size() >= 1){
+            if (cur_tmp_10[0] != -1){
+                cur_cons.neighbors_id = cur_tmp_10;
+            }
+        }
+        
+        vector<int> cur_tmp_11 = split_int(buf_vec[11], ',');
+        if (cur_tmp_11.size() >= 1){
+            if (cur_tmp_11[0] != -1){
+                cur_cons.tested_loci = cur_tmp_11;
             }
         }
                 
-        if (buf_vec.size() == 11){
-            vector<int64_t> cur_tmp = split_int64_t(buf_vec[10], ',');
+        if (buf_vec.size() == 13){
+            vector<int64_t> cur_tmp = split_int64_t(buf_vec[12], ',');
             if (cur_tmp.size() >= 1){
                 if (cur_tmp[0] != -1){
                     cur_cons.nn_reads_id = cur_tmp;
@@ -1088,23 +1091,18 @@ void Assembler::read_ann_results(string ann_file)
     
 }
 
-void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci)
+void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci, double min_rr)
 {
     this->read_ann_results(ann_file);
        
     vector<int64_t> idx_ft;
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        if (rl_ann_clust[i].log_bf_null >= min_log_bf ||
-            rl_ann_clust[i].log_bf_ind >= min_log_bf ||
+        if ( ((rl_ann_clust[i].log_bf_null >= min_log_bf || rl_ann_clust[i].log_bf_ind >= min_log_bf) &&
+            (rl_ann_clust[i].rr_null >= min_rr || rl_ann_clust[i].rr_ind >= min_rr)) ||
             rl_ann_clust[i].cons_seq.size() >= max_loci){
             idx_ft.push_back(i);
         }
-        /*if ((rl_ann_clust[i].log_bf_ind == -1000 && rl_ann_clust[i].log_bf_null >= min_log_bf) ||
-            rl_ann_clust[i].log_bf_ind >= min_log_bf ||
-            rl_ann_clust[i].cons_seq.size() >= max_loci){
-            idx_ft.push_back(i);
-        }*/
     }
     
     this->print_rl_ann_clust(ann_file + ".ft", true, idx_ft);
@@ -1266,7 +1264,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
                 if (cur_log_bf_null < this->rl_ann_clust[i].log_bf_null || j == 0)
                     this->rl_ann_clust[i].log_bf_null = cur_log_bf_null;
                 
-                double cur_rr = cur_count / cur_cvg;
+                double cur_rr = cur_count*(this->alpha + this->beta) / (cur_cvg*this->alpha);
                 if (cur_rr < this->rl_ann_clust[i].rr_null || j ==0)
                     this->rl_ann_clust[i].rr_null = cur_rr;
             }
@@ -1404,7 +1402,7 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
             double exp_prop = prod(block_prop);
             if (exp_prop > 0){
                 this->rl_ann_clust[i].log_bf_ind = binom_log_bf(joint_count, joint_cvg, exp_prop);
-                this->rl_ann_clust[i].rr_ind = joint_count / joint_cvg;
+                this->rl_ann_clust[i].rr_ind = joint_count / (joint_cvg*exp_prop);
                 
             }
         }

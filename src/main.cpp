@@ -624,6 +624,7 @@ int main(int argc, const char * argv[])
             
             ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 5", false , 5, "minlogbf", cmd);
             ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 10, "maxloci", cmd);
+            ValueArg<double> minrrArg("r","minrr","minimal relative risk, default: 5", false , 5, "minrr", cmd);
             
             ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
             ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "beta", cmd);
@@ -656,7 +657,7 @@ int main(int argc, const char * argv[])
             assembler.print_rl_ann_clust(annfileArg.getValue() + ".tested", true);
             
             cout << "filter contigs" << endl;
-            assembler.filter_ann(annfileArg.getValue() + ".tested", minlogbfArg.getValue(), maxlociArg.getValue());
+            assembler.filter_ann(annfileArg.getValue() + ".tested", minlogbfArg.getValue(), maxlociArg.getValue(), minrrArg.getValue());
             
         }
         

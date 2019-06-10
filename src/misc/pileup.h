@@ -16,7 +16,7 @@
 ////////// pileup read ID and locus are 0-based ///////////
 struct ConsensusSeq
 {
-    ConsensusSeq(){log_bf_null = -1000;  log_bf_ind = -1000; contig_count = 0; contig_cvg = 0;}
+    ConsensusSeq(){rr_null = -1; rr_ind = -1; log_bf_null = -1000;  log_bf_ind = -1000; contig_count = 0; contig_cvg = 0;}
     vector<int> pu_var_count;
     vector<int> pu_read_count;
     vector<double> prop;
