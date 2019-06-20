@@ -1,5 +1,5 @@
 # compile stxxl (require cmake)
-echo "================ install iGDA dependences ==============="
+#echo "================ install iGDA dependences ==============="
 #echo "install stxxl"
 #cd tools/stxxl
 #mkdir -p build
@@ -12,23 +12,23 @@ echo "================ install iGDA dependences ==============="
 #echo "disk=./tmp_stxxl,8G,syscall unlink" > $HOME/.stxxl
 
 # compile graphviz
-echo "install graphviz"
-cd tools/graphviz/
-tar -zxvf graphviz.tar.gz
-cd ./graphviz-2.40.1
-./autogen.sh
-mkdir -p build
-./configure --prefix=$(pwd)/build
-make
-make install
+#echo "install graphviz"
+#cd tools/graphviz/
+#tar -zxvf graphviz.tar.gz
+#cd ./graphviz-2.40.1
+#./autogen.sh
+#mkdir -p build
+#./configure --prefix=$(pwd)/build
+#make
+#make install
 
-cd ../../..
+#cd ../../..
 
 # compile iGDA
 echo "build iGDA"
 make
 
 # copy tred into bin folder
-cp ./tools/graphviz/graphviz-2.40.1/build/bin/tred bin/igda_tred
+#cp ./tools/graphviz/graphviz-2.40.1/build/bin/tred bin/igda_tred
 
 
