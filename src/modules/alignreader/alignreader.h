@@ -39,6 +39,10 @@ struct Align
     // additional feature (query seq and ref seq without not "-". Used for realignment)
     string qSeq;
     string tSeq;
+    
+    // additional feature quality score and their positions
+    vector<uint8_t> qv;
+    vector<int64_t> qv_locus;
 };
 
 class AlignReader

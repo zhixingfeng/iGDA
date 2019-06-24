@@ -11,6 +11,7 @@
 
 #include "./cmpreads.h"
 #include "basic.h"
+#include "../modules/alignreader/alignreadersam.h"
 //#include <stxxl.h>
 // coverage should NOT exceed range of int !!!!!
 ////////// pileup read ID and locus are 0-based ///////////
@@ -40,6 +41,27 @@ struct ConsensusSeq
     double rr_ind; // relative risk to test if variants are independent
 
 };
+
+inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, const string ref_fafile)
+{
+    AlignReaderSam alignreader;
+    alignreader.getref(ref_fafile);
+    
+    alignreader.open(sam_file);
+    Align align;
+    while(alignreader.readline(align)){
+        for (auto i = 0; i < align.qv.size(); ++i)
+            cout << (int)align.qv[i] << " ";
+        cout << endl;
+    }
+    
+    alignreader.close();
+    
+    vector<vector<pair<int64_t, double> > > pu_qv;
+    
+    
+    return pu_qv;
+}
 
 // pileup variants (input from memory/stxxl)
 inline vector<vector<int> > pileup_var(const vector<vector<int> > &encode_data, int64_t &n_reads)

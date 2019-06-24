@@ -10,6 +10,15 @@
 #include "../include/headers.h"
 #include "../src/misc/misc.h"
 
+TEST_CASE("test pileup_qv()")
+{
+    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110.sam";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic.fna";
+    
+    pileup_qv(sam_file, ref_file);
+    
+}
+
 TEST_CASE("test pileup_var() (input from memory/stxxl)", "[hide]")
 {
     clock_t t_begin = clock();
