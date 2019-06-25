@@ -42,23 +42,63 @@ struct ConsensusSeq
 
 };
 
-inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, const string ref_fafile)
+inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, const string ref_fafile, bool is_var = true)
 {
     AlignReaderSam alignreader;
+    
+    // get reference genome
     alignreader.getref(ref_fafile);
     
+    // first scan the sam/bam file to get genome_size
     alignreader.open(sam_file);
+    size_t g_size = 0;
     Align align;
     while(alignreader.readline(align)){
-        for (auto i = 0; i < align.qv.size(); ++i)
-            cout << (int)align.qv[i] << " ";
-        cout << endl;
+        if (align.tEnd + 1 > g_size)
+            g_size = align.tEnd + 1;
     }
-    
     alignreader.close();
     
-    vector<vector<pair<int64_t, double> > > pu_qv;
+    // initialize pileup
     
+    vector<vector<pair<int64_t, double> > > pu_qv(4*g_size, vector<pair<int64_t, double> >());
+    
+    // scan the sam/bam file again to pileup
+    alignreader.open(sam_file);
+    int64_t read_id = 0;
+    while(alignreader.readline(align)){
+        for (auto i = 0; i < align.qv.size(); ++i){
+            // skip indels
+            if (align.qAlignedSeq[i] == '-' || align.tAlignedSeq[i] == '-')
+                continue;
+            
+            // pileup
+            if (is_var && align.qAlignedSeq[i] == align.tAlignedSeq[i])
+                continue;
+            
+            switch(align.qAlignedSeq[i]){
+                case 'A':
+                    pu_qv[4*align.qv_locus[i]].push_back( pair<int64_t, double>(read_id, align.qv[i]) );
+                    break;
+                case 'C':
+                    pu_qv[4*align.qv_locus[i] + 1].push_back( pair<int64_t, double>(read_id, align.qv[i]) );
+                    break;
+                case 'G':
+                    pu_qv[4*align.qv_locus[i] + 2].push_back( pair<int64_t, double>(read_id, align.qv[i]) );
+                    break;
+                case 'T':
+                    pu_qv[4*align.qv_locus[i] + 3].push_back( pair<int64_t, double>(read_id, align.qv[i]) );
+                    break;
+                case 'N':
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        ++read_id;
+    }
+    alignreader.close();
     
     return pu_qv;
 }

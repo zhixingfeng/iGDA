@@ -66,12 +66,6 @@ bool AlignReaderSam::readline(Align &align) {
     seqan::Dna5String cur_refseq = ref_seqs[record.rID];
     align.tName = seqan::toCString(ref_ids[record.rID]);
     
-    /*for (auto i = 0; i < seqan::length(record.qual); ++i){
-        if ((uint8_t)record.qual[i] < uint8_t(33))
-            throw runtime_error("(uint8_t)record.qual[i] < uint8_t(33)");
-        align.qv.push_back((uint8_t)record.qual[i] - uint8_t(33));
-        align.qv_locus.push_back(-1);
-    }*/
     if(seqan::length(record.qual) != seqan::length(record.seq) && seqan::length(record.qual) > 0)
         throw runtime_error("align.qv.size() != seqan::length(record.seq)");
     //cout << seqan::length(record.qual) << endl;
@@ -210,12 +204,17 @@ bool AlignReaderSam::readline(Align &align) {
         
     }
    
+    if (align.qAlignedSeq.size() != align.tAlignedSeq.size())
+        throw runtime_error("align.qAlignedSeq.size() != align.tAlignedSeq.size()");
+    if ( !(align.qAlignedSeq.size() ==  align.qv.size() && align.qAlignedSeq.size() ==  align.qv_locus.size()) &&
+        seqan::length(record.qual) > 0)
+        throw runtime_error("incompatible alignment pattern with quality score");
     //cout << align.qAlignedSeq.size() << endl;
     return true;
 }
 
 bool AlignReaderSam::close() {
-
+    seqan::close(bamFileIn);
     return true;
 }
 
@@ -252,6 +251,7 @@ bool AlignReaderSam::read(string filename, vector<Align> &align_vec)
         ref_ids[i] = buf[0];
         //cout << ref_ids[i] << endl;
     }
+    seqan::close(seqFileIn);
     return true;
 }
 

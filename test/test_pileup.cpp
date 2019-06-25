@@ -12,7 +12,7 @@
 
 TEST_CASE("test pileup_qv()")
 {
-    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110.sam";
+    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_NZ_UWXV01000001.1.sam";
     string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic.fna";
     
     pileup_qv(sam_file, ref_file);
