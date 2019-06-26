@@ -42,6 +42,48 @@ struct ConsensusSeq
 
 };
 
+inline void print_pileup_qv(const vector<vector<pair<int64_t, double> > > &pu_qv, string outfile)
+{
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, outfile);
+    for (auto i = 0; i < pu_qv.size(); ++i){
+        fs_outfile << i << '\t' << int64_t(i/4) << '\t';
+        char base = 'N';
+        switch(i%4){
+            case 0:
+                base = 'A';
+                break;
+            case 1:
+                base = 'C';
+                break;
+            case 2:
+                base = 'G';
+                break;
+            case 3:
+                base = 'T';
+                break;
+            default:
+                break;
+        }
+        fs_outfile << base << '\t';
+        
+        if (pu_qv[i].size() == 0){
+            fs_outfile << -1 << '\t' << -1;
+        }else{
+            for (auto j = 0; j < pu_qv[i].size(); ++j)
+                fs_outfile << pu_qv[i][j].second << ',';
+            
+            fs_outfile << '\t';
+            
+            for (auto j = 0; j < pu_qv[i].size(); ++j)
+                fs_outfile << pu_qv[i][j].first << ',';
+            
+        }
+        fs_outfile << endl;
+    }
+    
+    fs_outfile.close();
+}
 inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, const string ref_fafile, bool is_var = true)
 {
     AlignReaderSam alignreader;
