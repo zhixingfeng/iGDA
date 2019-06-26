@@ -757,6 +757,17 @@ int main(int argc, const char * argv[])
             alignreadersam.samtom5(samfileArg.getValue(), reffileArg.getValue(), m5fileArg.getValue());
         }
         
+        if (strcmp(argv[1], "samtom5qv")==0){
+            UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> m5qvfileArg("m5qvfile", "path of m5qv file", true, "", "m5qvfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            AlignReaderSam alignreadersam;
+            alignreadersam.samtom5qv(samfileArg.getValue(), reffileArg.getValue(), m5qvfileArg.getValue());
+        }
+        
         // detect single loci
         if (strcmp(argv[1], "detectsingle")==0){
             UnlabeledValueArg<string> pileupfileArg("pileupfile", "path of pileup file", true, "", "pileupfile", cmd);

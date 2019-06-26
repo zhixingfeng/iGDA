@@ -77,5 +77,13 @@ TEST_CASE("AlignReaderSam::samtom5()", "[hide]"){
     
 }
 
+TEST_CASE("AlignReaderSam::samtom5qv()", "[hide]"){
+    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.sam";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic_NZ_UWXV01000001.1.fna";
+    string m5qv_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.m5qv";
+    AlignReaderSam alignreadersam;
+    alignreadersam.samtom5qv(sam_file, ref_file, m5qv_file);
+    
+}
 
 

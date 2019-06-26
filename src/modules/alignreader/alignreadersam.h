@@ -37,6 +37,7 @@ public:
     
     // convert sam to m5
     bool samtom5(string sam_file, string ref_file, string m5_file);
+    bool samtom5qv(string sam_file, string ref_file, string m5qv_file);
     
 protected:
     string filename;

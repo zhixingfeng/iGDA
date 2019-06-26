@@ -7,7 +7,7 @@
 //
 
 #include "alignreadersam.h"
-
+#include "../../misc/basic.h"
 
 bool AlignReaderSam::open(string filename) {
     // Open input file, BamFileIn can read SAM and BAM files.
@@ -273,7 +273,32 @@ bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file)
     return true;
 }
 
-
+bool AlignReaderSam::samtom5qv(string sam_file, string ref_file, string m5qv_file)
+{
+    this->getref(ref_file);
+    this->open(sam_file);
+    ofstream fs_m5qv_file;
+    open_outfile(fs_m5qv_file, m5qv_file);
+    Align align;
+    while(this->readline(align)){
+        fs_m5qv_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
+        fs_m5qv_file << align.tStart << ' ' << align.tEnd + 1 << ' ' << align.tStrand << ' ';
+        fs_m5qv_file << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ';
+        fs_m5qv_file << align.mapQV << ' ' << align.qAlignedSeq << ' ' << align.matchPattern << ' ' << align.tAlignedSeq << ' ';
+        for (auto i = 0; i < align.qv.size(); ++i){
+            if (i < align.qv.size() - 1){
+                fs_m5qv_file << uint32_t(align.qv[i]) << ',';
+            }else{
+                fs_m5qv_file << uint32_t(align.qv[i]);
+            }
+        }
+        fs_m5qv_file << ' ';
+        fs_m5qv_file << align.qv_locus << endl;
+    }
+    this->close();
+    fs_m5qv_file.close();
+    return true;
+}
 
 
 

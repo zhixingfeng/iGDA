@@ -10,12 +10,14 @@
 #include "../include/headers.h"
 #include "../src/misc/misc.h"
 
-TEST_CASE("test pileup_qv()")
+TEST_CASE("test pileup_qv()", "[hide]")
 {
-    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_NZ_UWXV01000001.1.sam";
-    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic.fna";
+    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.sam";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic_NZ_UWXV01000001.1.fna";
     
-    pileup_qv(sam_file, ref_file);
+    vector<vector<pair<int64_t, double> > > pu_qv = pileup_qv(sam_file, ref_file);
+    
+    int x = 1;
     
 }
 
