@@ -42,6 +42,37 @@ struct ConsensusSeq
 
 };
 
+inline void print_pileup_qv_count(const vector<vector<double> > &pu_qv_count, string outfile)
+{
+    ofstream fs_outfile;
+    open_outfile(fs_outfile, outfile);
+    for (auto i = 0; i < pu_qv_count.size(); ++i){
+        fs_outfile << i << '\t' << int64_t(i/4) << '\t';
+        char base = 'N';
+        switch(i%4){
+            case 0:
+                base = 'A';
+                break;
+            case 1:
+                base = 'C';
+                break;
+            case 2:
+                base = 'G';
+                break;
+            case 3:
+                base = 'T';
+                break;
+            default:
+                break;
+        }
+        fs_outfile << base << '\t' << pu_qv_count[i][0] << '\t' << pu_qv_count[i][1] << '\t' << pu_qv_count[i][2] << '\t' << pu_qv_count[i][3] ;
+        
+        fs_outfile << endl;
+    }
+    
+    fs_outfile.close();
+}
+
 inline void print_pileup_qv(const vector<vector<pair<int64_t, double> > > &pu_qv, string outfile)
 {
     ofstream fs_outfile;
@@ -84,6 +115,83 @@ inline void print_pileup_qv(const vector<vector<pair<int64_t, double> > > &pu_qv
     
     fs_outfile.close();
 }
+
+inline vector<vector<double> > pileup_qv_count(const string sam_file, const string ref_fafile, bool is_var = true)
+{
+    AlignReaderSam alignreader;
+    
+    // get reference genome
+    alignreader.getref(ref_fafile);
+    
+    // first scan the sam/bam file to get genome_size
+    alignreader.open(sam_file);
+    size_t g_size = 0;
+    Align align;
+    while(alignreader.readline(align)){
+        if (align.tEnd + 1 > g_size)
+            g_size = align.tEnd + 1;
+    }
+    alignreader.close();
+    
+    // initialize pileup
+    
+    vector<vector<double> > pu_qv_count(4*g_size, vector<double>(4,0));
+    
+    // scan the sam/bam file again to pileup
+    alignreader.open(sam_file);
+    int64_t read_id = 0;
+    while(alignreader.readline(align)){
+        for (auto i = 0; i < align.qv.size(); ++i){
+            // skip indels
+            if (align.qAlignedSeq[i] == '-' || align.tAlignedSeq[i] == '-')
+                continue;
+            
+            // pileup
+            ++pu_qv_count[4*align.qv_locus[i]][3];
+            ++pu_qv_count[4*align.qv_locus[i] + 1][3];
+            ++pu_qv_count[4*align.qv_locus[i] + 2][3];
+            ++pu_qv_count[4*align.qv_locus[i] + 3][3];
+            if (is_var && align.qAlignedSeq[i] == align.tAlignedSeq[i])
+                continue;
+            
+            switch(align.qAlignedSeq[i]){
+                case 'A':
+                    pu_qv_count[4*align.qv_locus[i]][0] +=align.qv[i];
+                    ++pu_qv_count[4*align.qv_locus[i]][1];
+                    break;
+                case 'C':
+                    pu_qv_count[4*align.qv_locus[i] + 1][0] +=align.qv[i];
+                    ++pu_qv_count[4*align.qv_locus[i] + 1][1];
+                    break;
+                case 'G':
+                    pu_qv_count[4*align.qv_locus[i] + 2][0] +=align.qv[i];
+                    ++pu_qv_count[4*align.qv_locus[i] + 2][1];
+                    break;
+                case 'T':
+                    pu_qv_count[4*align.qv_locus[i] + 3][0] +=align.qv[i];
+                    ++pu_qv_count[4*align.qv_locus[i] + 3][1];
+                    break;
+                case 'N':
+                    break;
+                default:
+                    throw runtime_error("base show be A, C, G, T or N");
+                    break;
+            }
+            
+        }
+        ++read_id;
+    }
+    alignreader.close();
+    
+    for (auto i = 0; i < pu_qv_count.size(); ++i)
+        if (pu_qv_count[i][1] > 0)
+            pu_qv_count[i][2] = (double)pu_qv_count[i][0] / pu_qv_count[i][1];
+        else
+            pu_qv_count[i][2] = 0;
+    
+    return pu_qv_count;
+}
+
 inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, const string ref_fafile, bool is_var = true)
 {
     AlignReaderSam alignreader;
@@ -134,6 +242,7 @@ inline vector<vector<pair<int64_t, double> > > pileup_qv(const string sam_file, 
                 case 'N':
                     break;
                 default:
+                    throw runtime_error("base show be A, C, G, T or N");
                     break;
             }
             

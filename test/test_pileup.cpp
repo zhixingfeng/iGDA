@@ -15,9 +15,11 @@ TEST_CASE("test pileup_qv()", "[hide]")
     string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.sam";
     string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/GCF_900608245.1_kpneu039_genomic_NZ_UWXV01000001.1.fna";
     
-    vector<vector<pair<int64_t, double> > > pu_qv = pileup_qv(sam_file, ref_file);
+    vector<vector<double> > pu_qv_count = pileup_qv_count(sam_file, ref_file);
+    print_pileup_qv_count(pu_qv_count, "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.pu_qv_count");
+    //vector<vector<pair<int64_t, double> > > pu_qv = pileup_qv(sam_file, ref_file);
     
-    print_pileup_qv(pu_qv, "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.pu_qv");
+    //print_pileup_qv(pu_qv, "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/ont_kp/pileup/SAMEA4916110_split/NZ_UWXV01000001.1_forward.pu_qv");
     int x = 1;
     
 }
