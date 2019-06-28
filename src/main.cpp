@@ -429,14 +429,15 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference fasta file", true, "", "reffile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output files", true, "", "outfile", cmd);
             SwitchArg iscountArg("c", "iscount", "is use average qv instead of pileup all qv", cmd, false);
+            SwitchArg isvarArg("v", "isvar", "is variants only", cmd, false);
             
             cmd.parse(argv2);
             
             if (iscountArg.getValue()){
-                vector<vector<double> > pu_qv_count = pileup_qv_count(samfileArg.getValue(), reffileArg.getValue());
+                vector<vector<double> > pu_qv_count = pileup_qv_count(samfileArg.getValue(), reffileArg.getValue(), isvarArg.getValue());
                 print_pileup_qv_count(pu_qv_count, outfileArg.getValue());
             }else{
-                vector<vector<pair<int64_t, double> > > pu_qv = pileup_qv(samfileArg.getValue(), reffileArg.getValue());
+                vector<vector<pair<int64_t, double> > > pu_qv = pileup_qv(samfileArg.getValue(), reffileArg.getValue(), isvarArg.getValue());
                 print_pileup_qv(pu_qv, outfileArg.getValue());
             }
             

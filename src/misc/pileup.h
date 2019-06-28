@@ -47,7 +47,9 @@ inline void print_pileup_qv_count(const vector<vector<double> > &pu_qv_count, st
     ofstream fs_outfile;
     open_outfile(fs_outfile, outfile);
     for (auto i = 0; i < pu_qv_count.size(); ++i){
+        // print locus and code
         fs_outfile << i << '\t' << int64_t(i/4) << '\t';
+        // print read base
         char base = 'N';
         switch(i%4){
             case 0:
@@ -65,7 +67,32 @@ inline void print_pileup_qv_count(const vector<vector<double> > &pu_qv_count, st
             default:
                 break;
         }
-        fs_outfile << base << '\t' << pu_qv_count[i][0] << '\t' << pu_qv_count[i][1] << '\t' << pu_qv_count[i][2] << '\t' << pu_qv_count[i][3] ;
+        // print ref base
+        char ref;
+        switch(int(pu_qv_count[i][4])){
+            case 1:
+                ref = 'A';
+                break;
+            case 2:
+                ref = 'C';
+                break;
+            case 3:
+                ref = 'G';
+                break;
+            case 4:
+                ref = 'T';
+                break;
+            case 5:
+                ref = 'N';
+                break;
+            default:
+                ref = '*';
+                //throw runtime_error("base show be A, C, G, T or N");
+                break;
+        }
+        
+        // print base, ref and qv
+        fs_outfile << base << '\t' << ref << '\t' << pu_qv_count[i][0] << '\t' << pu_qv_count[i][1] << '\t' << pu_qv_count[i][2] << '\t' << pu_qv_count[i][3] ;
         
         fs_outfile << endl;
     }
@@ -135,7 +162,7 @@ inline vector<vector<double> > pileup_qv_count(const string sam_file, const stri
     
     // initialize pileup
     
-    vector<vector<double> > pu_qv_count(4*g_size, vector<double>(4,0));
+    vector<vector<double> > pu_qv_count(4*g_size, vector<double>(5,0)); // [0]="total qv", [1]="total var", [2]="mean qv", [3]="coverage(no indel)", [4]="reference, 1=A, 2=C, 3=G, 4=T, 5=N"
     
     // scan the sam/bam file again to pileup
     alignreader.open(sam_file);
@@ -146,11 +173,42 @@ inline vector<vector<double> > pileup_qv_count(const string sam_file, const stri
             if (align.qAlignedSeq[i] == '-' || align.tAlignedSeq[i] == '-')
                 continue;
             
-            // pileup
+            // calculate coverage
             ++pu_qv_count[4*align.qv_locus[i]][3];
             ++pu_qv_count[4*align.qv_locus[i] + 1][3];
             ++pu_qv_count[4*align.qv_locus[i] + 2][3];
             ++pu_qv_count[4*align.qv_locus[i] + 3][3];
+            
+            // get reference seq
+            switch(align.tAlignedSeq[i]){
+                case 'A':
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = 1;
+                    break;
+                case 'C':
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = 2;
+                    break;
+                case 'G':
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = 3;
+                    break;
+                case 'T':
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = 4;
+                    break;
+                case 'N':
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = 5;
+                    break;
+                default:
+                    for (auto k = 0; k <= 3; ++k)
+                        pu_qv_count[4*align.qv_locus[i] + k][4] = -1;
+                    //throw runtime_error("base show be A, C, G, T or N");
+                    break;
+            }
+            
+            // pileup qv
             if (is_var && align.qAlignedSeq[i] == align.tAlignedSeq[i])
                 continue;
             
