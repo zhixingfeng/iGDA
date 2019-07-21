@@ -48,7 +48,8 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
             if (align.tAlignedSeq[i] == 'A' || align.tAlignedSeq[i] == 'C' || align.tAlignedSeq[i] == 'G' || align.tAlignedSeq[i] == 'T'){
                 if (align.qAlignedSeq[i] != '-'){
                     if (align.tAlignedSeq[i] != align.qAlignedSeq[i]){
-                        p_outfile << this->binary_code(cur_pos, align.qAlignedSeq[i]) << '\t';
+                        if (align.qAlignedSeq[i] == 'A' || align.qAlignedSeq[i] == 'C' || align.qAlignedSeq[i] == 'G' || align.qAlignedSeq[i] == 'T')
+                            p_outfile << this->binary_code(cur_pos, align.qAlignedSeq[i]) << '\t';
                     }else{
                         p_reffile << this->binary_code(cur_pos, align.tAlignedSeq[i]) << '\t';
                     }
