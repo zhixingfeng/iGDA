@@ -16,6 +16,7 @@
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/assemble/assembler.h"
 #include "../src/modules/detectsingle/detectsinglesnv.h"
+#include "../src/modules/rsm/rsmsnv.h"
 
 #include "./misc/misc.h"
 
@@ -206,6 +207,45 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             
             cmpreads_txt2bin(txtfileArg.getValue(), binfileArg.getValue(), isreadIDArg.getValue());
+        }
+        
+        // random subspace maximization
+        if (strcmp(argv[1], "rsm")==0){
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> cmpreadsfileArg("cmpreadsfile", "path of cmpreads file", true, "", "cmpreadsfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 12", false , 12, "minreads", cmd);
+            ValueArg<int> maxdepthArg("d","maxdepth","maximal depth of a tree, default: 1000", false , 1000, "maxdepth", cmd);
+            ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
+            ValueArg<double> maxfreqArg("q","maxfreq","maximal frequency: 1.0 (substantially increase speed if it is small, but restrict the maximal conditional frequency)", false , 1.0, "maxfreq", cmd);
+            ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 15", false , 15, "minhomo", cmd);
+            ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
+            
+            SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
+            
+            cmd.parse(argv2);
+            cout << "minreads = " << minreadsArg.getValue() << endl;
+            cout << "maxdepth = " << maxdepthArg.getValue() << endl;
+            cout << "minfreq = " << minfreqArg.getValue() << endl;
+            cout << "maxfreq = " << maxfreqArg.getValue() << endl;
+            cout << "minhomo = " << minhomoArg.getValue() << endl;
+            cout << "nthread = " << nthreadArg.getValue() << endl;
+            
+            if (minfreqArg.getValue() > maxfreqArg.getValue())
+                throw runtime_error("minfreqArg.getValue() > maxfreqArg.getValue()");
+            
+            AlignReaderM5 alignreaderm5;
+            AlignCoderSNV aligncoder;
+            
+            RSMsnv rsmsnv(&alignreaderm5, &aligncoder);
+            
+            rsmsnv.load_homo_blocks(reffileArg.getValue());
+            rsmsnv.run(encodefileArg.getValue(), encodefileArg.getValue()+".ref", alignfileArg.getValue(), cmpreadsfileArg.getValue(),
+                       outfileArg.getValue(), minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(),
+                       maxfreqArg.getValue(), minhomoArg.getValue(), isinterArg.getValue());
         }
         
         // dforest algorithm

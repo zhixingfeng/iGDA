@@ -37,6 +37,8 @@
 		DCAF850D2187851A00C757AE /* test_graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCAF850C2187851A00C757AE /* test_graph.cpp */; };
 		DCAFB4C520B9E76D0092269F /* dforestsnvstxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCAFB4C320B9E76D0092269F /* dforestsnvstxxl.cpp */; };
 		DCD493971FB4BD1F0011F28B /* test_pcg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCD493961FB4BD1F0011F28B /* test_pcg.cpp */; };
+		DCE21D0822E60662000D557F /* rsmsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE21D0622E60662000D557F /* rsmsnv.cpp */; };
+		DCE21D0A22E61060000D557F /* test_rsm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE21D0922E61060000D557F /* test_rsm.cpp */; };
 		DCE2FA171FE184BD00E629D0 /* test_stxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE2FA161FE184BD00E629D0 /* test_stxxl.cpp */; };
 		DCF0947320B9F602004554CA /* test_dforeststxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */; };
 		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
@@ -4255,6 +4257,9 @@
 		DCD493961FB4BD1F0011F28B /* test_pcg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_pcg.cpp; sourceTree = "<group>"; };
 		DCD5FC881DAAE74A0062ADEF /* condfreq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = condfreq.h; sourceTree = "<group>"; };
 		DCD5FC891DAAE79F0062ADEF /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
+		DCE21D0622E60662000D557F /* rsmsnv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rsmsnv.cpp; sourceTree = "<group>"; };
+		DCE21D0722E60662000D557F /* rsmsnv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rsmsnv.h; sourceTree = "<group>"; };
+		DCE21D0922E61060000D557F /* test_rsm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_rsm.cpp; sourceTree = "<group>"; };
 		DCE2FA131FE183DF00E629D0 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		DCE2FA161FE184BD00E629D0 /* test_stxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_stxxl.cpp; sourceTree = "<group>"; };
 		DCE2FA181FE1863E00E629D0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -4387,6 +4392,7 @@
 		DC930F281D5527CF00640B65 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				DCE21D0522E605B3000D557F /* rsm */,
 				DC15903120EE9BDD0050869D /* detectsingle */,
 				DC516C081FCF04B700D324DB /* alignment */,
 				DC2A18861F55E212001830AE /* assemble */,
@@ -4441,6 +4447,7 @@
 				DC15903820EEA1170050869D /* test_detectsingle.cpp */,
 				DC15933620EEC53B0050869D /* test_prob.cpp */,
 				DCAF850C2187851A00C757AE /* test_graph.cpp */,
+				DCE21D0922E61060000D557F /* test_rsm.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -11570,6 +11577,15 @@
 			path = pcg;
 			sourceTree = "<group>";
 		};
+		DCE21D0522E605B3000D557F /* rsm */ = {
+			isa = PBXGroup;
+			children = (
+				DCE21D0622E60662000D557F /* rsmsnv.cpp */,
+				DCE21D0722E60662000D557F /* rsmsnv.h */,
+			);
+			path = rsm;
+			sourceTree = "<group>";
+		};
 		DCFEC5931D5BCCC10025E57C /* misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -11666,6 +11682,7 @@
 				DC516C071FCDE8E800D324DB /* test_ssw.cpp in Sources */,
 				DC93184C1D5527D200640B65 /* alignreader.cpp in Sources */,
 				DC229D9620E6CF8300EA6ADB /* alignreadersam.cpp in Sources */,
+				DCE21D0A22E61060000D557F /* test_rsm.cpp in Sources */,
 				DC15933720EEC53B0050869D /* test_prob.cpp in Sources */,
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */,
@@ -11673,6 +11690,7 @@
 				DC93184F1D5527D200640B65 /* test_AlignReader.cpp in Sources */,
 				DC93184D1D5527D200640B65 /* alignreaderm5.cpp in Sources */,
 				DCD493971FB4BD1F0011F28B /* test_pcg.cpp in Sources */,
+				DCE21D0822E60662000D557F /* rsmsnv.cpp in Sources */,
 				DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */,
 				DC95DCC11DF0A0C4004282DF /* dforest.cpp in Sources */,
 				DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */,

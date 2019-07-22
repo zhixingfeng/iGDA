@@ -12,6 +12,7 @@ SRC_CXX = $(wildcard src/*.cpp)\
 	$(wildcard src/modules/sclust/*.cpp)\
 	$(wildcard src/modules/assemble/*.cpp)\
     $(wildcard src/modules/detectsingle/*.cpp)\
+    $(wildcard src/modules/rsm/*.cpp)\
 	$(wildcard test/*.cpp)\
 	$(wildcard tools/ssw/*.cpp)\
     $(wildcard tools/prob/*.cpp)\
