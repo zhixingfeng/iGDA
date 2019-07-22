@@ -499,7 +499,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             cout << nline << endl;
         //cout << nline << endl;
         
-        // expections
+        // exceptions
         int alen = (int) align.matchPattern.size();
         if ( !(align.qAlignedSeq.size()==alen && align.tAlignedSeq.size()==alen) )
             throw runtime_error("incorrect match patter in line " + to_string(nline));
@@ -517,6 +517,9 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
         for (int i=0; i<alen; i++){
             //cout << "nline=" << nline << ", i=" <<i << endl;
             if (align.tAlignedSeq[i]=='-')
+                continue;
+            
+            if (!(align.qAlignedSeq[i]=='A' || align.qAlignedSeq[i]=='C' || align.qAlignedSeq[i]=='G' || align.qAlignedSeq[i]=='T'))
                 continue;
             
             if (4*cur_pos+3 > max_code + 3)
