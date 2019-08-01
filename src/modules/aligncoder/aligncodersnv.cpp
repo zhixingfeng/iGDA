@@ -611,14 +611,14 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 score_T = this->realign(cur_realign_T, cur_qseq, cur_rseq);
                 
                 // to be removed
-                //if ((cur_pos==253 || cur_pos==319 || cur_pos==325) && nline == 7445){
-                    /*cout << "cur_pos = " << cur_pos << endl;
+                /*if (cur_pos==229419 && nline == 4){
+                    cout << "cur_pos = " << cur_pos << endl;
                     cout << "A: " << score_A << endl << cur_realign_A;
                     cout << "C: " << score_C << endl << cur_realign_C;
                     cout << "G: " << score_G << endl << cur_realign_G;
                     cout << "T: " << score_T << endl << cur_realign_T;
-                    int tmp = 0;*/
-                //}
+                    int tmp = 0;
+                }*/
             }else{
                 ++cur_pos;
                 continue;
@@ -629,8 +629,8 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                 throw runtime_error("A,C,G,T == MIN_SCORE, no alignment was done");
             
             bool is_legal = true;
-            if (!(align.qAlignedSeq[i]=='A' || align.qAlignedSeq[i]=='C' || align.qAlignedSeq[i]=='G' || align.qAlignedSeq[i]=='T'))
-                is_legal = false;
+            //if (!(align.qAlignedSeq[i]=='A' || align.qAlignedSeq[i]=='C' || align.qAlignedSeq[i]=='G' || align.qAlignedSeq[i]=='T'))
+            //    is_legal = false;
             // A
             if (score_A > score_C && score_A > score_G && score_A > score_T && is_legal){
                 if (align.tAlignedSeq[i]!='A'){

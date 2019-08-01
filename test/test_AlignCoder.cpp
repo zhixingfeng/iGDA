@@ -203,7 +203,8 @@ TEST_CASE("test AlignCoderSNV::encode() encode reference", "[hide]")
 
 TEST_CASE("test recode using masked reads", "[hide]")
 {
-    string recode_file = "../data/nanopore_kp/igda_pipe_maskqv/merged_maskqv.debug.recode";
+    //string recode_file = "../data/nanopore_kp/igda_pipe_maskqv/merged_maskqv.debug.recode";
+    string recode_file = "../data/nanopore_kp/igda_pipe_maskqv/merged.recode";
     string m5_file = "../data/nanopore_kp/igda_pipe_maskqv/merged_maskqv.m5";
     string var_file = "../data/nanopore_kp/igda_pipe_maskqv/realign_multi_nm.var";
     
