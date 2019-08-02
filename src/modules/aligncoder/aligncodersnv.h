@@ -35,7 +35,7 @@ public:
     
 protected:
     bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
-    int realign(seqan::Align<string, seqan::ArrayGaps> &cur_realign, const string &qseq, const string &rseq);
+    int realign(seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> &cur_realign, string _qseq, string _rseq);
 };
 
 #endif /* defined(__iGDA__aligncodersnv__) */

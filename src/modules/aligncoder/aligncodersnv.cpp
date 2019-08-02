@@ -253,11 +253,11 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
             int score_ref = MIN_SCORE;
             bool is_var = false;
             
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_A;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_C;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_G;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_T;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_ref;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_A;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_C;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_G;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_T;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_ref;
             
             string cur_qseq;
             string cur_rseq;
@@ -532,10 +532,10 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             int score_T = MIN_SCORE;
             bool is_var = false;
 
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_A;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_C;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_G;
-            seqan::Align<string, seqan::ArrayGaps> cur_realign_T;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_A;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_C;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_G;
+            seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> cur_realign_T;
             
             string cur_qseq;
             string cur_rseq;
@@ -738,14 +738,39 @@ bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAl
 }
 
 
-int AlignCoderSNV::realign(seqan::Align<string, seqan::ArrayGaps> &cur_realign, const string &qseq, const string &rseq)
+int AlignCoderSNV::realign(seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> &cur_realign, string _qseq, string _rseq)
 {
+    seqan::String<seqan::Dna5> qseq = _qseq;
+    seqan::String<seqan::Dna5> rseq = _rseq;
+    
     seqan::resize(seqan::rows(cur_realign),2);
     seqan::assignSource(seqan::row(cur_realign, 0), qseq);
     seqan::assignSource(seqan::row(cur_realign, 1), rseq);
     
-    int cur_score = seqan::globalAlignment(cur_realign, seqan::Score<int, seqan::Simple>(2, -4, -2, -4), seqan::AffineGaps());
-    return cur_score;
+    int gapOpenScore = -4;
+    int gapExtendScore = -2;
+    
+    seqan::Score<int, seqan::ScoreMatrix<seqan::Dna5, seqan::Default> > cur_score(gapExtendScore, gapOpenScore);
+    
+    for (auto i = 0; i < 4; ++i)
+    {
+        for (auto j = 0; j < 4; ++j)
+        {
+            if (i == j)
+                setScore(cur_score, seqan::Dna5(i), seqan::Dna5(j), 2);
+            else
+                setScore(cur_score, seqan::Dna5(i), seqan::Dna5(j), -4);
+        }
+    }
+    for (auto i = 0; i < 5; ++i){
+        setScore(cur_score, seqan::Dna5(i), seqan::Dna5(4), 0);
+        setScore(cur_score, seqan::Dna5(4), seqan::Dna5(i), 0);
+    }
+    
+    int cur_align_score = seqan::globalAlignment(cur_realign, cur_score, seqan::AffineGaps());
+    
+    //int cur_align_score = seqan::globalAlignment(cur_realign, seqan::Score<int, seqan::Simple>(2, -4, -2, -4), seqan::AffineGaps());
+    return cur_align_score;
 }
 
 
