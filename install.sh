@@ -28,6 +28,11 @@
 echo "build iGDA"
 make
 
+# copy script to bin
+cp ./script/igda_pipe_ont ./bin
+
+chomd u+x ./bin/igda_pipe_ont
+
 # copy tred into bin folder
 #cp ./tools/graphviz/graphviz-2.40.1/build/bin/tred bin/igda_tred
 

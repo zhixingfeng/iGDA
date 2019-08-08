@@ -1,0 +1,106 @@
+#!/bin/bash
+exclude_loci_file=""
+while getopts ":hx:" opt; do
+case ${opt} in
+h )
+echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
+echo "default:"
+echo -e "\t-x (empty)";;
+x )
+exclude_loci_file=$OPTARG;;
+\? )
+echo "Invalid option: $OPTARG" 1>&2;;
+: )
+echo "Invalid option: $OPTARG requires an argument" 1>&2;;
+esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -ne 4 ] ; then
+echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
+echo "default:"
+echo -e "\t-x (empty)"
+exit 0
+fi
+
+
+infile=$1
+reffile=$2
+contextfile=$3
+outdir=$4
+
+echo "infile = "$infile
+echo "reffile = "$reffile
+echo "contextfile = "$contextfile
+echo "outdir = "$outdir
+echo "exclude_loci_file = "$exclude_loci_file
+
+echo "Start."
+mkdir -p $outdir
+
+echo "============= samtom5 ==========="
+igda samtom5 $infile $reffile $outdir/realign.m5
+
+echo "============= pileup ==========="
+igda contexteffect $outdir/realign.m5 $outdir/realign
+dforest_r=25
+
+echo "============= encode ==========="
+igda encode -t $outdir/realign.m5 $outdir/realign.encode
+
+echo "============= cmpreads ==========="
+igda cmpreads -l 0.5 -p 20 $outdir/realign.encode $outdir/realign.m5 $outdir/realign.cmpreads
+
+echo "============= rsm ==========="
+echo "dforest_r=$dforest_r"
+igda dforest -d 10000 -r $dforest_r $outdir/realign.encode $outdir/realign.m5 $outdir/realign.cmpreads $reffile $outdir/realign.dforest $outdir/tmp
+igda filter -f 0.75 $outdir/realign.dforest $outdir/realign.dforest.f75
+
+echo "============= detect orphan variants ==========="
+igda detectsingle -c 1000 -f 0 -b 0 $outdir/realign.pileup $contextfile $outdir/realign.detectsingle.raw
+igda detectsingle -c 1000 -f 0.40 -b 50 $outdir/realign.pileup $contextfile $outdir/realign.detectsingle
+
+echo "============= combine rsm and orphan variants ==========="
+cat $outdir/realign.dforest.f75 $outdir/realign.detectsingle | sort -s -u -k1,1n > $outdir/realign_raw.detected
+
+if test "$exclude_loci_file" == "" ; then
+exclude_loci_by_code $exclude_loci_file $outdir/realign_raw.detected $outdir/realign.detected
+else
+cp $outdir/realign_raw.detected $outdir/realign.detected
+fi
+
+igda getvar -c 0 $outdir/realign.detected $outdir/realign.var
+
+echo "============= dimension reduction ==========="
+igda rdim $outdir/realign.encode $outdir/realign.var $outdir/realign.encode.rdim
+
+echo "============= recode ==========="
+igda recode $outdir/realign.m5 $outdir/realign.var $outdir/realign.recode
+
+echo "============= ann ==========="
+ann_t=$dforest_r
+ann_m=$(($ann_t+$ann_t))
+ann_c=10
+echo "ann_t=$ann_t, ann_m=$ann_m, ann_c=$ann_c"
+igda ann -j 0.5 -c $ann_c -t $ann_t -m $ann_m  $outdir/realign.recode $outdir/realign.encode.rdim $outdir/realign.m5 $outdir/realign.var $reffile $outdir/realign.ann
+
+echo "============= test contigs ==========="
+igda test_contigs $outdir/realign.ann $outdir/realign.recode $outdir/realign.m5 $reffile
+
+echo "============= calculate abundance ==========="
+igda abundance $outdir/realign.ann.tested.ft $outdir/realign.recode $outdir/realign.m5
+
+echo "============= test contigs pairwisely ==========="
+igda test_contigs_pairwise $outdir/realign.ann.tested.ft.count $outdir/realign.recode $reffile
+
+echo "============= transitive reduction ==========="
+igda tred $outdir/realign.ann.tested.ft.count.ft
+
+echo "============= assemble ==========="
+igda assemble $outdir/realign.ann.tested.ft.count.ft $outdir/realign.ann.tested.ft.count.ft.tred.dot
+
+echo "============= recalculate abundance ==========="
+igda abundance $outdir/realign.ann.tested.ft.count.ft.assembled $outdir/realign.recode $outdir/realign.m5
+
+echo "Done."
+
