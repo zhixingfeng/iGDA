@@ -301,8 +301,10 @@ void ErrorModelSNV::pileup_reads(string align_file, vector<BaseFreq> &pileup)
                         case 'T':
                             pileup[locus].nvar[3]++;
                             break;
+                        case 'N':
+                            break;
                         default:
-                            throw runtime_error("sequence should not contain bases other than A, C, G, T");
+                            throw runtime_error("sequence should not contain bases other than A, C, G, T or N");
                             break;
                     }
                 }
