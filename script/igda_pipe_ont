@@ -1,26 +1,26 @@
 #!/bin/bash
 exclude_loci_file=""
 while getopts ":hx:" opt; do
-case ${opt} in
-h )
-echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
-echo "default:"
-echo -e "\t-x (empty)";;
-x )
-exclude_loci_file=$OPTARG;;
-\? )
-echo "Invalid option: $OPTARG" 1>&2;;
-: )
-echo "Invalid option: $OPTARG requires an argument" 1>&2;;
-esac
+        case ${opt} in
+                h )
+                        echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
+                        echo "default:"
+                        echo -e "\t-x (empty)";;
+                x )
+                        exclude_loci_file=$OPTARG;;
+                \? )
+                        echo "Invalid option: $OPTARG" 1>&2;;
+                : )
+                        echo "Invalid option: $OPTARG requires an argument" 1>&2;;
+        esac
 done
 shift $((OPTIND - 1))
 
 if [ $# -ne 4 ] ; then
-echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
-echo "default:"
-echo -e "\t-x (empty)"
-exit 0
+        echo "igda_pipe -x exclude_loci_file infile(bam or sam file) reffile contextfile outdir"
+        echo "default:"
+        echo -e "\t-x (empty)"
+	exit 0
 fi
 
 
@@ -64,10 +64,10 @@ echo "============= combine rsm and orphan variants ==========="
 cat $outdir/realign.dforest.f75 $outdir/realign.detectsingle | sort -s -u -k1,1n > $outdir/realign_raw.detected
 
 if test "$exclude_loci_file" == "" ; then
-exclude_loci_by_code $exclude_loci_file $outdir/realign_raw.detected $outdir/realign.detected
+	cp $outdir/realign_raw.detected $outdir/realign.detected
 else
-cp $outdir/realign_raw.detected $outdir/realign.detected
-fi
+	exclude_loci_by_code $exclude_loci_file $outdir/realign_raw.detected $outdir/realign.detected
+fi 
 
 igda getvar -c 0 $outdir/realign.detected $outdir/realign.var
 
@@ -103,4 +103,5 @@ echo "============= recalculate abundance ==========="
 igda abundance $outdir/realign.ann.tested.ft.count.ft.assembled $outdir/realign.recode $outdir/realign.m5
 
 echo "Done."
+
 
