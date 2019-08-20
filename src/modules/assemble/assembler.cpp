@@ -614,7 +614,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -710,7 +710,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 if (cur_cons.start >= reads_range[j].second || cur_cons.end <= reads_range[j].first)
                     continue;
                 
-                if (cur_cons.start < reads_range[j].first)
+                if (cur_cons.start < reads_range[j].first && is_hang)
                     continue;
                 
                 //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
