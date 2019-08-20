@@ -474,3 +474,34 @@ TEST_CASE("test assembler::test_contigs_pairwise() (relative risk)", "[hide]")
     assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft.debug", 5, 3, 10, 5);
     
 }
+
+TEST_CASE("test assembler::ann_clust_recode() compare", "[hide]")
+{
+    string recode_file = "../data/nanopore_kp/phase/c_1_t_15_m_30/realign.recode";
+    string recode_ref_file = "../data/nanopore_kp/phase/c_1_t_15_m_30/realign.recode.ref";
+    string encode_file = "../data/nanopore_kp/phase/c_1_t_15_m_30/realign.encode.rdim";
+    string align_file = "../data/nanopore_kp/optimum_detect/realign.m5";
+    string var_file = "../data/nanopore_kp/optimum_detect/realign.var";
+
+    int mincvg = 1;
+    double minprop = 0.2;
+    double maxprop = 0.8;
+    int topn = 15;
+    int maxnn = 30;
+    double minjaccard = 0.5;
+    bool iscorrect = false;
+    bool ishang = false;
+    
+    Assembler assembler;
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, mincvg, minprop, maxprop, topn, maxnn, minjaccard, iscorrect, ishang);
+    assembler.print_rl_ann_clust("../data/nanopore_kp/phase/c_1_t_15_m_30/realign.ann.raw", true);
+    
+    mincvg = 10;
+    assembler.ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, mincvg, minprop, maxprop, topn, maxnn, minjaccard, iscorrect, ishang);
+    assembler.print_rl_ann_clust("../data/nanopore_kp/phase/c_10_t_15_m_30/realign.ann.raw", true);
+    
+    int x = 0;
+    //assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+    //                           minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), ishangArg.getValue());
+}
+
