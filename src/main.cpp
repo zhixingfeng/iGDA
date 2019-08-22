@@ -812,10 +812,12 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
             UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
             
+            ValueArg<int> minlenArg("l","minlen","minimal length of alignment", false , 1000, "minlen", cmd);
+            
             cmd.parse(argv2);
             
             AlignReaderSam alignreadersam;
-            alignreadersam.samtom5(samfileArg.getValue(), reffileArg.getValue(), m5fileArg.getValue());
+            alignreadersam.samtom5(samfileArg.getValue(), reffileArg.getValue(), m5fileArg.getValue(), minlenArg.getValue());
         }
         
         if (strcmp(argv[1], "samtom5qv")==0){
@@ -823,10 +825,12 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
             UnlabeledValueArg<string> m5qvfileArg("m5qvfile", "path of m5qv file", true, "", "m5qvfile", cmd);
             
+            ValueArg<int> minlenArg("l","minlen","minimal length of alignment", false , 1000, "minlen", cmd);
+            
             cmd.parse(argv2);
             
             AlignReaderSam alignreadersam;
-            alignreadersam.samtom5qv(samfileArg.getValue(), reffileArg.getValue(), m5qvfileArg.getValue());
+            alignreadersam.samtom5qv(samfileArg.getValue(), reffileArg.getValue(), m5qvfileArg.getValue(), minlenArg.getValue());
         }
         
         // detect single loci

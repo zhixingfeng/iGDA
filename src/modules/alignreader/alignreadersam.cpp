@@ -255,7 +255,7 @@ bool AlignReaderSam::read(string filename, vector<Align> &align_vec)
     return true;
 }
 
-bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file)
+bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file, int min_len)
 {
     this->getref(ref_file);
     this->open(sam_file);
@@ -263,6 +263,8 @@ bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file)
     open_outfile(fs_m5_file, m5_file);
     Align align;
     while(this->readline(align)){
+        if (align.tEnd - align.tStart + 1 < min_len)
+            continue;
         fs_m5_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
         fs_m5_file << align.tStart << ' ' << align.tEnd + 1 << ' ' << align.tStrand << ' ';
         fs_m5_file << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ';
@@ -273,7 +275,7 @@ bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file)
     return true;
 }
 
-bool AlignReaderSam::samtom5qv(string sam_file, string ref_file, string m5qv_file)
+bool AlignReaderSam::samtom5qv(string sam_file, string ref_file, string m5qv_file, int min_len)
 {
     this->getref(ref_file);
     this->open(sam_file);
@@ -281,6 +283,8 @@ bool AlignReaderSam::samtom5qv(string sam_file, string ref_file, string m5qv_fil
     open_outfile(fs_m5qv_file, m5qv_file);
     Align align;
     while(this->readline(align)){
+        if (align.tEnd - align.tStart + 1 < min_len)
+            continue;
         fs_m5qv_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
         fs_m5qv_file << align.tStart << ' ' << align.tEnd + 1 << ' ' << align.tStrand << ' ';
         fs_m5qv_file << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ';
