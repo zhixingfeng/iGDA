@@ -505,3 +505,11 @@ TEST_CASE("test assembler::ann_clust_recode() compare", "[hide]")
     //                           minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), ishangArg.getValue());
 }
 
+TEST_CASE("itest assembler::correct_contigs()", "[hide]")
+{
+    string ann_file = "../data/nanopore_kp/phase/c_10_t_15_m_30/realign.ann.tested.ft.count.ft";
+    string out_file = "../data/nanopore_kp/phase/c_10_t_15_m_30/realign.ann.tested.ft.count.ft.ct";
+    Assembler assembler;
+    assembler.correct_contigs(ann_file, out_file);
+    
+}

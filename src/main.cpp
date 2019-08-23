@@ -664,7 +664,7 @@ int main(int argc, const char * argv[])
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
                 assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), ishangArg.getValue());
+                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true);
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);
@@ -745,6 +745,22 @@ int main(int argc, const char * argv[])
                                             minlogbfArg.getValue(), maxlociArg.getValue(), mincvgArg.getValue(), minrrArg.getValue());
             
         }
+        
+        if (strcmp(argv[1], "correct_contigs")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<double> minoverlapArg("l","minoverlap","minimal overlap ratio between two contigs, default: 0.5", false , 0.5, "minoverlap", cmd);
+            
+            
+            cmd.parse(argv2);
+            Assembler assembler;
+            assembler.correct_contigs(annfileArg.getValue(), outfileArg.getValue(), minoverlapArg.getValue());
+           
+            
+        }
+        
+        
         if (strcmp(argv[1], "abundance")==0){
             UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
             UnlabeledValueArg<string> recodefileArg("recodefile", "path of recode file", true, "", "recodefile", cmd);

@@ -1830,6 +1830,77 @@ void Assembler::test_contigs_pairwise_legacy(string ann_file, string recode_file
     this->print_rl_ann_clust(out_file, true, idx);
 }
 
+void Assembler::correct_contigs(string ann_file, string out_file, double min_overlap_ratio)
+{
+    this->read_ann_results(ann_file);
+    
+    // construct hash table fro cons_seq and tested_loci
+    vector<unordered_set<int> > cons_seq_hash(this->rl_ann_clust.size(), unordered_set<int>());
+    vector<unordered_set<int> > tested_loci_hash(this->rl_ann_clust.size(), unordered_set<int>());
+    
+    vector<set<int> > cons_seq_corrected(this->rl_ann_clust.size(), set<int>());
+    vector<set<int> > tested_loci_corrected(this->rl_ann_clust.size(), set<int>());
+    
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        cons_seq_hash[i].insert(this->rl_ann_clust[i].cons_seq.begin(), this->rl_ann_clust[i].cons_seq.end());
+        tested_loci_hash[i].insert(this->rl_ann_clust[i].tested_loci.begin(), this->rl_ann_clust[i].tested_loci.end());
+    }
+    
+    // correct contigs
+    vector<bool> is_corrected(this->rl_ann_clust.size(), false);
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        for (auto j =0; j < this->rl_ann_clust.size(); ++j){
+            if (i == j) continue;
+            
+            // check overlap ratio
+            int overlap_start = this->rl_ann_clust[i].start > this->rl_ann_clust[j].start ? this->rl_ann_clust[i].start : this->rl_ann_clust[j].start;
+            int overlap_end = this->rl_ann_clust[i].end < this->rl_ann_clust[j].end ? this->rl_ann_clust[i].end : this->rl_ann_clust[j].end;
+            if (overlap_end - overlap_start + 1 < (this->rl_ann_clust[i].end - this->rl_ann_clust[i].start + 1)*min_overlap_ratio )
+                continue;
+            
+            bool is_equal = true;
+            // test if cons_seq_j match cons_seq_i
+            for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
+                if (cons_seq_hash[i].find(rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
+                    tested_loci_hash[i].find(rl_ann_clust[j].cons_seq[k]/4) != tested_loci_hash[i].end()){
+                    is_equal = false;
+                }
+            }
+            
+            // test if cons_seq_i match cons_seq_j
+            for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
+                if (cons_seq_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == cons_seq_hash[j].end() &&
+                    tested_loci_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == tested_loci_hash[j].end()){
+                    is_equal = false;
+                }
+            }
+            
+            // correct contigs
+            if (is_equal){
+                is_corrected[i] = true;
+                for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
+                    if (cons_seq_hash[i].find(rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
+                        tested_loci_hash[i].find(rl_ann_clust[j].cons_seq[k]/4) == tested_loci_hash[i].end()){
+                        cons_seq_corrected[i].insert(rl_ann_clust[j].cons_seq[k]);
+                        tested_loci_corrected[i].insert(rl_ann_clust[j].cons_seq[k]/4);
+                    }
+                }
+            }
+        }
+    }
+    
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (is_corrected[i]){
+            this->rl_ann_clust[i].cons_seq = vector<int>(cons_seq_corrected[i].begin(), cons_seq_corrected[i].end());
+            this->rl_ann_clust[i].tested_loci = vector<int>(tested_loci_corrected[i].begin(), tested_loci_corrected[i].end());
+        }
+    }
+    
+    this->print_rl_ann_clust(out_file, true);
+}
+
+
+
 void Assembler::assemble(Graph &gp, string out_ann_file)
 {
     // get number of the graph
