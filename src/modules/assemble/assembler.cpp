@@ -1849,6 +1849,10 @@ void Assembler::correct_contigs(string ann_file, string out_file, double min_ove
     // correct contigs
     vector<bool> is_corrected(this->rl_ann_clust.size(), false);
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        
+        cons_seq_corrected[i].insert(this->rl_ann_clust[i].cons_seq.begin(), this->rl_ann_clust[i].cons_seq.end());
+        tested_loci_corrected[i].insert(this->rl_ann_clust[i].tested_loci.begin(), this->rl_ann_clust[i].tested_loci.end());
+        
         for (auto j =0; j < this->rl_ann_clust.size(); ++j){
             if (i == j) continue;
             
@@ -1870,7 +1874,7 @@ void Assembler::correct_contigs(string ann_file, string out_file, double min_ove
             // test if cons_seq_i match cons_seq_j
             for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
                 if (cons_seq_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == cons_seq_hash[j].end() &&
-                    tested_loci_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == tested_loci_hash[j].end()){
+                    tested_loci_hash[j].find(this->rl_ann_clust[i].cons_seq[k]/4) != tested_loci_hash[j].end()){
                     is_equal = false;
                 }
             }
@@ -1881,8 +1885,10 @@ void Assembler::correct_contigs(string ann_file, string out_file, double min_ove
                 for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
                     if (cons_seq_hash[i].find(rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
                         tested_loci_hash[i].find(rl_ann_clust[j].cons_seq[k]/4) == tested_loci_hash[i].end()){
+                        
                         cons_seq_corrected[i].insert(rl_ann_clust[j].cons_seq[k]);
                         tested_loci_corrected[i].insert(rl_ann_clust[j].cons_seq[k]/4);
+                        
                     }
                 }
             }
