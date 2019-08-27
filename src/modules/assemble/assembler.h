@@ -167,7 +167,7 @@ public:
     void test_contigs_pairwise_legacy(string ann_file, string recode_file, string out_file, double min_log_bf = 5, int max_loci = 3, int min_cvg= 10);
 
     // correct each contig by removing N due to low coverage
-    void correct_contigs(string ann_file, string out_file, double min_overlap_ratio = 0.5);
+    void correct_contigs(string ann_file, string out_file, double min_overlap_ratio = 0);
     
     // assemble
     void assemble(Graph &gp, string out_ann_file);

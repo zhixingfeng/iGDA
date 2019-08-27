@@ -1865,20 +1865,15 @@ void Assembler::correct_contigs(string ann_file, string out_file, double min_ove
             bool is_equal = true;
             // test if cons_seq_j match cons_seq_i
             for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
-                if ( ( cons_seq_hash[i].find(this->rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
-                    tested_loci_hash[i].find(this->rl_ann_clust[j].cons_seq[k]/4) != tested_loci_hash[i].end() ) ||
-                    this->rl_ann_clust[j].cons_seq[k]/4 < this->rl_ann_clust[i].start ||
-                    this->rl_ann_clust[j].cons_seq[k]/4 > this->rl_ann_clust[i].end){
+                if ( cons_seq_hash[i].find(this->rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
+                    tested_loci_hash[i].find(this->rl_ann_clust[j].cons_seq[k]/4) != tested_loci_hash[i].end() ){
                     is_equal = false;
                 }
             }
             
             // test if cons_seq_i match cons_seq_j
             for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k){
-                if ( (cons_seq_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == cons_seq_hash[j].end() &&
-                    tested_loci_hash[j].find(this->rl_ann_clust[i].cons_seq[k]/4) != tested_loci_hash[j].end() ) ||
-                    this->rl_ann_clust[i].cons_seq[k]/4 < this->rl_ann_clust[j].start ||
-                    this->rl_ann_clust[i].cons_seq[k]/4 > this->rl_ann_clust[j].end){
+                if ( cons_seq_hash[j].find(this->rl_ann_clust[i].cons_seq[k]) == cons_seq_hash[j].end() ){
                     is_equal = false;
                 }
             }

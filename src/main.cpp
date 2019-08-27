@@ -750,7 +750,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
-            ValueArg<double> minoverlapArg("l","minoverlap","minimal overlap ratio between two contigs, default: 0.5", false , 0.5, "minoverlap", cmd);
+            ValueArg<double> minoverlapArg("l","minoverlap","minimal overlap ratio between two contigs, default: 0", false , 0, "minoverlap", cmd);
             
             
             cmd.parse(argv2);
