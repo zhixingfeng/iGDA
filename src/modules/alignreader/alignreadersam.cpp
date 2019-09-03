@@ -269,7 +269,7 @@ bool AlignReaderSam::samtom5(string sam_file, string ref_file, string m5_file, i
     while(this->readline(align)){
         if (align.tEnd - align.tStart + 1 < min_len)
             continue;
-        fs_m5_file << align.qName << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
+        fs_m5_file << align.qName << ' ' << '0' << ' ' << align.qStart << ' ' << '0' << ' ' << align.qStrand << ' ' << align.tName << ' ' << '0' << ' ';
         fs_m5_file << align.tStart << ' ' << align.tEnd + 1 << ' ' << align.tStrand << ' ';
         fs_m5_file << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ' << '0' << ' ';
         fs_m5_file << align.mapQV << ' ' << align.qAlignedSeq << ' ' << align.matchPattern << ' ' << align.tAlignedSeq << endl;
