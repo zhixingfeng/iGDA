@@ -148,9 +148,13 @@ bool AlignReaderSam::readline(Align &align) {
                 // soft clip, ignore
                 for (auto j = 0; j < record.cigar[i].count; ++j)
                     ++seq_shift;
+                if (i == 0)
+                    align.qStart = record.cigar[i].count;
                 break;
             case 'H':
-                // hard clip, ignore and do nothing
+                // hard clip, ignore
+                if (i == 0)
+                    align.qStart = record.cigar[i].count;
                 break;
             case 'P':
                 // forbid padding sam
