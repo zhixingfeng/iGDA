@@ -14,7 +14,8 @@
 #endif*/
 
 #include "./dforest.h"
-
+#include <thread>
+#include <mutex>
 
 
 class DForestSNVSTXXL : public DForest
@@ -32,7 +33,8 @@ public:
     
     bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, int min_homo_block_dist = 15, bool isinter=false);
     
-    void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter=false);
+    void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
+                    vector<double> &p_y_x_archive, unordered_set<int64_t> &idx_mod, int focal_locus, int min_reads, int max_depth, double minfreq, bool isinter=false);
     
     // get_result() not actually used in DForestSNVSTXXL, retained for historical reasons
     inline unordered_map<int, DforestResult> get_result()
@@ -52,11 +54,13 @@ protected:
     vector<DforestResult> result;
     vector<DforestResult> result_all;
         
-    int focal_locus;
-    vector<double> p_y_x_archive;
-    unordered_set<int64_t> idx_mod; // record index of modified p_y_x_archive
+    //int focal_locus;
+    //vector<double> p_y_x_archive;
+    //unordered_set<int64_t> idx_mod; // record index of modified p_y_x_archive
     
     int min_homo_block_dist;
+    
+    std::mutex thread_locker;
 };
 
 

@@ -48,7 +48,14 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     if (n_thread==1){
         run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter);
     }else {
-       
+        vector<thread> threads;
+        for (auto i = 0; i < n_thread; ++i){
+            cout << cmpreads_file + ".part_" + to_string(i) << endl;
+            threads.push_back(thread(&DForestSNVSTXXL::run_thread, this, cmpreads_file + ".part_" + to_string(i), out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter));
+            
+        }
+        for (auto i = 0; i < threads.size(); ++i)
+            threads[i].join();
     }
     
     // save the result
@@ -86,7 +93,10 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
         open_outfile(fs_outfile, out_file + ".all");
     int64_t counter = 0;
     result.resize(cmpreads_index.size());
-    p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
+    //p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
+    vector<double> p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
+    unordered_set<int64_t> idx_mod;
+    
     
     int step_size = ceil(double(cmpreads_index_effective_size)/100);
 
@@ -99,13 +109,14 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
                 cout << "finished "  << floor(100*double(n_scaned_loci)/cmpreads_index_effective_size) << "% = " << n_scaned_loci << "/" << cmpreads_index_effective_size << endl;
         }
         // build tree
-        this->focal_locus = (int)i;
+        int focal_locus = (int)i;
         
         vector<int64_t> cur_cmpreads_index = *it;
         for (auto j = 0; j < cur_cmpreads_index.size(); ++j){
-            this->build_tree(fs_outfile, cmpreads_data[cur_cmpreads_index[j]], counter, temp_vec_var, temp_vec_read, min_reads, max_depth, minfreq, isinter);
+            this->build_tree(fs_outfile, cmpreads_data[cur_cmpreads_index[j]], counter, temp_vec_var, temp_vec_read,
+                             p_y_x_archive, idx_mod, focal_locus, min_reads, max_depth, minfreq, isinter);
             // if p_y_xp is large enough then quit and test the next locus
-            if (this->result[this->focal_locus].p_y_xp >= maxfreq)
+            if (this->result[focal_locus].p_y_xp >= maxfreq)
                 break;
         }
         
@@ -124,12 +135,13 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     return true;
 }
 
-void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read, int min_reads, int max_depth, double minfreq, bool isinter)
+void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
+                                 vector<double> &p_y_x_archive, unordered_set<int64_t> &idx_mod, int focal_locus, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     vector<double> p_y_x(cand_loci.size(), -1);
     DforestResult cur_rl;
     
-    int y_locus = this->focal_locus;
+    int y_locus = focal_locus;
     int y_read_locus = int (y_locus / 4);
     
     // fill in temp_vec_var and temp_vec_read by response y
@@ -243,6 +255,8 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
     
     if (cur_rl.p_y_xp >= minfreq){
         // record maximal conditional probability of each locus
+        this->thread_locker.lock();
+        
         if (cur_rl.p_y_xp > result[cur_rl.focal_locus].p_y_xp){
             result[cur_rl.focal_locus] = cur_rl;
         }else{
@@ -271,6 +285,8 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
                 << cur_rl.link_loci << ',' << endl;
             }
         }
+        
+        this->thread_locker.unlock();
     }
 }
 
