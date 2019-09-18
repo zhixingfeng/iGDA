@@ -11,7 +11,7 @@
 
 #include "./m5tofa.h"
 #include "./seqopt.h"
-#include "./cmpreads.h"
+#include "./cmpreads_multithread.h"
 #include "./pileup.h"
 #include "./statistics.h"
 #include "./condfreq.h"
