@@ -703,7 +703,7 @@ TEST_CASE("test intersect", "[hide]")
     cout << intersect(vec_1, vec_2) << endl;
 }
 
-TEST_CASE("test cmpreads_multithread")
+TEST_CASE("test cmpreads_multithread", "[hide]")
 {
     string encode_file = "../data/nanopore_kp/igda_pipe_maskqv/merged_maskqv.encode";
     string m5_file = "../data/nanopore_kp/igda_pipe_maskqv/merged_maskqv.m5";

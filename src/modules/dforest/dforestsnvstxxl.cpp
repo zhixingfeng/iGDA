@@ -32,6 +32,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);
     
     this->min_homo_block_dist = min_homo_block_dist;
+    
     // check homo_blocks
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
@@ -42,6 +43,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     if (max_range + 1 > this->homo_blocks.size())
         throw runtime_error("Assembler::test_contigs, max_range + 1 > this->homo_blocks.size().");
 
+    result.resize(this->pu_var.size());
     
     // single thread
     cout << "run dforest" << endl;
@@ -92,8 +94,9 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     if (isinter)
         open_outfile(fs_outfile, out_file + ".all");
     int64_t counter = 0;
-    result.resize(cmpreads_index.size());
+    //result.resize(cmpreads_index.size());
     //p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
+    
     vector<double> p_y_x_archive = vector<double>(cmpreads_index.size(),-1);
     unordered_set<int64_t> idx_mod;
     
