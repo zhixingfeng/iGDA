@@ -507,10 +507,10 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             throw runtime_error("qStrand should be + in line " + to_string(nline));
         
         // reverse alignment if it is aligned to negative strand
-        if (align.tStrand != '+'){
+        /*if (align.tStrand != '+'){
             align.qAlignedSeq = getrevcomp(align.qAlignedSeq);
             align.tAlignedSeq = getrevcomp(align.tAlignedSeq);
-        }
+        }*/
         
         // encode
         int cur_pos = align.tStart;
