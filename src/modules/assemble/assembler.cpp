@@ -1497,6 +1497,9 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
                 }
             }
             
+            if (cons_seq_i.size() < 0.75 * this->rl_ann_clust[i].cons_seq.size())
+                continue;
+            
             // check similarity
             int64_t n_common = 0;
             int64_t n_union = cons_seq_i.size();
@@ -1522,15 +1525,20 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             // record different variants
             neighbor_ids.push_back(j);
             
+            unordered_set<int> cur_tested_loci_i(this->rl_ann_clust[i].tested_loci.begin(), this->rl_ann_clust[i].tested_loci.end());
+            unordered_set<int> cur_tested_loci_j(this->rl_ann_clust[j].tested_loci.begin(), this->rl_ann_clust[j].tested_loci.end());
+            
             for (auto k = 0; k < cons_seq_i.size(); ++k){
-                if (temp_var[cons_seq_i[k]] == 1){
+                if (temp_var[cons_seq_i[k]] == 1 &&
+                    cur_tested_loci_j.find(int(cons_seq_i[k] / 4)) != cur_tested_loci_j.end()){
                     diff_var.push_back(cons_seq_i[k]);
                     diff_var_type.push_back(true);
                 }
             }
             
             for (auto k = 0; k < cons_seq_j.size(); ++k){
-                if (temp_var[cons_seq_j[k]] == 0){
+                if (temp_var[cons_seq_j[k]] == 0 &&
+                    cur_tested_loci_i.find(int(cons_seq_j[k] / 4)) != cur_tested_loci_i.end()){
                     diff_var.push_back(cons_seq_j[k]);
                     diff_var_type.push_back(false);
                 }
