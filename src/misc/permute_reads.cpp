@@ -9,13 +9,17 @@
 #include "permute_reads.h"
 #include "./io.h"
 
-void permute_encodefile(string encode_file, string pileup_file, string outfile, int seed)
+void permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)
 {
-    vector<vector<int> > encode_data;
-    loadencodedata(encode_data, encode_file);
-    ifstream fs_pufile;
+    // setup random number generator
+    pcg32 rng(seed);
+    
+    // load range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
     
     // load pileup data
+    ifstream fs_pufile;
     unordered_map<int, vector<double> > pu_data;
     open_infile(fs_pufile, pileup_file);
     while (true) {
@@ -40,10 +44,33 @@ void permute_encodefile(string encode_file, string pileup_file, string outfile, 
     fs_pufile.close();
     
     // permute encode_data
-    pcg32 rng(seed);
     ofstream fs_outfile;
     open_outfile(fs_outfile, outfile);
-    for (auto i = 0; i < encode_data.size(); ++i){
+    for (auto i = 0; i < reads_range.size(); ++i){
+        for (auto locus = reads_range[i].first; locus <= reads_range[i].second; ++locus){
+            // get substitution rate of the current locus
+            vector<double> cur_freq = pu_data[locus];
+            double sub_rate = 0;
+            for (auto k = 0; k < cur_freq.size(); ++k)
+                sub_rate += cur_freq[k];
+            if (sub_rate < 0 || sub_rate > 1)
+                throw runtime_error("permute_encodefile(): sub_rate < 0 || sub_rate > 1");
+            
+            // toss a coin to determine if there is a substitution
+            vector<double> sub_prob = {1 - sub_rate, sub_rate};
+            vector<int> sub_cand = {0, 1};
+            int is_sub = gen_binom(sub_prob, sub_cand, rng);
+            
+            // randomly draw a substitution according to pileup data
+            if (is_sub == 1){
+                vector<int> cand = {0,1,2,3};
+                int new_subtype = gen_binom(cur_freq, cand, rng);
+                fs_outfile << 4*locus + new_subtype << "\t";
+            }
+        }
+        fs_outfile << endl;
+    }
+    /*for (auto i = 0; i < encode_data.size(); ++i){
         for (auto j = 0; j < encode_data[i].size(); ++j){
             // get substitution rate of the current locus
             int locus = int(encode_data[i][j] / 4);
@@ -69,6 +96,6 @@ void permute_encodefile(string encode_file, string pileup_file, string outfile, 
             }
         }
         fs_outfile << endl;
-    }
+    }*/
     fs_outfile.close();
 }

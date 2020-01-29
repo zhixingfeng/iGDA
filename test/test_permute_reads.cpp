@@ -10,21 +10,32 @@
 #include "../src/misc/permute_reads.h"
 TEST_CASE("test gen_binom", "[hide]")
 {
-    pcg32 rng(17363);
-    vector<int> cand = {0,1,2,3};
-    vector<double> prob = {0.003428571, 0.014040816, 0.006312925, 0.000000000};
+    pcg32 rng(1363);
+    //vector<int> cand = {0,1,2,3};
+    //vector<double> prob = {0.003428571, 0.014040816, 0.006312925, 0.000000000};
     
-    for (int i = 0; i < 10000; ++i)
-        cout << gen_binom(prob, cand, rng) << ",";
+    vector<int> sub_cand = {0,1};
+    vector<double> sub_prob = {0.9762177, 0.02378231};
+    
+    
+    for (int i = 0; i < 10000; ++i){
+        int is_sub = gen_binom(sub_prob, sub_cand, rng);
+        if (is_sub == 1){
+            vector<int> cand = {0,1,2,3};
+            vector<double> prob = {0.003428571, 0.014040816, 0.006312925, 0.000000000};
+            int r_num = gen_binom(prob, cand, rng);
+            cout << r_num << ",";
+        }
+    }
     
     
 }
 
-TEST_CASE("test permute_encodefile")
+TEST_CASE("test permute_encodefile", "[hide]")
 {
-    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.encode";
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.m5";
     string pu_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.pileup";
     string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.encode.permuted";
-    permute_encodefile(encode_file, pu_file, out_file);
+    permute_encodefile(m5_file, pu_file, out_file);
 }
 

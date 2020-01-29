@@ -17,8 +17,8 @@
 #include "../src/modules/assemble/assembler.h"
 #include "../src/modules/detectsingle/detectsinglesnv.h"
 #include "../src/modules/rsm/rsmsnv.h"
-
 #include "./misc/misc.h"
+#include "./misc/permute_reads.h"
 
 #ifdef _UNITTEST
 
@@ -903,6 +903,19 @@ int main(int argc, const char * argv[])
             else
                 p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
         }
+        
+        // permute reads
+        if (strcmp(argv[1], "permute")==0){
+            UnlabeledValueArg<string> m5fileArg("m5file", "path of m5 file", true, "", "m5file", cmd);
+            UnlabeledValueArg<string> pufileArg("pufile", "path of pileup file", true, "", "pufile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            ValueArg<int> seedArg("s","seed","seed of random number generator, default: 18473", false , 18473, "seed", cmd);
+            
+            cmd.parse(argv2);
+            permute_encodefile(m5fileArg.getValue(), pufileArg.getValue(), outfileArg.getValue(), seedArg.getValue());
+            
+         }
 
         
     }

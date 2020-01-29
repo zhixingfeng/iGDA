@@ -105,9 +105,6 @@ inline double binom_log_bf_legacy (double x, double n, double p0)
     return log_bf;
 }
 
-#endif
-
-
 // generate random number of multinomial distribution
 inline int gen_binom(vector<double> prob, vector<int> candidates, pcg32 &rng)
 {
@@ -138,6 +135,11 @@ inline int gen_binom(vector<double> prob, vector<int> candidates, pcg32 &rng)
     
     throw runtime_error("gen_binom(): wrong checkpoints");
     return -1;
-
+    
 }
+
+#endif
+
+
+
 

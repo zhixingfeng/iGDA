@@ -12,7 +12,7 @@
 #include "../../include/headers.h"
 #include "./statistics.h"
 
-void permute_encodefile(string encode_file, string pileup_file, string outfile, int seed = 18473);
+void permute_encodefile(string m5_file, string pileup_file, string outfile, int seed = 18473);
 
 
 #endif /* permute_reads_hpp */

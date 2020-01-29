@@ -20,4 +20,5 @@
 #include "./dist.h"
 #include "./graph.h"
 #include "./correctreads.h"
+#include "./permute_reads.h"
 #endif

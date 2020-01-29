@@ -80,11 +80,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/permute_reads.cpp"
+            timestampString = "602016578.243283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "permute_encodefile(encode_file, pileup_file, outfile, seed)"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -96,11 +97,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/permute_reads.cpp"
+            timestampString = "602016578.243449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "permute_encodefile(encode_file, pileup_file, outfile, seed)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/permute_reads.cpp"
+            timestampString = "602016578.243567"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
