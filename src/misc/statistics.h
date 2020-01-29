@@ -15,6 +15,8 @@
 #include "../tools/prob/prob.hpp"
 #include <boost/math/distributions/beta.hpp>
 #include "../../include/headers.h"
+#include "../../tools/pcg/pcg_random.hpp"
+#include "./basic.h"
 inline double lbeta(double a, double b)
 {
     return boost::math::lgamma(a) + boost::math::lgamma(b) - boost::math::lgamma(a + b) ;
@@ -104,3 +106,38 @@ inline double binom_log_bf_legacy (double x, double n, double p0)
 }
 
 #endif
+
+
+// generate random number of multinomial distribution
+inline int gen_binom(vector<double> prob, vector<int> candidates, pcg32 &rng)
+{
+    // check input
+    if (prob.size() != candidates.size())
+        throw runtime_error("gen_binom(): prob.size() != candidates.size()");
+    if (candidates.size() == 0)
+        throw runtime_error("gen_binom(): candidates.size() == 0");
+    
+    int precision = 1e8;
+    vector<int> checkpoints(1,0);
+    int cur_checkpoint = 0;
+    for (auto i = 0; i < prob.size(); ++i){
+        cur_checkpoint += std::round(prob[i] * precision);
+        checkpoints.push_back(cur_checkpoint);
+    }
+    if (checkpoints.size() < 1)
+        throw runtime_error("gen_binom(): candidates.size() == 0");
+    
+    std::uniform_int_distribution<int> uniform_dist(1, cur_checkpoint);
+    int rnum = uniform_dist(rng);
+    
+    for (auto i = 1; i < checkpoints.size(); ++i){
+        if (rnum > checkpoints[i-1] && rnum <= checkpoints[i]){
+            return candidates[i-1];
+        }
+    }
+    
+    throw runtime_error("gen_binom(): wrong checkpoints");
+    return -1;
+
+}
+

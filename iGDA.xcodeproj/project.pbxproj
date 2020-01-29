@@ -42,6 +42,8 @@
 		DCE21D0A22E61060000D557F /* test_rsm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE21D0922E61060000D557F /* test_rsm.cpp */; };
 		DCE2FA171FE184BD00E629D0 /* test_stxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE2FA161FE184BD00E629D0 /* test_stxxl.cpp */; };
 		DCF0947320B9F602004554CA /* test_dforeststxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */; };
+		DCF2E09223E0E3EE00DC2D98 /* permute_reads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF2E09023E0E3EE00DC2D98 /* permute_reads.cpp */; };
+		DCF2E09423E0E60900DC2D98 /* test_permute_reads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF2E09323E0E60900DC2D98 /* test_permute_reads.cpp */; };
 		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
 		DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCFEC5961D5BD12B0025E57C /* test_misc.cpp */; };
 /* End PBXBuildFile section */
@@ -4270,6 +4272,9 @@
 		DCE2FA191FE1A75600E629D0 /* kseq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kseq.h; sourceTree = "<group>"; };
 		DCE9486D1DA3334900CD9DCC /* pileup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pileup.h; sourceTree = "<group>"; };
 		DCF0947220B9F602004554CA /* test_dforeststxxl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_dforeststxxl.cpp; sourceTree = "<group>"; };
+		DCF2E09023E0E3EE00DC2D98 /* permute_reads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = permute_reads.cpp; sourceTree = "<group>"; };
+		DCF2E09123E0E3EE00DC2D98 /* permute_reads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = permute_reads.h; sourceTree = "<group>"; };
+		DCF2E09323E0E60900DC2D98 /* test_permute_reads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_permute_reads.cpp; sourceTree = "<group>"; };
 		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
 		DCF9B0BF22948F01002F5D8C /* correctreads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = correctreads.h; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
@@ -4453,6 +4458,7 @@
 				DC15933620EEC53B0050869D /* test_prob.cpp */,
 				DCAF850C2187851A00C757AE /* test_graph.cpp */,
 				DCE21D0922E61060000D557F /* test_rsm.cpp */,
+				DCF2E09323E0E60900DC2D98 /* test_permute_reads.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -11618,6 +11624,8 @@
 				DCAF850A218783EF00C757AE /* graph.cpp */,
 				DCF9B0BF22948F01002F5D8C /* correctreads.h */,
 				DC42264A23327D9300A34C49 /* cmpreads_multithread.cpp */,
+				DCF2E09023E0E3EE00DC2D98 /* permute_reads.cpp */,
+				DCF2E09123E0E3EE00DC2D98 /* permute_reads.h */,
 			);
 			path = misc;
 			sourceTree = "<group>";
@@ -11683,6 +11691,7 @@
 				DC516C0B1FCF04DD00D324DB /* alignment.cpp in Sources */,
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */,
+				DCF2E09223E0E3EE00DC2D98 /* permute_reads.cpp in Sources */,
 				DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */,
@@ -11702,6 +11711,7 @@
 				DC95DCB81DEF6E66004282DF /* test_pileup.cpp in Sources */,
 				DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */,
 				DCAFB4C520B9E76D0092269F /* dforestsnvstxxl.cpp in Sources */,
+				DCF2E09423E0E60900DC2D98 /* test_permute_reads.cpp in Sources */,
 				DC93184F1D5527D200640B65 /* test_AlignReader.cpp in Sources */,
 				DC93184D1D5527D200640B65 /* alignreaderm5.cpp in Sources */,
 				DCD493971FB4BD1F0011F28B /* test_pcg.cpp in Sources */,
