@@ -332,6 +332,36 @@ inline vector<int> load_varfile(string var_file)
     return var_data;
 }
 
+inline void load_pileup(unordered_map<int, vector<double> > &pu_data, string pileup_file)
+{
+    ifstream fs_pufile;
+    open_infile(fs_pufile, pileup_file);
+    while (true) {
+        string buf;
+        getline(fs_pufile, buf);
+        if (fs_pufile.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size() != 9)
+            throw runtime_error("permute_encodefile(): buf_vec.size() != 9 in " + pileup_file);
+        if (stod(buf_vec[8]) <= 0) continue;
+        
+        vector<double> cur_freq(4, -1);
+        cur_freq[0] = stod(buf_vec[4]) / stod(buf_vec[8]);
+        cur_freq[1] = stod(buf_vec[5]) / stod(buf_vec[8]);
+        cur_freq[2] = stod(buf_vec[6]) / stod(buf_vec[8]);
+        cur_freq[3] = stod(buf_vec[7]) / stod(buf_vec[8]);
+        
+        pu_data[stoi(buf_vec[0])] = cur_freq;
+    }
+    fs_pufile.close();
+}
+
+inline void load_dforestfile(string dforestfile)
+{
+    
+}
 
 #endif /* io_h */
 
