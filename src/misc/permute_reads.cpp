@@ -52,7 +52,7 @@ void permute_encodefile(string m5_file, string pileup_file, string outfile, int 
     fs_outfile.close();
 }
 
-void get_condprob_threshold(string dforest_permuted_file, string pileup_file)
+void get_condprob_threshold(string dforest_permuted_file, string pileup_file, double min_prob)
 {
     unordered_map<int, double> dforest_data;
     load_dforestfile(dforest_data, dforest_permuted_file);
@@ -60,5 +60,20 @@ void get_condprob_threshold(string dforest_permuted_file, string pileup_file)
     unordered_map<int, vector<double> > pu_data;
     load_pileup(pu_data, pileup_file);
     
-    int x = 1;
+    double max_condprob = -1;
+    for (auto it = dforest_data.begin(); it != dforest_data.end(); ++it){
+        int locus = int(it->first / 4);
+        int base = it->first % 4;
+        
+        vector<double> cur_freq_vec = pu_data[locus];
+        double cur_freq = cur_freq_vec[base];
+        if (cur_freq <= min_prob){
+            if (it->second > max_condprob)
+                max_condprob = it->second;
+        }
+    }
+    cout << max_condprob;
+    //int x = 1;
 }
+
+

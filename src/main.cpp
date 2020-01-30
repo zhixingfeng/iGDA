@@ -916,7 +916,18 @@ int main(int argc, const char * argv[])
             permute_encodefile(m5fileArg.getValue(), pufileArg.getValue(), outfileArg.getValue(), seedArg.getValue());
             
          }
-
+        
+        // get_condprob_threshold
+        if (strcmp(argv[1], "get_condprob_threshold")==0){
+            UnlabeledValueArg<string> permutefileArg("permuted_file", "path of permuted file", true, "", "permuted_file", cmd);
+            UnlabeledValueArg<string> pufileArg("pufile", "path of pileup file", true, "", "pufile", cmd);
+           
+            ValueArg<double> minprobArg("p","minprob","minimal probablity to consider", false , 0.2, "minprob", cmd);
+           
+            cmd.parse(argv2);
+            get_condprob_threshold(permutefileArg.getValue(), pufileArg.getValue(), minprobArg.getValue());
+            
+        }
         
     }
     catch(const std::overflow_error& e) {

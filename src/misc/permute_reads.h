@@ -13,7 +13,7 @@
 #include "./statistics.h"
 
 void permute_encodefile(string m5_file, string pileup_file, string outfile, int seed = 18473);
-void get_condprob_threshold(string dforest_permuted_file, string pileup_file);
+void get_condprob_threshold(string dforest_permuted_file, string pileup_file, double min_prob = 0.2);
 
 
 #endif /* permute_reads_hpp */
