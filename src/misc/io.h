@@ -358,9 +358,22 @@ inline void load_pileup(unordered_map<int, vector<double> > &pu_data, string pil
     fs_pufile.close();
 }
 
-inline void load_dforestfile(string dforestfile)
+inline void load_dforestfile(unordered_map<int, double> &dforest_data, string dforestfile)
 {
-    
+    ifstream fs_dforestfile;
+    open_infile(fs_dforestfile, dforestfile);
+    while (true) {
+        string buf;
+        getline(fs_dforestfile, buf);
+        if (fs_dforestfile.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size() != 7)
+            throw runtime_error("permute_encodefile(): buf_vec.size() != 7 in " + dforestfile);
+        dforest_data[stoi(buf_vec[0])] = stod(buf_vec[2]);
+    }
+    fs_dforestfile.close();
 }
 
 #endif /* io_h */

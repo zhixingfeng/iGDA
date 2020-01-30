@@ -80,11 +80,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/permute_reads.cpp"
-            timestampString = "602031389.478771"
+            timestampString = "602038829.734851"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
             landmarkType = "9">
          </BreakpointContent>
@@ -96,11 +96,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/permute_reads.cpp"
-            timestampString = "602031389.478852"
+            timestampString = "602038829.735339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68">
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/permute_reads.cpp"
+            timestampString = "602038829.735597"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "get_condprob_threshold(string dforest_permuted_file, string pileup_file)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

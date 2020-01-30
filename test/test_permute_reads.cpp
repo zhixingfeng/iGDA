@@ -39,3 +39,9 @@ TEST_CASE("test permute_encodefile", "[hide]")
     permute_encodefile(m5_file, pu_file, out_file);
 }
 
+TEST_CASE("test get_condprob_threshold", "[hide]")
+{
+    string dforest_permuted_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.dforest.permuted";
+    string pu_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_permutation/detect/clpA_1/realign.pileup";
+    get_condprob_threshold(dforest_permuted_file, pu_file);
+}

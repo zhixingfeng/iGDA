@@ -52,7 +52,13 @@ void permute_encodefile(string m5_file, string pileup_file, string outfile, int 
     fs_outfile.close();
 }
 
-void get_condprob_threshold(string dforest_file, string dforest_permuted_file, string pileup_file, double fdr)
+void get_condprob_threshold(string dforest_permuted_file, string pileup_file)
 {
+    unordered_map<int, double> dforest_data;
+    load_dforestfile(dforest_data, dforest_permuted_file);
     
+    unordered_map<int, vector<double> > pu_data;
+    load_pileup(pu_data, pileup_file);
+    
+    int x = 1;
 }
