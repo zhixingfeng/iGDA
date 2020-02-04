@@ -34,7 +34,7 @@ public:
     bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true);
     
 protected:
-    bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context);
+    bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context, bool is_overhanged = false);
     int realign(seqan::Align<seqan::String<seqan::Dna5>, seqan::ArrayGaps> &cur_realign, string _qseq, string _rseq);
 };
 

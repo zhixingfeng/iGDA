@@ -544,7 +544,8 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
             
             // align local sequence to the referece
             if (var_data_temp[4*cur_pos] || var_data_temp[4*cur_pos+1] || var_data_temp[4*cur_pos+2] || var_data_temp[4*cur_pos+3]){
-                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
+                //bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context);
+                bool rl = this->get_context_m5(i, left_len, right_len, align.tAlignedSeq, context, true);
                 if (!rl){
                     ++cur_pos;
                     continue;
@@ -575,10 +576,14 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
                     ++cur_qseq_end;
                 }
                 
-                if (cur_qseq_start < 0)
-                    throw runtime_error("cur_qseq_start < 0");
-                if (cur_qseq_end >= alen)
-                    throw runtime_error("cur_qseq_end >= alen");
+                if (cur_qseq_start < 0){
+                    cur_qseq_start = 0;
+                    //throw runtime_error("cur_qseq_start < 0");
+                }
+                if (cur_qseq_end >= alen){
+                    cur_qseq_end = alen - 1;
+                    //throw runtime_error("cur_qseq_end >= alen");
+                }
                 
                 for (auto j = cur_qseq_start; j <= cur_qseq_end; ++j){
                     if (align.qAlignedSeq[j]!='-')
@@ -689,7 +694,7 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     return true;
 }
 
-bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAlignedSeq, pair<string,string> &context)
+bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAlignedSeq, pair<string,string> &context, bool is_overhanged)
 {
     int n_base, k;
     
@@ -699,8 +704,12 @@ bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAl
     string context_left("");
     while (n_base<=left){
         k++;
-        if (i - k < 0)
-            return false;
+        if (i - k < 0){
+            if (is_overhanged)
+                break;
+            else
+                return false;
+        }
         if (tAlignedSeq[i-k] != cur_base && tAlignedSeq[i-k] != '-'){
             cur_base = tAlignedSeq[i-k];
             n_base++;
@@ -720,8 +729,12 @@ bool AlignCoderSNV::get_context_m5(int i, int left, int right, const string &tAl
     string context_right("");
     while (n_base <= right){
         k++;
-        if (i + k >= tAlignedSeq.size())
-            return false;
+        if (i + k >= tAlignedSeq.size()){
+            if (is_overhanged)
+                break;
+            else
+                return false;
+        }
         if (tAlignedSeq[i+k] != cur_base && tAlignedSeq[i+k] != '-'){
             cur_base = tAlignedSeq[i+k];
             n_base++;
