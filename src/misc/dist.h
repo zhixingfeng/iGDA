@@ -9,7 +9,7 @@
 #ifndef iGDA_dist_h
 #define iGDA_dist_h
 
-inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2, vector<bool> &temp_array, bool check_ref = true, int min_overlap = 500)
+inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode_2, const ReadRange &range_1, const ReadRange &range_2, vector<bool> &temp_array, bool check_ref = true, int min_overlap = 500, bool is_asym = false)
 {
     ReadRange range_overlap(range_1.first >= range_2.first ? range_1.first : range_2.first, range_1.second <= range_2.second ? range_1.second : range_2.second);
     
@@ -24,10 +24,16 @@ inline double sim_jaccard(const vector<int> &encode_1, const vector<int> &encode
     int n_overlap_2 = 0;
     // read 1
     for (auto i = 0; i < encode_1.size(); ++i){
-        if (encode_1[i] >= 4*range_overlap.first && encode_1[i] <= 4*range_overlap.second+3){
+        if (is_asym){
             temp_array[encode_1[i]] = true;
             ++n_union;
             ++n_overlap_1;
+        }else{
+            if (encode_1[i] >= 4*range_overlap.first && encode_1[i] <= 4*range_overlap.second+3){
+                temp_array[encode_1[i]] = true;
+                ++n_union;
+                ++n_overlap_1;
+            }
         }
     }
     

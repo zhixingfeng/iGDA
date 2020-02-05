@@ -721,7 +721,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 if (is_correct)
                     cur_dist = sim_jaccard(encode_data_cd[i], encode_data[j], reads_range_cd[i], reads_range[j], temp_array, true, min_overlap);
                 else
-                    cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
+                    cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, 0, true);
+                    //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
                 
                 if (cur_dist <= min_jaccard) continue;
                 
@@ -2005,8 +2006,8 @@ void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data,
         for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
             ReadRange contig_range(this->rl_ann_clust[j].start, this->rl_ann_clust[j].end);
             //int min_len = 0.75*(contig_range.second - contig_range.first + 1);
-            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, true, 0);
-            
+            //double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, true, 0);
+            double cur_jaccard = sim_jaccard(recode_data[i], this->rl_ann_clust[j].cons_seq, reads_range[i], contig_range, temp_array, true, 0, true);
             contig_jaccard.push_back(cur_jaccard);
             
             int overlap_start = reads_range[i].first >= contig_range.first ? reads_range[i].first : contig_range.first;
