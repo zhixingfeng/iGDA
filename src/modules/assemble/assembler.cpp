@@ -614,7 +614,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -696,12 +696,15 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cur_cons.start = reads_range_cd[i].first;
             cur_cons.end = reads_range_cd[i].second;
         }else{
-            cur_cons.seed = recode_data[i];
-            cur_cons.cons_seq = recode_data[i];
+            //cur_cons.seed = recode_data[i];
+            //cur_cons.cons_seq = recode_data[i];
+            cur_cons.seed = encode_data[i];
+            cur_cons.cons_seq = encode_data[i];
             cur_cons.start = reads_range[i].first;
             cur_cons.end = reads_range[i].second;
         }
-        for (auto b = 0; b < 1; ++b){
+        bool is_valid = false;
+        for (auto b = 0; b < max_iter; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
             //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
             priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
@@ -718,12 +721,15 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 //double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
                 int min_overlap = int(0.75*(cur_cons.end - cur_cons.start));
                 double cur_dist;
-                if (is_correct)
+                if (is_correct){
                     cur_dist = sim_jaccard(encode_data_cd[i], encode_data[j], reads_range_cd[i], reads_range[j], temp_array, true, min_overlap);
-                else
-                    cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, 0, true);
+                }else{
+                    ReadRange cur_range(cur_cons.start, cur_cons.end);
+                    cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                    //cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                    //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, 0, true);
                     //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
-                
+                }
                 if (cur_dist <= min_jaccard) continue;
                 
                 topn_id.push(pair<int,double>(j,cur_dist));
@@ -781,7 +787,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             
             if (is_homo){
                 this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
-                rl_ann_clust.push_back(cur_cons);
+                is_valid = true;
+                //rl_ann_clust.push_back(cur_cons);
+            }else{
+                is_valid = false;
             }
             
             // clean cur_pu_var_count and cur_pu_reads_count
@@ -790,9 +799,11 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
                 cur_pu_var_ref_count[*it] = 0;
             
-            if (is_homo)
-                break;
+            //if (is_homo)
+            //    break;
         }
+        if (is_valid)
+            rl_ann_clust.push_back(cur_cons);
     }
     
     
