@@ -513,3 +513,14 @@ TEST_CASE("itest assembler::correct_contigs()", "[hide]")
     assembler.correct_contigs(ann_file, out_file);
     
 }
+
+TEST_CASE("debug ann_to_graph", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_assemble/realign.ann.tested.ft.count.ft";
+    Assembler assembler;
+    Graph gp;
+    assembler.ann_to_graph(gp, ann_file);
+    ofstream fs_graph(ann_file + ".dot");
+    boost::write_graphviz(fs_graph, gp);
+    fs_graph.close();
+}

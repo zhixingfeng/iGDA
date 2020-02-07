@@ -2382,6 +2382,7 @@ void Assembler::find_nccontigs_legacy(vector<int64_t> &idx)
 void Assembler::get_consensus_recode(ConsensusSeq &cons, const vector<int> &pu_var_count, const vector<int> &pu_var_ref_count, int start, int end, int min_cvg)
 {
     cons.cons_seq.clear();
+    cons.tested_loci.clear();
     cons.start = start;
     cons.end = start;
     vector<double> prop(pu_var_count.size(),-1);

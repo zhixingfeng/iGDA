@@ -168,5 +168,90 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E444B6A5-FB7E-4174-9D1E-69ED74B28D6C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "i == 0 &amp;&amp; j == 1"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1179"
+            endingLineNumber = "1179"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C01230E8-7E4E-4ECD-872F-249612606422"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "i == 0 &amp;&amp; j == 1"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1214"
+            endingLineNumber = "1214"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "01151EDA-8F0B-46A6-8F1C-9242663CD3C6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "i == 0 &amp;&amp; j == 1"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1209"
+            endingLineNumber = "1209"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3C373C0D-4060-439C-9ADD-C1AADC385533"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "i == 0 &amp;&amp; j == 1"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1192"
+            endingLineNumber = "1192"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC08034F-CE42-4751-A6B0-C9E48DB46968"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "i == 0 &amp;&amp; j == 1"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1195"
+            endingLineNumber = "1195"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
