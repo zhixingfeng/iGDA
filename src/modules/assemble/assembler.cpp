@@ -2017,6 +2017,32 @@ void Assembler::assemble(Graph &gp, string out_ann_file)
     this->print_rl_ann_clust(out_ann_file, true);
 }
 
+// polish contigs
+void Assembler::polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob, int min_reads, int min_homo_block_dist)
+{
+    // convert ann consensus sequence to cmpreads
+    this->read_ann_results(ann_file);
+    ofstream fs_cmpreads_file;
+    open_outfile(fs_cmpreads_file, ann_file + ".cmpreads.txt");
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        fs_cmpreads_file << this->rl_ann_clust[i].cons_seq << "," <<endl;
+    }
+    fs_cmpreads_file.close();
+    string cmd = "igda txt2bin " + ann_file + ".cmpreads.txt" + " " + ann_file + ".cmpreads";
+    cout << cmd << endl;
+    system(cmd.c_str());
+    
+    // run dforest to calculate conditional probability
+    cmd = "igda dforest -i -r " + to_string(min_reads) + " " + encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
+    cout << cmd << endl;
+    system(cmd.c_str());
+    
+    // polish ann results
+    
+    
+}
+
+
 void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)
 {
     if (recode_data.size() != reads_range.size())

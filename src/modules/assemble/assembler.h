@@ -176,6 +176,8 @@ public:
     // assign reads to assembled contigs (recode only)
     void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);
     
+    // polish contigs
+    void polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob = 0.2, int min_reads = 25, int min_homo_block_dist = 15);
     
 protected:
     // ann sub functions
