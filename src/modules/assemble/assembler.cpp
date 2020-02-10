@@ -682,7 +682,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         cout << "correct reads" << endl;
         correct_reads(encode_data, reads_range, encode_data_cd, reads_range_cd);
     }
-    
+    ofstream fs_iterfile;
+    open_outfile(fs_iterfile, encode_file + ".iter");
     int64_t n_nc_reads = 0;
     for (auto i : nc_reads_id){
         ++n_nc_reads;
@@ -704,6 +705,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cur_cons.end = reads_range[i].second;
         }
         bool is_valid = false;
+        vector<int> prev_cons_seq = cur_cons.cons_seq;
         for (auto b = 0; b < max_iter; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
             //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
@@ -788,6 +790,19 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             if (is_homo){
                 this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
                 is_valid = true;
+                
+                if (std::equal(cur_cons.cons_seq.begin(), cur_cons.cons_seq.end(), prev_cons_seq.begin())){
+                    // clean cur_pu_var_count and cur_pu_reads_count
+                    for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                        cur_pu_var_count[*it] = 0;
+                    for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                        cur_pu_var_ref_count[*it] = 0;
+                    
+                    fs_iterfile << b << endl;
+                    break;
+                }else{
+                    prev_cons_seq = cur_cons.cons_seq;
+                }
                 //rl_ann_clust.push_back(cur_cons);
             }else{
                 is_valid = false;
@@ -805,7 +820,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         if (is_valid)
             rl_ann_clust.push_back(cur_cons);
     }
-    
+    fs_iterfile.close();
     
 }
 
