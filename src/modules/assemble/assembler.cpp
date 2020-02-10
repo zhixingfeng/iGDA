@@ -799,12 +799,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                     for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
                         cur_pu_var_ref_count[*it] = 0;
                     
-                    //fs_iterfile << cur_cons.cons_seq << "\t" << b << endl;
                     break;
                 }else{
                     prev_cons_seq = cur_cons.cons_seq;
                 }
-                //rl_ann_clust.push_back(cur_cons);
             }else{
                 is_valid = false;
                 
