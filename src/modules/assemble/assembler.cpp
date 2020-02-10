@@ -706,7 +706,8 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
         }
         bool is_valid = false;
         vector<int> prev_cons_seq = cur_cons.cons_seq;
-        for (auto b = 0; b < max_iter; ++b){
+        int b = 0;
+        for (b = 0; b < max_iter; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
             //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
             priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
@@ -798,7 +799,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                     for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
                         cur_pu_var_ref_count[*it] = 0;
                     
-                    fs_iterfile << b << endl;
+                    //fs_iterfile << cur_cons.cons_seq << "\t" << b << endl;
                     break;
                 }else{
                     prev_cons_seq = cur_cons.cons_seq;
@@ -806,6 +807,14 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 //rl_ann_clust.push_back(cur_cons);
             }else{
                 is_valid = false;
+                
+                // clean cur_pu_var_count and cur_pu_reads_count
+                for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                    cur_pu_var_count[*it] = 0;
+                for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                    cur_pu_var_ref_count[*it] = 0;
+                
+                break;
             }
             
             // clean cur_pu_var_count and cur_pu_reads_count
@@ -817,8 +826,10 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             //if (is_homo)
             //    break;
         }
-        if (is_valid)
+        if (is_valid){
             rl_ann_clust.push_back(cur_cons);
+            fs_iterfile << cur_cons.cons_seq << "\t" << b + 1 << endl;
+        }
     }
     fs_iterfile.close();
     
