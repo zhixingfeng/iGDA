@@ -269,5 +269,102 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5FCE0FD5-F9CA-4A19-B206-5050906FA64B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "DForestSNVSTXXL::run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "21C0D6BE-71D2-4B8E-A621-446941D23823"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            condition = "focal_locus == 3562216"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "DForestSNVSTXXL::run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33E3CE30-B507-428C-BE88-4E674345602B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "DForestSNVSTXXL::run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "799A9E57-01DB-49FD-8C85-89E49D6D2B84"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "DForestSNVSTXXL::run_thread(cmpreads_file, out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B2E4153B-C153-451A-8B4D-ED64BB0B26FC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "DForestSNVSTXXL::build_tree(fs_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, p_y_x_archive, idx_mod, focal_locus, min_reads, max_depth, minfreq, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B4344658-006D-4620-A77E-34D49A429DCE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "DForestSNVSTXXL::build_tree(fs_outfile, cand_loci, counter, temp_vec_var, temp_vec_read, p_y_x_archive, idx_mod, focal_locus, min_reads, max_depth, minfreq, isinter)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

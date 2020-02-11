@@ -11,6 +11,7 @@
 #include "../src/misc/io.h"
 #include "../src/misc/basic.h"
 #include "../src/modules/assemble/assembler.h"
+#include "../src/modules/dforest/dforestsnvstxxl.h"
 
 
 TEST_CASE("test assembler::get_variants()", "[hide]")
@@ -528,13 +529,32 @@ TEST_CASE("debug ann_to_graph", "[hide]")
 TEST_CASE("test polish()", "[hide]")
 {
     string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft.count.ft";
-    //string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft";
     string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.encode.rdim";
     string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/clpX_1/realign.m5";
     string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/Borrelia_burgdorferi_N40_chr.fna";
     string tmp_dir = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/clpX_1/tmp_polish";
     string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft.count.ft.polished";
+    
     Assembler assembler;
     assembler.polish(ann_file, encode_file, m5_file, ref_file, out_file, tmp_dir, 0.3, 25, 15);
 
+}
+TEST_CASE("test dforest in polish()", "[hide]")
+{
+    //string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/uvrA_1/realign.ann.tested.ft.count.ft";
+    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/uvrA_1/realign.encode.rdim";
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/uvrA_1/realign.m5";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/Borrelia_burgdorferi_N40_chr.fna";
+    string cmpreads_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/uvrA_1/realign.ann.tested.ft.count.ft.unpolished.cmpreads.test";
+    string tmp_dir = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/uvrA_1/tmp_polish";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/uvrA_1/realign.ann.tested.ft.count.ft.dforest.test";
+    
+    AlignReaderM5 alignreaderm5;
+    AlignCoderSNV aligncoder;
+        
+    DForestSNVSTXXL forestsnvstxxl(&alignreaderm5, &aligncoder);
+    
+    forestsnvstxxl.load_homo_blocks(ref_file);
+    forestsnvstxxl.run(encode_file, m5_file, cmpreads_file, out_file, tmp_dir, 10, 1000, 1, 0.3, 1, 1, true);
+    
 }

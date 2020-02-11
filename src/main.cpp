@@ -766,9 +766,9 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
-            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 25", false , 25, "minreads", cmd);
+            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 10", false , 10, "minreads", cmd);
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.3", false , 0.3, "minfreq", cmd);
-            ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 15", false , 15, "minhomo", cmd);
+            ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 1", false , 1, "minhomo", cmd);
                         
             cmd.parse(argv2);
             cout << "minreads = " << minreadsArg.getValue() << endl;
