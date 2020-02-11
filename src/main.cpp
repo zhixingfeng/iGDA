@@ -268,7 +268,7 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
             
-            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 12", false , 12, "minreads", cmd);
+            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 25", false , 25, "minreads", cmd);
             ValueArg<int> maxdepthArg("d","maxdepth","maximal depth of a tree, default: 1000", false , 1000, "maxdepth", cmd);
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.0", false , 0.0, "minfreq", cmd);
             ValueArg<double> maxfreqArg("q","maxfreq","maximal frequency: 1.0 (substantially increase speed if it is small, but restrict the maximal conditional frequency)", false , 1.0, "maxfreq", cmd);
@@ -756,6 +756,30 @@ int main(int argc, const char * argv[])
             assembler.test_contigs_pairwise(annfileArg.getValue(), recodefileArg.getValue(), annfileArg.getValue() + ".ft",
                                             minlogbfArg.getValue(), maxlociArg.getValue(), mincvgArg.getValue(), minrrArg.getValue());
             
+        }
+        
+        if (strcmp(argv[1], "polish")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> encodefileArg("encodefile", "path of encode file", true, "", "encodefile", cmd);
+            UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            UnlabeledValueArg<string> tmpdirArg("tmpdir", "temporary directory", true, "", "tmpdir", cmd);
+            
+            ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 25", false , 25, "minreads", cmd);
+            ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.3", false , 0.3, "minfreq", cmd);
+            ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 15", false , 15, "minhomo", cmd);
+                        
+            cmd.parse(argv2);
+            cout << "minreads = " << minreadsArg.getValue() << endl;
+            cout << "minfreq = " << minfreqArg.getValue() << endl;
+            cout << "minhomo = " << minhomoArg.getValue() << endl;
+            
+            Assembler assembler;
+            assembler.polish(annfileArg.getValue(), encodefileArg.getValue(), alignfileArg.getValue(),
+                             reffileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(),
+                             minfreqArg.getValue(), minreadsArg.getValue(), minhomoArg.getValue());
+           
         }
         
         if (strcmp(argv[1], "correct_contigs")==0){

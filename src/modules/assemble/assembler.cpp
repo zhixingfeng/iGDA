@@ -2033,12 +2033,54 @@ void Assembler::polish(string ann_file, string encode_file, string m5_file, stri
     system(cmd.c_str());
     
     // run dforest to calculate conditional probability
-    cmd = "igda dforest -i -r " + to_string(min_reads) + " " + encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
+    cmd = "igda dforest -i -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " " +
+        encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
     cout << cmd << endl;
     system(cmd.c_str());
     
-    // polish ann results
+    /*-------------- polish ann results -------------*/
+    // load dforest_data
+    unordered_map<int, vector<vector<int>> > dforest_data;
+    ifstream fs_dforestfile;
+    open_infile(fs_dforestfile, ann_file + ".dforest.all");
+    while (true) {
+        string buf;
+        getline(fs_dforestfile, buf);
+        if (fs_dforestfile.eof())
+            break;
+        
+        vector<string> buf_vec = split(buf, '\t');
+        if (buf_vec.size() != 7)
+            throw runtime_error("permute_encodefile(): buf_vec.size() != 7 in " + ann_file + ".dforest.all");
+        dforest_data[stoi(buf_vec[0])].push_back(split_int(buf_vec[6], ','));
+    }
+    fs_dforestfile.close();
     
+    // polish cons_seq of ann
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (rl_ann_clust[i].cons_seq.size() <= 1) continue;
+        vector<int> cons_seq_polished;
+        unordered_set<int> cons_seq_hash(this->rl_ann_clust[i].cons_seq.begin(), this->rl_ann_clust[i].cons_seq.end());
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            auto it = dforest_data.find(rl_ann_clust[i].cons_seq[j]);
+            if (it == dforest_data.end()) continue;
+            for (auto s = 0; s < it->second.size(); ++s){
+                bool is_valid = true;
+                for (auto t = 0; t < it->second[s].size(); ++t){
+                    auto cur_it = cons_seq_hash.find(it->second[s][t]);
+                    if (cur_it == cons_seq_hash.end())
+                        is_valid = false;
+                }
+                if (is_valid){
+                    cons_seq_polished.push_back(rl_ann_clust[i].cons_seq[j]);
+                    break;
+                }
+            }
+        }
+        rl_ann_clust[i].cons_seq = cons_seq_polished;
+    }
+    
+    this->print_rl_ann_clust(out_file);
     
 }
 

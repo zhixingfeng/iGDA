@@ -525,15 +525,16 @@ TEST_CASE("debug ann_to_graph", "[hide]")
     fs_graph.close();
 }
 
-TEST_CASE("test polish()")
+TEST_CASE("test polish()", "[hide]")
 {
     string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft.count.ft";
-    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/clpX_1/realign.encode";
+    //string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft";
+    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.encode.rdim";
     string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/clpX_1/realign.m5";
     string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/Borrelia_burgdorferi_N40_chr.fna";
     string tmp_dir = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/detect/clpX_1/tmp_polish";
     string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft.count.ft.polished";
     Assembler assembler;
-    assembler.polish(ann_file, encode_file, m5_file, ref_file, out_file, tmp_dir, 0.2, 25, 15);
+    assembler.polish(ann_file, encode_file, m5_file, ref_file, out_file, tmp_dir, 0.3, 25, 15);
 
 }
