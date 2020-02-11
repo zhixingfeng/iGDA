@@ -2080,7 +2080,7 @@ void Assembler::polish(string ann_file, string encode_file, string m5_file, stri
         rl_ann_clust[i].cons_seq = cons_seq_polished;
     }
     
-    this->print_rl_ann_clust(out_file);
+    this->print_rl_ann_clust(out_file, true);
     
 }
 
