@@ -2040,7 +2040,7 @@ void Assembler::polish(string ann_file, string encode_file, string m5_file, stri
     system(cmd.c_str());
     
     // run dforest to calculate conditional probability
-    cmd = "igda dforest -i -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " " +
+    cmd = "igda dforest -i -q 2 -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " " +
         encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
     cout << cmd << endl;
     system(cmd.c_str());
