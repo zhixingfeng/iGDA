@@ -660,6 +660,7 @@ int main(int argc, const char * argv[])
             SwitchArg iscorrectArg("r", "correct", "is use corrected reads as seeds", cmd, false);
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
             SwitchArg ishangArg("g", "ishang", "is only use reads whose start is smaller than the seed as neighbors", cmd, false);
+            SwitchArg isrecodeArg("e", "isrecode", "is use recode_data instead of encode_data to calculate jaccard index", cmd, false);
             
             cmd.parse(argv2);
             cout << "mincvg = " << mincvgArg.getValue() << endl;
@@ -676,7 +677,7 @@ int main(int argc, const char * argv[])
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
                 assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue());
+                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue(), isrecodeArg.getValue());
             }
             vector<int64_t> idx;
             assembler.find_nccontigs(idx);

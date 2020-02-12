@@ -614,7 +614,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -697,10 +697,13 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
             cur_cons.start = reads_range_cd[i].first;
             cur_cons.end = reads_range_cd[i].second;
         }else{
-            //cur_cons.seed = recode_data[i];
-            //cur_cons.cons_seq = recode_data[i];
-            cur_cons.seed = encode_data[i];
-            cur_cons.cons_seq = encode_data[i];
+            if (is_recode){
+                cur_cons.seed = recode_data[i];
+                cur_cons.cons_seq = recode_data[i];
+            }else{
+                cur_cons.seed = encode_data[i];
+                cur_cons.cons_seq = encode_data[i];
+            }
             cur_cons.start = reads_range[i].first;
             cur_cons.end = reads_range[i].second;
         }
@@ -728,7 +731,11 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                     cur_dist = sim_jaccard(encode_data_cd[i], encode_data[j], reads_range_cd[i], reads_range[j], temp_array, true, min_overlap);
                 }else{
                     ReadRange cur_range(cur_cons.start, cur_cons.end);
-                    cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                    if (is_recode){
+                        cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                    }else{
+                        cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                    }
                     //cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
                     //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, 0, true);
                     //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, min_overlap);
