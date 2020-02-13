@@ -680,6 +680,7 @@ int main(int argc, const char * argv[])
                                     minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue(), isrecodeArg.getValue());
             }
             vector<int64_t> idx;
+            assembler.print_rl_ann_clust(outfileArg.getValue() + ".raw", true);
             assembler.find_nccontigs(idx);
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", true, idx);
             string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
