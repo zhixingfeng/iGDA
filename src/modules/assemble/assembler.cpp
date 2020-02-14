@@ -732,9 +732,9 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
                 }else{
                     ReadRange cur_range(cur_cons.start, cur_cons.end);
                     if (is_recode){
-                        cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                        cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, min_overlap, true);
                     }else{
-                        cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
+                        cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, min_overlap, true);
                     }
                     //cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, 0, true);
                     //cur_dist = sim_jaccard(encode_data[i], encode_data[j], reads_range[i], reads_range[j], temp_array, true, 0, true);
