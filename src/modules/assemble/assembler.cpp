@@ -1934,7 +1934,9 @@ void Assembler::correct_contigs(string ann_file, string out_file, double min_ove
                 is_corrected[i] = true;
                 for (auto k = 0; k < this->rl_ann_clust[j].cons_seq.size(); ++k){
                     if (cons_seq_hash[i].find(rl_ann_clust[j].cons_seq[k]) == cons_seq_hash[i].end() &&
-                        tested_loci_hash[i].find(rl_ann_clust[j].cons_seq[k]/4) == tested_loci_hash[i].end()){
+                        tested_loci_hash[i].find(rl_ann_clust[j].cons_seq[k]/4) == tested_loci_hash[i].end() &&
+                        int(rl_ann_clust[j].cons_seq[k]/4) >= rl_ann_clust[i].start &&
+                        int(rl_ann_clust[j].cons_seq[k]/4) <= rl_ann_clust[i].end){
                         
                         cons_seq_corrected[i].insert(rl_ann_clust[j].cons_seq[k]);
                         tested_loci_corrected[i].insert(rl_ann_clust[j].cons_seq[k]/4);
