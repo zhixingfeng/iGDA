@@ -558,3 +558,15 @@ TEST_CASE("test dforest in polish()", "[hide]")
     forestsnvstxxl.run(encode_file, m5_file, cmpreads_file, out_file, tmp_dir, 10, 1000, 1, 0.3, 1, 1, true);
     
 }
+
+TEST_CASE("debug Assemble::ann_to_graph()", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_polish/phase/clpX_1/realign.ann.tested.ft.count.ft";
+    Assembler assembler;
+    Graph gp;
+    assembler.ann_to_graph(gp, ann_file);
+    
+    ofstream fs_graph(ann_file + ".dot");
+    boost::write_graphviz(fs_graph, gp);
+}
+
