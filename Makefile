@@ -1,3 +1,4 @@
+PREFIX = .
 CXX = g++
 CC = gcc
 INCLUDES = -I include -I tools/boost/include -I tools -I tools/seqan/seqan/include
@@ -28,10 +29,10 @@ all: mkbin igda rmobj
 	
 .PHONY: mkbin
 mkbin:
-	mkdir -p bin
+	mkdir -p $(PREFIX)/bin
 	
 igda: $(OBJ_CXX) $(OBJ_C) 
-	$(CXX) -o bin/igda $^ $(LIBS) $(CXX_FLAGS)
+	$(CXX) -o $(PREFIX)/bin/igda $^ $(LIBS) $(CXX_FLAGS)
 
 %.o: %.cpp
 	$(CXX) $(INCLUDES) -c $< -o $@ $(CXX_FLAGS)
@@ -43,5 +44,5 @@ rmobj:
 
 .PHONY: clean
 clean:
-	rm -rf bin
+	rm -rf $(PREFIX)/bin
 
