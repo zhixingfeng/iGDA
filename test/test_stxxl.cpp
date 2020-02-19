@@ -11,7 +11,6 @@
 #include "../src/misc/io.h"
 #include "../src/misc/basic.h"
 #include "../src/modules/assemble/assembler.h"
-#include "../src/modules/alignment/alignment.h"
 #include "../tools/tools.h"
 #include <ctime>
 

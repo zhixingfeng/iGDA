@@ -1,6 +1,5 @@
 PREFIX = .
 CXX = g++
-CC = gcc
 INCLUDES = -I include -I tools/boost/include -I tools -I tools/seqan/seqan/include
 CXX_FLAGS = -pthread -std=c++14 -w -O2 -lz
 
@@ -37,8 +36,6 @@ igda: $(OBJ_CXX) $(OBJ_C)
 %.o: %.cpp
 	$(CXX) $(INCLUDES) -c $< -o $@ $(CXX_FLAGS)
 
-%.o: %.c
-	$(CC) $(INCLUDES) -c $< -o $@ 
 rmobj:
 	rm -f $(OBJ_CXX)
 

@@ -16,7 +16,6 @@
 #include "../../../include/headers.h"
 #include "../../misc/misc.h"
 #include "../aligncoder/aligncodersnv.h"
-#include "../src/modules/alignment/alignment.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
 
 struct CmpreadsDiff
