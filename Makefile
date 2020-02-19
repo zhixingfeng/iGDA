@@ -14,15 +14,11 @@ SRC_CXX = $(wildcard src/*.cpp)\
     $(wildcard src/modules/detectsingle/*.cpp)\
     $(wildcard src/modules/rsm/*.cpp)\
 	$(wildcard test/*.cpp)\
-	$(wildcard tools/ssw/*.cpp)\
     $(wildcard tools/prob/*.cpp)\
 	$(wildcard src/misc/*.cpp)
 
-SRC_C = $(wildcard tools/ssw/*.c)
 
 OBJ_CXX = $(SRC_CXX:.cpp=.o)
-
-OBJ_C = $(SRC_C:.c=.o)
 
 all: mkbin igda rmobj
 	
@@ -30,7 +26,7 @@ all: mkbin igda rmobj
 mkbin:
 	mkdir -p $(PREFIX)/bin
 	
-igda: $(OBJ_CXX) $(OBJ_C) 
+igda: $(OBJ_CXX)
 	$(CXX) -o $(PREFIX)/bin/igda $^ $(LIBS) $(CXX_FLAGS)
 
 %.o: %.cpp
