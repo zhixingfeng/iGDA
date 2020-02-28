@@ -19,6 +19,8 @@
 #include "../src/modules/rsm/rsmsnv.h"
 #include "./misc/misc.h"
 #include "./misc/permute_reads.h"
+#include "./misc/merge_data.h"
+
 
 #ifdef _UNITTEST
 
@@ -953,6 +955,17 @@ int main(int argc, const char * argv[])
            
             cmd.parse(argv2);
             get_condprob_threshold(permutefileArg.getValue(), pufileArg.getValue(), minprobArg.getValue());
+            
+        }
+        
+        // merge encode
+        if (strcmp(argv[1], "merge_encode")==0){
+            UnlabeledValueArg<string> m5fofnfileArg("m5_fofn_file", "path of m5 fofn file", true, "", "m5_fofn_file", cmd);
+            UnlabeledValueArg<string> encodefofnfileArg("encode_fofn_file", "path of encode fofn file", true, "", "encode_fofn_file", cmd);
+            UnlabeledValueArg<string> outfileArg("out_file", "path of output encode file", true, "", "out_file", cmd);
+           
+            cmd.parse(argv2);
+            merge_encode(m5fofnfileArg.getValue(), encodefofnfileArg.getValue(), outfileArg.getValue());
             
         }
         
