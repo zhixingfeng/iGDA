@@ -668,7 +668,7 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     size_t genome_size = get_genome_size(reads_range);
     
     // get cumulative sum of variants
-    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
+    //vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
     
     // create a template to compare reads
     vector<bool> temp_array(genome_size*4+3, false);
