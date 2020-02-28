@@ -11,6 +11,7 @@
 #include "../../include/headers.h"
 #include "./io.h"
 void merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encode_file);
+void merge_m5(string m5_fofn_file, string readname_file, string out_m5_file);
 
 
 #endif /* merge_data_h */

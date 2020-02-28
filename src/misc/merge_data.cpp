@@ -80,3 +80,52 @@ void merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encod
     p_outfile.close();
     p_outfile_name.close();
 }
+
+void merge_m5(string m5_fofn_file, string readname_file, string out_m5_file)
+{
+    // load m5 files
+    vector<string> m5_files;
+    ifstream p_m5_fofn_file; open_infile(p_m5_fofn_file, m5_fofn_file);
+    while (true) {
+        string buf;
+        getline(p_m5_fofn_file, buf);
+        if (p_m5_fofn_file.eof()) break;
+        m5_files.push_back(buf);
+    }
+    p_m5_fofn_file.close();
+    
+    // load readname
+    vector<string> readnames;
+    ifstream p_readname_file; open_infile(p_readname_file, readname_file);
+    while (true) {
+        string buf;
+        getline(p_readname_file, buf);
+        if (p_readname_file.eof()) break;
+        readnames.push_back(buf);
+    }
+    p_readname_file.close();
+    
+    // merge m5 files
+    unordered_set<string> tested_reads;
+    ofstream p_out_m5_file; open_outfile(p_out_m5_file, out_m5_file);
+    for (auto i = 0; i < m5_files.size(); ++i){
+        cout << m5_files[i] << endl;
+        ifstream p_m5_file; open_infile(p_m5_file, m5_files[i]);
+        while (true) {
+            string buf; getline(p_m5_file, buf);
+            if (p_m5_file.eof()) break;
+            
+            vector<string> buf_vec = split(buf, ' ');
+            if ((int) buf_vec.size() != 19)
+                throw runtime_error("incorrect format in " + m5_files[i]);
+            
+            string cur_readname = buf_vec[0];
+            if (tested_reads.find(cur_readname) == tested_reads.end()){
+                tested_reads.insert(cur_readname);
+                p_out_m5_file << buf << endl;
+            }
+        }
+        p_m5_file.close();
+    }
+    p_out_m5_file.close();
+}

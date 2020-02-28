@@ -723,5 +723,13 @@ TEST_CASE("test merge_encode()", "[hide]")
     
 }
 
+TEST_CASE("test merge_m5()", "[hide]")
+{
+    string m5_fofn_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/m5_file.fofn";
+    string readname_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/merge.encode.rdim.readname";
+    string out_m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/merge.m5";
+    merge_m5(m5_fofn_file, readname_file, out_m5_file);
+    
+}
 
 

@@ -966,7 +966,16 @@ int main(int argc, const char * argv[])
            
             cmd.parse(argv2);
             merge_encode(m5fofnfileArg.getValue(), encodefofnfileArg.getValue(), outfileArg.getValue());
-            
+        }
+        
+        // merge m5
+        if (strcmp(argv[1], "merge_m5")==0){
+            UnlabeledValueArg<string> m5fofnfileArg("m5_fofn_file", "path of m5 fofn file", true, "", "m5_fofn_file", cmd);
+            UnlabeledValueArg<string> readnamefileArg("readname_file", "path of readname list file", true, "", "readname_file", cmd);
+            UnlabeledValueArg<string> outfileArg("out_file", "path of output m5 file", true, "", "out_file", cmd);
+           
+            cmd.parse(argv2);
+            merge_m5(m5fofnfileArg.getValue(), readnamefileArg.getValue(), outfileArg.getValue());
         }
         
     }
