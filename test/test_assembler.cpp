@@ -570,3 +570,14 @@ TEST_CASE("debug Assemble::ann_to_graph()", "[hide]")
     boost::write_graphviz(fs_graph, gp);
 }
 
+TEST_CASE("test ram issue of Assemble::assemble()", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_assemble_ram_issue/NC_001318.1_gene_661/realign.ann.tested.ft.count.ft";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_assemble_ram_issue/NC_001318.1_gene_661/realign.ann.tested.ft.count.ft.tred.dot";
+    
+    Assembler assembler;
+    Graph gp;
+    assembler.read_ann_results(ann_file);
+    read_dot_file(gp, dot_file);
+    assembler.assemble(gp, dot_file + ".assembled");
+}
