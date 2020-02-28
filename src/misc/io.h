@@ -208,6 +208,21 @@ inline bool loadreadsrange(vector<ReadRange> &reads_range, string align_file, ch
     return true;
 }
 
+// load m5_data
+inline bool loadm5data(unordered_map<string, ReadRange> &m5_data, vector<string> &read_names, string m5_file)
+{
+    AlignReaderM5 alignreaderm5;
+    Align align;
+    alignreaderm5.open(m5_file);
+    while(alignreaderm5.readline(align)){
+        m5_data[align.qName] = ReadRange(align.tStart, align.tEnd);
+        read_names.push_back(align.qName);
+    }
+    alignreaderm5.close();
+    
+    return true;
+}
+
 // idx must be increasingly ordered
 inline void select_lines(const vector<int> &idx, string infile, string outfile)
 {

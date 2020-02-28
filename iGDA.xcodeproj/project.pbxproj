@@ -41,6 +41,7 @@
 		DCF2E09223E0E3EE00DC2D98 /* permute_reads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF2E09023E0E3EE00DC2D98 /* permute_reads.cpp */; };
 		DCF2E09423E0E60900DC2D98 /* test_permute_reads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF2E09323E0E60900DC2D98 /* test_permute_reads.cpp */; };
 		DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF4892C1DE53C6300E5E88D /* test_performance.cpp */; };
+		DCF5B8642408C957000A2D98 /* merge_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCF5B8632408C957000A2D98 /* merge_data.cpp */; };
 		DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCFEC5961D5BD12B0025E57C /* test_misc.cpp */; };
 /* End PBXBuildFile section */
 
@@ -4265,6 +4266,8 @@
 		DCF2E09123E0E3EE00DC2D98 /* permute_reads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = permute_reads.h; sourceTree = "<group>"; };
 		DCF2E09323E0E60900DC2D98 /* test_permute_reads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_permute_reads.cpp; sourceTree = "<group>"; };
 		DCF4892C1DE53C6300E5E88D /* test_performance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_performance.cpp; sourceTree = "<group>"; };
+		DCF5B8622408B4B8000A2D98 /* merge_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = merge_data.h; sourceTree = "<group>"; };
+		DCF5B8632408C957000A2D98 /* merge_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = merge_data.cpp; sourceTree = "<group>"; };
 		DCF9B0BF22948F01002F5D8C /* correctreads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = correctreads.h; sourceTree = "<group>"; };
 		DCFEC5941D5BCCD30025E57C /* m5tofa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = m5tofa.h; sourceTree = "<group>"; };
 		DCFEC5951D5BCD370025E57C /* misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
@@ -11579,6 +11582,7 @@
 				DCB714DD1D620F4800666D59 /* seqopt.h */,
 				DC7018CB1D809C6200890781 /* cmpreads.h */,
 				DC422636233012C600A34C49 /* cmpreads_multithread.h */,
+				DC42264A23327D9300A34C49 /* cmpreads_multithread.cpp */,
 				DCE9486D1DA3334900CD9DCC /* pileup.h */,
 				DC8AB84C1DA4250F00EE19D1 /* statistics.h */,
 				DCD5FC881DAAE74A0062ADEF /* condfreq.h */,
@@ -11589,9 +11593,10 @@
 				DCAE06832146CC66007649C8 /* graph.h */,
 				DCAF850A218783EF00C757AE /* graph.cpp */,
 				DCF9B0BF22948F01002F5D8C /* correctreads.h */,
-				DC42264A23327D9300A34C49 /* cmpreads_multithread.cpp */,
 				DCF2E09023E0E3EE00DC2D98 /* permute_reads.cpp */,
 				DCF2E09123E0E3EE00DC2D98 /* permute_reads.h */,
+				DCF5B8622408B4B8000A2D98 /* merge_data.h */,
+				DCF5B8632408C957000A2D98 /* merge_data.cpp */,
 			);
 			path = misc;
 			sourceTree = "<group>";
@@ -11657,6 +11662,7 @@
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */,
 				DCF2E09223E0E3EE00DC2D98 /* permute_reads.cpp in Sources */,
+				DCF5B8642408C957000A2D98 /* merge_data.cpp in Sources */,
 				DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */,
 				DC93184B1D5527D200640B65 /* aligncodersnv.cpp in Sources */,
 				DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */,

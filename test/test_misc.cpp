@@ -7,6 +7,8 @@
 //
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
+#include "../src/misc/merge_data.h"
+
 #include <thread>
 //#include <stxxl.h>
 
@@ -712,7 +714,14 @@ TEST_CASE("test cmpreads_multithread", "[hide]")
     cmpreads_topn_multithread(encode_file, m5_file, out_file, 4);
 }
 
-
+TEST_CASE("test merge_encode()", "[hide]")
+{
+    string m5_fofn_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/m5_file.fofn";
+    string encode_fofn_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/encode_rdim_file.fofn";
+    string out_encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_merge_runs/results/merge.encode.rdim";
+    merge_encode(m5_fofn_file, encode_fofn_file, out_encode_file);
+    
+}
 
 
 

@@ -85,7 +85,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
             endingLineNumber = "40"
-            landmarkName = "permute_encodefile(m5_file, pileup_file, outfile, seed)"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -102,7 +102,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "permute_encodefile(m5_file, pileup_file, outfile, seed)"
+            landmarkName = "permute_encodefile(string m5_file, string pileup_file, string outfile, int seed)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -119,7 +119,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "61"
             endingLineNumber = "61"
-            landmarkName = "get_condprob_threshold(dforest_permuted_file, pileup_file, min_prob)"
+            landmarkName = "get_condprob_threshold(string dforest_permuted_file, string pileup_file, double min_prob)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -136,7 +136,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "76"
             endingLineNumber = "76"
-            landmarkName = "get_condprob_threshold(dforest_permuted_file, pileup_file, min_prob)"
+            landmarkName = "get_condprob_threshold(string dforest_permuted_file, string pileup_file, double min_prob)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -206,6 +206,22 @@
             endingLineNumber = "1210"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/merge_data.cpp"
+            timestampString = "604560880.4664741"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encode_file)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
