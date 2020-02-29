@@ -12,12 +12,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.151193"
+            timestampString = "604690514.585886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "760"
-            endingLineNumber = "760"
-            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode)"
+            startingLineNumber = "764"
+            endingLineNumber = "764"
+            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -29,12 +29,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.152985"
+            timestampString = "604690514.587129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "774"
-            endingLineNumber = "774"
-            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode)"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
+            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,12 +46,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.153415"
+            timestampString = "604690514.587518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "781"
-            endingLineNumber = "781"
-            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode)"
+            startingLineNumber = "785"
+            endingLineNumber = "785"
+            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,12 +63,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.153754"
+            timestampString = "604690514.587855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "783"
-            endingLineNumber = "783"
-            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode)"
+            startingLineNumber = "787"
+            endingLineNumber = "787"
+            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,79 +143,74 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A6A8C35C-8A2D-4A8E-8E0C-702AE591326E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             condition = "i == 22"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.1541131"
+            timestampString = "604690514.588228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1207"
-            endingLineNumber = "1207"
-            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            startingLineNumber = "1211"
+            endingLineNumber = "1211"
+            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "18AB2429-7201-421B-9CA8-813348A70C1C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j ==23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.154421"
+            timestampString = "604690514.58864"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1235"
-            endingLineNumber = "1235"
-            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            startingLineNumber = "1239"
+            endingLineNumber = "1239"
+            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FE9BFA4A-ACBA-4BA6-8C2E-9E3178425ABC"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.154705"
+            timestampString = "604690514.588909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1245"
-            endingLineNumber = "1245"
-            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            startingLineNumber = "1249"
+            endingLineNumber = "1249"
+            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "05A88A3F-386D-49AD-B6DD-DAC1480B9418"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "603425340.155005"
+            timestampString = "604690514.589164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1210"
-            endingLineNumber = "1210"
-            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop)"
+            startingLineNumber = "1214"
+            endingLineNumber = "1214"
+            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F080308B-D5AC-4332-9713-B377AD1BC55B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -225,119 +220,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "merge_encode(m5_fofn_file, encode_fofn_file, out_encode_file)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BF663212-5655-492F-A9FD-F1973F84CA5A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1982"
-            endingLineNumber = "1982"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "69BD3E01-B008-480E-8412-0027E87CFBD3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2023"
-            endingLineNumber = "2023"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FE148900-64EE-4FA0-A4CC-575CFCF8C683"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1989"
-            endingLineNumber = "1989"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "190D1F06-8D09-49EC-8765-EC450D01ED61"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1965"
-            endingLineNumber = "1965"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4DB7EFF7-46A2-4289-B614-14E9C4C52D18"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1977"
-            endingLineNumber = "1977"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9A1618CA-0A68-472C-B1EF-3295661EEC54"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/modules/assemble/assembler.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1980"
-            endingLineNumber = "1980"
-            landmarkName = "Assembler::assemble(gp, out_ann_file)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C8C8B17F-5B73-4E65-84B7-4026DE1EDC17"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/merge_data.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "merge_m5(m5_fofn_file, readname_file, out_m5_file)"
+            landmarkName = "merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encode_file)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

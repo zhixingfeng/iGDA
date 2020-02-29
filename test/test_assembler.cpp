@@ -581,3 +581,16 @@ TEST_CASE("test ram issue of Assemble::assemble()", "[hide]")
     read_dot_file(gp, dot_file);
     assembler.assemble(gp, dot_file + ".assembled");
 }
+
+TEST_CASE("test multithread ann", "[hide]")
+{
+    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.encode.rdim";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.recode";
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.m5";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.ann.raw";
+    
+    Assembler assembler;
+    assembler.ann_clust_recode(recode_file, recode_file + ".ref", encode_file, m5_file,
+                               "random", 10, 0.2, 0.8, 25, 50, 0.5, false, true, 1, false);
+    assembler.print_rl_ann_clust(out_file, true);
+}

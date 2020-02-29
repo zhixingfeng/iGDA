@@ -654,8 +654,8 @@ int main(int argc, const char * argv[])
             ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 10", false , 10, "mincvg", cmd);
             ValueArg<double> minpropArg("p","minprop","minimal frequency, default: 0.2", false , 0.2, "minprop", cmd);
             ValueArg<double> maxpropArg("q","maxprop","maximal frequency, default: 0.8", false , 0.8, "maxprop", cmd);
-            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 12", false , 12, "topn", cmd);
-            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 30", false , 30, "maxnn", cmd);
+            ValueArg<int> topnArg("t","topn","number of initial neighbors, default: 12", false , 25, "topn", cmd);
+            ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 30", false , 50, "maxnn", cmd);
             ValueArg<double> minjaccardArg("j","minjaccard","minimal jaccard index of the initial neighbors, default: 0.5", false , 0.5, "minjaccard", cmd);
             ValueArg<int> maxiterArg("b","b","maximal number of iterations, default: 1", false , 1, "b", cmd);
             

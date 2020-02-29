@@ -144,7 +144,7 @@ public:
     /*----------- adaptive nearest neighbor clustering ------------*/
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double max_dist = 0.02);
-    void ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5, bool is_correct = false, bool is_hang = false, int max_iter = 1, bool is_recode = false);
+    void ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg = 10, double min_prop = 0.2, double max_prop = 0.8, int topn = 25, int max_nn = 50, double min_jaccard = 0.5, bool is_correct = false, bool is_hang = false, int max_iter = 1, bool is_recode = false, vector<int64_t> reads_id = vector<int64_t>());
     void ann_clust_recode_legacy(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5);
     
     // get non-contained contigs
@@ -204,7 +204,7 @@ protected:
     
     
     vector<ConsensusSeq> rl_ann_clust;
-    vector<int> nc_reads_id;
+    vector<int64_t> nc_reads_id;
     vector<int64_t> homo_blocks;
     
     double alpha;  // distrbituion of the null beta distribution

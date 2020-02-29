@@ -614,7 +614,7 @@ void Assembler::ann_clust(string encode_file, string align_file, string var_file
     
 }
 
-void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode)
+void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector<int64_t> reads_id)
 {
     /*------------ find nc-reads (deperated) -----------*/
     //cout << "find non-contained reads" << endl;
@@ -655,8 +655,12 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     if (reads_range.size() != recode_ref_data.size())
         throw runtime_error("reads_range.size() != recode_ref_data.size()");
     
-    this->nc_reads_id.resize(reads_range.size());
-    iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
+    if (reads_id.size() == 0){
+        this->nc_reads_id.resize(reads_range.size());
+        iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
+    }else{
+        this->nc_reads_id = reads_id;
+    }
     
     // to be removed
     //this->nc_reads_id = {14831};
