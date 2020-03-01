@@ -12,7 +12,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.585886"
+            timestampString = "604724690.942618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "764"
@@ -29,7 +29,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.587129"
+            timestampString = "604724690.943429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "778"
@@ -46,7 +46,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.587518"
+            timestampString = "604724690.944111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "785"
@@ -63,7 +63,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.587855"
+            timestampString = "604724690.94478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "787"
@@ -148,11 +148,11 @@
             condition = "i == 22"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.588228"
+            timestampString = "604724690.945526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1211"
-            endingLineNumber = "1211"
+            startingLineNumber = "1288"
+            endingLineNumber = "1288"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
@@ -165,11 +165,11 @@
             condition = "i == 22 &amp;&amp; j ==23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.58864"
+            timestampString = "604724690.94622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1239"
-            endingLineNumber = "1239"
+            startingLineNumber = "1316"
+            endingLineNumber = "1316"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.588909"
+            timestampString = "604724690.946678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1249"
-            endingLineNumber = "1249"
+            startingLineNumber = "1326"
+            endingLineNumber = "1326"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
@@ -199,11 +199,11 @@
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "604690514.589164"
+            timestampString = "604724690.947052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1214"
-            endingLineNumber = "1214"
+            startingLineNumber = "1291"
+            endingLineNumber = "1291"
             landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop)"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,6 +222,22 @@
             endingLineNumber = "53"
             landmarkName = "merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encode_file)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/assemble/assembler.cpp"
+            timestampString = "604724690.947466"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "916"
+            endingLineNumber = "916"
+            landmarkName = "Assembler::ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, int nthread)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

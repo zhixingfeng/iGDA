@@ -658,6 +658,7 @@ int main(int argc, const char * argv[])
             ValueArg<int> maxnnArg("m","maxnn","maximal number of neighbors, default: 30", false , 50, "maxnn", cmd);
             ValueArg<double> minjaccardArg("j","minjaccard","minimal jaccard index of the initial neighbors, default: 0.5", false , 0.5, "minjaccard", cmd);
             ValueArg<int> maxiterArg("b","b","maximal number of iterations, default: 1", false , 1, "b", cmd);
+            ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
             SwitchArg iscorrectArg("r", "correct", "is use corrected reads as seeds", cmd, false);
             SwitchArg islegacyArg("l", "legacy", "is use legacy version (no recoding)", cmd, false);
@@ -678,8 +679,13 @@ int main(int argc, const char * argv[])
                 assembler.ann_clust(encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
                                 minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue());
             }else{
-                assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
-                                    minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue(), isrecodeArg.getValue());
+                if (nthreadArg.getValue() == 1){
+                    assembler.ann_clust_recode(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), varfileArg.getValue(), mincvgArg.getValue(),
+                                               minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue(), isrecodeArg.getValue());
+                }else{
+                    assembler.ann_clust_recode_multithread(recodefileArg.getValue(), recodefileArg.getValue() + ".ref", encodefileArg.getValue(), alignfileArg.getValue(), mincvgArg.getValue(),
+                                               minpropArg.getValue(), maxpropArg.getValue(), topnArg.getValue(), maxnnArg.getValue(), minjaccardArg.getValue(), iscorrectArg.getValue(), true, maxiterArg.getValue(), isrecodeArg.getValue(), nthreadArg.getValue());
+                }
             }
             vector<int64_t> idx;
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".raw", true);

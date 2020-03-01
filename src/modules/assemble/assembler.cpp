@@ -844,16 +844,14 @@ void Assembler::ann_clust_recode(string recode_file, string recode_ref_file, str
     
 }
 
-
-void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard)
+void Assembler::ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file,
+                                  int min_cvg, double min_prop, double max_prop, int topn,
+                                  int max_nn, double min_jaccard, bool is_correct, bool is_hang,
+                                  int max_iter, bool is_recode, int nthread)
 {
-    /*------------ find nc-reads (deperated) -----------*/
-    //cout << "find non-contained reads" << endl;
-    //this->find_ncreads(recode_file, align_file, var_file, topn, 0.02);
-    //cout << "number of nc-reads: " << nc_reads_id.size() << endl;
-    
-    /*------------ use nc-reads seed to cluster ----------*/
-    cout << "use non-contained reads as seed to cluster" << endl;
+    cout << "load encode data" << endl;
+    vector<vector<int> > encode_data;
+    loadencodedata(encode_data, encode_file);
     
     // load recode data
     cout << "load recode data" << endl;
@@ -870,23 +868,75 @@ void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_fi
     vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
     
+    if (reads_range.size() != encode_data.size())
+    throw runtime_error("reads_range.size() != encode_data.size()");
+    
     if (reads_range.size() != recode_data.size())
-        throw runtime_error("reads_range.size() != recode_data.size()");
+    throw runtime_error("reads_range.size() != recode_data.size()");
     
     if (reads_range.size() != recode_ref_data.size())
-        throw runtime_error("reads_range.size() != recode_ref_data.size()");
+    throw runtime_error("reads_range.size() != recode_ref_data.size()");
     
-    this->nc_reads_id.resize(reads_range.size());
-    iota(this->nc_reads_id.begin(), this->nc_reads_id.end(), 0);
-    //this->nc_reads_id = {26639};
-    cout << "number of nc-reads: " << nc_reads_id.size() << endl;
+    // split reads and run multithread
+    size_t blocksize_leftover = encode_data.size() % nthread;
+    size_t blocksize = encode_data.size() / nthread;
+    
+    if (blocksize == 0)
+    throw runtime_error("cmpreads_topn_multithread(): blocksize == 0");
+    
+    size_t cur_index = 0;
+    vector<pair<size_t, size_t> > block_range;
+    while(cur_index < encode_data.size()){
+        if (cur_index + blocksize <= encode_data.size()){
+            block_range.push_back(pair<size_t, size_t>(cur_index, cur_index + blocksize - 1));
+        }else{
+            if (blocksize_leftover == 0)
+                throw runtime_error("cmpreads_topn_multithread(): blocksize_leftover == 0");
+            block_range.back().second += blocksize_leftover;
+        }
+        cur_index += blocksize;
+    }
+    
+    // run multithread
+    vector<thread> threads;
+    for (auto i = 0; i < block_range.size(); ++i){
+        if (block_range[i].first < 0 || block_range[i].second >= encode_data.size())
+            throw runtime_error("cmpreads_topn_multithread(): block_range[i].first < 0 || block_range[i].second >= encode_data.size()");
+        vector<int64_t> cur_idx;
+        for (auto j = block_range[i].first; j <= block_range[i].second; ++j)
+            cur_idx.push_back(j);
+        
+        threads.push_back(thread(&Assembler::ann_clust_recode_core, this, recode_data, recode_ref_data, encode_data, reads_range, min_cvg,
+                                 min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, cur_idx));
+    }
+    
+    for (auto i = 0; i < threads.size(); ++i)
+        threads[i].join();
+    
+    //int x = 1;
+}
+
+void Assembler::ann_clust_recode_core(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data,
+                      const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                      int min_cvg, double min_prop, double max_prop, int topn,
+                      int max_nn, double min_jaccard, bool is_correct, bool is_hang,
+                      int max_iter, bool is_recode, vector<int64_t> reads_id)
+{
+    if (reads_range.size() != encode_data.size())
+    throw runtime_error("reads_range.size() != encode_data.size()");
+    
+    if (reads_range.size() != recode_data.size())
+    throw runtime_error("reads_range.size() != recode_data.size()");
+    
+    if (reads_range.size() != recode_ref_data.size())
+    throw runtime_error("reads_range.size() != recode_ref_data.size()");
+    
+    //this->nc_reads_id = reads_id;
+    cout << "number of nc-reads: " << reads_id.size() << endl;
     
     
     // get genome size
     size_t genome_size = get_genome_size(reads_range);
-    
-    // get cumulative sum of variants
-    vector<int> var_cdf; get_var_cdf(var_cdf, var_file, genome_size);
     
     // create a template to compare reads
     vector<bool> temp_array(genome_size*4+3, false);
@@ -896,32 +946,48 @@ void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_fi
     vector<int> cur_pu_reads_count(genome_size, 0);
     
     // get topn nearest neighbors for each reads and find non-contained reads (no topn reads can cover all its range)
+   
     int64_t n_nc_reads = 0;
-    for (auto i : nc_reads_id){
+    for (auto i : reads_id){
         ++n_nc_reads;
         if (n_nc_reads % 1000 == 0)
-            cout << "processed " << n_nc_reads << " / " << nc_reads_id.size() << endl;
+        cout << "processed " << n_nc_reads << " / " << reads_id.size() << endl;
         
         ConsensusSeq cur_cons;
-        cur_cons.seed = recode_data[i];
-        cur_cons.cons_seq = recode_data[i];
+        if (is_recode){
+            cur_cons.seed = recode_data[i];
+            cur_cons.cons_seq = recode_data[i];
+        }else{
+            cur_cons.seed = encode_data[i];
+            cur_cons.cons_seq = encode_data[i];
+        }
         cur_cons.start = reads_range[i].first;
         cur_cons.end = reads_range[i].second;
-        for (auto b = 0; b < 1; ++b){
+        
+        bool is_valid = false;
+        vector<int> prev_cons_seq = cur_cons.cons_seq;
+        int b = 0;
+        for (b = 0; b < max_iter; ++b){
             // calculate hamming distance between reads i and other reads and get topn nearest neighbors
-            //priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_dist > topn_id;
             priority_queue<pair<int,double>, vector<pair<int,double> >, reads_compare_sim > topn_id;
             for (auto j = 0; j < recode_data.size(); ++j){
                 if (i == j) continue;
                 
                 if (cur_cons.start >= reads_range[j].second || cur_cons.end <= reads_range[j].first)
-                    continue;
+                continue;
                 
-                if (cur_cons.start < reads_range[j].first)
-                    continue;
+                if (cur_cons.start < reads_range[j].first && is_hang)
+                continue;
                 
-                //double cur_dist = dist_hamming(recode_data[i], recode_data[j], reads_range[i], reads_range[j], var_cdf, temp_array);
-                double cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], reads_range[i], reads_range[j], temp_array, true);
+                int min_overlap = int(0.75*(cur_cons.end - cur_cons.start));
+                double cur_dist;
+               
+                ReadRange cur_range(cur_cons.start, cur_cons.end);
+                if (is_recode){
+                    cur_dist = sim_jaccard(cur_cons.cons_seq, recode_data[j], cur_range, reads_range[j], temp_array, true, min_overlap, true);
+                }else{
+                    cur_dist = sim_jaccard(cur_cons.cons_seq, encode_data[j], cur_range, reads_range[j], temp_array, true, min_overlap, true);
+                }
                 
                 if (cur_dist <= min_jaccard) continue;
                 
@@ -929,22 +995,21 @@ void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_fi
             }
             
             // get max_nn neighbors
-            //vector<int> cur_neighbors_topn;
             vector<int> cur_neighbors;
             vector<double> cur_neighbors_dist;
             for (auto j = 0; j < max_nn; ++j){
                 if (topn_id.empty()) break;
+                
                 int cur_id = topn_id.top().first;
                 double cur_dist = topn_id.top().second;
                 cur_neighbors.push_back(cur_id);
                 cur_neighbors_dist.push_back(cur_dist);
-                //if (j < topn)
-                //    cur_neighbors_topn.push_back(cur_id);
+        
                 topn_id.pop();
             }
             
             if (cur_neighbors.size() < topn || cur_neighbors.size() < min_cvg)
-                break;
+            break;
             
             // pileup all neighbors and pop from most distant neighbor until all loci are homogeneous
             // pileup topn neighbors
@@ -973,14 +1038,31 @@ void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_fi
             }
             cur_cons.neighbors_id = vector<int> (cur_neighbors.begin(),  cur_neighbors.begin() + t);
             
-            // to be removed
-            //this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
-            //cout << "cur_cons.cons_seq: " << cur_cons.cons_seq << endl;
-            //cout << "cur_cons.neighbors_id: " << cur_cons.neighbors_id << endl;
-            
             if (is_homo){
                 this->get_consensus_recode(cur_cons, cur_pu_var_count, cur_pu_var_ref_count, cur_cons.start, cur_cons.end, min_cvg);
-                rl_ann_clust.push_back(cur_cons);
+                is_valid = true;
+                
+                if (std::equal(cur_cons.cons_seq.begin(), cur_cons.cons_seq.end(), prev_cons_seq.begin())){
+                    // clean cur_pu_var_count and cur_pu_reads_count
+                    for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                        cur_pu_var_count[*it] = 0;
+                    for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                        cur_pu_var_ref_count[*it] = 0;
+                    
+                    break;
+                }else{
+                    prev_cons_seq = cur_cons.cons_seq;
+                }
+            }else{
+                is_valid = false;
+                
+                // clean cur_pu_var_count and cur_pu_reads_count
+                for (auto it = mod_idx_var.begin(); it != mod_idx_var.end(); ++it)
+                    cur_pu_var_count[*it] = 0;
+                for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
+                    cur_pu_var_ref_count[*it] = 0;
+                
+                break;
             }
             
             // clean cur_pu_var_count and cur_pu_reads_count
@@ -988,18 +1070,13 @@ void Assembler::ann_clust_recode_legacy(string recode_file, string recode_ref_fi
                 cur_pu_var_count[*it] = 0;
             for (auto it = mod_idx_var_ref.begin(); it != mod_idx_var_ref.end(); ++it)
                 cur_pu_var_ref_count[*it] = 0;
-            
-            if (is_homo)
-                break;
+        }
+        if (is_valid){
+            this->thread_locker.lock();
+            rl_ann_clust.push_back(cur_cons);
+            this->thread_locker.unlock();
         }
     }
-    
-    
-}
-
-void ann_clust_recode_recursive(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 20, double min_prop = 0.2, double max_prop = 0.7, int topn = 30, int max_nn = 200, int max_iter = 5)
-{
-    
 }
 
 

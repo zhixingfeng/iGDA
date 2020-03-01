@@ -156,7 +156,7 @@ TEST_CASE("test assembler::ann_clust, debug pt_recode", "[hide]")
     string out_file = "../results/pt_ann_recode_debug/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
+    //assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
     //assembler.ann_clust(encode_file, m5_file, var_file, 20, 0.2, 0.7, 30, 200, 0.02);
     
     
@@ -178,7 +178,7 @@ TEST_CASE("test assembler::ann_clust compare new and legacy recoding algorithm",
     string out_file = "../results/pt_ann_recode_cmp_new_and_legacy/align_to_consensus_trim.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
+    //assembler.ann_clust_recode_legacy(recode_file, recode_ref_file, m5_file, var_file, 12, 0.2, 0.8, 20, 50, 0.5);
 
 }
 
@@ -587,10 +587,16 @@ TEST_CASE("test multithread ann", "[hide]")
     string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.encode.rdim";
     string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.recode";
     string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.m5";
-    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.ann.raw";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_ann_multithread/realign.ann";
     
     Assembler assembler;
-    assembler.ann_clust_recode(recode_file, recode_file + ".ref", encode_file, m5_file,
-                               "random", 10, 0.2, 0.8, 25, 50, 0.5, false, true, 1, false);
-    assembler.print_rl_ann_clust(out_file, true);
+    assembler.ann_clust_recode_multithread(recode_file, recode_file + ".ref", encode_file, m5_file,
+                                           10, 0.2, 0.8, 25, 50, 0.5, false, true, 1, false, 4);
+    
+    vector<int64_t> idx;
+    assembler.print_rl_ann_clust(out_file + ".raw", true);
+    assembler.find_nccontigs(idx);
+    assembler.print_rl_ann_clust(out_file + ".igda_tmp", true, idx);
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + out_file + ".igda_tmp" + " > " + out_file;
+    cout << cmd << endl; system(cmd.c_str());
 }

@@ -17,6 +17,8 @@
 #include "../../misc/misc.h"
 #include "../aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
+#include <thread>
+#include <mutex>
 
 struct CmpreadsDiff
 {
@@ -145,7 +147,18 @@ public:
     // ann main function
     void ann_clust(string encode_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double max_dist = 0.02);
     void ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg = 10, double min_prop = 0.2, double max_prop = 0.8, int topn = 25, int max_nn = 50, double min_jaccard = 0.5, bool is_correct = false, bool is_hang = false, int max_iter = 1, bool is_recode = false, vector<int64_t> reads_id = vector<int64_t>());
-    void ann_clust_recode_legacy(string recode_file, string recode_ref_file, string align_file, string var_file, int min_cvg = 12, double min_prop = 0.2, double max_prop = 0.8, int topn = 20, int max_nn = 50, double min_jaccard = 0.5);
+    
+    // multithread ann
+    void ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file,
+                                      int min_cvg = 10, double min_prop = 0.2, double max_prop = 0.8, int topn = 25,
+                                      int max_nn = 50, double min_jaccard = 0.5, bool is_correct = false, bool is_hang = false,
+                                      int max_iter = 1, bool is_recode = false, int nthread = 1);
+    
+    void ann_clust_recode_core(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data,
+                               const vector<vector<int> > &encode_data, const vector<ReadRange> &reads_range,
+                               int min_cvg = 10, double min_prop = 0.2, double max_prop = 0.8, int topn = 25,
+                               int max_nn = 50, double min_jaccard = 0.5, bool is_correct = false, bool is_hang = false,
+                               int max_iter = 1, bool is_recode = false, vector<int64_t> reads_id = vector<int64_t>());
     
     // get non-contained contigs
     void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5);
@@ -209,8 +222,9 @@ protected:
     
     double alpha;  // distrbituion of the null beta distribution
     double beta;
-}
-;
+    
+    std::mutex thread_locker;
+};
 
 
 #endif /* assemble_h */
