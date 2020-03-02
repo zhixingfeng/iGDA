@@ -1576,6 +1576,8 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
     vector<int64_t> idx;
     
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (i+1 % 100 == 0) cout << "tested " << i+1 << " contigs" << endl;
+        
         if (rl_ann_clust[i].cons_seq.size() == 0)
             continue;
         
