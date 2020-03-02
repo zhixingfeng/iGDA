@@ -105,27 +105,44 @@ void merge_m5(string m5_fofn_file, string readname_file, string out_m5_file)
     }
     p_readname_file.close();
     
+    
     // merge m5 files
-    unordered_set<string> tested_reads;
-    ofstream p_out_m5_file; open_outfile(p_out_m5_file, out_m5_file);
+    unordered_map<string, ReadRange> m5_data;
     for (auto i = 0; i < m5_files.size(); ++i){
         cout << m5_files[i] << endl;
-        ifstream p_m5_file; open_infile(p_m5_file, m5_files[i]);
-        while (true) {
-            string buf; getline(p_m5_file, buf);
-            if (p_m5_file.eof()) break;
-            
-            vector<string> buf_vec = split(buf, ' ');
-            if ((int) buf_vec.size() != 19)
-                throw runtime_error("incorrect format in " + m5_files[i]);
-            
-            string cur_readname = buf_vec[0];
-            if (tested_reads.find(cur_readname) == tested_reads.end()){
-                tested_reads.insert(cur_readname);
-                p_out_m5_file << buf << endl;
+        unordered_map<string, ReadRange> cur_m5_data;
+        vector<string> read_names;
+        loadm5data(cur_m5_data, read_names, m5_files[i]);
+        for (auto it = cur_m5_data.begin(); it != cur_m5_data.end(); ++it){
+            auto it_hit = m5_data.find(it->first);
+            if (it_hit == m5_data.end()){
+                m5_data[it->first] = it->second;
+            }else{
+                if (it->second.first < it_hit->second.first)
+                    it_hit->second.first = it->second.first;
+                if (it->second.second > it_hit->second.second)
+                    it_hit->second.second = it->second.second;
             }
         }
-        p_m5_file.close();
+    }
+    
+    if (m5_data.size() != readnames.size())
+        throw runtime_error("merge_m5(): m5_data.size() != readnames.size()");
+    
+    // print merged m5
+    ofstream p_out_m5_file; open_outfile(p_out_m5_file, out_m5_file);
+    for (auto i = 0; i < readnames.size(); ++i){
+        auto it = m5_data.find(readnames[i]);
+        if (it == m5_data.end())
+            throw runtime_error("readname and m5_data do not match.");
+        ReadRange cur_readrange = it->second;
+        p_out_m5_file << it->first << ' ';
+        for (auto k = 1; k <= 6; ++k)
+            p_out_m5_file << "0 ";
+        p_out_m5_file << cur_readrange.first << ' ' << cur_readrange.second + 1 << ' ';
+        for (auto k = 1; k <= 9; ++k)
+            p_out_m5_file << "0 ";
+        p_out_m5_file<< "0" << endl;
     }
     p_out_m5_file.close();
 }
