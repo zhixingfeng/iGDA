@@ -1291,6 +1291,9 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             if (rl_ann_clust[j].start < rl_ann_clust[i].start || rl_ann_clust[j].start >= rl_ann_clust[i].end || rl_ann_clust[j].end < rl_ann_clust[i].end)
                 continue;
             
+            if (rl_ann_clust[j].start == rl_ann_clust[i].start && rl_ann_clust[j].end == rl_ann_clust[i].end && j > i)
+                continue;
+            
             int overlap_len = rl_ann_clust[i].end - rl_ann_clust[j].start + 1;
             if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1))
                 continue;
