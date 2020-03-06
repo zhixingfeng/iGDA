@@ -857,7 +857,7 @@ int main(int argc, const char * argv[])
             
             Assembler assembler;
             Graph gp;
-            assembler.ann_to_graph(gp, annfileArg.getValue());
+            assembler.ann_to_graph(gp, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
             
             ofstream fs_graph(annfileArg.getValue() + ".dot");
             boost::write_graphviz(fs_graph, gp);
