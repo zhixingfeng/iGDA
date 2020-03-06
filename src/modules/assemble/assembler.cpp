@@ -1326,7 +1326,8 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                     is_diff = true;
             }
             
-            if (!is_diff && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+            //if (!is_diff && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+            if (!is_diff && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
                 boost::add_edge(i, j, gp);
                 //is_nc = false;
             
