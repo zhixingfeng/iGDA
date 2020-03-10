@@ -405,6 +405,12 @@ bool AlignCoderSNV::recode_legacy(string m5_file, string var_file, string recode
 }
 bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)
 {
+    AlignReaderM5 alignreaderm5;
+    AlignReader *p_alignreader = &alignreaderm5;
+    if (this->p_alignreader != NULL){
+        p_alignreader = this->p_alignreader;
+        //throw runtime_error("p_alignreader == NULL");
+    }
     // load var_file
     vector<VarData> var_data;
     ifstream fs_varfile;
@@ -640,6 +646,48 @@ bool AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, 
     p_outfile.close();
     if (is_report_ref)
         p_outfile_ref.close();
+    
+    return true;
+}
+
+bool AlignCoderSNV::recode_multithread(string m5_file, string var_file, string recode_file, int left_len, int right_len, int nthread, bool is_report_ref)
+{
+    // split read files
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, m5_file);
+    int64_t nlines = ceil ( (double)reads_range.size() / nthread);
+    split_file(m5_file, recode_file + ".tmp.split", nlines);
+    
+    // multithread recode
+    vector<thread> threads;
+    for (auto i = 0; i < nthread; ++i){
+        cout << "recode thread " << i + 1 << endl;
+        string cur_m5file = recode_file + ".tmp.split.part." + to_string(i);
+        string cur_recodefile = recode_file + ".tmp.split.part." + to_string(i) + ".recode";
+        cout << cur_m5file << endl;
+        cout << cur_recodefile << endl;
+        threads.push_back(thread(&AlignCoderSNV::recode, this, cur_m5file, var_file, cur_recodefile, left_len, right_len, is_report_ref));
+    }
+    
+    for (auto i = 0; i < threads.size(); ++i)
+        threads[i].join();
+    
+    // merge results
+    string cmd_merge_recode = "cat ";
+    string cmd_merge_recode_ref = "cat ";
+    for (auto i = 0; i < nthread; ++i){
+        cmd_merge_recode += recode_file + ".tmp.split.part." + to_string(i) + ".recode ";
+        cmd_merge_recode_ref += recode_file + ".tmp.split.part." + to_string(i) + ".recode.ref ";
+    }
+    cmd_merge_recode += "> " + recode_file;
+    cmd_merge_recode_ref += "> " + recode_file + ".ref";
+    
+    cout << cmd_merge_recode << endl; system(cmd_merge_recode.c_str());
+    cout << cmd_merge_recode_ref << endl; system(cmd_merge_recode_ref.c_str());
+    
+    // remove temp results
+    string cmd = "rm " + recode_file + ".tmp.split.part.*";
+    cout << cmd << endl; system(cmd.c_str());
     
     return true;
 }

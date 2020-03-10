@@ -157,15 +157,24 @@ TEST_CASE("test multithrad recode()", "[hide]")
     int64_t nthread = 4;
     string align_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.m5";
     string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.var";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.recode.multithread";
+    AlignCoderSNV aligncodersnv;
+    AlignReaderM5 alignreaderm5;
+    AlignCoder *p_aligncoder = &aligncodersnv;
+    
+    //p_aligncoder->setAlignReader(&alignreaderm5);
+    p_aligncoder->recode_multithread(align_file, var_file, recode_file, 10, 10, 4);
+    
     
     // split aligned reads
-    vector<ReadRange> reads_range;
+    /*vector<ReadRange> reads_range;
     loadreadsrange(reads_range, align_file);
     int64_t nlines = ceil ( (double)reads_range.size() / nthread);
     string cmd = "split -a 6 -l " + to_string(nlines) + " " + align_file + " " + align_file + ".tmp.split.part.";
-    cout << cmd << endl; system(cmd.c_str());
+    cout << cmd << endl; system(cmd.c_str());*/
     
-    split_file(align_file, align_file + ".c.tmp.split", nlines);
+    
+    //split_file(align_file, align_file + ".c.tmp.split", nlines);
     
     /*// multithread recode
     for (auto i = 0; i < nthread; ++i){

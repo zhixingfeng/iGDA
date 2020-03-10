@@ -10,6 +10,8 @@
 #define __iGDA__aligncodersnv__
 
 #include "aligncoder.h"
+#include <thread>
+
 #define MIN_SCORE -1000000
 
 
@@ -28,6 +30,7 @@ public:
     // recode according to detected variants
     bool recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true);
     bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true);
+    bool recode_multithread(string m5_file, string var_file, string recode_file, int left_len, int right_len, int nthread = 1, bool is_report_ref = true);
     
 protected:
     bool get_context_m5(int locus, int left, int right, const string &tAlignedSeq, pair<string,string> &context, bool is_overhanged = false);

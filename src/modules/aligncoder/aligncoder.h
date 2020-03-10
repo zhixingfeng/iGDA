@@ -38,6 +38,7 @@ public:
     
     virtual bool recode_legacy(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true) = 0;
     virtual bool recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref = true) = 0;
+    virtual bool recode_multithread(string m5_file, string var_file, string recode_file, int left_len, int right_len, int nthread = 1, bool is_report_ref = true) = 0;
     inline void setAlignReader(AlignReader * a_p_alignreader){p_alignreader = a_p_alignreader;}
     
 protected:

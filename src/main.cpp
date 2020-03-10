@@ -937,21 +937,30 @@ int main(int argc, const char * argv[])
             
             ValueArg<int> leftlenArg("l","leftlen","length of the upstream context, default: 10", false , 10, "leftlen", cmd);
             ValueArg<int> rightlenArg("r","rightlen","length of the downstream context, default: 10", false , 10, "rightlen", cmd);
+            ValueArg<int> nthreadArg("t","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
             
             SwitchArg isnorefArg("n", "noref", "is not encode reference", cmd, false);
-            SwitchArg islegacyArg("y", "legacy", "is use legacy algorithm", cmd, false);
+            //SwitchArg islegacyArg("y", "legacy", "is use legacy algorithm", cmd, false);
             
             cmd.parse(argv2);
             
             AlignCoderSNV aligncodersnv;
             AlignReaderM5 alignreaderm5;
             AlignCoder *p_aligncoder = &aligncodersnv;
-            p_aligncoder->setAlignReader(&alignreaderm5);
             
-            if (!islegacyArg.getValue())
+            if (nthreadArg.getValue() <= 1){
+                p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
+            }else{
+                p_aligncoder->recode_multithread(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), nthreadArg.getValue(),  !isnorefArg.getValue());
+            }
+            
+            //p_aligncoder->setAlignReader(&alignreaderm5);
+            
+            /*if (!islegacyArg.getValue())
                 p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
             else
                 p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
+             */
         }
         
         // permute reads
