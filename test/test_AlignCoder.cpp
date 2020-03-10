@@ -150,9 +150,34 @@ TEST_CASE("test recode using masked reads", "[hide]")
     aligncodersnv.setAlignReader(&alignreaderm5);
     aligncodersnv.recode(m5_file, var_file, recode_file, 10, 10);
 
-    
 }
 
+TEST_CASE("test multithrad recode()", "[hide]")
+{
+    int64_t nthread = 4;
+    string align_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.m5";
+    string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.var";
+    
+    // split aligned reads
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    int64_t nlines = ceil ( (double)reads_range.size() / nthread);
+    string cmd = "split -a 6 -l " + to_string(nlines) + " " + align_file + " " + align_file + ".tmp.split.part.";
+    cout << cmd << endl; system(cmd.c_str());
+    
+    split_file(align_file, align_file + ".c.tmp.split", nlines);
+    
+    /*// multithread recode
+    for (auto i = 0; i < nthread; ++i){
+        string cur_m5file = align_file + ".c.tmp.split.part." + to_string(i);
+        string cur_outfile = align_file + ".c.tmp.split.part." + to_string(i) + ".recode";
+        cmd = "igda recode " + cur_m5file + " " + var_file + " " + cur_outfile + " &";
+        cout << cmd << endl; system(cmd.c_str());
+        //system("igda recode " + )
+    }
+    system("wait");*/
+    
+}
 
 
 

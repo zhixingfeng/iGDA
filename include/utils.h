@@ -123,7 +123,32 @@ inline vector<double> split_double(const string &s, char delim) {
     return tokens;
 }
 
-
+// split lines of a file (suffix starts from 0)
+inline void split_file(string infile, string outprefix, size_t nlines)
+{
+    ifstream fs_infile; open_infile(fs_infile, infile);
+    ofstream fs_outfile;
+    int64_t cur_id = -1;
+    size_t num = 0;
+    while (true) {
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        int64_t id = int64_t(num / nlines);
+        if (id != cur_id){
+            fs_outfile.close();
+            open_outfile(fs_outfile, outprefix + ".part." + to_string(id));
+            cur_id = id;
+        }
+        if (cur_id == -1)
+            throw runtime_error("split_file(): cur_id == -1");
+        fs_outfile << buf << endl;
+        ++num;
+    }
+    
+    fs_infile.close();
+}
 
 // count 
 

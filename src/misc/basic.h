@@ -65,5 +65,4 @@ inline vector<int> intersect(const vector<int> &vec_1, const vector<int> &vec_2)
 }
 
 
-
 #endif /* basic_h */
