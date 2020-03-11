@@ -187,9 +187,13 @@ TEST_CASE("test multithrad recode()", "[hide]")
     system("wait");*/
     
 }
-
-
-
+TEST_CASE("test split_file", "[hide]")
+{
+    int64_t nthread = 4;
+    string align_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_recode_multithread/realign.m5";
+    cout << get_file_nlines(align_file) << endl;
+    
+}
 
 
 

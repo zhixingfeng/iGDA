@@ -954,13 +954,6 @@ int main(int argc, const char * argv[])
                 p_aligncoder->recode_multithread(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), nthreadArg.getValue(),  !isnorefArg.getValue());
             }
             
-            //p_aligncoder->setAlignReader(&alignreaderm5);
-            
-            /*if (!islegacyArg.getValue())
-                p_aligncoder->recode(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
-            else
-                p_aligncoder->recode_legacy(alignfileArg.getValue(), varfileArg.getValue(), outfileArg.getValue(), leftlenArg.getValue(), rightlenArg.getValue(), !isnorefArg.getValue());
-             */
         }
         
         // permute reads
@@ -1006,6 +999,19 @@ int main(int argc, const char * argv[])
            
             cmd.parse(argv2);
             merge_m5(m5fofnfileArg.getValue(), readnamefileArg.getValue(), outfileArg.getValue());
+        }
+        
+        // split file
+        if (strcmp(argv[1], "split_file")==0){
+            UnlabeledValueArg<string> infileArg("infile", "path of input file", true, "", "infile", cmd);
+            UnlabeledValueArg<string> outprefixArg("outprefix", "path of output prefix", true, "", "outprefix", cmd);
+            
+            ValueArg<int> nfileArg("n","nfile","number of files, default: 2", false , 2, "nfile", cmd);
+            
+            cmd.parse(argv2);
+            size_t nlines = get_file_nlines(infileArg.getValue());
+            size_t nlines_per_file = ceil ( (double) nlines / nfileArg.getValue());
+            split_file(infileArg.getValue(), outprefixArg.getValue(), nlines_per_file);
         }
         
     }

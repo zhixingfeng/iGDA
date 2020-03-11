@@ -146,8 +146,22 @@ inline void split_file(string infile, string outprefix, size_t nlines)
         fs_outfile << buf << endl;
         ++num;
     }
-    
     fs_infile.close();
+}
+
+inline size_t get_file_nlines(string infile)
+{
+    ifstream fs_infile; open_infile(fs_infile, infile);
+    size_t num = 0;
+    while (true) {
+        string buf;
+        getline(fs_infile, buf);
+        if (fs_infile.eof())
+            break;
+        ++num;
+    }
+    fs_infile.close();
+    return num;
 }
 
 // count 
