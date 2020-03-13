@@ -191,6 +191,9 @@ public:
     // polish contigs
     void polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob = 0.3, int min_reads = 10, int min_homo_block_dist = 1);
     
+    // output ann results
+    vector<ConsensusSeq> get_ann_result(){return rl_ann_clust;}
+    
 protected:
     // ann sub functions
     void find_ncreads(string encode_file, string align_file, string var_file, int topn = 30, double max_dist = 0.02);

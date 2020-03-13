@@ -48,7 +48,30 @@ GraphPath travel_path(const Graph &gp, const Vertex &v_start, int i = 0);
 // get unambigious paths
 set<GraphPath> get_unambigious_paths(const Graph &gp);
 
+/*------------- define igda graph --------------*/
+// define igda graph type
+struct IGDA_Vertex
+{
+    int64_t id;
+    int64_t start_locus;
+    int64_t end_locus;
+};
+struct IGDA_Graph
+{
+    // adjacent matrix, vertex ID starts from 0;
+    map<int64_t, vector<IGDA_Vertex> > adj_mat;
+};
 
+struct COMP_VERTEX_LESS
+{
+    inline bool operator() (const IGDA_Vertex& a, const IGDA_Vertex& b)
+    {
+        return (a.end_locus < b.end_locus);
+    }
+};
+
+// read igda graph from dot file and ann file
+void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file, bool is_sort = true);
 
 
 

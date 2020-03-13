@@ -861,6 +861,7 @@ int main(int argc, const char * argv[])
             
             ofstream fs_graph(annfileArg.getValue() + ".dot");
             boost::write_graphviz(fs_graph, gp);
+            fs_graph.cloase();
             
             string cmd = "tred " + annfileArg.getValue() + ".dot";
             cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
