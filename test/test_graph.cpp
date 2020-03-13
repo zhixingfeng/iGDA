@@ -174,9 +174,16 @@ TEST_CASE("test load_igda_graph_from_file", "[hide]")
 {
     string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500.dot";
     string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500";
-
+    
+    string dot_file_rev = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500.rev.dot";
+    string ann_file_rev = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500.rev";
+    
     IGDA_Graph gp;
     load_igda_graph_from_file(gp, dot_file, ann_file);
+    
+    IGDA_Graph gp_rev;
+    load_igda_graph_from_file(gp_rev, dot_file_rev, ann_file_rev);
+    
     int x = 1;
     //read_dot_file(gp, dot_file);
     

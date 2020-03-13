@@ -62,13 +62,17 @@ struct IGDA_Graph
     map<int64_t, vector<IGDA_Vertex> > adj_mat;
 };
 
-struct COMP_VERTEX_LESS
+/*struct COMP_VERTEX_LESS
 {
     inline bool operator() (const IGDA_Vertex& a, const IGDA_Vertex& b)
     {
         return (a.end_locus < b.end_locus);
     }
-};
+};*/
+inline bool COMP_VERTEX_LESS (const IGDA_Vertex& a, const IGDA_Vertex& b)
+{
+    return (a.end_locus < b.end_locus);
+}
 
 // read igda graph from dot file and ann file
 void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file, bool is_sort = true);

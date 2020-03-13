@@ -314,5 +314,12 @@ void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file,
         cur_vertex.end_locus = ann_data[edges[i].second].end;
         gp.adj_mat[edges[i].first].push_back(cur_vertex);
     }
+    
+    // sort linked vertex
+    if (is_sort){
+        for (auto it = gp.adj_mat.begin(); it != gp.adj_mat.end(); it++){
+            std::stable_sort(it->second.begin(), it->second.end(), COMP_VERTEX_LESS);
+        }
+    }
 }
 
