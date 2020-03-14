@@ -855,13 +855,53 @@ int main(int argc, const char * argv[])
             
             cmd.parse(argv2);
             
+            // get overlap graph
             Assembler assembler;
+            Graph gp_bgl;
+            assembler.ann_to_graph(gp_bgl, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
+            
+            ofstream fs_graph(annfileArg.getValue() + ".dot");
+            boost::write_graphviz(fs_graph, gp_bgl);
+            fs_graph.close();
+            
+            // transitive reduction
+            IGDA_Graph gp;
+            load_igda_graph_from_file(gp, annfileArg.getValue() + ".dot", annfileArg.getValue());
+            
+            IGDA_Graph gp_tred;
+            igda_tred(gp, gp_tred);
+            
+            save_igda_graph_to_file(gp_tred, annfileArg.getValue() + ".tred.dot");
+            
+            /*Assembler assembler;
             Graph gp;
             assembler.ann_to_graph(gp, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
             
             ofstream fs_graph(annfileArg.getValue() + ".dot");
             boost::write_graphviz(fs_graph, gp);
             fs_graph.cloase();
+            
+            string cmd = "tred " + annfileArg.getValue() + ".dot";
+            cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
+            cout << cmd << endl;
+            system(cmd.c_str());*/
+        }
+        
+        if (strcmp(argv[1], "tred_legacy")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            
+            ValueArg<double> minpropArg("p","minprop","minimal proportion of common variants between two contigs, default: 0.5", false , 0.5, "minprop", cmd);
+            ValueArg<double> minlenpropArg("l","minlenprop","minimal proportion of overlaping length between two contigs, default: 0.5", false , 0.5, "minlenprop", cmd);
+            
+            cmd.parse(argv2);
+            
+            Assembler assembler;
+            Graph gp;
+            assembler.ann_to_graph(gp, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
+            
+            ofstream fs_graph(annfileArg.getValue() + ".dot");
+            boost::write_graphviz(fs_graph, gp);
+            fs_graph.close();
             
             string cmd = "tred " + annfileArg.getValue() + ".dot";
             cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
