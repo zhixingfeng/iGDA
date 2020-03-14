@@ -12,39 +12,6 @@
 #include "../src/misc/graph.h"
 #include "../src/modules/assemble/assembler.h"
 
-
-
-
-TEST_CASE("test transitive reduction", "[hide]")
-{
-    Graph g;
-    enum {a,b,c,d,e};
-    add_edge(a,b,g);
-    add_edge(a,c,g);
-    add_edge(a,d,g);
-    add_edge(a,e,g);
-    add_edge(b,d,g);
-    add_edge(c,d,g);
-    add_edge(c,e,g);
-    add_edge(d,e,g);
-    
-    Graph tr;
-    igda_transitive_reduction(g, tr);
-    /*std::map<Graph::vertex_descriptor, Graph::vertex_descriptor> g_to_tr;
-     std::vector<size_t> id_map(num_vertices(g));
-     std::iota(id_map.begin(), id_map.end(), 0u);
-     
-     transitive_reduction(g, tr, make_assoc_property_map(g_to_tr), id_map.data());*/
-    
-    boost::print_graph(g);
-    std::cout << "----------------------------\n";
-    boost::print_graph(tr);
-    
-    /*// generating graphviz files
-     { std::ofstream dot("g.dot");  write_graphviz(dot, g); }
-     { std::ofstream dot("tr.dot"); write_graphviz(dot, tr); }*/
-}
-
 TEST_CASE("test accessing graph vertex set", "[hide]")
 {
     /*--------------- Generate a graph ----------------*/
@@ -186,7 +153,28 @@ TEST_CASE("test load_igda_graph_from_file", "[hide]")
     
     int x = 1;
     //read_dot_file(gp, dot_file);
+}
+
+TEST_CASE("test igda_tred (transitive reduction)", "[hide]")
+{
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_500";
     
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    
+    IGDA_Graph gp_tred;
+    igda_tred(gp, gp_tred);
+    
+    save_igda_graph_to_file(gp_tred, dot_file + ".igda_tred.dot");
+    
+    Graph gp_bgl = convert_igda_graph_to_boost_graph(gp_tred);
+    
+    ofstream fs_graph(dot_file + ".igda_tred.blg.dot");
+    boost::write_graphviz(fs_graph, gp_bgl);
+    fs_graph.close();
+    
+    int x = 1;
 }
 
 

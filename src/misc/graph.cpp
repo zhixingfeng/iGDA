@@ -10,14 +10,14 @@
 #include "../modules/assemble/assembler.h"
 
 // transtive reduction of BGL is INCORRECT, NEVER USE IT!!!
-void igda_transitive_reduction(const Graph in_g, Graph &out_g)
+/*void igda_transitive_reduction(const Graph in_g, Graph &out_g)
 {
     std::map<Graph::vertex_descriptor, Graph::vertex_descriptor> g_to_tr;
     std::vector<size_t> id_map(num_vertices(in_g));
     std::iota(id_map.begin(), id_map.end(), 0u);
     
     transitive_reduction(in_g, out_g, boost::make_assoc_property_map(g_to_tr), id_map.data());
-}
+}*/
 
 // load graph from dot file. IMPORTANT: gp should be empty!!
 void read_dot_file(Graph &gp, string dot_file)
@@ -322,4 +322,94 @@ void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file,
         }
     }
 }
+// save igda graph to dot file
+void save_igda_graph_to_file(const IGDA_Graph &gp, string dot_file)
+{
+    ofstream fs_dot_file; open_outfile(fs_dot_file, dot_file);
+    fs_dot_file << "digraph G {" << endl;
+    for (auto it = gp.adj_mat.begin(); it != gp.adj_mat.end(); ++it){
+        
+        if (it->second.size() == 0){
+            fs_dot_file <<  '\t' << it->first << ";" << endl;
+        }else{
+            for (auto i = 0; i < it->second.size(); ++i){
+                fs_dot_file << '\t' << it->first << " -> " << it->second[i].id << ";" << endl;
+            }
+        }
+    }
+    fs_dot_file << "}";
+    fs_dot_file.close();
+    
+}
 
+// Eugene W. Myers's linear time complexity transitive reduction algorithm (Eugene W. Myers, The fragment assembly string graph, 2005)
+void igda_tred(const IGDA_Graph &gp, IGDA_Graph &gp_tred)
+{
+    //gp_tred = gp;
+    // initialize reduced graph
+    for (auto it = gp.adj_mat.begin(); it != gp.adj_mat.end(); ++it)
+        gp_tred.adj_mat[it->first] = vector<IGDA_Vertex>();
+    
+    // initialize the status of each vertex
+    enum VertexStatus {vacant, inplay, eliminated};
+    vector<VertexStatus> status(gp.adj_mat.size(), vacant);
+    
+    // for each vertex 
+    for (auto it_i = gp.adj_mat.begin(); it_i != gp.adj_mat.end(); ++it_i){
+        // if out degree of the current vertex is 0, skip
+        if (it_i->second.size() == 0) continue;
+        
+        // mark the directed vertex of the current vertex as inplay
+        for (auto i = 0; i < it_i->second.size(); ++i)
+            status[it_i->second[i].id] = inplay;
+        
+        // get the right most locus
+        int64_t longest = it_i->second[it_i->second.size() - 1].end_locus;
+        
+        // find reducible directed vertex
+        //cout << it_i->first << endl;
+        for (auto i = 0; i < it_i->second.size(); ++i){
+            int64_t cur_vertex = it_i->second[i].id;
+            auto it_j = gp.adj_mat.find(cur_vertex);
+            if (it_j == gp.adj_mat.end())
+                throw runtime_error("igda_tred(): it_j == gp.adj_mat.end()");
+            for (auto j = 0; j < it_j->second.size(); ++j){
+                if (it_j->second[j].end_locus > longest) break;
+                if (it_j->second[j].id >= status.size()){
+                    cout << "fault:" << endl;
+                    cout << it_j->first << endl;
+                    cout << it_j->second[j].id << endl;
+                    throw runtime_error("igda_tred(): it_j->second[j].id >= status.size()");
+                }
+                if (status[it_j->second[j].id] == inplay){
+                    status[it_j->second[j].id] = eliminated;
+                }
+            }
+        }
+        
+        // remove reducible edges
+        for (auto i = 0; i < it_i->second.size(); ++i){
+            if (status[it_i->second[i].id] != eliminated){
+                gp_tred.adj_mat[it_i->first].push_back(it_i->second[i]);
+            }
+            status[it_i->second[i].id] = vacant;
+        }
+    }
+    
+}
+
+Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp)
+{
+    Graph gp_bgl;
+    
+    for (auto it = gp.adj_mat.begin(); it != gp.adj_mat.end(); ++it){
+        boost::add_vertex(gp_bgl);
+    }
+  
+    for (auto it = gp.adj_mat.begin(); it != gp.adj_mat.end(); ++it){
+        for (auto i = 0; i < it->second.size(); ++i){
+            boost::add_edge(it->first, it->second[i].id, gp_bgl);
+        }
+    }
+    return gp_bgl;
+}

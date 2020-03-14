@@ -28,7 +28,7 @@ typedef boost::graph_traits<Graph>::in_edge_iterator InEdgeIter;
 typedef vector<Vertex> GraphPath;
 
 // transtive reduction of BGL is INCORRECT, NEVER USE IT!!!
-void igda_transitive_reduction(const Graph in_g, Graph &out_g);
+//void igda_transitive_reduction(const Graph in_g, Graph &out_g);
 
 // read dot file
 void read_dot_file(Graph &gp, string dot_file);
@@ -62,13 +62,6 @@ struct IGDA_Graph
     map<int64_t, vector<IGDA_Vertex> > adj_mat;
 };
 
-/*struct COMP_VERTEX_LESS
-{
-    inline bool operator() (const IGDA_Vertex& a, const IGDA_Vertex& b)
-    {
-        return (a.end_locus < b.end_locus);
-    }
-};*/
 inline bool COMP_VERTEX_LESS (const IGDA_Vertex& a, const IGDA_Vertex& b)
 {
     return (a.end_locus < b.end_locus);
@@ -77,6 +70,13 @@ inline bool COMP_VERTEX_LESS (const IGDA_Vertex& a, const IGDA_Vertex& b)
 // read igda graph from dot file and ann file
 void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file, bool is_sort = true);
 
+// save igda graph to dot file
+void save_igda_graph_to_file(const IGDA_Graph &gp, string dot_file);
 
+// Eugene W. Myers's linear time complexity (Eugene W. Myers, The fragment assembly string graph, 2005)
+void igda_tred(const IGDA_Graph &gp, IGDA_Graph &gp_tred);
+
+// igda graph to boost graph
+Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp);
 
 #endif
