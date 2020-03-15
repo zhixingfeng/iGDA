@@ -185,8 +185,29 @@ set<GraphPath> get_unambigious_paths(const Graph &gp)
     stack<Vertex, vector<Vertex> > v_active (v_no_inedge);
     
     // if find the second break points in the paths, stop, record the paths and add the break point to v_active
+    // debug start
+    unordered_set<Vertex> checked_vertice;
+    // debug end
     while(v_active.size()>0){
+        
         Vertex cur_vertex = v_active.top();
+        
+        // debug start
+        //cout << "size of v_active = " << v_active.size() << endl;
+        //cout << "current v_active = " << v_active.top() << endl << endl;
+        //getchar();
+        // debug end
+        
+        auto it_find_vertex = checked_vertice.find(cur_vertex);
+        if (it_find_vertex == checked_vertice.end()){
+            checked_vertice.insert(cur_vertex);
+        }else{
+            //cout << "cur_vertex " << cur_vertex << " exists" << endl;
+            //getchar();
+            v_active.pop();
+            continue;
+        }
+
         v_active.pop();
         
         vector<Vertex> cur_out_vertex = get_out_vertex(gp, cur_vertex);
@@ -200,13 +221,20 @@ set<GraphPath> get_unambigious_paths(const Graph &gp)
         
         for (auto i = 0; i < cur_out_vertex.size(); ++i){
             GraphPath cur_path = travel_path(gp, cur_vertex, i);
+            // debug start
+            //for (auto t : cur_path)
+            //    cout << t << " ";
+            //cout << endl << endl;
+            //getchar();
+            // debug end
             paths.insert(cur_path);
             size_t num_out_vertex = get_out_vertex(gp, cur_path.back()).size();
             
             if (num_out_vertex == 1)
                 throw runtime_error("get_unambigious_paths(): num_out_vertex == 1");
             
-            if (cur_path.back() != cur_vertex && get_out_vertex(gp, cur_path.back()).size() > 1)
+            if (cur_path.back() != cur_vertex && get_out_vertex(gp, cur_path.back()).size() > 1 &&
+                checked_vertice.find(cur_path.back()) == checked_vertice.end())
                 v_active.push(cur_path.back());
         }
         

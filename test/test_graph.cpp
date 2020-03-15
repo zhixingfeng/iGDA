@@ -177,7 +177,18 @@ TEST_CASE("test igda_tred (transitive reduction)", "[hide]")
     int x = 1;
 }
 
-
+TEST_CASE("test igda assemble positive dead loop issue", "[hide]")
+{
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
+    
+    Assembler assembler;
+    Graph gp;
+    assembler.read_ann_results(ann_file);
+    read_dot_file(gp, dot_file);
+    assembler.assemble(gp, ann_file + ".assembled");
+    
+}
 
 
 
