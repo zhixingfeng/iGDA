@@ -2111,7 +2111,19 @@ void Assembler::assemble(Graph &gp, string out_ann_file)
     this->rl_ann_clust.clear();
     this->rl_ann_clust = ann_upath;
     
+    // print ann consensus sequences
     this->print_rl_ann_clust(out_ann_file, true);
+    
+    // print assembly paths
+    ofstream fs_out_ann_file; open_outfile(fs_out_ann_file, out_ann_file + ".upaths");
+    for (auto it = upaths.begin(); it != upaths.end(); ++it){
+        for (auto i = 0; i < it->size(); ++i){
+            fs_out_ann_file << (*it)[i] << ' ';
+        }
+        fs_out_ann_file << endl;
+    }
+        
+    fs_out_ann_file.close();
 }
 
 // polish contigs

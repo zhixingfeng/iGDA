@@ -227,6 +227,7 @@ protected:
     double beta;
     
     std::mutex thread_locker;
+    
 };
 
 
