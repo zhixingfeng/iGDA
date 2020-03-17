@@ -2126,6 +2126,22 @@ void Assembler::assemble(Graph &gp, string out_ann_file)
     fs_out_ann_file.close();
 }
 
+void Assembler::assemble_unambiguous(IGDA_Graph &gp, string out_file)
+{
+    // get active vertices (0 in degree)
+    stack<int64_t, vector<int64_t> > v_active;
+    for (auto it = gp.adj_mat_in.begin(); it != gp.adj_mat_in.end(); ++it){
+        if (it->second.size() == 0){
+            v_active.push(it->first);
+        }
+    }
+    
+    // get unambigious paths (paths where there is no more than two paths connecting its start and end nodes)
+    set<vector<int64_t> > upaths;
+    
+    //int x = 1;
+}
+
 // polish contigs
 void Assembler::polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob, int min_reads, int min_homo_block_dist)
 {

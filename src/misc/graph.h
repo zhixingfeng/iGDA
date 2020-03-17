@@ -16,6 +16,7 @@
 #include "../../include/headers.h"
 #include "./basic.h"
 
+/*------------- BGL graph algorithm -------------*/
 //using namespace boost;
 struct IQsNode { };
 typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS, IQsNode*> Graph;
@@ -48,7 +49,7 @@ GraphPath travel_path(const Graph &gp, const Vertex &v_start, int i = 0);
 // get unambigious paths
 set<GraphPath> get_unambigious_paths(const Graph &gp);
 
-/*------------- define igda graph --------------*/
+/*------------- igda graph algorithm --------------*/
 // define igda graph type
 struct IGDA_Vertex
 {
@@ -58,8 +59,10 @@ struct IGDA_Vertex
 };
 struct IGDA_Graph
 {
-    // adjacent matrix, vertex ID starts from 0;
+    // adjacent matrix (out nodes), vertex ID starts from 0;
     map<int64_t, vector<IGDA_Vertex> > adj_mat;
+    map<int64_t, vector<IGDA_Vertex> > adj_mat_in;
+    
 };
 
 inline bool COMP_VERTEX_LESS (const IGDA_Vertex& a, const IGDA_Vertex& b)
@@ -78,5 +81,6 @@ void igda_tred(const IGDA_Graph &gp, IGDA_Graph &gp_tred);
 
 // igda graph to boost graph
 Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp);
+
 
 #endif

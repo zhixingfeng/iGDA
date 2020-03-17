@@ -185,9 +185,7 @@ set<GraphPath> get_unambigious_paths(const Graph &gp)
     stack<Vertex, vector<Vertex> > v_active (v_no_inedge);
     
     // if find the second break points in the paths, stop, record the paths and add the break point to v_active
-    // debug start
     unordered_set<Vertex> checked_vertice;
-    // debug end
     while(v_active.size()>0){
         
         Vertex cur_vertex = v_active.top();
@@ -334,13 +332,22 @@ void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file,
     // construct igda graph
     for (auto i = 0; i <= node_max; ++i){
         gp.adj_mat[i] = vector<IGDA_Vertex>();
+        gp.adj_mat_in[i] = vector<IGDA_Vertex>();
     }
     for (auto i = 0; i < edges.size(); ++i){
+        // record adj_mat
         IGDA_Vertex cur_vertex;
         cur_vertex.id = edges[i].second;
         cur_vertex.start_locus = ann_data[edges[i].second].start;
         cur_vertex.end_locus = ann_data[edges[i].second].end;
         gp.adj_mat[edges[i].first].push_back(cur_vertex);
+        
+        // record adj_mat_in
+        IGDA_Vertex cur_vertex_in;
+        cur_vertex_in.id = edges[i].first;
+        cur_vertex_in.start_locus = ann_data[edges[i].first].start;
+        cur_vertex_in.end_locus = ann_data[edges[i].first].end;
+        gp.adj_mat_in[edges[i].second].push_back(cur_vertex_in);
     }
     
     // sort linked vertex

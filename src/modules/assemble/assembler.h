@@ -183,6 +183,7 @@ public:
     
     // assemble
     void assemble(Graph &gp, string out_ann_file);
+    void assemble_unambiguous(IGDA_Graph &gp, string out_file);
     
     
     // assign reads to assembled contigs (recode only)
