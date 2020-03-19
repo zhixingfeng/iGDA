@@ -53,9 +53,10 @@ set<GraphPath> get_unambigious_paths(const Graph &gp);
 // define igda graph type
 struct IGDA_Vertex
 {
-    int64_t id;
-    int64_t start_locus;
-    int64_t end_locus;
+    int64_t id; // ID the of vertex (0-based)
+    int64_t start_locus; // start locus of the contig corresponding to the vertex
+    int64_t end_locus; // end locus of the contig corresponding to the vertex
+    int64_t npaths; // number of paths connected to the vertex
 };
 struct IGDA_Graph
 {
@@ -82,5 +83,7 @@ void igda_tred(const IGDA_Graph &gp, IGDA_Graph &gp_tred);
 // igda graph to boost graph
 Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp);
 
+// get asscessible vertices from a vertex
+void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &accessible_vertices, int64_t start_vertex_id);
 
 #endif

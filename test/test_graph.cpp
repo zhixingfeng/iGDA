@@ -192,15 +192,35 @@ TEST_CASE("test igda assemble positive dead loop issue", "[hide]")
 
 TEST_CASE("test igda assemble new algorithm (unambigious paths)", "[hide]")
 {
-    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test.tred.dot";
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
     string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
     string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.assembled.unambigiuous";
-    Assembler assembler;
+    
+    // get number of paths between node pair
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    
+    //IGDA_Graph gp_npaths;
+    
+    map<int64_t, int64_t> npaths;
+    map<int64_t, map<int64_t, int64_t> > gp_npaths;
+    //int64_t vertex_id = 1346;
+    int64_t vertex_id = 2;
+    unordered_set<int64_t> accessible_vertices;
+    get_accessible_vertices(gp, accessible_vertices, vertex_id);
+    //get_npaths_between_vertices_core(gp, npaths, vertex_id);
+    //get_npaths_between_vertices(gp, gp_npaths);
+    int x = 1;
+    //get_npaths_between_vertices(gp, gp_npaths);
+    
+    
+    /*Assembler assembler;
     assembler.read_ann_results(ann_file);
     
     IGDA_Graph gp;
     load_igda_graph_from_file(gp, dot_file, ann_file);
-    assembler.assemble_unambiguous(gp, out_file);
+    assembler.assemble_unambiguous(gp, out_file);*/
     
     
     

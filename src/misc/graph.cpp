@@ -448,3 +448,34 @@ Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp)
     }
     return gp_bgl;
 }
+
+void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &accessible_vertices, int64_t start_vertex_id)
+{
+    // init
+    stack<int64_t> v_active;
+    v_active.push(start_vertex_id);
+    vector<int64_t> v_visited(gp.adj_mat.size(), false);
+    
+    // depth first search
+    while(!v_active.empty()){
+        cout << v_active.size() << ":" << v_active.top() << endl;
+        
+        int64_t cur_v = v_active.top();
+        v_active.pop();
+        
+        if (!v_visited[cur_v]){
+            accessible_vertices.insert(cur_v);
+            v_visited[cur_v] = true;
+        }
+        
+        auto it = gp.adj_mat.find(cur_v);
+        if (it == gp.adj_mat.end())
+            throw runtime_error("get_npaths_between_vertices_core(): fail to find cur_v in graph");
+        
+        vector<IGDA_Vertex> cur_adj_mat = it->second;
+        for (auto i = 0; i < cur_adj_mat.size(); ++i){
+            if (!v_visited[cur_adj_mat[i].id])
+                v_active.push(cur_adj_mat[i].id);
+        }
+    }
+}
