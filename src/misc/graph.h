@@ -46,7 +46,7 @@ vector<Vertex> get_out_vertex(const Graph &gp, const Vertex &v);
 // travel through a path until hit a vertex with no or more than 1 out edges
 GraphPath travel_path(const Graph &gp, const Vertex &v_start, int i = 0);
 
-// get unambigious paths
+// get unambigious paths (no split)
 set<GraphPath> get_unambigious_paths(const Graph &gp);
 
 /*------------- igda graph algorithm --------------*/
@@ -85,5 +85,9 @@ Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp);
 
 // get asscessible vertices from a vertex
 void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &accessible_vertices, int64_t start_vertex_id);
+
+// get ambiguous paths (no more than two split)
+set<vector<int64_t> > get_unambigious_paths_ms_core(const IGDA_Graph &gp, int64_t start_vertex_id, set<int64_t> &end_vertex_id);
+set<vector<int64_t> > get_unambigious_paths_ms(const IGDA_Graph &gp);
 
 #endif

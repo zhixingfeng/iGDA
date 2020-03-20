@@ -458,7 +458,7 @@ void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &acces
     
     // depth first search
     while(!v_active.empty()){
-        cout << v_active.size() << ":" << v_active.top() << endl;
+        //cout << v_active.size() << ":" << v_active.top() << endl;
         
         int64_t cur_v = v_active.top();
         v_active.pop();
@@ -478,4 +478,138 @@ void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &acces
                 v_active.push(cur_adj_mat[i].id);
         }
     }
+}
+
+set<vector<int64_t> > get_unambigious_paths_ms_core(const IGDA_Graph &gp, int64_t start_vertex_id, set<int64_t> &end_vertex_id)
+{
+    set<vector<int64_t> > ab_paths;
+    
+    // get accessible vertices of the current vertex with no in edge
+    unordered_set<int64_t> accessible_vertices;
+    get_accessible_vertices(gp, accessible_vertices, start_vertex_id);
+    
+    // depth first search
+    stack<int64_t> v_active;
+    v_active.push(start_vertex_id);
+    
+    int n_split = 0;
+    vector<int64_t> cur_ab_path;
+    while(!v_active.empty()){
+        // get the top vertex in the stack
+        int64_t cur_v = v_active.top();
+        v_active.pop();
+        
+        // check if the vertex exists in the graph
+        auto it = gp.adj_mat.find(cur_v);
+        auto it_in = gp.adj_mat_in.find(cur_v);
+        if (it == gp.adj_mat.end() || it_in == gp.adj_mat_in.end())
+            throw runtime_error("get_npaths_between_vertices_core(): fail to find cur_v in graph");
+        
+        // check if there is ambiguity in the current path
+        if (it_in->second.size() > 1){
+            int n_link = 0;
+            for (auto cur_in_vertex : it_in->second){
+                if (accessible_vertices.find(cur_in_vertex.id) != accessible_vertices.end())
+                    ++n_link;
+            }
+            if (n_link > 1) ++n_split;
+        }
+        
+        if (n_split <= 1){
+            // the current vertex is unambiguous, add it to the current path;
+            cur_ab_path.push_back(cur_v);
+        }else{
+            if (n_split == 2){
+                // the current vertex is ambiguous, traval backward to the top vertex of the stack
+                cout << "ambiguous vertex is " << cur_v << endl;
+                ab_paths.insert(cur_ab_path);
+                end_vertex_id.insert(cur_v);
+                --n_split;
+                if (v_active.size() == 0) break;
+                while(cur_ab_path.size() > 0){
+                    // check if the current vertex is ambiguous
+                    auto it_prev = gp.adj_mat_in.find(cur_ab_path.back());
+                    int n_link = 0;
+                    for (auto prev_vertex : it_prev->second){
+                        if (accessible_vertices.find(prev_vertex.id) != accessible_vertices.end())
+                            ++n_link;
+                    }
+                    if (n_link > 1) --n_split;
+                    
+                    // check if the next vertex of the current top vertex in the path equals to the top vertex in the stack, yes then quit
+                    auto it_next = gp.adj_mat.find(cur_ab_path.back());
+                    bool is_quit = false;
+                    for (auto next_vertex : it_next->second){
+                        if (next_vertex.id == v_active.top())
+                            is_quit = true;
+                    }
+                    if (is_quit) break;
+
+                    cur_ab_path.pop_back();
+                }
+                continue;
+            }else{
+                throw runtime_error("get_unambigious_paths_ms_core(): n_split > 2");
+            }
+        }
+        
+        // move to the next vertex
+        vector<IGDA_Vertex> cur_adj_mat = it->second;
+        for (auto i = 0; i < cur_adj_mat.size(); ++i){
+            v_active.push(cur_adj_mat[i].id);
+        }
+        
+        // travel back to top vertex in stack
+        if (cur_adj_mat.size() == 0){
+            // add current path
+            ab_paths.insert(cur_ab_path);
+            
+            // travel back
+            if (v_active.size() > 0){
+                while(cur_ab_path.size() > 0){
+                    // check if the current vertex is ambiguous
+                    auto it_prev = gp.adj_mat_in.find(cur_ab_path.back());
+                    int n_link = 0;
+                    for (auto prev_vertex : it_prev->second){
+                        if (accessible_vertices.find(prev_vertex.id) != accessible_vertices.end())
+                            ++n_link;
+                    }
+                    if (n_link > 1) --n_split;
+                    
+                    // check if the next vertex of the current top vertex in the path equals to the top vertex in the stack, yes then quit
+                    auto it_next = gp.adj_mat.find(cur_ab_path.back());
+                    bool is_quit = false;
+                    for (auto next_vertex : it_next->second){
+                        if (next_vertex.id == v_active.top())
+                            is_quit = true;
+                    }
+                    if (is_quit) break;
+                    
+                    cur_ab_path.pop_back();
+                }
+            }
+            
+            int x = 1;
+        }
+        
+    }
+    
+    
+    return ab_paths;
+}
+set<vector<int64_t> > get_unambigious_paths_ms(const IGDA_Graph &gp)
+{
+    // init result
+    set<vector<int64_t> > ab_paths;
+    
+    // get vertices with no inedege
+    vector<int64_t> v_no_inedge;
+    for (auto it = gp.adj_mat_in.begin(); it != gp.adj_mat_in.end(); ++it)
+        if (it->second.size() == 0) v_no_inedge.push_back(it->first);
+    
+    stack<int64_t, vector<int64_t> > v_active(v_no_inedge);
+    
+    
+    
+    return ab_paths;
 }
