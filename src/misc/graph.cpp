@@ -735,4 +735,48 @@ void get_unambigious_paths_ms_core(const IGDA_Graph &gp, const unordered_set<int
 }
 
 
-
+set<vector<int64_t> > get_unambigious_paths_ms(const IGDA_Graph &gp)
+{
+    // init result
+    set<vector<int64_t> > ab_paths;
+    
+    // get vertices with no inedege
+    vector<int64_t> v_no_inedge;
+    for (auto it = gp.adj_mat_in.begin(); it != gp.adj_mat_in.end(); ++it)
+        if (it->second.size() == 0) v_no_inedge.push_back(it->first);
+    
+    // depth first search to get all unambiguous paths
+    stack<int64_t, vector<int64_t> > v_active(v_no_inedge);
+    unordered_set<int64_t> v_visisted;
+    vector<bool> v_visited_core(gp.adj_mat.size(), false);
+    while(v_active.size() > 0){
+        //cout << v_active.size() << ": " << v_active.top() << endl;
+        int64_t cur_v = v_active.top();
+        v_active.pop();
+        
+        // if cur_v not visited, search unambiguous paths using cur_v as the starting vertex
+        if (v_visisted.find(cur_v) == v_visisted.end()){
+            v_visisted.insert(cur_v);
+            
+            // depth first search from current vertex
+            unordered_set<int64_t> accessible_vertices;
+            get_accessible_vertices(gp, accessible_vertices, cur_v);
+            
+            vector<int64_t> path;
+            int n_split = 0;
+            set<int64_t> end_vertex_id;
+            get_unambigious_paths_ms_core(gp, accessible_vertices, cur_v, path, ab_paths,
+                                          v_visited_core, n_split, end_vertex_id);
+            
+            // add end vertices into the active vertices
+            for (auto v : end_vertex_id){
+                if (v_visisted.find(v) == v_visisted.end())
+                    v_active.push(v);
+            }
+        }
+        
+    }
+    
+    
+    return ab_paths;
+}
