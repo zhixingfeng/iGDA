@@ -321,3 +321,17 @@ TEST_CASE("test igda assemble new algorithm (unambigious paths, recursive)", "[h
     }
     int x = 1;
 }
+
+TEST_CASE("test igda assemble new algorithm", "[hide]")
+{
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test3.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.assembled.unambigiuous";
+    
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    assembler.assemble_unambiguous(gp, out_file);
+}

@@ -329,6 +329,9 @@ void load_igda_graph_from_file(IGDA_Graph &gp, string dot_file, string ann_file,
     }
     fs_infile.close();
     
+    if (node_max > ann_data.size())
+        throw runtime_error("load_igda_graph_from_file(): ");
+    
     // construct igda graph
     for (auto i = 0; i <= node_max; ++i){
         gp.adj_mat[i] = vector<IGDA_Vertex>();

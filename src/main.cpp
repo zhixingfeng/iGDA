@@ -913,13 +913,24 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
             UnlabeledValueArg<string> dotfileArg("dotfile", "path of dot file (with transitive reduction)", true, "", "dotfile", cmd);
             
+            SwitchArg legacyfArg("l", "legacy", "is use legacy algorithm", cmd, false);
+            
             cmd.parse(argv2);
             
-            Assembler assembler;
-            Graph gp;
-            assembler.read_ann_results(annfileArg.getValue());
-            read_dot_file(gp, dotfileArg.getValue());
-            assembler.assemble(gp, annfileArg.getValue() + ".assembled");
+            if (legacyfArg.getValue()){
+                cout << "use the legacy assembly algorithm" << endl;
+                Assembler assembler;
+                assembler.read_ann_results(annfileArg.getValue());
+                Graph gp;
+                read_dot_file(gp, dotfileArg.getValue());
+                assembler.assemble(gp, annfileArg.getValue() + ".assembled");
+            }else{
+                Assembler assembler;
+                assembler.read_ann_results(annfileArg.getValue());
+                IGDA_Graph gp;
+                load_igda_graph_from_file(gp, dotfileArg.getValue(), annfileArg.getValue());
+                assembler.assemble_unambiguous(gp, annfileArg.getValue() + ".assembled");
+            }
             
         }
 

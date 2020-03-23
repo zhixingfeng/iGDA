@@ -2137,9 +2137,69 @@ void Assembler::assemble_unambiguous(IGDA_Graph &gp, string out_file)
     }
     
     // get unambigious paths (paths where there is no more than two paths connecting its start and end nodes)
-    set<vector<int64_t> > upaths;
+    cout << "get unambigious paths (ms)" << endl;
+    set<vector<int64_t> > upaths = get_unambigious_paths_ms(gp);
     
-    //int x = 1;
+    // merge consensus sequences in each path
+    cout << "consensus" << endl;
+    vector<ConsensusSeq> ann_upath;
+    for (auto it = upaths.begin(); it != upaths.end(); ++it){
+        ConsensusSeq cur_cons;
+        cur_cons.seed.push_back(-1);
+        cur_cons.neighbors_id.push_back(-1);
+        set<int> cur_cons_seq;
+        set<int> cur_tested_loci;
+        
+        //for (auto i = 0; i < (*it).size(); ++i){
+        for (auto i = 0; i < it->size(); ++i){
+            int64_t k = (*it)[i];
+            
+            // merge cons_seq
+            for (auto j = 0; j < this->rl_ann_clust[k].cons_seq.size(); ++j)
+                cur_cons_seq.insert(this->rl_ann_clust[k].cons_seq[j]);
+            
+            // merge tested_loci
+            for (auto j = 0; j < this->rl_ann_clust[k].tested_loci.size(); ++j)
+                cur_tested_loci.insert(this->rl_ann_clust[k].tested_loci[j]);
+            
+            // merge range
+            if (i == 0){
+                cur_cons.start = this->rl_ann_clust[k].start;
+                cur_cons.end = this->rl_ann_clust[k].end;
+            }else{
+                if (this->rl_ann_clust[k].start < cur_cons.start)
+                    cur_cons.start = this->rl_ann_clust[k].start;
+                
+                if (this->rl_ann_clust[k].end > cur_cons.end)
+                    cur_cons.end = this->rl_ann_clust[k].end;
+            }
+            
+        }
+        
+        for (auto it = cur_cons_seq.begin(); it != cur_cons_seq.end(); ++it)
+            cur_cons.cons_seq.push_back(*it);
+        
+        for (auto it = cur_tested_loci.begin(); it != cur_tested_loci.end(); ++it)
+            cur_cons.tested_loci.push_back(*it);
+        
+        ann_upath.push_back(cur_cons);
+    }
+    this->rl_ann_clust.clear();
+    this->rl_ann_clust = ann_upath;
+    
+    // print ann consensus sequences
+    this->print_rl_ann_clust(out_file, true);
+    
+    // print assembly paths
+    ofstream fs_out_ann_file; open_outfile(fs_out_ann_file, out_file + ".upaths");
+    for (auto it = upaths.begin(); it != upaths.end(); ++it){
+        for (auto i = 0; i < it->size(); ++i){
+            fs_out_ann_file << (*it)[i] << ' ';
+        }
+        fs_out_ann_file << endl;
+    }
+    
+    fs_out_ann_file.close();
 }
 
 // polish contigs
