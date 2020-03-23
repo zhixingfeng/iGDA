@@ -190,7 +190,7 @@ TEST_CASE("test igda assemble positive dead loop issue", "[hide]")
     
 }
 
-TEST_CASE("test igda assemble new algorithm (unambigious paths)", "[hide]")
+TEST_CASE("test igda assemble new algorithm (unambigious paths core)", "[hide]")
 {
     //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test2.tred.dot";
     string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
@@ -212,7 +212,7 @@ TEST_CASE("test igda assemble new algorithm (unambigious paths)", "[hide]")
     // get ambiguous paths (ms)
     
     set<int64_t> end_vertex_id;
-    set<vector<int64_t> > ab_paths = get_unambigious_paths_ms_core(gp, start_vertex_id, end_vertex_id);
+    set<vector<int64_t> > ab_paths = get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id);
     
     for (auto path : ab_paths){
         cout << "path = " << endl;
@@ -221,15 +221,79 @@ TEST_CASE("test igda assemble new algorithm (unambigious paths)", "[hide]")
         }
         cout << endl;
     }
-    int x = 1;
-    
-    
-    
-    
-    
 }
 
 
+TEST_CASE("test igda assemble new algorithm (unambigious paths)", "[hide]")
+{
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test2.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.assembled.unambigiuous";
+    
+    // get accessible vertices
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    
+    //set<vector<int64_t> > upaths = get_unambigious_paths_ms(gp);
+    
+    
+    int start_vertex_id = 2608;
+    unordered_set<int64_t> accessible_vertices;
+    get_accessible_vertices(gp, accessible_vertices, start_vertex_id);
+    
+    ofstream fs_outfile; open_outfile(fs_outfile, "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/node_list.txt");
+    for (auto v : accessible_vertices)
+        fs_outfile << v  << endl;
+    fs_outfile.close();
+    
+    set<int64_t> end_vertex_id;
+    set<vector<int64_t> > ab_paths = get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id);
+    
+    int x = 1;
+
+}
 
 
-
+TEST_CASE("test igda assemble new algorithm (unambigious paths core recursive)", "[hide]")
+{
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test3.tred.dot";
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.assembled.unambigiuous";
+    
+    // get accessible vertices
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    int64_t start_vertex_id = 0;
+    unordered_set<int64_t> accessible_vertices;
+    get_accessible_vertices(gp, accessible_vertices, start_vertex_id);
+    
+    cout << "accessible_vertices = " << endl;
+    for (auto v : accessible_vertices)
+        cout << v  << ' ';
+    cout << endl;
+    
+    // get ambiguous paths (ms)
+    
+    vector<int64_t> path;
+    set<vector<int64_t> > path_all;
+    vector<bool> visited(gp.adj_mat.size(), false);
+    int n_split = 0;
+    set<int64_t> end_vertex_id;
+    
+    get_unambigious_paths_ms_core(gp, accessible_vertices, start_vertex_id, path, path_all, visited, n_split, end_vertex_id);
+    
+    for (auto path : path_all){
+        cout << "path = " << endl;
+        for (auto v : path){
+            cout << v << ' ';
+        }
+        cout << endl;
+    }
+    
+    cout << "end_vertex_id = ";
+    for (auto v : end_vertex_id)
+        cout << v << ' ';
+    cout << endl;
+}

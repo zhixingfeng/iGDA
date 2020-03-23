@@ -87,7 +87,10 @@ Graph convert_igda_graph_to_boost_graph(const IGDA_Graph &gp);
 void get_accessible_vertices(const IGDA_Graph &gp, unordered_set<int64_t> &accessible_vertices, int64_t start_vertex_id);
 
 // get ambiguous paths (no more than two split)
-set<vector<int64_t> > get_unambigious_paths_ms_core(const IGDA_Graph &gp, int64_t start_vertex_id, set<int64_t> &end_vertex_id);
-set<vector<int64_t> > get_unambigious_paths_ms(const IGDA_Graph &gp);
+set<vector<int64_t> > get_unambigious_paths_ms_core_legacy(const IGDA_Graph &gp, int64_t start_vertex_id, set<int64_t> &end_vertex_id);
+set<vector<int64_t> > get_unambigious_paths_ms_legacy(const IGDA_Graph &gp);
+
+void get_unambigious_paths_ms_core(const IGDA_Graph &gp, const unordered_set<int64_t> &accessible_vertices, int64_t vertex_id, vector<int64_t> &path, set<vector<int64_t> > &path_all,
+                                   vector<bool> &visited, int &n_split, set<int64_t> &end_vertex_id);
 
 #endif

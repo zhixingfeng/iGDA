@@ -12,7 +12,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.142501"
+            timestampString = "606515813.990587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "764"
@@ -29,7 +29,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.1426001"
+            timestampString = "606515813.990676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "778"
@@ -46,7 +46,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.142673"
+            timestampString = "606515813.99075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "785"
@@ -63,7 +63,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.1427341"
+            timestampString = "606515813.990815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "787"
@@ -148,7 +148,7 @@
             condition = "i == 22"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.1428519"
+            timestampString = "606515813.990912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1288"
@@ -165,7 +165,7 @@
             condition = "i == 22 &amp;&amp; j ==23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.142906"
+            timestampString = "606515813.990955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1317"
@@ -182,7 +182,7 @@
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.142974"
+            timestampString = "606515813.990998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1327"
@@ -199,7 +199,7 @@
             condition = "i == 22 &amp;&amp; j == 23"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.143088"
+            timestampString = "606515813.99105"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1291"
@@ -231,7 +231,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.143168"
+            timestampString = "606515813.991118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "916"
@@ -247,7 +247,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.143224"
+            timestampString = "606629425.053278"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "220"
@@ -263,7 +263,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.143333"
+            timestampString = "606629425.055302"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "228"
@@ -279,7 +279,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.143437"
+            timestampString = "606629425.056613"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
@@ -295,7 +295,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.1435471"
+            timestampString = "606629425.0581599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "229"
@@ -359,7 +359,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.143703"
+            timestampString = "606629425.061401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "262"
@@ -375,7 +375,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.143809"
+            timestampString = "606629425.063454"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
@@ -391,7 +391,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.144417"
+            timestampString = "606629425.06819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "417"
@@ -407,7 +407,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.144547"
+            timestampString = "606629425.069667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "407"
@@ -423,7 +423,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.144659"
+            timestampString = "606629425.072768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "406"
@@ -439,7 +439,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.14478"
+            timestampString = "606629425.075737"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -455,7 +455,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.145305"
+            timestampString = "606629425.079294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -471,7 +471,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.145726"
+            timestampString = "606629425.080964"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -487,7 +487,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.146129"
+            timestampString = "606515813.998572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2065"
@@ -503,7 +503,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.146212"
+            timestampString = "606515813.998643"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2070"
@@ -519,7 +519,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.146271"
+            timestampString = "606629425.082269"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "213"
@@ -535,7 +535,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
-            timestampString = "606366240.146378"
+            timestampString = "606515813.99953"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2142"
@@ -547,16 +547,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.146431"
+            timestampString = "606629425.083517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths)&quot;)"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -566,13 +566,61 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "test/test_graph.cpp"
-            timestampString = "606366240.146852"
+            filePath = "src/misc/graph.cpp"
+            timestampString = "606629425.084729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths)&quot;)"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/graph.cpp"
+            timestampString = "606629425.085416"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "534"
+            endingLineNumber = "534"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/graph.cpp"
+            timestampString = "606629425.086233"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "577"
+            endingLineNumber = "577"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/misc/graph.cpp"
+            timestampString = "606629425.087248"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -583,108 +631,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_graph.cpp"
-            timestampString = "606366240.147226"
+            timestampString = "606629425.088178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths)&quot;)"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths core)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____193()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
+                  timestampString = "606629425.781057"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "2801">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____193()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
+                  timestampString = "606629425.785897"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "3438">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.147572"
+            timestampString = "606629425.089798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.147647"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.147714"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "565"
-            endingLineNumber = "565"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.147773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.1478291"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/misc/graph.cpp"
-            timestampString = "606366240.14788"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "get_unambigious_paths_ms_core(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            startingLineNumber = "571"
+            endingLineNumber = "571"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -732,4 +732,11 @@ TEST_CASE("test merge_m5()", "[hide]")
     
 }
 
+TEST_CASE("test pop_back of empty vector", "[hide]")
+{
+    vector<double> x;
+    cout << x.size() << endl;
+    x.pop_back();
+    cout << x.size() << endl;
+}
 
