@@ -1066,6 +1066,24 @@ int main(int argc, const char * argv[])
             split_file(infileArg.getValue(), outprefixArg.getValue(), nlines_per_file);
         }
         
+        if (strcmp(argv[1], "accessible_vertices")==0){
+            UnlabeledValueArg<string> annfileArg("annfile", "path of ann file", true, "", "annfile", cmd);
+            UnlabeledValueArg<string> dotfileArg("dotfile", "path of dot file (with transitive reduction)", true, "", "dotfile", cmd);
+            
+            ValueArg<int> vertexArg("v","vertex","all connected vertices from the starting vertex", true , 0, "vertex", cmd);
+            
+            cmd.parse(argv2);
+            
+            IGDA_Graph gp;
+            load_igda_graph_from_file(gp, dotfileArg.getValue(), annfileArg.getValue());
+            unordered_set<int64_t> accessible_vertices;
+            get_accessible_vertices(gp, accessible_vertices, vertexArg.getValue());
+            for (auto v : accessible_vertices)
+                cout << v << ' ';
+            cout << endl;
+            
+        }
+        
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;
