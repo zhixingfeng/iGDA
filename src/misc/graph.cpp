@@ -783,3 +783,94 @@ set<vector<int64_t> > get_unambigious_paths_ms(const IGDA_Graph &gp)
     
     return ab_paths;
 }
+
+
+void get_unambigious_paths_ua_core(const IGDA_Graph &gp, int64_t vertex_id, vector<int64_t> &path, set<vector<int64_t> > &path_all,
+                                   vector<bool> &visited, int &n_split, set<int64_t> &end_vertex_id)
+{
+    // add current vertex to visisted list and current path
+    visited[vertex_id] = true;
+    path.push_back(vertex_id);
+    
+    // if vertex is not in the graph report error
+    auto it = gp.adj_mat.find(vertex_id);
+    auto it_in = gp.adj_mat_in.find(vertex_id);
+    
+    if (it == gp.adj_mat.end() || it_in ==  gp.adj_mat_in.end())
+        throw runtime_error("get_unambigious_paths_ua_core(): vertex is not found in gp");
+    
+    // if there are more than one in edges add n_split by 1
+    if (it_in->second.size() > 1){
+        ++n_split;
+    }
+    
+    if (n_split >= std::numeric_limits<int>::max() - 1) throw runtime_error("get_unambigious_paths_ua_core(): n_split >= numeric_limits<int>::max() - 1");
+    
+    if (it->second.size() == 0 || (it->second.size() > 1 && n_split > 0)){
+        // if the current vertex is the end vertex or out split > 1
+        path_all.insert(path);
+        for (auto v_next : it->second){
+            if (!visited[v_next.id])
+                end_vertex_id.insert(v_next.id);
+        }
+        
+    }else{
+        // continue to search daugter vertices
+        for (auto v_next : it->second){
+            if (!visited[v_next.id])
+                get_unambigious_paths_ua_core(gp, v_next.id, path, path_all, visited, n_split, end_vertex_id);
+        }
+    }
+    
+    // release current vertex from visited list and path
+    visited[vertex_id] = false;
+    path.pop_back();
+    
+    if (it_in->second.size() > 1){
+        --n_split;
+    }
+    if (n_split < 0) throw runtime_error("get_unambigious_paths_ua_core(): n_split < 0");
+}
+
+set<vector<int64_t> > get_unambigious_paths_ua(const IGDA_Graph &gp)
+{
+    // init result
+    set<vector<int64_t> > ab_paths;
+    
+    // get vertices with no inedege
+    vector<int64_t> v_no_inedge;
+    for (auto it = gp.adj_mat_in.begin(); it != gp.adj_mat_in.end(); ++it)
+        if (it->second.size() == 0) v_no_inedge.push_back(it->first);
+    
+    // depth first search to get all unambiguous paths
+    stack<int64_t, vector<int64_t> > v_active(v_no_inedge);
+    unordered_set<int64_t> v_visisted;
+    vector<bool> v_visited_core(gp.adj_mat.size(), false);
+    while(v_active.size() > 0){
+        //cout << v_active.size() << ": " << v_active.top() << endl;
+        int64_t cur_v = v_active.top();
+        v_active.pop();
+        
+        // if cur_v not visited, search unambiguous paths using cur_v as the starting vertex
+        if (v_visisted.find(cur_v) == v_visisted.end()){
+            v_visisted.insert(cur_v);
+            
+            // depth first search from current vertex
+            vector<int64_t> path;
+            int n_split = 0;
+            set<int64_t> end_vertex_id;
+            get_unambigious_paths_ua_core(gp, cur_v, path, ab_paths,
+                                          v_visited_core, n_split, end_vertex_id);
+            
+            // add end vertices into the active vertices
+            for (auto v : end_vertex_id){
+                if (v_visisted.find(v) == v_visisted.end())
+                    v_active.push(v);
+            }
+        }
+        
+    }
+    
+    
+    return ab_paths;
+}

@@ -335,3 +335,79 @@ TEST_CASE("test igda assemble new algorithm", "[hide]")
     load_igda_graph_from_file(gp, dot_file, ann_file);
     assembler.assemble_unambiguous(gp, out_file);
 }
+
+
+
+TEST_CASE("test get unambiguous paths core (paths where there is no vertex with in degree > 1 before a vertex with out degree > 1)", "[hide]")
+{
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test2.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.assembled.unambigiuous";
+    
+    // get accessible vertices
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    int64_t start_vertex_id = 0;
+    
+    // get ambiguous paths (ms)
+    vector<int64_t> path;
+    set<vector<int64_t> > path_all;
+    vector<bool> visited(gp.adj_mat.size(), false);
+    int n_split = 0;
+    set<int64_t> end_vertex_id;
+    
+    get_unambigious_paths_ua_core(gp, start_vertex_id, path, path_all, visited, n_split, end_vertex_id);
+    
+    for (auto path : path_all){
+        cout << "path = " << endl;
+        for (auto v : path){
+            cout << v << ' ';
+        }
+        cout << endl;
+    }
+    
+    cout << "end_vertex_id = ";
+    for (auto v : end_vertex_id)
+        cout << v << ' ';
+    cout << endl;
+    
+}
+
+TEST_CASE("test get unambiguous paths (paths where there is no vertex with in degree > 1 before a vertex with out degree > 1)", "[hide]")
+{
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test2.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.head_5000.assembled.unambigiuous";
+    
+    // get accessible vertices
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    
+    set<vector<int64_t> > upaths = get_unambigious_paths_ua(gp);
+    
+    for (auto path : upaths){
+        cout << "path = " << endl;
+        for (auto v : path){
+            cout << v << ' ';
+        }
+        cout << endl;
+    }
+    int x = 1;
+}
+
+
+TEST_CASE("test igda assemble new algorithm (paths where there is no vertex with in degree > 1 before a vertex with out degree > 1)", "[hide]")
+{
+    //string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/test3.tred.dot";
+    string dot_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.tred.dot";
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.assembled.unambigiuous";
+    
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, dot_file, ann_file);
+    assembler.assemble_unambiguous(gp, out_file);
+}
