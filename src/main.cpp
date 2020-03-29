@@ -852,13 +852,14 @@ int main(int argc, const char * argv[])
             
             ValueArg<double> minpropArg("p","minprop","minimal proportion of common variants between two contigs, default: 0.5", false , 0.5, "minprop", cmd);
             ValueArg<double> minlenpropArg("l","minlenprop","minimal proportion of overlaping length between two contigs, default: 0.5", false , 0.5, "minlenprop", cmd);
+            ValueArg<double> minjaccardpArg("j","minjaccard","minimal jaccard index of the two contigs, default: 0.98", false , 0.98, "minjaccard", cmd);
             
             cmd.parse(argv2);
             
             // get overlap graph
             Assembler assembler;
             Graph gp_bgl;
-            assembler.ann_to_graph(gp_bgl, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
+            assembler.ann_to_graph(gp_bgl, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue(), minjaccardpArg.getValue());
             
             ofstream fs_graph(annfileArg.getValue() + ".dot");
             boost::write_graphviz(fs_graph, gp_bgl);

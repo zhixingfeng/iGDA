@@ -1235,15 +1235,19 @@ void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci, 
     
 }
 
-void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop)
+void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard)
 {
     this->read_ann_results(ann_file);
     if (this->rl_ann_clust.size() == 0)
         return;
-        //throw runtime_error("Assembler::ann_to_graph, this->rl_ann_clust.size() == 0");
     
-    for (auto i = 0; i < this->rl_ann_clust.size(); ++i)
+    size_t gsize = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
         add_vertex(gp);
+        if (this->rl_ann_clust[i].end > gsize)
+            gsize = this->rl_ann_clust[i].end;
+    }
+    vector<bool> temp_array(gsize*4 + 3, false);
     
     // get maximal encoded cons_seq and tested_loci
     int64_t temp_size = 0;
@@ -1330,7 +1334,16 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                     is_diff = true;
             }
             
-            if (!is_diff && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+            double cur_jaccard = sim_jaccard(rl_ann_clust[i].cons_seq, rl_ann_clust[j].cons_seq,
+                                             ReadRange(rl_ann_clust[i].start, rl_ann_clust[i].end),
+                                             ReadRange(rl_ann_clust[j].start, rl_ann_clust[j].end),
+                                             temp_array, false, 0, false);
+            //cout << i << ',' << j << " : " << cur_jaccard << endl;
+            
+            //if ((!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1))
+            //    throw runtime_error("ann_to_graph(): (!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1)");
+            
+            if ((!is_diff || cur_jaccard >= min_jaccard) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
             //if (!is_diff && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
             //if (!is_diff && n_overlap >= min_prop*n_cons_seq_i)
                 boost::add_edge(i, j, gp);

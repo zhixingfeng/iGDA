@@ -411,3 +411,16 @@ TEST_CASE("test igda assemble new algorithm (paths where there is no vertex with
     load_igda_graph_from_file(gp, dot_file, ann_file);
     assembler.assemble_unambiguous(gp, out_file);
 }
+
+TEST_CASE("test set jaccard index cutoff for ann_to_graph", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft";
+    
+    Assembler assembler;
+    Graph gp_bgl;
+    assembler.ann_to_graph(gp_bgl, ann_file, 0.5, 0.5);
+    
+    ofstream fs_graph(ann_file + ".jaccard.dot");
+    boost::write_graphviz(fs_graph, gp_bgl);
+    fs_graph.close();
+}
