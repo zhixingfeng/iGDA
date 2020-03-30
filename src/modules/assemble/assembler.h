@@ -161,7 +161,7 @@ public:
                                int max_iter = 1, bool is_recode = false, vector<int64_t> reads_id = vector<int64_t>());
     
     // get non-contained contigs
-    void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5);
+    void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5, double min_jaccard = 2);
     void find_nccontigs_legacy(vector<int64_t> &idx);
     
     // print results

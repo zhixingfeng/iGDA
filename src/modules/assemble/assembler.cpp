@@ -2521,10 +2521,18 @@ bool Assembler::check_pileup_recode(const vector<int> &pu_var_count, const vecto
 }
 
 
-void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop)
+void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min_jaccard)
 {
     if (this->rl_ann_clust.size() == 0)
         return;
+    
+    // init jaccard
+    size_t gsize = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        if (this->rl_ann_clust[i].end > gsize)
+            gsize = this->rl_ann_clust[i].end;
+    }
+    vector<bool> temp_array(gsize*4 + 3, false);
     
     // get maximal encoded cons_seq and tested_loci
     int64_t temp_size = 0;
@@ -2570,6 +2578,12 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop)
         for (int64_t j = 0; j < this->rl_ann_clust.size(); ++j){
             if (j == i) continue;
             if ((rl_ann_clust[j].start <= rl_ann_clust[i].start && rl_ann_clust[j].end > rl_ann_clust[i].end) || (rl_ann_clust[j].start < rl_ann_clust[i].start && rl_ann_clust[j].end >= rl_ann_clust[i].end) ){
+                // calculate jaccard index
+                double cur_jaccard = sim_jaccard(rl_ann_clust[i].cons_seq, rl_ann_clust[j].cons_seq,
+                                                 ReadRange(rl_ann_clust[i].start, rl_ann_clust[i].end),
+                                                 ReadRange(rl_ann_clust[j].start, rl_ann_clust[j].end),
+                                                 temp_array);
+                
                 double n_cons_seq_i = rl_ann_clust[i].cons_seq.size();
                 double n_cons_seq_j = 0;
                 double n_overlap = 0;
@@ -2597,7 +2611,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop)
                         is_diff = true;
                 }
                 
-                if (!is_diff && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+                if ((!is_diff || cur_jaccard >= min_jaccard) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
                     is_nc = false;
                 
                 // clear template of the jth contig

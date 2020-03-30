@@ -424,3 +424,19 @@ TEST_CASE("test set jaccard index cutoff for ann_to_graph", "[hide]")
     boost::write_graphviz(fs_graph, gp_bgl);
     fs_graph.close();
 }
+
+TEST_CASE("test add min_jaccard to find_nccontigs", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.assembled";
+    string out_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred/data/realign.ann.tested.ft.count.ft.assembled.nc";
+    
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx, 0.5, 0.98);
+    assembler.print_rl_ann_clust(out_file + ".igda_tmp", true, idx);
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + out_file + ".igda_tmp" + " > " + out_file;
+    cout << cmd << endl; system(cmd.c_str());
+    cmd = "rm -f " + out_file + ".igda_tmp";
+    cout << cmd << endl; system(cmd.c_str());
+}
