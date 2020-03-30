@@ -852,7 +852,7 @@ int main(int argc, const char * argv[])
             
             ValueArg<double> minpropArg("p","minprop","minimal proportion of common variants between two contigs, default: 0.5", false , 0.5, "minprop", cmd);
             ValueArg<double> minlenpropArg("l","minlenprop","minimal proportion of overlaping length between two contigs, default: 0.5", false , 0.5, "minlenprop", cmd);
-            ValueArg<double> minjaccardpArg("j","minjaccard","minimal jaccard index of the two contigs, default: 0.98", false , 0.98, "minjaccard", cmd);
+            ValueArg<double> minjaccardpArg("j","minjaccard","minimal jaccard index of the two contigs, default: 2 (i.e. not use jaccard)", false , 2, "minjaccard", cmd);
             
             cmd.parse(argv2);
             
