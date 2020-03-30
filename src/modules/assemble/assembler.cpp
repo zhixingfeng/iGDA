@@ -1302,7 +1302,7 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) &&
             //    overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
             //if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1))
-            if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) &&
+            if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) ||
                 overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
                 continue;
             
@@ -1343,7 +1343,7 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //if ((!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1))
             //    throw runtime_error("ann_to_graph(): (!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1)");
             
-            if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
+            if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
             //if (!is_diff && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
             //if (!is_diff && n_overlap >= min_prop*n_cons_seq_i)
                 boost::add_edge(i, j, gp);
