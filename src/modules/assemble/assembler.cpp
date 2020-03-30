@@ -2578,7 +2578,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min
         for (int64_t j = 0; j < this->rl_ann_clust.size(); ++j){
             if (j == i) continue;
             
-            if (rl_ann_clust[i].start == rl_ann_clust[i].end && rl_ann_clust[j].start == rl_ann_clust[j].end && j < i)
+            if (rl_ann_clust[i].start == rl_ann_clust[j].start && rl_ann_clust[i].end == rl_ann_clust[j].end && j < i)
                 continue;
             
             if (rl_ann_clust[j].start <= rl_ann_clust[i].start && rl_ann_clust[j].end >= rl_ann_clust[i].end){
