@@ -721,9 +721,9 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> alignfileArg("alignfile", "path of align file", true, "", "alignfile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
             
-            ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 5", false , 5, "minlogbf", cmd);
+            ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 20", false , 20, "minlogbf", cmd);
             ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 10, "maxloci", cmd);
-            ValueArg<double> minrrArg("r","minrr","minimal relative risk, default: 5", false , 5, "minrr", cmd);
+            ValueArg<double> minrrArg("r","minrr","minimal relative risk, default: 20", false , 20, "minrr", cmd);
             
             ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
             ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "beta", cmd);
@@ -768,10 +768,10 @@ int main(int argc, const char * argv[])
             ValueArg<double> alphaArg("a","alpha","alpha of null beta distribution, default: 1.332824", false , 1.332824, "alpha", cmd);
             ValueArg<double> betaArg("t","beta","beta of null beta distribution, default: 89.04769", false , 89.04769, "beta", cmd);
             
-            ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 5", false , 5, "minlogbf", cmd);
-            ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 10", false , 3, "maxloci", cmd);
+            ValueArg<double> minlogbfArg("b","minlogbf","minimal logrithm of bayes factors, default: 20", false , 20, "minlogbf", cmd);
+            ValueArg<double> maxlociArg("l","maxloci","maximal number of loci to avoid testing, default: 3", false , 3, "maxloci", cmd);
             ValueArg<double> mincvgArg("c","mincvg","minimal coverage, default: 10", false , 10, "mincvg", cmd);
-            ValueArg<double> minrrArg("r","minrr","minimal relative risk, default: 5", false , 5, "minrr", cmd);
+            ValueArg<double> minrrArg("r","minrr","minimal relative risk, default: 20", false , 20, "minrr", cmd);
             
             
             cmd.parse(argv2);

@@ -1143,7 +1143,7 @@ void Assembler::print_nc_reads_id(string outfile)
     fs_outfile.close();
 }
 
-void Assembler::read_ann_results(string ann_file)
+void Assembler::read_ann_results(string ann_file,  bool is_ref)
 {
     this->rl_ann_clust.clear();
     ifstream fs_ann_file;
@@ -1164,6 +1164,10 @@ void Assembler::read_ann_results(string ann_file)
         if (cur_tmp_0.size() >= 1){
             if (cur_tmp_0[0] != -1){
                 cur_cons.cons_seq = cur_tmp_0;
+            }else{
+                if (is_ref){
+                    cur_cons.cons_seq = vector<int>();
+                }
             }
         }
         
@@ -1371,6 +1375,246 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
     
 }
 
+void Assembler::test_contigs_refonly(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range)
+{
+    if (recode_data.size() != recode_ref_data.size() || recode_data.size()!= reads_range.size())
+        throw runtime_error("incompatible recode_data, recode_ref_data or reads_range");
+    
+    // check homo_blocks
+    int64_t max_range = -1;
+    for (auto i = 0; i < reads_range.size(); ++i)
+        if (reads_range[i].second > max_range)
+            max_range = reads_range[i].second;
+    if (max_range + 1 > this->homo_blocks.size())
+        throw runtime_error("Assembler::test_contigs, max_range + 1 > this->homo_blocks.size().");
+    
+    vector<vector<int> > pu_recode_full = pileup_var(recode_data);
+    vector<vector<int> > pu_recode_ref_full = pileup_var(recode_ref_data);
+    
+    
+    // test single locus contig
+    ConsensusSeq ann_ref = this->rl_ann_clust.back();
+    if (ann_ref.cons_seq.size() != 0)
+        throw runtime_error(" Assembler::test_contigs() : ann_ref.cons_seq.size() != 0");
+    
+    cout << "test single locus contigs" << endl;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        // get reads on contig i and ref cons
+        unordered_set<int64_t> nn_reads_ids(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
+        nn_reads_ids.insert(ann_ref.nn_reads_id.begin(), ann_ref.nn_reads_id.end());
+        
+        unordered_map<int64_t, vector<int> > pu_recode;
+        unordered_map<int64_t, vector<int> > pu_recode_ref;
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            for (auto k = 0; k < 4; ++k){
+                for (auto cur_readid : pu_recode_full[4*cur_locus + k]){
+                    if (nn_reads_ids.find(cur_readid) != nn_reads_ids.end())
+                        pu_recode[4*cur_locus + k].push_back(cur_readid);
+                }
+                
+                for (auto cur_readid : pu_recode_ref_full[4*cur_locus + k]){
+                    if (nn_reads_ids.find(cur_readid) != nn_reads_ids.end())
+                        pu_recode_ref[4*cur_locus + k].push_back(cur_readid);
+                }
+                //pu_recode[4*cur_locus + k] = pu_recode_full[4*cur_locus + k];
+                //pu_recode_ref[4*cur_locus + k] =  pu_recode_ref_full[4*cur_locus + k];
+            }
+        }
+        
+        // test contigs
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int cur_count = 0;
+            int cur_cvg = 0;
+            
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            // calculate marginal probability
+            cur_count = (int)pu_recode[cur_code].size();
+            cur_cvg = (int)pu_recode[4*cur_locus].size() + (int)pu_recode[4*cur_locus + 1].size() + (int)pu_recode[4*cur_locus + 2].size() + (int)pu_recode[4*cur_locus + 3].size();
+            cur_cvg += pu_recode_ref[4*cur_locus].size() + pu_recode_ref[4*cur_locus + 1].size() + pu_recode_ref[4*cur_locus + 2].size() + pu_recode_ref[4*cur_locus + 3].size();
+            
+            if (cur_cvg > 0 ){
+                if (this->alpha == -1 || this->beta == -1)
+                    throw runtime_error("this->alpha == -1 || this->beta == -1");
+                
+                double cur_log_bf_null = binom_log_bf(cur_count, cur_cvg, this->alpha, this->beta);
+                if (cur_log_bf_null < this->rl_ann_clust[i].log_bf_null || j == 0)
+                    this->rl_ann_clust[i].log_bf_null = cur_log_bf_null;
+                
+                double cur_rr = cur_count*(this->alpha + this->beta) / (cur_cvg*this->alpha);
+                if (cur_rr < this->rl_ann_clust[i].rr_null || j ==0)
+                    this->rl_ann_clust[i].rr_null = cur_rr;
+            }
+        }
+    }
+    
+    // test independence
+    cout << "test multiple loci contigs" << endl;
+    
+    vector<int64_t> temp_read_id(recode_data.size(), -1);
+    vector<int64_t> temp_read_id_cvg(recode_data.size(), -1);
+    
+    vector<int64_t> temp_read_id_block(recode_data.size(), -1);
+    vector<int64_t> temp_read_id_cvg_block(recode_data.size(), -1);
+    
+    int64_t counter = 0;
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        //cout << i << endl;
+        if (this->rl_ann_clust[i].cons_seq.size() < 2)
+            continue;
+        
+        // get reads on contig i and ref cons
+        unordered_set<int64_t> nn_reads_ids(this->rl_ann_clust[i].nn_reads_id.begin(), this->rl_ann_clust[i].nn_reads_id.end());
+        nn_reads_ids.insert(ann_ref.nn_reads_id.begin(), ann_ref.nn_reads_id.end());
+        
+        unordered_map<int64_t, vector<int> > pu_recode;
+        unordered_map<int64_t, vector<int> > pu_recode_ref;
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            for (auto k = 0; k < 4; ++k){
+                for (auto cur_readid : pu_recode_full[4*cur_locus + k]){
+                    if (nn_reads_ids.find(cur_readid) != nn_reads_ids.end())
+                        pu_recode[4*cur_locus + k].push_back(cur_readid);
+                }
+                
+                for (auto cur_readid : pu_recode_ref_full[4*cur_locus + k]){
+                    if (nn_reads_ids.find(cur_readid) != nn_reads_ids.end())
+                        pu_recode_ref[4*cur_locus + k].push_back(cur_readid);
+                }
+                //pu_recode[4*cur_locus + k] = pu_recode_full[4*cur_locus + k];
+                //pu_recode_ref[4*cur_locus + k] =  pu_recode_ref_full[4*cur_locus + k];
+            }
+        }
+        
+        // merge loci within MIN_LOCI_BLOCK_SIZE, and test if joint_prop > product(block_prop)
+        vector<vector<int> > blocks;
+        vector<double> block_prop, block_count, block_cvg;
+        double cur_block_prop = -1, cur_block_count = 0, cur_block_cvg = 0;
+        double joint_prop = -1, joint_count = 0, joint_cvg = 0;
+        
+        int64_t prev_locus = -MIN_LOCI_BLOCK_SIZE - 1;
+        for (auto j = 0; j < this->rl_ann_clust[i].cons_seq.size(); ++j){
+            int64_t cur_code = this->rl_ann_clust[i].cons_seq[j];
+            int64_t cur_locus = cur_code / 4;
+            
+            if (cur_locus < prev_locus)
+                throw runtime_error("Assembler::test_contigs, cur_locus < prev_locus (locus in contigs is not sorted)");
+            
+            // check if enter a new block
+            bool is_new_block = false;
+            if (j == 0){
+                is_new_block = true;
+            }else{
+                if (this->homo_blocks[cur_locus] - this->homo_blocks[prev_locus] > MIN_LOCI_BLOCK_SIZE)
+                    is_new_block = true;
+            }
+            
+            // record previous block info
+            if (is_new_block){
+                if (j > 0){
+                    block_count.push_back(cur_block_count);
+                    block_cvg.push_back(cur_block_cvg);
+                    block_prop.push_back(cur_block_prop);
+                }
+                blocks.push_back(vector<int>());
+            }
+            blocks.back().push_back((int)cur_locus);
+            
+            // reset current count
+            cur_block_prop = -1; cur_block_count = 0; cur_block_cvg = 0;
+            joint_prop = -1; joint_count = 0; joint_cvg = 0;
+            
+            // fill template and count
+            for (auto k = 0; k < pu_recode[cur_code].size(); ++k){
+                // count joint probability
+                if (temp_read_id[pu_recode[cur_code][k]] == counter - 1 || j == 0){
+                    ++joint_count;
+                    temp_read_id[pu_recode[cur_code][k]] = counter;
+                }
+                
+                // count block probability
+                if (temp_read_id_block[pu_recode[cur_code][k]] == counter - 1 || is_new_block){
+                    ++cur_block_count;
+                    temp_read_id_block[pu_recode[cur_code][k]] = counter;
+                }
+                
+            }
+            
+            for (auto s = 0; s <= 3; ++s){
+                for (auto k = 0; k < pu_recode[4*cur_locus + s].size(); ++k){
+                    // count joint probability
+                    if (temp_read_id_cvg[pu_recode[4*cur_locus + s][k]] == counter - 1 || j == 0){
+                        ++joint_cvg;
+                        temp_read_id_cvg[pu_recode[4*cur_locus + s][k]] = counter;
+                    }
+                    
+                    // count block probability
+                    if (temp_read_id_cvg_block[pu_recode[4*cur_locus + s][k]] == counter - 1 || is_new_block){
+                        ++cur_block_cvg;
+                        temp_read_id_cvg_block[pu_recode[4*cur_locus + s][k]] = counter;
+                    }
+                }
+                
+                for (auto k = 0; k < pu_recode_ref[4*cur_locus + s].size(); ++k){
+                    // count joint probability
+                    if (temp_read_id_cvg[pu_recode_ref[4*cur_locus + s][k]] == counter - 1 || j == 0){
+                        ++joint_cvg;
+                        temp_read_id_cvg[pu_recode_ref[4*cur_locus + s][k]] = counter;
+                    }
+                    
+                    // count block probability
+                    if (temp_read_id_cvg_block[pu_recode_ref[4*cur_locus + s][k]] == counter - 1 || is_new_block){
+                        ++cur_block_cvg;
+                        temp_read_id_cvg_block[pu_recode_ref[4*cur_locus + s][k]] = counter;
+                    }
+                }
+                
+            }
+            
+            ++counter;
+            if (counter >= numeric_limits<int64_t>::max() - 1)
+                throw runtime_error("Assembler::test_contigs, counter >= numeric_limits<int64_t>::max() - 1");
+            
+            // calculate block probability
+            if (cur_block_cvg > 0)
+                cur_block_prop = cur_block_count / cur_block_cvg;
+            
+            // calculater current joint probablity
+            if (joint_cvg > 0 && j == this->rl_ann_clust[i].cons_seq.size() - 1)
+                joint_prop = joint_count / joint_cvg;
+            
+            // record block info
+            if (j == this->rl_ann_clust[i].cons_seq.size() - 1){
+                block_count.push_back(cur_block_count);
+                block_cvg.push_back(cur_block_cvg);
+                block_prop.push_back(cur_block_prop);
+            }
+            
+            prev_locus = cur_locus;
+        }
+        
+        // don't test if joint count is 0 (two many loci so too few reads having all of them)
+        if (joint_count == 0)
+            continue;
+        
+        // only test independence if there are two or more
+        if (block_prop.size() >= 2){
+            double exp_prop = prod(block_prop);
+            if (exp_prop > 0){
+                this->rl_ann_clust[i].log_bf_ind = binom_log_bf(joint_count, joint_cvg, exp_prop);
+                this->rl_ann_clust[i].rr_ind = joint_count / (joint_cvg*exp_prop);
+                
+            }
+        }
+        
+    }
+}
 
 void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range)
 {
@@ -1560,10 +1804,10 @@ void Assembler::test_contigs(const vector<vector<int> > &recode_data, const vect
 
 void Assembler::test_contigs_pairwise(string ann_file, string recode_file, string out_file, double min_log_bf, int max_loci, int min_cvg, double min_rr)
 {
-    // load ann
+    cout << "load ann" << endl;
     this->read_ann_results(ann_file);
     
-    // load recode and recode_ref
+    cout << "load recode and recode_ref" << endl;
     vector<vector<int> > recode_data;
     loadencodedata(recode_data, recode_file);
     
@@ -1573,7 +1817,7 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
     if (recode_data.size() != recode_ref_data.size())
         throw runtime_error("recode_data.size() != recode_ref_data.size()");
     
-    // pileup
+    cout << "pileup" << endl;
     vector<vector<int> > pu_recode = pileup_var(recode_data);
     vector<vector<int> > pu_recode_ref = pileup_var(recode_ref_data);
     
@@ -1597,8 +1841,9 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
     int64_t counter = -1;
     vector<int64_t> idx;
     
+    cout << "test contigs:" << endl;
     for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
-        if (i+1 % 100 == 0) cout << "tested " << i+1 << " contigs" << endl;
+        if ((i+1) % 100 == 0) cout << "tested " << i+1 << " contigs" << endl;
         
         if (rl_ann_clust[i].cons_seq.size() == 0)
             continue;
@@ -1662,8 +1907,8 @@ void Assembler::test_contigs_pairwise(string ann_file, string recode_file, strin
             }
             
             int64_t n_diff = n_union - n_common;
-            if ( n_diff > max_loci || 5*this->rl_ann_clust[i].contig_cvg > this->rl_ann_clust[j].contig_cvg ||
-                ( n_common < int(0.5*(cons_seq_i.size())) && n_common < int(0.5*(cons_seq_j.size())) ) ){
+            if ( n_diff > max_loci || this->rl_ann_clust[i].contig_cvg > this->rl_ann_clust[j].contig_cvg ||
+                ( n_common < int(0.5*(cons_seq_i.size()))) ){
                 
                 for (auto k = 0; k < this->rl_ann_clust[i].cons_seq.size(); ++k)
                     temp_var[this->rl_ann_clust[i].cons_seq[k]] = 1;

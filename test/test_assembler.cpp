@@ -577,3 +577,58 @@ TEST_CASE("test multithread ann", "[hide]")
     string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + out_file + ".igda_tmp" + " > " + out_file;
     cout << cmd << endl; system(cmd.c_str());
 }
+
+TEST_CASE("test test_correct_contigs_pairwise_multiple", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results/realign.ann.tested.ft.count";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results/realign.recode";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results/Borrelia_burgdorferi_N40_chr.fna";
+
+    Assembler assembler;
+    assembler.load_homo_blocks(ref_file);
+    assembler.set_null_betadist(1.332824, 89.04769);
+    assembler.test_contigs_pairwise(ann_file, recode_file, ann_file + ".ft", 20, 3, 10, 20);
+   
+}
+
+TEST_CASE("test test_contigs (new algorithm)", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results_test_contigs/realign.ann.count";
+    string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results_test_contigs/realign.recode";
+    string align_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results_test_contigs/realign_readrange.m5";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_correct_contigs_pairwise/results_test_contigs/Borrelia_burgdorferi_N40_chr.fna";
+    double alpha = 1.332824;
+    double beta = 89.04769;
+    double min_logbf = 20;
+    int max_loci = 10;
+    double min_rr = 20;
+    
+    Assembler assembler;
+    
+    cout << "load ann" << endl;
+    assembler.read_ann_results(ann_file);
+    
+    cout << "load recode_data" << endl;
+    vector<vector<int> > recode_data;
+    loadencodedata(recode_data, recode_file);
+    
+    cout << "load recode_ref_data" << endl;
+    vector<vector<int> > recode_ref_data;
+    loadencodedata(recode_ref_data, recode_file + ".ref");
+    
+    cout << "load reads_range" << endl;
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    
+    cout << "load ref_file" << endl;
+    assembler.load_homo_blocks(ref_file);
+    
+    cout << "test contigs" << endl;
+    assembler.set_null_betadist(alpha, beta);
+    assembler.test_contigs(recode_data, recode_ref_data, reads_range);
+    assembler.print_rl_ann_clust(ann_file + ".tested", true);
+    
+    cout << "filter contigs" << endl;
+    assembler.filter_ann(ann_file + ".tested", min_logbf, max_loci, min_rr);
+    
+}
