@@ -100,4 +100,10 @@ void get_unambigious_paths_ua_core(const IGDA_Graph &gp, int64_t vertex_id, vect
                                    vector<bool> &visited, int &n_split, set<int64_t> &end_vertex_id);
 set<vector<int64_t> > get_unambigious_paths_ua(const IGDA_Graph &gp);
 
+
+// get ambiguous paths (paths with no split)
+void get_unambigious_paths_ns_core(const IGDA_Graph &gp, int64_t vertex_id, vector<int64_t> &path, set<vector<int64_t> > &path_all,
+                                   vector<bool> &visited, int &n_split, set<int64_t> &end_vertex_id);
+set<vector<int64_t> > get_unambigious_paths_ns(const IGDA_Graph &gp);
+
 #endif

@@ -2401,7 +2401,7 @@ void Assembler::assemble_unambiguous(IGDA_Graph &gp, string out_file)
     // get unambigious paths (paths where there is no more than two paths connecting its start and end nodes)
     cout << "get unambigious paths (ms)" << endl;
     //set<vector<int64_t> > upaths = get_unambigious_paths_ms(gp);
-    set<vector<int64_t> > upaths = get_unambigious_paths_ua(gp);
+    set<vector<int64_t> > upaths = get_unambigious_paths_ns(gp);
     
     // merge consensus sequences in each path
     cout << "consensus" << endl;
