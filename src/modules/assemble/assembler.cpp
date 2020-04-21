@@ -1239,7 +1239,7 @@ void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci, 
     
 }
 
-void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard)
+void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)
 {
     this->read_ann_results(ann_file);
     if (this->rl_ann_clust.size() == 0)
@@ -1303,12 +1303,16 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                 continue;
             
             int overlap_len = rl_ann_clust[i].end - rl_ann_clust[j].start + 1;
-            //if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) &&
-            //    overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
-            //if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1))
-            if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) ||
-                overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
-                continue;
+  
+            if (is_or){
+                if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) &&
+                    overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
+                    continue;
+            }else{
+                if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) ||
+                    overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
+                    continue;
+            }
             
             double n_cons_seq_i = rl_ann_clust[i].cons_seq.size();
             double n_cons_seq_j = 0;
@@ -1344,14 +1348,13 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                                              temp_array, false, 0, false);
             //cout << i << ',' << j << " : " << cur_jaccard << endl;
             
-            //if ((!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1))
-            //    throw runtime_error("ann_to_graph(): (!is_diff && cur_jaccard != 1) || (is_diff && cur_jaccard == 1)");
-            
-            if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
-            //if (!is_diff && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
-            //if (!is_diff && n_overlap >= min_prop*n_cons_seq_i)
-                boost::add_edge(i, j, gp);
-                //is_nc = false;
+            if (is_or){
+                if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
+                    boost::add_edge(i, j, gp);
+            }else{
+                if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
+                    boost::add_edge(i, j, gp);
+            }
             
             // clear template of the jth contig
             for (int64_t k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
