@@ -1115,6 +1115,15 @@ int main(int argc, const char * argv[])
             
         }
         
+        if (strcmp(argv[1], "getdepth_from_paf")==0){
+            UnlabeledValueArg<string> paf_fileArg("paf_file", "path of PAF file", true, "", "paf_file", cmd);
+            UnlabeledValueArg<string> cvg_fileArg("cvg_file", "path of output coverage file)", true, "", "cvg_file", cmd);
+            
+            cmd.parse(argv2);
+            
+            getdepth_from_paf(paf_fileArg.getValue(), cvg_fileArg.getValue());
+        }
+        
     }
     catch(const std::overflow_error& e) {
         cerr << "overflow_error: " << e.what() << endl;

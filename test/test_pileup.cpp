@@ -149,7 +149,13 @@ TEST_CASE("test filter_pileup_var()", "[hide]")
     print_pileup(pu_var_ft, "../results/realign/ERR752452_ERR690970_ERR1223274_ERR910547_ERR1588642.clean.toref.var_ft.pileup.1000");
 }
 
-
+TEST_CASE("test getdepth_from_paf()", "[hide]")
+{
+    string paf_file = "/Users/zhixingfeng/Dropbox/grant/zxfeng_2020_Feb/preliminary/sv/results/check_details/contig_14_reads_align_to_SRR7971249_realign.paf";
+    string cvg_file = "/Users/zhixingfeng/Dropbox/grant/zxfeng_2020_Feb/preliminary/sv/results/check_details/contig_14_reads_align_to_SRR7971249_realign.cvg";
+    
+    getdepth_from_paf(paf_file, cvg_file);
+}
 
 
 

@@ -720,6 +720,57 @@ inline void get_consensus(ConsensusSeq &cons, const vector<int> &pu_var_count, c
     }
 }
 
-
+inline void getdepth_from_paf(string paf_file, string cvg_file)
+{
+    unordered_map<string, vector<int32_t> > cvg_data;
+    unordered_map<string, int64_t> contig_len;
+    ifstream fs_paf_file; open_infile(fs_paf_file, paf_file);
+    int64_t nlines = 0;
+    while(true){
+        ++nlines;
+        if (nlines % 10000 == 0) cout << nlines << endl;
+        
+        // read line
+        string buf;
+        getline(fs_paf_file, buf);
+        if (fs_paf_file.eof())
+            break;
+        vector<string> buf_split = split(buf, '\t');
+        if (buf_split.size() < 12)
+            throw runtime_error("getdepth_from_paf(): buf_split.size() < 12");
+        
+        // parse
+        string chr = buf_split[5];
+        int64_t cur_contig_len = stoll(buf_split[6]);
+        int64_t tstart = stoll(buf_split[7]);
+        int64_t tend = stoll(buf_split[8]);
+        
+        contig_len[chr] = cur_contig_len;
+        
+        // calculate depth
+        auto it = cvg_data.find(chr);
+        if (it == cvg_data.end())
+            cvg_data[chr] = vector<int32_t>(cur_contig_len, 0);
+        
+        it = cvg_data.find(chr);
+        for (auto i = tstart; i < tend; ++i){
+            ++it->second[i];
+        }
+        
+    }
+    cout << nlines << endl;
+    fs_paf_file.close();
+    
+    // print depth
+    ofstream fs_cvg_file; open_outfile(fs_cvg_file, cvg_file);
+    for (auto & cur_cvg : cvg_data){
+        for (auto i = 0; i < cur_cvg.second.size(); ++i){
+            if (cur_cvg.second[i] > 0)
+                fs_cvg_file << cur_cvg.first << '\t' << contig_len[cur_cvg.first] << '\t' << i+1 << '\t' << cur_cvg.second[i] << endl;
+        }
+    }
+    fs_cvg_file.close();
+    
+}
 
 #endif /* pileup_h */
