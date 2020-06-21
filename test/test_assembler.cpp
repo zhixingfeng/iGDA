@@ -632,3 +632,20 @@ TEST_CASE("test test_contigs (new algorithm)", "[hide]")
     assembler.filter_ann(ann_file + ".tested", min_logbf, max_loci, min_rr);
     
 }
+
+TEST_CASE("test find_nccontigs (new overlap rule)", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_new_overlap_rule/realign.ann.tested.ft.count.ft";
+    string ann_nc_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_new_overlap_rule/realign.ann.tested.ft.count.ft.nc.j07";
+    
+    Assembler assembler;
+    assembler.read_ann_results(ann_file);
+    vector<int64_t> idx;
+    assembler.find_nccontigs(idx, 0.5, 0.7);
+    
+    assembler.print_rl_ann_clust(ann_nc_file + ".igda_tmp", true, idx);
+    string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + ann_nc_file + ".igda_tmp" + " > " + ann_nc_file;
+    cout << cmd << endl; system(cmd.c_str());
+    cmd = "rm -f " + ann_nc_file+ ".igda_tmp";
+    cout << cmd << endl; system(cmd.c_str());
+}
