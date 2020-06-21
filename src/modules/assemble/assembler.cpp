@@ -1320,10 +1320,13 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             
             // fill in template by the jth cons_seq and tested_loci
             bool is_diff = false;
+            int64_t n_diff = 0;
             for (int64_t k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
                 temp_vec_j[rl_ann_clust[j].cons_seq[k]] = true;
-                if (!temp_vec_i[rl_ann_clust[j].cons_seq[k]] && temp_tested_vec_i[rl_ann_clust[j].cons_seq[k] / 4])
+                if (!temp_vec_i[rl_ann_clust[j].cons_seq[k]] && temp_tested_vec_i[rl_ann_clust[j].cons_seq[k] / 4]){
                     is_diff = true;
+                    ++n_diff;
+                }
                 
                 if (temp_vec_i[rl_ann_clust[j].cons_seq[k]])
                     ++n_overlap;
@@ -1338,8 +1341,10 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             
             // scan the ith contig again
             for (int64_t k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k){
-                if (!temp_vec_j[rl_ann_clust[i].cons_seq[k]] && temp_tested_vec_j[rl_ann_clust[i].cons_seq[k] / 4])
+                if (!temp_vec_j[rl_ann_clust[i].cons_seq[k]] && temp_tested_vec_j[rl_ann_clust[i].cons_seq[k] / 4]){
                     is_diff = true;
+                    ++n_diff;
+                }
             }
             
             double cur_jaccard = sim_jaccard(rl_ann_clust[i].cons_seq, rl_ann_clust[j].cons_seq,
@@ -1349,10 +1354,10 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //cout << i << ',' << j << " : " << cur_jaccard << endl;
             
             if (is_or){
-                if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
                     boost::add_edge(i, j, gp);
             }else{
-                if ((!is_diff || cur_jaccard >= min_jaccard) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
                     boost::add_edge(i, j, gp);
             }
             
@@ -2869,7 +2874,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min
                     }
                 }
                 
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
                     is_nc = false;
                 
                 // clear template of the jth contig

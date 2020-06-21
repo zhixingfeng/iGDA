@@ -649,3 +649,27 @@ TEST_CASE("test find_nccontigs (new overlap rule)", "[hide]")
     cmd = "rm -f " + ann_nc_file+ ".igda_tmp";
     cout << cmd << endl; system(cmd.c_str());
 }
+
+TEST_CASE("test tred (new overlap rule)", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_new_overlap_rule/realign.ann.tested.ft.count.ft.nc.j07";
+    
+    Assembler assembler;
+    Graph gp_bgl;
+    //assembler.ann_to_graph(gp_bgl, ann_file, 0.5, 0.5, 2, false);
+    assembler.ann_to_graph(gp_bgl, ann_file, 0.5, 0.5, 2, true);
+    
+    ofstream fs_graph(ann_file + ".dot");
+    boost::write_graphviz(fs_graph, gp_bgl);
+    fs_graph.close();
+    
+    // transitive reduction
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, ann_file + ".dot", ann_file);
+    
+    IGDA_Graph gp_tred;
+    igda_tred(gp, gp_tred);
+    
+    save_igda_graph_to_file(gp_tred, ann_file + ".tred.dot");
+    
+}
