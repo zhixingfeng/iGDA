@@ -2540,6 +2540,63 @@ void Assembler::polish(string ann_file, string encode_file, string m5_file, stri
     
 }
 
+void Assembler::cut_overhanged_contigs(string ann_file, string ann_cut_file)
+{
+    this->read_ann_results(ann_file);
+    for (auto i = 0; i < this->rl_ann_clust.size(); ++i){
+        for (auto j = 0; j < this->rl_ann_clust.size(); ++j){
+            if (i == j) continue;
+            
+            // get overlap region
+            int64_t o_start = rl_ann_clust[i].start >= rl_ann_clust[j].start ? rl_ann_clust[i].start : rl_ann_clust[j].start;
+            int64_t o_end = rl_ann_clust[i].end <= rl_ann_clust[j].end ? rl_ann_clust[i].end : rl_ann_clust[j].end;
+            if (o_start < o_end) continue;
+            
+            if (this->rl_ann_clust[i].start > this->rl_ann_clust[j].start && this->rl_ann_clust[i].start < this->rl_ann_clust[j].end &&
+                this->rl_ann_clust[j].end > this->rl_ann_clust[i].start &&this->rl_ann_clust[j].end < this->rl_ann_clust[i].end){
+                
+                // check if overlapped region identical
+                unordered_set<int> buf;
+                for (auto k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k){
+                    if (rl_ann_clust[i].cons_seq[k] >= 4*o_start && rl_ann_clust[i].cons_seq[k] <= 4*o_end+3)
+                        buf.insert(rl_ann_clust[i].cons_seq[k]);
+                }
+                
+                bool is_identical = true;
+                for (auto k = 0; k < rl_ann_clust[j].cons_seq.size(); ++k){
+                    if (rl_ann_clust[j].cons_seq[k] >= 4*o_start && rl_ann_clust[j].cons_seq[k] <= 4*o_end+3 &&
+                        buf.find(rl_ann_clust[j].cons_seq[k]) == buf.end())
+                        is_identical = false;
+                }
+                
+                // if overlapped regions are identical, cut overlaped region for contig i
+                if (is_identical){
+                    // cut cons_seq
+                    vector<int> cons_seq_cut;
+                    for (auto k = 0; k < rl_ann_clust[i].cons_seq.size(); ++k){
+                        if (rl_ann_clust[i].cons_seq[k] > 4*o_end)
+                            cons_seq_cut.push_back(rl_ann_clust[i].cons_seq[k]);
+                    }
+                    rl_ann_clust[i].cons_seq = cons_seq_cut;
+                    
+                    // trim tested_loci
+                    vector<int> tested_loci_cut;
+                    for (auto k = 0; k < rl_ann_clust[i].tested_loci.size(); ++k){
+                        if (rl_ann_clust[i].tested_loci[k] > o_end){
+                            tested_loci_cut.push_back(rl_ann_clust[i].tested_loci[k]);
+                        }
+                    }
+                    rl_ann_clust[i].tested_loci = tested_loci_cut;
+                    
+                    // trim start locus
+                    rl_ann_clust[i].start = (int)o_end;
+                    
+                }
+            }
+        }
+    }
+    this->print_rl_ann_clust(ann_cut_file);
+}
 
 void Assembler::assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random)
 {

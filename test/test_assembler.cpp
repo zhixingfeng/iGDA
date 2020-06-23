@@ -673,3 +673,12 @@ TEST_CASE("test tred (new overlap rule)", "[hide]")
     save_igda_graph_to_file(gp_tred, ann_file + ".tred.dot");
     
 }
+
+TEST_CASE("test Assemble:cut_overhanged_contigs", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_cut_overhanged_contigs/realign.ann.tested.ft.count.ft.assembled.count.nc.ft";
+    string ann_cut_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_cut_overhanged_contigs/realign.ann.tested.ft.count.ft.assembled.count.nc.ft.cut";
+    Assembler assembler;
+    assembler.cut_overhanged_contigs(ann_file, ann_cut_file);
+    //assembler.read_ann_results(ann_file);
+}

@@ -187,15 +187,18 @@ public:
     void assemble(Graph &gp, string out_ann_file);
     void assemble_unambiguous(IGDA_Graph &gp, string out_file);
     
-    
     // assign reads to assembled contigs (recode only)
     void assign_reads_to_contigs(const vector<vector<int> > &recode_data, const vector<ReadRange> &reads_range, bool is_random = false);
     
     // polish contigs
     void polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob = 0.3, int min_reads = 10, int min_homo_block_dist = 1);
     
+    // cut overhanged contigs
+    void cut_overhanged_contigs(string ann_file, string ann_cut_file);
+    
     // output ann results
     vector<ConsensusSeq> get_ann_result(){return rl_ann_clust;}
+    
     
 protected:
     // ann sub functions
