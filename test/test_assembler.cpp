@@ -682,3 +682,29 @@ TEST_CASE("test Assemble:cut_overhanged_contigs", "[hide]")
     assembler.cut_overhanged_contigs(ann_file, ann_cut_file);
     //assembler.read_ann_results(ann_file);
 }
+
+TEST_CASE("test tred or that minimal length or minimal number of SNVs intead of and", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_tred_or/unassembled.ann";
+    Assembler assembler;
+    
+    // overlap
+    Graph gp_bgl;
+    assembler.ann_to_graph(gp_bgl, ann_file, 0.5, 0.5, 0.7, true);
+    
+    ofstream fs_graph(ann_file + ".dot");
+    boost::write_graphviz(fs_graph, gp_bgl);
+    fs_graph.close();
+    
+    // transitive reduction
+    IGDA_Graph gp;
+    load_igda_graph_from_file(gp, ann_file + ".dot", ann_file);
+    
+    IGDA_Graph gp_tred;
+    igda_tred(gp, gp_tred);
+    
+    save_igda_graph_to_file(gp_tred, ann_file + ".tred.dot");
+    
+    
+}
+

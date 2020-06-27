@@ -1290,8 +1290,8 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             temp_tested_vec_i[rl_ann_clust[i].tested_loci[k]] = true;
         
         // compare contigs
-        int start_code = 4*rl_ann_clust[i].start;
-        int end_code = 4*rl_ann_clust[i].end +3;
+        //int start_code = 4*rl_ann_clust[i].start;
+        //int end_code = 4*rl_ann_clust[i].end +3;
         
         for (int64_t j = 0; j < this->rl_ann_clust.size(); ++j){
             if (j == i) continue;
@@ -1303,8 +1303,11 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                 continue;
             
             int overlap_len = rl_ann_clust[i].end - rl_ann_clust[j].start + 1;
-  
-            if (is_or){
+            int contig_len_i = rl_ann_clust[i].end - rl_ann_clust[i].start + 1;
+            int contig_len_j = rl_ann_clust[j].end - rl_ann_clust[j].start + 1;
+            
+            //bool is_len_overlap_ok =
+            /*if (is_or){
                 if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) &&
                     overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
                     continue;
@@ -1312,10 +1315,11 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                 if (overlap_len < min_len_prop*(rl_ann_clust[i].end - rl_ann_clust[i].start + 1) ||
                     overlap_len < min_len_prop*(rl_ann_clust[j].end - rl_ann_clust[j].start + 1))
                     continue;
-            }
+            }*/
             
             double n_cons_seq_i = rl_ann_clust[i].cons_seq.size();
-            double n_cons_seq_j = 0;
+            //double n_cons_seq_j = 0;
+            double n_cons_seq_j = rl_ann_clust[j].cons_seq.size();
             double n_overlap = 0;
             
             // fill in template by the jth cons_seq and tested_loci
@@ -1331,8 +1335,8 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
                 if (temp_vec_i[rl_ann_clust[j].cons_seq[k]])
                     ++n_overlap;
                 
-                if (rl_ann_clust[j].cons_seq[k] >= start_code && rl_ann_clust[j].cons_seq[k] <= end_code)
-                    ++n_cons_seq_j;
+                //if (rl_ann_clust[j].cons_seq[k] >= start_code && rl_ann_clust[j].cons_seq[k] <= end_code)
+                //    ++n_cons_seq_j;
             }
             
             for (int64_t k = 0; k < rl_ann_clust[j].tested_loci.size(); ++k){
@@ -1354,10 +1358,10 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //cout << i << ',' << j << " : " << cur_jaccard << endl;
             
             if (is_or){
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i || n_overlap >= min_prop*n_cons_seq_j || overlap_len >= min_len_prop*contig_len_i || overlap_len >= min_len_prop*contig_len_j ))
                     boost::add_edge(i, j, gp);
             }else{
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 2)) && (n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j && overlap_len >= min_len_prop*contig_len_i && overlap_len >= min_len_prop*contig_len_j ))
                     boost::add_edge(i, j, gp);
             }
             
