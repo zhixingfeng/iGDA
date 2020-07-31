@@ -39,7 +39,7 @@ using namespace TCLAP;
 
 void print_usage()
 {
-    cout << "Version 0.9.2" << endl << endl;
+    cout << "Version 0.9.3" << endl << endl;
     cout << "To detect low-frequency SNVs, use:" << endl;
     cout << "(PacBio data) igda_pipe_detect_pb infile(bam or sam file) reffile contextmodel outdir" << endl;
     cout << "(Nanopore data) igda_pipe_detect_ont infile(bam or sam file) reffile contextmodel outdir" << endl << endl;
@@ -64,8 +64,9 @@ void print_usage()
     cout << "Column 3 is end locus (0-based)" << endl;
     cout << "Column 4 is number of reads aligned to the contig" << endl;
     cout << "Column 5 is coverage of the contig" << endl;
-    cout << "The other columns are reserved for internal use" << endl;
+    cout << "The other columns are reserved for internal use" << endl << endl;
     
+    cout << "For any questions, inquiry of source code or example data, contact zhixing.feng@mssm.edu" << endl;
     /*cout << "igda [command]" << endl;
     cout << "command = encode : binary coding SNVs of each aligned read." << endl;
     cout << "          cmpreads : pairwise comparison of encoded reads."<< endl;
