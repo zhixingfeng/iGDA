@@ -41,7 +41,7 @@ conda install -c zhixingfeng igda
 3. samtools 1.10
 
 ### Compile source code (GCC version >= 5, c++11 standard is needed )
-Download the source code of iGDA from *Release*, enter the directory and type "Make". Add the "bin" directory to your PATH or create a soft link to ./bin/igda in a directory that the system can find.
+Download the source code of iGDA from *Release*, unzip it, enter the directory and type "Make". Add the "bin" directory to your PATH or create a soft link to ./bin/igda in a directory that the system can find.
 
 ### Download script 
 Download https://github.com/zhixingfeng/shell/archive/0.9.3.tar.gz, unzip it and add the folder to your PATH.
