@@ -93,7 +93,7 @@ The other columns are reserved for internal use
 
 The file realign.ann.tested.ft.count.ft.assembled.count.nc.ft.sam in outdir can be loaded directly into IGV.
 
-For any questions, contact zxfeng.thu@gmail.com or zhixing.feng@mssm.edu
+**For any questions, contact zxfeng.thu@gmail.com or zhixing.feng@mssm.edu**
 
 # Demo
 
