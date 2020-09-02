@@ -104,4 +104,4 @@ Example data and code can be download from the following links:
 3. [A mixture of 65 *Klebsiella pneumoniae* samples (Oxford Nanopore sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 
 
-
+The run time of demo 1~3 is expected to be < 1 hour with 16 cores, but may vary depending on the specific machines and their working conditions. 
