@@ -7,6 +7,7 @@
 - [Installation Guide](#installation-guide)
 - [Usage](#usage)
 - [Demo](#demo)
+- [Maintainer](#maintainer)
 - [License](./LICENSE)
 
 # Overview 
@@ -111,3 +112,10 @@ password: rbw4
 
 
 The run time of demo 1~3 is expected to be < 1 hour with 16 cores, but may vary depending on the specific machines and their working conditions. 
+
+# Maintainer
+
+Zhixing Feng (冯智星)
+
+**For any questions, contact zxfeng.thu@gmail.com or zhixing.feng@mssm.edu**
+
