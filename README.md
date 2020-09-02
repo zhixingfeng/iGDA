@@ -34,11 +34,11 @@ Linux: CentOS Linux release 7.6.1810 (Core)
 ## Install via *Conda* (recommended, need *Conda*)
 conda install -c zhixingfeng igda
 
-## Compile from source code (Not recommended)
+## Compile from source code (not recommended)
 ### Install dependencies
 1. xgboost 0.90
-2. bioawk 1.0.*
-3. samtools 1.10.*
+2. bioawk 1.0
+3. samtools 1.10
 
 ### Compile source code (GCC version >= 5, c++11 standard is needed )
 Download the source code of iGDA from *Release*, enter the directory and type "Make". Add the "bin" directory to your PATH or create a soft link to ./bin/igda in a directory that the system can find.
