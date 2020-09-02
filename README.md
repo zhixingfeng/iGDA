@@ -97,7 +97,7 @@ The file realign.ann.tested.ft.count.ft.assembled.count.nc.ft.sam in outdir can 
 
 # Demo
 
-Example data can be download from the following links:
+Example data and code can be download from the following links:
 
 1. [A mixture of 186 *Bordetella* spp. samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 2. [A mixture of 155 *Escherichia coli* samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
