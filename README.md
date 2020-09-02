@@ -48,25 +48,25 @@ Download the source code of iGDA from *Release*, unzip it, enter the directory a
 Download https://github.com/zhixingfeng/shell/archive/0.9.3.tar.gz, unzip it and add the folder to your PATH.
 
 # Usage 
-To detect low-frequency SNVs, use:
+**To detect low-frequency SNVs, use:**
 
 (PacBio data) igda_pipe_detect_pb infile(bam or sam file) reffile contextmodel outdir
 
 (Nanopore data) igda_pipe_detect_ont infile(bam or sam file) reffile contextmodel outdir
 
-to detect combination of  low-frequency SNVs (phasing), use:
+**To detect combination of  low-frequency SNVs (phasing), use:**
 
 (PacBio data) igda_pipe_phase_pb indir(output of igda_pipe_detect_pb) reffile outdir
 
 (Nanopore data) igda_pipe_phase_ont indir(output of igda_pipe_detect_ont) reffile outdir
 
-Please note that reffile is the reference fasta file. Current version assumes there is only one contig in samfile and reffile.
+**Please note that reffile is the reference fasta file. Current version assumes there is only one contig in samfile and reffile.**
 
 contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
 
-Output format:
+**Output format:**
 
-For detecting low-frequency SNVs, realign.var in outdir is the final result.
+**For detecting low-frequency SNVs, realign.var in outdir is the final result.**
 
 Column 1 is the locus of detected SNVs.
 
@@ -74,7 +74,8 @@ Column 2 is the alternative base of detected SNVs.
 
 The other columns are reserved for internal use
 
-For detecting combinations of low-frequency SNVs, realign.ann.tested.ft.count.ft.assembled.count.nc.ft in outdir is the final result.
+
+**For detecting combinations of low-frequency SNVs, realign.ann.tested.ft.count.ft.assembled.count.nc.ft in outdir is the final result.**
 
 Each row is a contig
 
