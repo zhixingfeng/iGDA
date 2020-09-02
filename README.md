@@ -41,7 +41,7 @@ conda install -c zhixingfeng igda
 2. bioawk 1.0
 3. samtools 1.10
 
-### Compile source code (GCC version >= 5, c++11 standard is needed )
+### Compile source code (GCC version >= 5, or other C++ compilers supporting c++14 standard)
 Download the source code of iGDA from *Release*, unzip it, enter the directory and type "Make". Add the "bin" directory to your PATH or create a soft link to ./bin/igda in a directory that the system can find.
 
 ### Download script 
