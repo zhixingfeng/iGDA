@@ -105,7 +105,9 @@ Example data and code can be download from the following links:
 
 Alternative links:
 
-link: https://pan.baidu.com/s/1nGk7ptqQyJq56gk-cmtPuw  password: rbw4
+link: https://pan.baidu.com/s/1nGk7ptqQyJq56gk-cmtPuw  
+
+password: rbw4
 
 
 The run time of demo 1~3 is expected to be < 1 hour with 16 cores, but may vary depending on the specific machines and their working conditions. 
