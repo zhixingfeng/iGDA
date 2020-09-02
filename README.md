@@ -19,6 +19,7 @@ Cellular genetic heterogeneity is common in many biological conditions including
 For optimal performance, we recommend a computer with the following specs:
 
 RAM: 64+ GB
+
 CPU: 16+ cores
 
 ## Software Requirements
