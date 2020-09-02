@@ -59,6 +59,7 @@ to detect combination of  low-frequency SNVs (phasing), use:
 Please note that reffile is the reference fasta file. Current version assumes there is only one contig in samfile and reffile.
 
 contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
+
 Output format:
 For detecting low-frequency SNVs, realign.var in outdir is the final result.
 Column 1 is the locus of detected SNVs.
