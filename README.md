@@ -101,7 +101,7 @@ Example data and code can be download from the following links:
 1. [A mixture of 186 *Bordetella* spp. samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 2. [A mixture of 155 *Escherichia coli* samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 3. [A mixture of 65 *Klebsiella pneumoniae* samples (Oxford Nanopore sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
-4. [A mixture of 11 Borrelia burgdorferi strains and 744 other species (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
+4. [A mixture of 11 Borrelia burgdorferi strains and 744 other species to mimic a metagenome (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 
 Alternative links:
 
