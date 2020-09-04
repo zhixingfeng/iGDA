@@ -101,6 +101,7 @@ Example data and code can be download from the following links:
 1. [A mixture of 186 *Bordetella* spp. samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 2. [A mixture of 155 *Escherichia coli* samples (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 3. [A mixture of 65 *Klebsiella pneumoniae* samples (Oxford Nanopore sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
+4. [A mixture of 11 Borrelia burgdorferi strains and 744 other species (PacBio sequencing)](https://www.dropbox.com/sh/uusx8modggni96m/AAAxjKEa7YdG-HYpKnzousKBa?dl=0)
 
 Alternative links:
 
@@ -109,7 +110,7 @@ link: https://pan.baidu.com/s/1nGk7ptqQyJq56gk-cmtPuw
 password: rbw4
 
 
-The run time of demo 1~3 is expected to be < 1 hour with 16 cores, but may vary depending on the specific machines and their working conditions. 
+The run time of demo 1~3 is expected to be < 1 hour with 16 cores, but may vary depending on the specific machines and their working conditions. It takes about 20 hours to finish demo 4 with 32 cores due to its size.
 
 # Maintainer
 
