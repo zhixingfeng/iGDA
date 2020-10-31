@@ -6,7 +6,7 @@
 //  Copyright © 2018年 Zhixing Feng. All rights reserved.
 //
 
-#include "DForestSNVSTL.h"
+#include "dforestsnvstl.h"
 
 bool DForestSNVSTL::run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
          const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,

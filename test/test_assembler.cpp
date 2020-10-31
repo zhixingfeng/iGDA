@@ -11,7 +11,7 @@
 #include "../src/misc/io.h"
 #include "../src/misc/basic.h"
 #include "../src/modules/assemble/assembler.h"
-#include "../src/modules/dforest/DForestSNVSTL.h"
+#include "../src/modules/dforest/dforestsnvstl.h"
 
 
 TEST_CASE("test assembler::get_variants()", "[hide]")

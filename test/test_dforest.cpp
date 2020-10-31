@@ -11,7 +11,7 @@
 #include "../src/modules/alignreader/alignreaderm5.h"
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/DForestSNVSTL.h"
+#include "../src/modules/dforest/dforestsnvstl.h"
 #include <ctime>
 #include <stxxl/vector>
 /*TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")

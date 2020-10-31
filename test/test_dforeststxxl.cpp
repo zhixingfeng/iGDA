@@ -10,7 +10,7 @@
 #include "../include/catch.hpp"
 #include "../include/headers.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/DForestSNVSTL.h"
+#include "../src/modules/dforest/dforestsnvstl.h"
 
 /*TEST_CASE("test dforest", "[hide]")
 {

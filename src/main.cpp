@@ -12,7 +12,7 @@
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/DForestSNVSTL.h"
+#include "../src/modules/dforest/dforestsnvstl.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/assemble/assembler.h"
 #include "../src/modules/detectsingle/detectsinglesnv.h"
