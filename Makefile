@@ -1,7 +1,8 @@
 PREFIX = .
 CXX = g++
-INCLUDES = -I include -I tools/boost/include -I tools -I tools/seqan/seqan/include
-CXX_FLAGS = -pthread -std=c++14 -w -O2 -lz
+INCLUDES = -I include -I tools/boost/include -I tools -I tools/seqan/seqan/include -I tools/stxxl/build/local/stxxl/include
+LIBS = -L tools/stxxl/build/local/stxxl/lib
+CXX_FLAGS = -pthread -std=c++14 -w -O2 -lz -lstxxl
 
 SRC_CXX = $(wildcard src/*.cpp)\
 	$(wildcard src/modules/aligncoder/*.cpp)\
