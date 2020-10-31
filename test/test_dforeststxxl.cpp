@@ -10,7 +10,7 @@
 #include "../include/catch.hpp"
 #include "../include/headers.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/dforestsnvstxxl.h"
+#include "../src/modules/dforest/DForestSNVSTL.h"
 
 /*TEST_CASE("test dforest", "[hide]")
 {
@@ -39,7 +39,7 @@ TEST_CASE("test dforeststxxl", "[hide]")
     
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForestSNVSTL forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     int start_time= (int)clock();
@@ -58,7 +58,7 @@ TEST_CASE("test dforeststxxl (whole data)", "[hide]")
     
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForestSNVSTL forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     int start_time= (int)clock();
@@ -77,7 +77,7 @@ TEST_CASE("test dforeststxxl (use sam file)", "[hide]")
     
     AlignReaderSam alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForestSNVSTL forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     int start_time= (int)clock();
@@ -98,7 +98,7 @@ TEST_CASE("test dforeststxxl report progresss", "[hide]")
     
     AlignReaderSam alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForestSNVSTL forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     int start_time= (int)clock();

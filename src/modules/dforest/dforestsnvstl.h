@@ -1,13 +1,13 @@
 //
-//  dforestsnvstxxl.hpp
+//  DForestSNVSTL.hpp
 //  iGDA
 //
 //  Created by Zhixing Feng on 2018/5/26.
 //  Copyright © 2018年 Zhixing Feng. All rights reserved.
 //
 
-#ifndef dforestsnvstxxl_hpp
-#define dforestsnvstxxl_hpp
+#ifndef DForestSNVSTL_hpp
+#define DForestSNVSTL_hpp
 
 /*#ifndef MIN_HOMO_BLOCK_DIST
     #define MIN_HOMO_BLOCK_DIST 25
@@ -18,14 +18,14 @@
 #include <mutex>
 
 
-class DForestSNVSTXXL : public DForest
+class DForestSNVSTL : public DForest
 {
 public:
     
-    DForestSNVSTXXL() : DForest() {}
-    DForestSNVSTXXL(AlignReader *a_p_alignreader, AlignCoder *a_p_aligncoder) : DForest(a_p_alignreader, a_p_aligncoder) {}
+    DForestSNVSTL() : DForest() {}
+    DForestSNVSTL(AlignReader *a_p_alignreader, AlignCoder *a_p_aligncoder) : DForest(a_p_alignreader, a_p_aligncoder) {}
     
-    virtual ~DForestSNVSTXXL(){}
+    virtual ~DForestSNVSTL(){}
     
     bool run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
              const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
@@ -36,7 +36,7 @@ public:
     void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
                     vector<double> &p_y_x_archive, unordered_set<int64_t> &idx_mod, int focal_locus, int min_reads, int max_depth, double minfreq, bool isinter=false);
     
-    // get_result() not actually used in DForestSNVSTXXL, retained for historical reasons
+    // get_result() not actually used in DForestSNVSTL, retained for historical reasons
     inline unordered_map<int, DforestResult> get_result()
     {
         return unordered_map<int, DforestResult>();
@@ -66,4 +66,4 @@ protected:
 
 
 
-#endif /* dforestsnvstxxl_hpp */
+#endif /* DForestSNVSTL_hpp */

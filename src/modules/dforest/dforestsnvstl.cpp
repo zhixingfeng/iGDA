@@ -1,21 +1,21 @@
 //
-//  dforestsnvstxxl.cpp
+//  DForestSNVSTL.cpp
 //  iGDA
 //
 //  Created by Zhixing Feng on 2018/5/26.
 //  Copyright © 2018年 Zhixing Feng. All rights reserved.
 //
 
-#include "dforestsnvstxxl.h"
+#include "DForestSNVSTL.h"
 
-bool DForestSNVSTXXL::run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
+bool DForestSNVSTL::run(const vector<vector<int> > &encode_data, const vector<Align> &align_data,
          const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
          int n_thread, double minfreq)
 {
     return true;
 }
 
-bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
+bool DForestSNVSTL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
 {
     this->result.clear();
     this->result_all.clear();
@@ -53,7 +53,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
         vector<thread> threads;
         for (auto i = 0; i < n_thread; ++i){
             cout << cmpreads_file + ".part_" + to_string(i) << endl;
-            threads.push_back(thread(&DForestSNVSTXXL::run_thread, this, cmpreads_file + ".part_" + to_string(i), out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter));
+            threads.push_back(thread(&DForestSNVSTL::run_thread, this, cmpreads_file + ".part_" + to_string(i), out_file, min_reads, max_depth, minfreq, maxfreq, min_homo_block_dist, isinter));
             
         }
         for (auto i = 0; i < threads.size(); ++i)
@@ -69,7 +69,7 @@ bool DForestSNVSTXXL::run(string encode_file, string align_file, string cmpreads
     
 }
 
-bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
+bool DForestSNVSTL::run_thread(string cmpreads_file, string out_file, int min_reads, int max_depth, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
 {
     // prepare buff of results and template
     vector<int64_t> temp_vec_var(this->n_reads, -1);
@@ -138,7 +138,7 @@ bool DForestSNVSTXXL::run_thread(string cmpreads_file, string out_file, int min_
     return true;
 }
 
-void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
+void DForestSNVSTL::build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
                                  vector<double> &p_y_x_archive, unordered_set<int64_t> &idx_mod, int focal_locus, int min_reads, int max_depth, double minfreq, bool isinter)
 {
     vector<double> p_y_x(cand_loci.size(), -1);
@@ -293,7 +293,7 @@ void DForestSNVSTXXL::build_tree(ofstream &fs_outfile, const vector<int> &cand_l
     }
 }
 
-void DForestSNVSTXXL::save_result(string out_file, double minfreq)
+void DForestSNVSTL::save_result(string out_file, double minfreq)
 {
     ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
     for (auto i = 0; i < result.size(); ++i){
@@ -309,7 +309,7 @@ void DForestSNVSTXXL::save_result(string out_file, double minfreq)
     fs_outfile.close();
 }
 
-void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
+void DForestSNVSTL::save_result_all(string out_file, double minfreq)
 {
     ofstream fs_outfile;  open_outfile(fs_outfile, out_file);
     for (auto i = 0; i < result_all.size(); ++i){
@@ -326,7 +326,7 @@ void DForestSNVSTXXL::save_result_all(string out_file, double minfreq)
 }
 
 
-void DForestSNVSTXXL::build_index(stxxl_vector_type &cmpreads_index, const stxxl_vector_type_int &cmpreads_data)
+void DForestSNVSTL::build_index(stxxl_vector_type &cmpreads_index, const stxxl_vector_type_int &cmpreads_data)
 {
     // get size of cmpreads_index
     int index_size = 0;

@@ -12,7 +12,7 @@
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/dforestsnvstxxl.h"
+#include "../src/modules/dforest/DForestSNVSTL.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/assemble/assembler.h"
 #include "../src/modules/detectsingle/detectsinglesnv.h"
@@ -332,7 +332,7 @@ int main(int argc, const char * argv[])
                 p_alignreader = &alignreaderm5;
             }
             DForestSNVMax forestsnvmax(p_alignreader, &aligncoder);
-            DForestSNVSTXXL forestsnvstxxl(p_alignreader, &aligncoder);
+            DForestSNVSTL forestsnvstxxl(p_alignreader, &aligncoder);
             
             DForest *ptr_forest;
             if (islegacyArg.getValue())

@@ -11,7 +11,7 @@
 #include "../src/modules/alignreader/alignreaderm5.h"
 #include "../src/modules/aligncoder/aligncodersnv.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
-#include "../src/modules/dforest/dforestsnvstxxl.h"
+#include "../src/modules/dforest/DForestSNVSTL.h"
 #include <ctime>
 #include <stxxl/vector>
 /*TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
@@ -134,7 +134,7 @@ TEST_CASE("test DForest::filter()", "[hide]")
     
     AlignReaderM5 alignreader;
     AlignCoderSNV aligncoder;
-    DForestSNVSTXXL forestsnv(&alignreader, &aligncoder);
+    DForestSNVSTL forestsnv(&alignreader, &aligncoder);
     DForest *ptr_forest = &forestsnv;
     
     ptr_forest->load_homo_blocks(ref_file);

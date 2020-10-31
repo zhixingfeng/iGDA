@@ -11,7 +11,7 @@
 #include "../src/misc/io.h"
 #include "../src/misc/basic.h"
 #include "../src/modules/assemble/assembler.h"
-#include "../src/modules/dforest/dforestsnvstxxl.h"
+#include "../src/modules/dforest/DForestSNVSTL.h"
 
 
 TEST_CASE("test assembler::get_variants()", "[hide]")
@@ -529,7 +529,7 @@ TEST_CASE("test dforest in polish()", "[hide]")
     AlignReaderM5 alignreaderm5;
     AlignCoderSNV aligncoder;
         
-    DForestSNVSTXXL forestsnvstxxl(&alignreaderm5, &aligncoder);
+    DForestSNVSTL forestsnvstxxl(&alignreaderm5, &aligncoder);
     
     forestsnvstxxl.load_homo_blocks(ref_file);
     forestsnvstxxl.run(encode_file, m5_file, cmpreads_file, out_file, tmp_dir, 10, 1000, 1, 0.3, 1, 1, true);
