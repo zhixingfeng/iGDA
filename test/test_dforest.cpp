@@ -262,7 +262,7 @@ TEST_CASE("test custermized vector example from web", "[hide]")
 
 // custermized stxxl vector of vector
 // stxxl_v
-class stxxl_v
+/*class stxxl_v
 {
 public:
     stxxl_v(){}
@@ -359,7 +359,7 @@ void stxxl_vv::pileup_encode(string encode_file)
     
 }
 
-TEST_CASE("test custermized stxxl vector")
+TEST_CASE("test custermized stxxl vector", "[hide]")
 {
     string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.encode";
     string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
@@ -369,4 +369,4 @@ TEST_CASE("test custermized stxxl vector")
     
     pu_var.pileup_encode(encode_file);
     
-}
+}*/
