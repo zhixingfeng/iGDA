@@ -11836,7 +11836,10 @@
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
-				OTHER_CPLUSPLUSFLAGS = "-std=c++14";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-std=c++14",
+					"-O2",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lstxxl",
@@ -11862,7 +11865,10 @@
 				LIBRARY_SEARCH_PATHS = tools/stxxl/build/local/stxxl/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
-				OTHER_CPLUSPLUSFLAGS = "-std=c++14";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-std=c++14",
+					"-O2",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lstxxl",

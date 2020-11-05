@@ -14,12 +14,14 @@
 #include <mutex>
 #include <stxxl/vector>
 
+typedef stxxl::VECTOR_GENERATOR<int, 4, 8, 8*4>::result stxxl_vector_int;
+
 // define stxxl based vector
 class stxxl_v_int
 {
 public:
-    stxxl_v_int() : shift(-1), dat(NULL), vec_size(0) {}
-    stxxl_v_int(const stxxl::vector<int> * _dat) : shift(-1), dat(_dat), vec_size(0) {}
+    stxxl_v_int() : shift(0), dat(NULL), vec_size(0) {}
+    stxxl_v_int(const stxxl_vector_int * _dat) : shift(0), dat(_dat), vec_size(0) {}
     virtual ~stxxl_v_int(){}
     
 public:
@@ -30,8 +32,9 @@ public:
     }
     size_t & size(){return vec_size;}
 public:
-    int shift;
-    const stxxl::vector<int> *dat;
+    size_t shift;
+    //const stxxl::vector<int> *dat;
+    const stxxl_vector_int *dat;
     size_t vec_size;
 };
 
@@ -49,7 +52,8 @@ public:
     void print_dat_vec(string outfile);
 private:
     vector<stxxl_v_int> dat_vec;
-    stxxl::vector<int> dat;
+    //stxxl::vector<int> dat;
+    stxxl_vector_int dat;
 };
 
 

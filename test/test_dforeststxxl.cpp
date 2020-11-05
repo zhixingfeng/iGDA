@@ -112,13 +112,11 @@ TEST_CASE("test dforeststxxl report progresss", "[hide]")
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }*/
 
-TEST_CASE("test custermized stxxl vector")
+TEST_CASE("test custermized stxxl vector (pileup encode)", "[hide]")
 {
     string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.encode";
-    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
     
     stxxl_vv_int pu_var;
-    stxxl_vv_int pu_read;
     
     cout << "pileup using stxxl" << endl;
     int start_time= (int)clock();
@@ -145,5 +143,54 @@ TEST_CASE("test custermized stxxl vector")
         }
     }
     fs_outfile.close();
+}
+
+TEST_CASE("test custermized stxxl vector (pileup m5)", "[hide]")
+{
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
+    stxxl_vv_int pu_read;
     
+    cout << "pileup using stxxl" << endl;
+    int start_time= (int)clock();
+    pu_read.pileup_m5(m5_file);
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+    
+    
+    stxxl::VECTOR_GENERATOR<int, 4, 8>::result dat_test;
+}
+
+
+TEST_CASE("test iterator of stxxl vector", "[hide]")
+{
+    typedef stxxl::VECTOR_GENERATOR<int64_t, 4, 8, 8*4>::result vector_type;
+    size_t size = 1000000;
+    
+    cout << "time of using iterator" << endl;
+    int start_time= (int)clock();
+    vector_type vec(size);
+    int64_t i = 0;
+    for (vector_type::iterator it = vec.begin(); it != vec.end(); ++it, ++i)
+        *it = (i % 1024);
+    int64_t sum = 0;
+    for (vector_type::const_iterator it = vec.begin(); it != vec.end(); ++it)
+        sum += *it;
+    int stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+    
+    
+    cout << "time of using []" << endl;
+    start_time= (int)clock();
+    vector_type vec_2(size);
+    for (int64_t i = 0; i < vec_2.size(); ++i)
+        vec_2[i] = (i % 1024);
+    sum = 0;
+    for (int64_t i = 0; i < vec_2.size(); ++i)
+        sum += vec_2[i];
+    stop_time= (int)clock();
+    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
+    
+    
+    vector_type::iterator it = vec.begin();
+    it += 10;
 }
