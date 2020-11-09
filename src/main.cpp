@@ -966,8 +966,6 @@ int main(int argc, const char * argv[])
             
         }
 
-        
-        
         if (strcmp(argv[1], "samtom5")==0){
             UnlabeledValueArg<string> samfileArg("samfile", "path of sam file", true, "", "samfile", cmd);
             UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
@@ -992,6 +990,17 @@ int main(int argc, const char * argv[])
             
             AlignReaderSam alignreadersam;
             alignreadersam.samtom5qv(samfileArg.getValue(), reffileArg.getValue(), m5qvfileArg.getValue(), minlenArg.getValue());
+        }
+        
+        if (strcmp(argv[1], "getbamchrrange")==0){
+            UnlabeledValueArg<string> samfileArg("samfile", "path of sam(bam) file", true, "", "samfile", cmd);
+            UnlabeledValueArg<string> reffileArg("reffile", "path of reference file", true, "", "reffile", cmd);
+            UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
+            
+            cmd.parse(argv2);
+            
+            AlignReaderSam alignreadersam;
+            alignreadersam.getchrrange(samfileArg.getValue(), reffileArg.getValue(), outfileArg.getValue());
         }
         
         // detect single loci

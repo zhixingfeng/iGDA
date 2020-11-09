@@ -39,6 +39,9 @@ public:
     bool samtom5(string sam_file, string ref_file, string m5_file, int min_len = 1000);
     bool samtom5qv(string sam_file, string ref_file, string m5qv_file, int min_len = 1000);
     
+    // get range of each chromosome in bam / sam file [min_mapped_locus, max_mapped_locus]
+    bool getchrrange(string sam_file, string ref_file, string out_file);
+    
 protected:
     string filename;
     seqan::BamFileIn bamFileIn;

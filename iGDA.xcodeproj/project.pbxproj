@@ -11824,6 +11824,12 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_USE_OPTIMIZATION_PROFILE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					_UNITTEST,
+					SEQAN_HAS_ZLIB,
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -11838,7 +11844,7 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"-std=c++14",
-					"-O2",
+					"-DSEQAN_HAS_ZLIB",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -11867,7 +11873,7 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"-std=c++14",
-					"-O2",
+					"-DSEQAN_HAS_ZLIB",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",

@@ -308,6 +308,36 @@ bool AlignReaderSam::samtom5qv(string sam_file, string ref_file, string m5qv_fil
     return true;
 }
 
-
+bool AlignReaderSam::getchrrange(string sam_file, string ref_file, string out_file)
+{
+    this->getref(ref_file);
+    this->open(sam_file);
+    Align align;
+    unordered_map<string, pair<size_t, size_t> > chrrange;
+    size_t n_read = 0;
+    while(this->readline(align)){
+        auto it = chrrange.find(align.tName);
+        if (it == chrrange.end()){
+            chrrange[align.tName].first = align.tStart;
+            chrrange[align.tName].second = align.tEnd;
+        }else{
+            if (align.tStart < it->second.first) it->second.first = align.tStart;
+            if (align.tEnd > it->second.second) it->second.second = align.tEnd;
+        }
+        ++n_read;
+        if (n_read % 1000 == 0) cout << n_read << endl;
+    }
+    this->close();
+    
+    ofstream fs_out_file;
+    open_outfile(fs_out_file, out_file);
+    for (auto it = chrrange.begin(); it != chrrange.end(); ++it){
+        fs_out_file << it->first << '\t' << it->second.first << '\t' << it->second.second << endl;
+        //cout << it->first << '\t' << it->second.first << '\t' << it->second.second << endl;
+    }
+    fs_out_file.close();
+    
+    return true;
+}
 
 

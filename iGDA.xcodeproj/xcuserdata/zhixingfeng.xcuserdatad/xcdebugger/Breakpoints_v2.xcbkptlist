@@ -311,7 +311,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/alignreader/alignreaderm5.cpp"
-            timestampString = "605587051.7607189"
+            timestampString = "626582903.500855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -638,6 +638,38 @@
             endingLineNumber = "217"
             landmarkName = "TEST_CASE(&quot;test igda assemble new algorithm (unambigious paths core)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____193()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
+                  timestampString = "626644741.3828239"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "2801">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "____C_A_T_C_H____T_E_S_T____193()"
+                  moduleName = "iGDA"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
+                  timestampString = "626644741.387225"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "3438">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -999,7 +1031,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.4784859"
+            timestampString = "626644740.74023"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
@@ -1015,7 +1047,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.4790061"
+            timestampString = "626644740.741334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
@@ -1031,7 +1063,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.479331"
+            timestampString = "626644740.742332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -1047,7 +1079,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.479694"
+            timestampString = "626644740.74326"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
@@ -1063,7 +1095,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.480037"
+            timestampString = "626644740.744158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
@@ -1171,7 +1203,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.480336"
+            timestampString = "626644740.7450089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
@@ -1187,7 +1219,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.480635"
+            timestampString = "626644740.745782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "112"
@@ -1203,7 +1235,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/dforest/dforestsnvstxxl.cpp"
-            timestampString = "626286703.4809901"
+            timestampString = "626644740.746717"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "86"
@@ -1219,7 +1251,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_dforeststxxl.cpp"
-            timestampString = "626286703.481308"
+            timestampString = "626644740.747523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "160"
@@ -1235,7 +1267,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_dforeststxxl.cpp"
-            timestampString = "626286703.482065"
+            timestampString = "626644740.748547"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "157"
@@ -1251,13 +1283,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/test_dforeststxxl.cpp"
-            timestampString = "626286703.4825799"
+            timestampString = "626644740.7494119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "153"
             endingLineNumber = "153"
             landmarkName = "TEST_CASE(&quot;test custermized stxxl vector (pileup m5)&quot;, &quot;[hide]&quot;)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/modules/alignreader/alignreadersam.cpp"
+            timestampString = "626644740.750513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
+            landmarkName = "AlignReaderSam::getchrrange(string sam_file, string ref_file, string out_file)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

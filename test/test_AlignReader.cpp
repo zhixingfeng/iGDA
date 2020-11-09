@@ -10,6 +10,9 @@
 #include "../include/headers.h"
 #include "../src/modules/modules.h"
 
+#include <seqan/sequence.h>
+#include <seqan/bam_io.h>
+
 TEST_CASE("Test AlignReaderM5", "[hide]"){
     AlignReaderM5 AlignReaderM5_obj;
     AlignReader *p_align = &AlignReaderM5_obj;
@@ -86,4 +89,15 @@ TEST_CASE("AlignReaderSam::samtom5qv()", "[hide]"){
     
 }
 
-
+TEST_CASE("AlignReaderSam::bamchrrange()", "[hide]")
+{
+    //string sam_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/data/merged_sorted_chr_qv8.bam";
+    //string ref_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/reference/Borrelia_burgdorferi_B31_chr.fna";
+    string sam_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/data/merged_realign_trim.bam";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/reference/ecoli_K12_MG1655.fasta";
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5");
+    AlignReaderSam alignreadersam;
+    alignreadersam.getchrrange(sam_file, ref_file, sam_file + ".chrrange");
+    
+}
