@@ -11,7 +11,6 @@
 #include "../include/headers.h"
 #include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstl.h"
-#include "../src/modules/dforest/dforestsnvstxxl.h"
 #include "../src/misc/pileup.h"
 
 /*TEST_CASE("test dforest", "[hide]")
@@ -112,85 +111,4 @@ TEST_CASE("test dforeststxxl report progresss", "[hide]")
     cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
 }*/
 
-TEST_CASE("test custermized stxxl vector (pileup encode)", "[hide]")
-{
-    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.encode";
-    
-    stxxl_vv_int pu_var;
-    
-    cout << "pileup using stxxl" << endl;
-    int start_time= (int)clock();
-    pu_var.pileup_encode(encode_file);
-    int stop_time= (int)clock();
-    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-    
-    pu_var.print_dat_vec(encode_file + ".pileup.stxxl");
-    
-    cout << "pileup using stl" << endl;
-    start_time= (int)clock();
-    int64_t n_reads;
-    vector<vector<int> > pu_var_stl = pileup_var(encode_file, n_reads);
-    stop_time= (int)clock();
-    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-    
-    ofstream fs_outfile;
-    open_outfile(fs_outfile, encode_file + ".pileup.stl");
-    for (auto i = 0; i < pu_var_stl.size(); ++i){
-        if (pu_var_stl[i].size() > 0){
-            for (auto j = 0; j < pu_var_stl[i].size(); ++j)
-                fs_outfile << pu_var_stl[i][j] << "\t";
-            fs_outfile << endl;
-        }
-    }
-    fs_outfile.close();
-}
 
-TEST_CASE("test custermized stxxl vector (pileup m5)", "[hide]")
-{
-    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
-    stxxl_vv_int pu_read;
-    
-    cout << "pileup using stxxl" << endl;
-    int start_time= (int)clock();
-    pu_read.pileup_m5(m5_file);
-    int stop_time= (int)clock();
-    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-    
-    
-    stxxl::VECTOR_GENERATOR<int, 4, 8>::result dat_test;
-}
-
-
-TEST_CASE("test iterator of stxxl vector", "[hide]")
-{
-    typedef stxxl::VECTOR_GENERATOR<int64_t, 4, 8, 8*4>::result vector_type;
-    size_t size = 1000000;
-    
-    cout << "time of using iterator" << endl;
-    int start_time= (int)clock();
-    vector_type vec(size);
-    int64_t i = 0;
-    for (vector_type::iterator it = vec.begin(); it != vec.end(); ++it, ++i)
-        *it = (i % 1024);
-    int64_t sum = 0;
-    for (vector_type::const_iterator it = vec.begin(); it != vec.end(); ++it)
-        sum += *it;
-    int stop_time= (int)clock();
-    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-    
-    
-    cout << "time of using []" << endl;
-    start_time= (int)clock();
-    vector_type vec_2(size);
-    for (int64_t i = 0; i < vec_2.size(); ++i)
-        vec_2[i] = (i % 1024);
-    sum = 0;
-    for (int64_t i = 0; i < vec_2.size(); ++i)
-        sum += vec_2[i];
-    stop_time= (int)clock();
-    cout << "time: " << (stop_time-start_time)/double(CLOCKS_PER_SEC) << endl;
-    
-    
-    vector_type::iterator it = vec.begin();
-    it += 10;
-}

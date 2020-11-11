@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC053341254E1FE9005575AE /* dforestsnvstxxl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC05333F254E1FE9005575AE /* dforestsnvstxxl.cpp */; };
 		DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903220EE9BEF0050869D /* detectsingle.cpp */; };
 		DC15903720EEA0ED0050869D /* detectsinglesnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903520EEA0ED0050869D /* detectsinglesnv.cpp */; };
 		DC15903920EEA1170050869D /* test_detectsingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC15903820EEA1170050869D /* test_detectsingle.cpp */; };
@@ -59,8 +58,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DC05333F254E1FE9005575AE /* dforestsnvstxxl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvstxxl.cpp; sourceTree = "<group>"; };
-		DC053340254E1FE9005575AE /* dforestsnvstxxl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dforestsnvstxxl.h; sourceTree = "<group>"; };
 		DC0FEE821DF63561002B05FB /* sort_order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort_order.h; sourceTree = "<group>"; };
 		DC0FEE831DF6580E002B05FB /* basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basic.h; sourceTree = "<group>"; };
 		DC15903220EE9BEF0050869D /* detectsingle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detectsingle.cpp; sourceTree = "<group>"; };
@@ -4498,8 +4495,6 @@
 				DC5083B91F015AB300063BEA /* dforestsnvmax.h */,
 				DCAFB4C320B9E76D0092269F /* dforestsnvstl.cpp */,
 				DCAFB4C420B9E76D0092269F /* dforestsnvstl.h */,
-				DC05333F254E1FE9005575AE /* dforestsnvstxxl.cpp */,
-				DC053340254E1FE9005575AE /* dforestsnvstxxl.h */,
 			);
 			path = dforest;
 			sourceTree = "<group>";
@@ -11663,7 +11658,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC053341254E1FE9005575AE /* dforestsnvstxxl.cpp in Sources */,
 				DCE2FA171FE184BD00E629D0 /* test_stxxl.cpp in Sources */,
 				DCF4892D1DE53C6300E5E88D /* test_performance.cpp in Sources */,
 				DC15903420EE9BEF0050869D /* detectsingle.cpp in Sources */,
