@@ -13,7 +13,6 @@
 #include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstl.h"
 #include <ctime>
-#include <stxxl/vector>
 /*TEST_CASE("test DForest::run() (input from memory/stxxl)", "[hide]")
 {
     string align_file = "../data/B_10_cons.m5";
