@@ -906,7 +906,7 @@ void Assembler::ann_clust_recode_multithread(string recode_file, string recode_r
         for (auto j = block_range[i].first; j <= block_range[i].second; ++j)
             cur_idx.push_back(j);
         
-        threads.push_back(thread(&Assembler::ann_clust_recode_core, this, recode_data, recode_ref_data, encode_data, reads_range, min_cvg,
+        threads.push_back(thread(&Assembler::ann_clust_recode_core, this, std::ref(recode_data), std::ref(recode_ref_data), std::ref(encode_data), std::ref(reads_range), min_cvg,
                                  min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, cur_idx));
     }
     

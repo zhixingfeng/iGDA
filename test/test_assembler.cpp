@@ -708,3 +708,31 @@ TEST_CASE("test tred or that minimal length or minimal number of SNVs intead of 
     
 }
 
+TEST_CASE("test ann memory", "[hide]")
+{
+    //string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign_xcode.ann";
+    //string recode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.recode";
+    //string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.encode.rdim";
+    //string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
+    //string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.var";
+    
+    string ann_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/result_bulk/phase/realign_xcode.ann";
+    string recode_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/result_bulk/phase/realign.recode";
+    string encode_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/result_bulk/phase/realign.encode.rdim";
+    string m5_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/result_bulk/detect/realign.m5";
+    string var_file = "/Volumes/zxfeng_no_1/work/igda_memory/pacbio_meta/result_bulk/detect/realign.var";
+    
+    int mincvg = 10;
+    double minprop = 0.2;
+    double maxprop = 0.8;
+    int topn = 25;
+    int maxnn = 50;
+    double minjaccard = 2.0;
+    
+    Assembler assembler;
+    //assembler.ann_clust_recode(recode_file, recode_file + ".ref", encode_file, m5_file, var_file, mincvg,
+    //                           minprop, maxprop, topn, maxnn, minjaccard, false, true, 1, false);
+    
+    assembler.ann_clust_recode_multithread(recode_file, recode_file + ".ref", encode_file, m5_file, mincvg,
+                               minprop, maxprop, topn, maxnn, minjaccard, false, true, 1, false, 1);
+}
