@@ -157,7 +157,14 @@ TEST_CASE("test getdepth_from_paf()", "[hide]")
     getdepth_from_paf(paf_file, cvg_file);
 }
 
-
+TEST_CASE("test pileup_reads_m5_reduce")
+{
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
+    string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.var";
+    int64_t n_reads = 0;
+    vector<vector<int> > pu_reads = pileup_reads_m5_reduce(m5_file, var_file, n_reads);
+    int x = 1;
+}
 
 
 

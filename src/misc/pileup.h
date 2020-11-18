@@ -474,6 +474,45 @@ inline vector<vector<int> > pileup_reads(const vector<Align> &align_data, int64_
     }
 }
 
+// pileup reads only consider detected SNVs
+inline vector<vector<int> > pileup_reads_m5_reduce(string align_file, string var_file, int64_t &n_reads)
+{
+    // load reads range
+    vector<ReadRange> reads_range;
+    loadreadsrange(reads_range, align_file);
+    n_reads = reads_range.size();
+    
+    // load detected var (coded)
+    vector<int> detected_var = load_varfile(var_file);
+    
+    // get size of pileup vector
+    int pu_size = -1;
+    for (int i=0; i<(int)reads_range.size(); i++)
+        pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
+    pu_size++;
+    
+    if (pu_size <= 0) throw runtime_error("pileup_reads_m5_reduce: pu_size <= 0");
+    
+    // check detected locus
+    vector<bool> is_detected(pu_size, false);
+    for (auto i = 0; i < detected_var.size(); ++i){
+        int cur_locus = int(detected_var[i] / 4);
+        if (cur_locus >= pu_size) throw runtime_error("pileup_reads_m5_reduce: cur_locus >= pu_size");
+        is_detected[cur_locus] = true;
+    }
+    
+    // pileup
+    vector<vector<int> > pu(pu_size, vector<int>());
+    for (int i=0; i<(int)reads_range.size(); i++){
+        for(int j=reads_range[i].first; j<=reads_range[i].second; j++){
+            if (is_detected[j]){
+                pu[j].push_back(i);
+            }
+        }
+    }
+    return pu;
+}
+
 // pileup reads (input from file)
 inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads, bool rm_del = false)
 {
@@ -482,10 +521,11 @@ inline vector<vector<int> > pileup_reads_m5(string align_file, int64_t &n_reads,
     n_reads = reads_range.size();
     
     // get size of pileup vector
-    int pu_size=0;
+    int pu_size = -1;
     for (int i=0; i<(int)reads_range.size(); i++)
         pu_size = reads_range[i].second > pu_size ? reads_range[i].second : pu_size;
     pu_size++;
+    if (pu_size <= 0) throw runtime_error("pileup_reads_m5_reduce: pu_size <= 0");
     
     // pileup
     vector<vector<int> > pu(pu_size, vector<int>());

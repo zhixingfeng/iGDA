@@ -17,7 +17,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "764"
             endingLineNumber = "764"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -34,7 +34,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "778"
             endingLineNumber = "778"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,7 +51,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "785"
             endingLineNumber = "785"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -68,7 +68,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "787"
             endingLineNumber = "787"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,9 +143,10 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "BCC9B905-149F-49A3-9A44-F6DC23799BEE"
             shouldBeEnabled = "No"
-            ignoreCount = "0"
             condition = "i == 22"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
             timestampString = "627280966.422676"
@@ -153,16 +154,17 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1296"
             endingLineNumber = "1296"
-            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "4F279AB9-8EFF-4C1C-96DD-4FE0918CA98E"
             shouldBeEnabled = "No"
-            ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j ==23"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
             timestampString = "627280966.4227591"
@@ -170,16 +172,17 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1335"
             endingLineNumber = "1335"
-            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "A9537421-1748-4D67-937F-1261B0A3784E"
             shouldBeEnabled = "No"
-            ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j == 23"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
             timestampString = "627280966.422829"
@@ -187,16 +190,17 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1345"
             endingLineNumber = "1345"
-            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "E21371A1-E12A-47AE-8D78-DC0769687B61"
             shouldBeEnabled = "No"
-            ignoreCount = "0"
             condition = "i == 22 &amp;&amp; j == 23"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/modules/assemble/assembler.cpp"
             timestampString = "627280966.422887"
@@ -204,13 +208,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1299"
             endingLineNumber = "1299"
-            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "E8D85697-D488-4B6B-A347-09686190CB9D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -227,6 +232,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "4962C482-5571-4A94-8F87-6CDCAF9CD406"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -236,13 +242,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "220"
             endingLineNumber = "220"
-            landmarkName = "get_unambigious_paths(const Graph &amp;gp)"
+            landmarkName = "get_unambigious_paths(gp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "95360343-2199-4720-B7E1-FC1D4AAC97C9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -252,13 +259,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "228"
             endingLineNumber = "228"
-            landmarkName = "get_unambigious_paths(const Graph &amp;gp)"
+            landmarkName = "get_unambigious_paths(gp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "103DFF71-DD9B-4CDF-AF61-40E7B8654B25"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -268,13 +276,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
             endingLineNumber = "221"
-            landmarkName = "get_unambigious_paths(const Graph &amp;gp)"
+            landmarkName = "get_unambigious_paths(gp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "3778EA7D-63D8-487E-9DA9-1E668647482C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -284,13 +293,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "229"
             endingLineNumber = "229"
-            landmarkName = "get_unambigious_paths(const Graph &amp;gp)"
+            landmarkName = "get_unambigious_paths(gp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2662F168-5001-47B2-8333-D7ED7D5E5FE7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -307,6 +317,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "80024FEB-B27C-496D-B7CB-542E10622FAA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -323,6 +334,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "F99DD0D0-A2C7-47B9-985E-C2E58DDAA519"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -339,6 +351,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "CCE66F85-54A2-4178-B294-546DD6E4A9D8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -348,13 +361,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "262"
             endingLineNumber = "262"
-            landmarkName = "load_igda_graph_from_file(IGDA_Graph &amp;gp, string dot_file, string ann_file, bool is_sort)"
+            landmarkName = "load_igda_graph_from_file(gp, dot_file, ann_file, is_sort)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "FEB64362-D73A-4871-8ED7-14849FD77CF8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -371,6 +385,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "86EF78D8-DEFB-40FC-85E6-561AF2F3B83A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -380,13 +395,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "420"
             endingLineNumber = "420"
-            landmarkName = "igda_tred(const IGDA_Graph &amp;gp, IGDA_Graph &amp;gp_tred)"
+            landmarkName = "igda_tred(gp, gp_tred)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "336BEE9D-456B-4E08-A072-D6A8A8961AC4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -396,13 +412,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "410"
             endingLineNumber = "410"
-            landmarkName = "igda_tred(const IGDA_Graph &amp;gp, IGDA_Graph &amp;gp_tred)"
+            landmarkName = "igda_tred(gp, gp_tred)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "81B8A913-83CE-4DCA-8365-8F00ECCEE42A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -412,13 +429,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "409"
             endingLineNumber = "409"
-            landmarkName = "igda_tred(const IGDA_Graph &amp;gp, IGDA_Graph &amp;gp_tred)"
+            landmarkName = "igda_tred(gp, gp_tred)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "185C0F4E-EF0B-4F12-8F08-BF7F9F68FDF2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -435,6 +453,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "C5E067E0-FC97-45D6-AF50-860F1490E4C9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -451,6 +470,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "7E69F2DE-FF4F-45F5-B693-A313324F3ED8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -467,6 +487,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "32B7172A-C2B3-45E8-B4AA-EEF5F26F95CE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -476,13 +497,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2336"
             endingLineNumber = "2336"
-            landmarkName = "Assembler::assemble(Graph &amp;gp, string out_ann_file)"
+            landmarkName = "Assembler::assemble(gp, out_ann_file)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "444A4A55-80A8-4E43-9C2D-9C405A93C5C7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -492,13 +514,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2341"
             endingLineNumber = "2341"
-            landmarkName = "Assembler::assemble(Graph &amp;gp, string out_ann_file)"
+            landmarkName = "Assembler::assemble(gp, out_ann_file)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "F46287E1-7CD9-4B84-96AC-1C9DA04A9C71"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -508,13 +531,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "213"
             endingLineNumber = "213"
-            landmarkName = "get_unambigious_paths(const Graph &amp;gp)"
+            landmarkName = "get_unambigious_paths(gp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "FA27B492-4732-4E96-AC1F-75C2F53EE70E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -524,13 +548,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2475"
             endingLineNumber = "2475"
-            landmarkName = "Assembler::assemble_unambiguous(IGDA_Graph &amp;gp, string out_file)"
+            landmarkName = "Assembler::assemble_unambiguous(gp, out_file)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DFFD20FF-F727-418E-A5EE-3FD15D6054A5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -547,6 +572,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "44925766-33DB-44A5-8714-63B74EF5DCCA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -556,13 +582,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "604"
             endingLineNumber = "604"
-            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "36495A91-96BF-4697-AFA3-FFEC1518F5E8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -572,13 +599,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "537"
             endingLineNumber = "537"
-            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "5A2C43E5-5B38-47DF-9B99-ECD24978B3CA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -588,13 +616,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "580"
             endingLineNumber = "580"
-            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "4AE07D69-6D9F-43F2-BE87-D1B1E2B6665F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -604,13 +633,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "522"
             endingLineNumber = "522"
-            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "10356909-C94C-43C4-964E-B0B51D0FC290"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -624,6 +654,7 @@
             landmarkType = "9">
             <Locations>
                <Location
+                  uuid = "10356909-C94C-43C4-964E-B0B51D0FC290 - 2a7abffbe5c8fbbe"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -631,14 +662,14 @@
                   moduleName = "iGDA"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
-                  timestampString = "627280967.0583"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "217"
                   endingLineNumber = "217"
-                  offsetFromSymbolStart = "2801">
+                  offsetFromSymbolStart = "704">
                </Location>
                <Location
+                  uuid = "10356909-C94C-43C4-964E-B0B51D0FC290 - 2a7abffbe5c8fbbe"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -646,12 +677,11 @@
                   moduleName = "iGDA"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhixingfeng/dev/iGDA/test/test_graph.cpp"
-                  timestampString = "627280967.060308"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "217"
                   endingLineNumber = "217"
-                  offsetFromSymbolStart = "3438">
+                  offsetFromSymbolStart = "812">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -659,6 +689,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "F44E792C-DAF1-433D-BFBA-1EB11C9F2AD5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -668,13 +699,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "574"
             endingLineNumber = "574"
-            landmarkName = "get_unambigious_paths_ms_core_legacy(const IGDA_Graph &amp;gp, int64_t start_vertex_id, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ms_core_legacy(gp, start_vertex_id, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DBBDD934-C926-4AC7-9885-5FF4F0777A8A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -691,6 +723,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "57FCB88E-E30D-4A17-BEFA-B17686E53AB6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -700,13 +733,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1405"
             endingLineNumber = "1405"
-            landmarkName = "Assembler::test_contigs_refonly(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;ReadRange&gt; &amp;reads_range)"
+            landmarkName = "Assembler::test_contigs_refonly(recode_data, recode_ref_data, reads_range)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "73E41C43-BF10-4EE6-9B4D-F95F1A556838"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -716,13 +750,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1406"
             endingLineNumber = "1406"
-            landmarkName = "Assembler::test_contigs_refonly(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;ReadRange&gt; &amp;reads_range)"
+            landmarkName = "Assembler::test_contigs_refonly(recode_data, recode_ref_data, reads_range)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "B68356BD-DB17-4F27-B760-F83DBA31E1DE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -732,13 +767,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "902"
             endingLineNumber = "902"
-            landmarkName = "get_unambigious_paths_ns_core(const IGDA_Graph &amp;gp, int64_t vertex_id, vector&lt;int64_t&gt; &amp;path, set&lt;vector&lt;int64_t&gt; &gt; &amp;path_all, vector&lt;bool&gt; &amp;visited, int &amp;n_split, set&lt;int64_t&gt; &amp;end_vertex_id)"
+            landmarkName = "get_unambigious_paths_ns_core(gp, vertex_id, path, path_all, visited, n_split, end_vertex_id)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "7EDAC575-5D2D-4475-9B5B-8CA0310A2737"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -748,13 +784,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1362"
             endingLineNumber = "1362"
-            landmarkName = "Assembler::ann_to_graph(Graph &amp;gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)"
+            landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DC9EA33F-83B6-49E8-A741-8F6FAF337E2F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -771,6 +808,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2F1183F3-7525-458F-ABD2-6D5B06D9E811"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -787,6 +825,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "52F114A3-8696-4ABA-B549-1463EEFF90A4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -803,6 +842,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "5095FAB8-87B7-482C-9F26-D5D4F81C5093"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -819,6 +859,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -832,6 +873,7 @@
             landmarkType = "7">
             <Locations>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -847,6 +889,7 @@
                   offsetFromSymbolStart = "2423">
                </Location>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -862,6 +905,7 @@
                   offsetFromSymbolStart = "2512">
                </Location>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -877,6 +921,7 @@
                   offsetFromSymbolStart = "4182">
                </Location>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -892,6 +937,7 @@
                   offsetFromSymbolStart = "4530">
                </Location>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -907,6 +953,7 @@
                   offsetFromSymbolStart = "6276">
                </Location>
                <Location
+                  uuid = "73A7EE40-1F06-4C71-B625-4EDFE800797D - c2fc4ec48d746a6d"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -927,6 +974,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "C7E9186A-C8FD-4210-8737-7934E53C263F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -943,6 +991,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "074D026B-0A47-4BE1-B636-37003BA940E1"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -959,6 +1008,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "8DCD3598-118C-4B53-BDB8-9F0E8EF216C1"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -975,6 +1025,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "BC1EA032-97BA-42C6-A106-887D133EF15E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -991,6 +1042,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "0D74195F-1EB8-446D-AB74-1998B5527EEC"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1000,13 +1052,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "649"
             endingLineNumber = "649"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "500E91F6-424A-4B23-9A48-3B0FD59B2543"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1016,13 +1069,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "698"
             endingLineNumber = "698"
-            landmarkName = "Assembler::ann_clust_recode(string recode_file, string recode_ref_file, string encode_file, string align_file, string var_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode(recode_file, recode_ref_file, encode_file, align_file, var_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "0D7332DF-364C-42EA-978B-2E53E1A9185F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1032,13 +1086,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "887"
             endingLineNumber = "887"
-            landmarkName = "Assembler::ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, int nthread)"
+            landmarkName = "Assembler::ann_clust_recode_multithread(recode_file, recode_ref_file, encode_file, align_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, nthread)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "53986842-06FF-4B69-A88D-90BCF7C96F22"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1048,13 +1103,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "939"
             endingLineNumber = "939"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "F229E90A-F0D8-4420-9219-17ACD2BDDBF2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1064,13 +1120,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "950"
             endingLineNumber = "950"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "1E4B4738-657C-41E6-A66A-22F3433DA529"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1080,13 +1137,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1076"
             endingLineNumber = "1076"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DCC999B3-1029-46FF-A080-D458025D7638"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1096,13 +1154,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "967"
             endingLineNumber = "967"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "83E461B9-BCA2-4876-B941-CBF89264DB3D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1112,13 +1171,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1074"
             endingLineNumber = "1074"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "9A6B0EA2-1823-4998-BE0B-DB8CF952BB62"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1128,10 +1188,11 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1019"
             endingLineNumber = "1019"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
             <Locations>
                <Location
+                  uuid = "9A6B0EA2-1823-4998-BE0B-DB8CF952BB62 - 3e055251dadc5b37"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1147,6 +1208,7 @@
                   offsetFromSymbolStart = "10728">
                </Location>
                <Location
+                  uuid = "9A6B0EA2-1823-4998-BE0B-DB8CF952BB62 - 3e055251dadc5b37"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1167,6 +1229,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2752D4C1-357A-4826-84A0-CF5F0C45D9BB"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1176,13 +1239,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1039"
             endingLineNumber = "1039"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "934E67EE-651D-4944-B495-5181DFBC226E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1192,13 +1256,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "998"
             endingLineNumber = "998"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "E2723E37-CC24-433C-9FD7-46499C59B1AD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1208,13 +1273,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1011"
             endingLineNumber = "1011"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2AD06A83-CF6F-4F54-BF81-195E7B469EBD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1224,13 +1290,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "992"
             endingLineNumber = "992"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "9A969476-0AF9-462B-AEF9-7EACB742F315"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1240,13 +1307,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "994"
             endingLineNumber = "994"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "3CC6F569-3FE1-48CF-BA84-2A97C8841292"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1256,13 +1324,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "909"
             endingLineNumber = "909"
-            landmarkName = "Assembler::ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, int nthread)"
+            landmarkName = "Assembler::ann_clust_recode_multithread(recode_file, recode_ref_file, encode_file, align_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, nthread)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DCE2DCCB-80F7-4D05-96DB-151927228809"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1272,13 +1341,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "925"
             endingLineNumber = "925"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "542745E3-B5E8-4D53-A33F-0F80896A81C6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1288,13 +1358,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "935"
             endingLineNumber = "935"
-            landmarkName = "Assembler::ann_clust_recode_core(const vector&lt;vector&lt;int&gt; &gt; &amp;recode_data, const vector&lt;vector&lt;int&gt; &gt; &amp;recode_ref_data, const vector&lt;vector&lt;int&gt; &gt; &amp;encode_data, const vector&lt;ReadRange&gt; &amp;reads_range, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, vector&lt;int64_t&gt; reads_id)"
+            landmarkName = "Assembler::ann_clust_recode_core(recode_data, recode_ref_data, encode_data, reads_range, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, reads_id)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "6B664A6B-C9BC-428E-B421-9E80B7F485D3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1304,8 +1375,24 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "902"
             endingLineNumber = "902"
-            landmarkName = "Assembler::ann_clust_recode_multithread(string recode_file, string recode_ref_file, string encode_file, string align_file, int min_cvg, double min_prop, double max_prop, int topn, int max_nn, double min_jaccard, bool is_correct, bool is_hang, int max_iter, bool is_recode, int nthread)"
+            landmarkName = "Assembler::ann_clust_recode_multithread(recode_file, recode_ref_file, encode_file, align_file, min_cvg, min_prop, max_prop, topn, max_nn, min_jaccard, is_correct, is_hang, max_iter, is_recode, nthread)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "090ED27D-3107-449F-8F31-9654241594E6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/test_pileup.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "TEST_CASE()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
