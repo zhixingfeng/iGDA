@@ -15,7 +15,7 @@ bool DForestSNVSTL::run(const vector<vector<int> > &encode_data, const vector<Al
     return true;
 }
 
-bool DForestSNVSTL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter)
+bool DForestSNVSTL::run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread, double minfreq, double maxfreq, int min_homo_block_dist, bool isinter, string var_file)
 {
     this->result.clear();
     this->result_all.clear();

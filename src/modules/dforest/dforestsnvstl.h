@@ -31,7 +31,7 @@ public:
              const vector<vector<int> > &cmpreads_data, int min_reads, int max_depth,
              int n_thread=1, double minfreq=0);
     
-    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, int min_homo_block_dist = 15, bool isinter=false);
+    bool run(string encode_file, string align_file, string cmpreads_file, string out_file, string tmp_dir, int min_reads, int max_depth, int n_thread=1, double minfreq=0, double maxfreq=1, int min_homo_block_dist = 15, bool isinter=false, string var_file = "");
     
     void build_tree(ofstream &fs_outfile, const vector<int> &cand_loci, int64_t &counter, vector<int64_t> &temp_vec_var, vector<int64_t> &temp_vec_read,
                     vector<double> &p_y_x_archive, unordered_set<int64_t> &idx_mod, int focal_locus, int min_reads, int max_depth, double minfreq, bool isinter=false);

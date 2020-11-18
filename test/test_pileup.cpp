@@ -157,7 +157,7 @@ TEST_CASE("test getdepth_from_paf()", "[hide]")
     getdepth_from_paf(paf_file, cvg_file);
 }
 
-TEST_CASE("test pileup_reads_m5_reduce")
+TEST_CASE("test pileup_reads_m5_reduce", "[hide]")
 {
     string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
     string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.var";
