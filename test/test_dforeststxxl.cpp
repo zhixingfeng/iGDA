@@ -9,7 +9,6 @@
 
 #include "../include/catch.hpp"
 #include "../include/headers.h"
-#include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstl.h"
 #include "../src/misc/pileup.h"
 

@@ -17,7 +17,6 @@
 		DC2A18891F55E22B001830AE /* assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A18871F55E22B001830AE /* assembler.cpp */; };
 		DC2A188C1F55E257001830AE /* test_assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC2A188A1F55E257001830AE /* test_assembler.cpp */; };
 		DC42264B23327D9300A34C49 /* cmpreads_multithread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC42264A23327D9300A34C49 /* cmpreads_multithread.cpp */; };
-		DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */; };
 		DC8562701E9C04B5005AE6EB /* errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC85626E1E9C04B5005AE6EB /* errormodel.cpp */; };
 		DC8562731E9C1A5F005AE6EB /* errormodelsnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562711E9C1A5F005AE6EB /* errormodelsnv.cpp */; };
 		DC8562751E9C1F47005AE6EB /* test_errormodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8562741E9C1F47005AE6EB /* test_errormodel.cpp */; };
@@ -76,8 +75,6 @@
 		DC2A188A1F55E257001830AE /* test_assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_assembler.cpp; sourceTree = "<group>"; };
 		DC422636233012C600A34C49 /* cmpreads_multithread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cmpreads_multithread.h; sourceTree = "<group>"; };
 		DC42264A23327D9300A34C49 /* cmpreads_multithread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cmpreads_multithread.cpp; sourceTree = "<group>"; };
-		DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dforestsnvmax.cpp; sourceTree = "<group>"; };
-		DC5083B91F015AB300063BEA /* dforestsnvmax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dforestsnvmax.h; sourceTree = "<group>"; };
 		DC5829802052E361001BFE6D /* uninstall.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
 		DC7018CB1D809C6200890781 /* cmpreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmpreads.h; sourceTree = "<group>"; };
 		DC7018CC1D8110F600890781 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
@@ -4491,8 +4488,6 @@
 			children = (
 				DC95DCBF1DF0A0C4004282DF /* dforest.cpp */,
 				DC95DCC01DF0A0C4004282DF /* dforest.h */,
-				DC5083B81F015AB300063BEA /* dforestsnvmax.cpp */,
-				DC5083B91F015AB300063BEA /* dforestsnvmax.h */,
 				DCAFB4C320B9E76D0092269F /* dforestsnvstl.cpp */,
 				DCAFB4C420B9E76D0092269F /* dforestsnvstl.h */,
 			);
@@ -11688,7 +11683,6 @@
 				DC93184A1D5527D200640B65 /* aligncoder.cpp in Sources */,
 				DC95DCC11DF0A0C4004282DF /* dforest.cpp in Sources */,
 				DC1B41F51DF2385400093FF3 /* test_dforest.cpp in Sources */,
-				DC5083BA1F015AB300063BEA /* dforestsnvmax.cpp in Sources */,
 				DC15933520EEC4FC0050869D /* prob.cpp in Sources */,
 				DC42264B23327D9300A34C49 /* cmpreads_multithread.cpp in Sources */,
 				DCFEC5971D5BD12B0025E57C /* test_misc.cpp in Sources */,

@@ -61,7 +61,7 @@ inline bool loadcmpreads(stxxl_vector_type_int &cmpreads_data, string cmpreads_f
     // first scan cmpreads_file to get number of candidates
     FILE * p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
-        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+        throw runtime_error("loadcmpreads(): fail to open cmpreads_file");
     
     int64_t n_cand = 0;
     while(1){
@@ -82,7 +82,7 @@ inline bool loadcmpreads(stxxl_vector_type_int &cmpreads_data, string cmpreads_f
     
     p_cmpreads_file = fopen(cmpreads_file.c_str(), "rb");
     if (p_cmpreads_file == NULL)
-        throw runtime_error("DForestSNVMax::run(): fail to open cmpreads_file");
+        throw runtime_error("loadcmpreads(): fail to open cmpreads_file");
     
     n_cand = 0;
     while(1){

@@ -9,7 +9,6 @@
 #include "../include/catch.hpp"
 #include "../include/headers.h"
 #include "../src/misc/misc.h"
-#include "../src/modules/dforest/dforestsnvmax.h"
 TEST_CASE("compare speed of unordered_map vs unordered_set vs direct array search", "[hide]"){
     // conclusion: speed of array construction is >10x faster than hash; speed of array access is >60x faster than hash
     int N = 1;
@@ -257,7 +256,7 @@ TEST_CASE("test file reading speed","[hide]")
     cout << "time of getline(): " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 }
 
-TEST_CASE("Test file writing speed", "[hide]"){
+/*TEST_CASE("Test file writing speed", "[hide]"){
     // fprintf is > 5 times faster than "<<" on my MacPro (both true for -O3 and non-optimized version)
     DforestResult rl;
     string outfile_c = "../results/test_output_c.txt";
@@ -285,7 +284,7 @@ TEST_CASE("Test file writing speed", "[hide]"){
     t_end = clock();
     cout << "time of cpp style writing: " << double(t_end - t_begin)/CLOCKS_PER_SEC << endl;
 
-}
+}*/
 TEST_CASE("Test size of data type","[hide]")
 {
     cout << "char : " << sizeof(char) << endl;

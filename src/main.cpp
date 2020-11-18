@@ -11,7 +11,6 @@
 #include <headers.h>
 #include "../tools/tools.h"
 #include "../src/modules/modules.h"
-#include "../src/modules/dforest/dforestsnvmax.h"
 #include "../src/modules/dforest/dforestsnvstl.h"
 #include "../src/modules/errormodel/errormodelsnv.h"
 #include "../src/modules/assemble/assembler.h"
@@ -331,14 +330,11 @@ int main(int argc, const char * argv[])
             }else{
                 p_alignreader = &alignreaderm5;
             }
-            DForestSNVMax forestsnvmax(p_alignreader, &aligncoder);
+            //DForestSNVMax forestsnvmax(p_alignreader, &aligncoder);
             DForestSNVSTL forestsnvstxxl(p_alignreader, &aligncoder);
             
             DForest *ptr_forest;
-            if (islegacyArg.getValue())
-                ptr_forest = &forestsnvmax;
-            else
-                ptr_forest = &forestsnvstxxl;
+            ptr_forest = &forestsnvstxxl;
             
             string shell_cmd = "mkdir -p " + tmpdirArg.getValue();
             cout << shell_cmd << endl;
