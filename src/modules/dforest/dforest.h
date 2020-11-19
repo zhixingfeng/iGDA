@@ -75,6 +75,13 @@ public:
             throw runtime_error("number of reads in align_file and encode_file are different");
     }
     
+    inline void call_pileup_reads_reduce(string align_file, string var_file){
+        int64_t cur_n_reads;
+        pu_read = pileup_reads_m5_reduce(align_file, var_file, cur_n_reads);
+        if (cur_n_reads != n_reads)
+            throw runtime_error("number of reads in align_file and encode_file are different");
+    }
+    
     inline int64_t get_n_reads(){return n_reads;}
     inline vector<vector<int> > get_pileup_var(){return pu_var;}
     inline vector<vector<int> > get_pileup_reads(){return pu_read;}

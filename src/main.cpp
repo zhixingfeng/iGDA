@@ -303,6 +303,7 @@ int main(int argc, const char * argv[])
             ValueArg<double> maxfreqArg("q","maxfreq","maximal frequency: 1.0 (substantially increase speed if it is small, but restrict the maximal conditional frequency)", false , 1.0, "maxfreq", cmd);
             ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 15", false , 15, "minhomo", cmd);
             ValueArg<int> nthreadArg("n","nthread","number of threads, default: 1", false , 1, "nthread", cmd);
+            ValueArg<string> varfileArg("v","varfile","variant file", false , "", "varfile", cmd);
             
             SwitchArg islegacyArg("l", "legacy", "use the legacy algorithm (no stxxl) to run dforest", cmd, false);
             SwitchArg isinterArg("i", "intermediate", "output intermediate results", cmd, false);
@@ -342,7 +343,8 @@ int main(int argc, const char * argv[])
             
             ptr_forest->load_homo_blocks(reffileArg.getValue());
             ptr_forest->run(encodefileArg.getValue(), alignfileArg.getValue(), cmpreadsfileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(),
-                            minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(), maxfreqArg.getValue(), minhomoArg.getValue(), isinterArg.getValue());
+                            minreadsArg.getValue(), maxdepthArg.getValue(), nthreadArg.getValue(), minfreqArg.getValue(), maxfreqArg.getValue(), minhomoArg.getValue(),
+                            isinterArg.getValue(), varfileArg.getValue());
         }
         
         // sort output
@@ -819,7 +821,8 @@ int main(int argc, const char * argv[])
             ValueArg<int> minreadsArg("r","minreads","minimal number of reads in a node, default: 10", false , 10, "minreads", cmd);
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency: 0.3", false , 0.3, "minfreq", cmd);
             ValueArg<int> minhomoArg("m","minhomo","minimal homopolymer blocks distance between linked loci, default: 1", false , 1, "minhomo", cmd);
-                        
+            ValueArg<string> varfileArg("v","varfile","variant file", false , "", "varfile", cmd);
+            
             cmd.parse(argv2);
             cout << "minreads = " << minreadsArg.getValue() << endl;
             cout << "minfreq = " << minfreqArg.getValue() << endl;
@@ -828,7 +831,7 @@ int main(int argc, const char * argv[])
             Assembler assembler;
             assembler.polish(annfileArg.getValue(), encodefileArg.getValue(), alignfileArg.getValue(),
                              reffileArg.getValue(), outfileArg.getValue(), tmpdirArg.getValue(),
-                             minfreqArg.getValue(), minreadsArg.getValue(), minhomoArg.getValue());
+                             minfreqArg.getValue(), minreadsArg.getValue(), minhomoArg.getValue(), varfileArg.getValue());
            
         }
         

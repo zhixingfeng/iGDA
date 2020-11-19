@@ -26,7 +26,10 @@ bool DForestSNVSTL::run(string encode_file, string align_file, string cmpreads_f
     call_pileup_var(encode_file);
     
     cout << "pileup align_file" << endl;
-    call_pileup_reads(align_file);
+    if (var_file == "")
+        call_pileup_reads(align_file);
+    else
+        call_pileup_reads_reduce(align_file, var_file);
     
     cout << "filter encode_data" << endl;
     this->pu_var = filter_pileup_var(this->pu_var, this->pu_read, this->n_reads);

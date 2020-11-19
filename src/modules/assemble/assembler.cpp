@@ -2478,7 +2478,7 @@ void Assembler::assemble_unambiguous(IGDA_Graph &gp, string out_file)
 }
 
 // polish contigs
-void Assembler::polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob, int min_reads, int min_homo_block_dist)
+void Assembler::polish(string ann_file, string encode_file, string m5_file, string ref_file, string out_file, string tmp_dir, double min_condprob, int min_reads, int min_homo_block_dist, string var_file)
 {
     // convert ann consensus sequence to cmpreads
     this->read_ann_results(ann_file);
@@ -2493,8 +2493,13 @@ void Assembler::polish(string ann_file, string encode_file, string m5_file, stri
     system(cmd.c_str());
     
     // run dforest to calculate conditional probability
-    cmd = "igda dforest -i -q 2 -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " " +
-        encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
+    if (var_file ==""){
+        cmd = "igda dforest -i -q 2 -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " " +
+            encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
+    }else{
+        cmd = "igda dforest -i -q 2 -r " + to_string(min_reads) + " -f " + to_string(min_condprob) + " -m " + to_string(min_homo_block_dist) + " -v " + var_file + " " + 
+            encode_file + " " + m5_file + " " + ann_file + ".cmpreads " + ref_file + " " + ann_file + ".dforest " + tmp_dir;
+    }
     cout << cmd << endl;
     system(cmd.c_str());
     

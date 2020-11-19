@@ -736,3 +736,37 @@ TEST_CASE("test ann memory", "[hide]")
     assembler.ann_clust_recode_multithread(recode_file, recode_file + ".ref", encode_file, m5_file, mincvg,
                                minprop, maxprop, topn, maxnn, minjaccard, false, true, 1, false, 1);
 }
+
+
+TEST_CASE("test dforest with pileup only consider", "[hide]")
+{
+    string ann_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.ann.tested.ft.count.ft.unpolished";
+    string m5_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.m5";
+    string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/detect/qv0/realign.var";
+    string encode_file = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.encode.rdim";
+    string reffile = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/reference/ecoli_K12_MG1655.fasta";
+    string outfile = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.ann.tested.ft.count.ft.novar";
+    Assembler assembler;
+    assembler.polish(ann_file, encode_file, m5_file,
+                     reffile, outfile + ".tmp", "/tmp",
+                     0.2, 10, 1, var_file);
+    string cmd = "sort -k2,2n -k3,3n -k1,1 -u " + outfile + ".tmp" + " > " + outfile;
+    system(cmd.c_str());
+    
+    outfile = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.ann.tested.ft.count.ft.withvar";
+    Assembler assembler2;
+    assembler2.polish(ann_file, encode_file, m5_file,
+                      reffile, outfile + ".tmp", "/tmp",
+                      0.2, 10, 1);
+    cmd = "sort -k2,2n -k3,3n -k1,1 -u " + outfile + ".tmp" + " > " + outfile;
+    system(cmd.c_str());
+    
+    outfile = "/Users/zhixingfeng/Dropbox/work/iGDA/paper/submission/nature_communication_revision/analysis/memory_reduce/pacbio_ecoli/results/igda/phase/qv0/realign.ann.tested.ft.count.ft.novar.cmd";
+    cmd = "igda polish -f 0.2 -v " + var_file + " " + ann_file + " " + encode_file + " " + m5_file + " " + reffile + " " + outfile + ".tmp "+ " /tmp";
+    cout << cmd << endl;
+    system(cmd.c_str());
+    
+    cmd = "sort -k2,2n -k3,3n -k1,1 -u " + outfile + ".tmp" + " > " + outfile;
+    system(cmd.c_str());
+    
+}
