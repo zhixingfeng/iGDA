@@ -327,7 +327,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "452"
             endingLineNumber = "452"
-            landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
+            landmarkName = "AlignCoderSNV::recode(m5_file, var_file, recode_file, left_len, right_len, is_report_ref)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -344,7 +344,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "453"
             endingLineNumber = "453"
-            landmarkName = "AlignCoderSNV::recode(string m5_file, string var_file, string recode_file, int left_len, int right_len, bool is_report_ref)"
+            landmarkName = "AlignCoderSNV::recode(m5_file, var_file, recode_file, left_len, right_len, is_report_ref)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

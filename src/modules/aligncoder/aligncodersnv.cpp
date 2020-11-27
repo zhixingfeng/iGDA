@@ -20,8 +20,8 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
     ofstream p_outfile;
     open_outfile(p_outfile, outfile);
     
-    ofstream p_reffile;
-    open_outfile(p_reffile, outfile + ".ref");
+    //ofstream p_reffile;
+    //open_outfile(p_reffile, outfile + ".ref");
     
     p_alignreader->open(alignfile);
     Align align;
@@ -51,7 +51,7 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
                         if (align.qAlignedSeq[i] == 'A' || align.qAlignedSeq[i] == 'C' || align.qAlignedSeq[i] == 'G' || align.qAlignedSeq[i] == 'T')
                             p_outfile << this->binary_code(cur_pos, align.qAlignedSeq[i]) << '\t';
                     }else{
-                        p_reffile << this->binary_code(cur_pos, align.tAlignedSeq[i]) << '\t';
+                        //p_reffile << this->binary_code(cur_pos, align.tAlignedSeq[i]) << '\t';
                     }
                 }
                 ++cur_pos;
@@ -66,14 +66,14 @@ bool AlignCoderSNV::encode(string alignfile, string outfile)
                 cur_pos++;*/
         }
         p_outfile << endl;
-        p_reffile << endl;
+        //p_reffile << endl;
     }
     
     p_alignreader->close();
     
     
     p_outfile.close();
-    p_reffile.close();
+    //p_reffile.close();
     return true;
 }
 
