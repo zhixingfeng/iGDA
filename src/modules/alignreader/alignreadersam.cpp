@@ -63,7 +63,7 @@ bool AlignReaderSam::readline(Align &align) {
         throw runtime_error("AlignReaderSam::readline: unavailable refID " + to_string(record.rID) );
     }
     
-    seqan::Dna5String cur_refseq = ref_seqs[record.rID];
+    const seqan::Dna5String &cur_refseq = ref_seqs[record.rID];
     align.tName = seqan::toCString(ref_ids[record.rID]);
     
     if(seqan::length(record.qual) != seqan::length(record.seq) && seqan::length(record.qual) > 0)
