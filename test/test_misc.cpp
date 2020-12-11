@@ -8,7 +8,7 @@
 #include "../include/catch.hpp"
 #include "../src/misc/misc.h"
 #include "../src/misc/merge_data.h"
-
+#include "../src/misc/var2vcf.h"
 #include <thread>
 //#include <stxxl.h>
 
@@ -740,3 +740,12 @@ TEST_CASE("test pop_back of empty vector", "[hide]")
     cout << x.size() << endl;
 }
 
+TEST_CASE("test var2vcf", "[hide]")
+{
+    string var_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_var2vcf/realign.var";
+    string ref_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_var2vcf/hg19_clean_chr1.fa";
+    string vcf_file = "/Users/zhixingfeng/Dropbox/work/iGDA/development/test/test_var2vcf/realign.vcf";
+    
+    var2vcf(var_file, ref_file, vcf_file);
+    
+}

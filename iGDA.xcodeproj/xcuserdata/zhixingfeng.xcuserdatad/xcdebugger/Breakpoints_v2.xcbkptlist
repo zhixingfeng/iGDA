@@ -225,7 +225,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "merge_encode(string m5_fofn_file, string encode_fofn_file, string out_encode_file)"
+            landmarkName = "merge_encode(m5_fofn_file, encode_fofn_file, out_encode_file)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -310,7 +310,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "AlignReaderM5::readline(Align &amp;align)"
+            landmarkName = "AlignReaderM5::readline(align)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

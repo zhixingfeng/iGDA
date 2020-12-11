@@ -19,7 +19,7 @@
 #include "./misc/misc.h"
 #include "./misc/permute_reads.h"
 #include "./misc/merge_data.h"
-
+#include "./misc/var2vcf.h"
 
 #ifdef _UNITTEST
 
@@ -1131,6 +1131,15 @@ int main(int argc, const char * argv[])
             cmd.parse(argv2);
             
             getdepth_from_paf(paf_fileArg.getValue(), cvg_fileArg.getValue());
+        }
+        
+        if (strcmp(argv[1], "var2vcf")==0){
+            UnlabeledValueArg<string> var_fileArg("var_file", "path of var file", true, "", "var_file", cmd);
+            UnlabeledValueArg<string> ref_fileArg("ref_file", "path of ref file", true, "", "ref_file", cmd);
+            UnlabeledValueArg<string> vcf_fileArg("vcf_file", "path of vcf file", true, "", "vcf_file", cmd);
+            
+            cmd.parse(argv2);
+            var2vcf(var_fileArg.getValue(), ref_fileArg.getValue(), vcf_fileArg.getValue());
         }
         
     }

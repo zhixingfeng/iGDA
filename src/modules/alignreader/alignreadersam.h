@@ -42,7 +42,7 @@ public:
     // get range of each chromosome in bam / sam file [min_mapped_locus, max_mapped_locus]
     bool getchrrange(string sam_file, string ref_file, string out_file);
     
-protected:
+public:
     string filename;
     seqan::BamFileIn bamFileIn;
     seqan::StringSet<seqan::CharString> ref_ids;
