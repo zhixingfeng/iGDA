@@ -1008,16 +1008,16 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> contextfileArg("contextfile", "path of context file", true, "", "contextfile", cmd);
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             
-            ValueArg<double> minbfArg("b","minbf","minimal Bayes factor, default: 50", false , 50, "minbf", cmd);
+            ValueArg<double> minbfArg("b","minbf","minimal log Bayes factor, default: 10", false , 10, "minbf", cmd);
             ValueArg<double> minfreqArg("f","minfreq","minimal frequency, default: 0.01", false , 0.01, "minfreq", cmd);
-            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 20, "mincvg", cmd);
-            ValueArg<int> mincontextcvgArg("v","mincontextcvg","minimal context total coverage, default: 500", false , 500, "mincontextcvg", cmd);
+            ValueArg<int> mincvgArg("c","mincvg","minimal coverage, default: 20", false , 15, "mincvg", cmd);
+            ValueArg<int> mincontextcvgArg("v","mincontextcvg","minimal context total coverage, default: 0", false , 0, "mincontextcvg", cmd);
             
             cmd.parse(argv2);
             DetectSingleSNV detectsinglesnv;
             DetectSingle *p_detectsingle = &detectsinglesnv;
             p_detectsingle->loadcontexteffect(contextfileArg.getValue(), mincontextcvgArg.getValue());
-            p_detectsingle->detect(pileupfileArg.getValue(), outfileArg.getValue(), log(minbfArg.getValue()), minfreqArg.getValue(), mincvgArg.getValue());
+            p_detectsingle->detect(pileupfileArg.getValue(), outfileArg.getValue(), minbfArg.getValue(), minfreqArg.getValue(), mincvgArg.getValue());
             
         }
         
