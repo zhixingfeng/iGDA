@@ -495,8 +495,8 @@
             timestampString = "627280966.4231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2336"
-            endingLineNumber = "2336"
+            startingLineNumber = "2337"
+            endingLineNumber = "2337"
             landmarkName = "Assembler::assemble(gp, out_ann_file)"
             landmarkType = "7">
          </BreakpointContent>
@@ -512,8 +512,8 @@
             timestampString = "627280966.423177"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2341"
-            endingLineNumber = "2341"
+            startingLineNumber = "2342"
+            endingLineNumber = "2342"
             landmarkName = "Assembler::assemble(gp, out_ann_file)"
             landmarkType = "7">
          </BreakpointContent>
@@ -546,8 +546,8 @@
             timestampString = "627280966.423249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2475"
-            endingLineNumber = "2475"
+            startingLineNumber = "2476"
+            endingLineNumber = "2476"
             landmarkName = "Assembler::assemble_unambiguous(gp, out_file)"
             landmarkType = "7">
          </BreakpointContent>
@@ -731,8 +731,8 @@
             timestampString = "627280966.423385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1405"
-            endingLineNumber = "1405"
+            startingLineNumber = "1406"
+            endingLineNumber = "1406"
             landmarkName = "Assembler::test_contigs_refonly(recode_data, recode_ref_data, reads_range)"
             landmarkType = "7">
          </BreakpointContent>
@@ -748,8 +748,8 @@
             timestampString = "627280966.423562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1406"
-            endingLineNumber = "1406"
+            startingLineNumber = "1407"
+            endingLineNumber = "1407"
             landmarkName = "Assembler::test_contigs_refonly(recode_data, recode_ref_data, reads_range)"
             landmarkType = "7">
          </BreakpointContent>
@@ -782,8 +782,8 @@
             timestampString = "627280966.423733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1362"
-            endingLineNumber = "1362"
+            startingLineNumber = "1363"
+            endingLineNumber = "1363"
             landmarkName = "Assembler::ann_to_graph(gp, ann_file, min_prop, min_len_prop, min_jaccard, is_or)"
             landmarkType = "7">
          </BreakpointContent>

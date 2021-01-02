@@ -1358,7 +1358,8 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //cout << i << ',' << j << " : " << cur_jaccard << endl;
             
             if (is_or){
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
+                //if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
+                if ((!is_diff || (cur_jaccard >= min_jaccard || n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
                     boost::add_edge(i, j, gp);
             }else{
                 if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j && overlap_len > min_len_prop*contig_len_i && overlap_len > min_len_prop*contig_len_j ))
@@ -2940,7 +2941,8 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min
                     }
                 }
                 
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
+                //if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
+                if ((!is_diff || (cur_jaccard >= min_jaccard || n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
                     is_nc = false;
                 
                 // clear template of the jth contig
