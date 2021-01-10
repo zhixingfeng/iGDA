@@ -2941,7 +2941,8 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min
                     }
                 }
                 
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
+                //if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
                 //if ((!is_diff || (cur_jaccard >= min_jaccard || n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
                     is_nc = false;
                 
