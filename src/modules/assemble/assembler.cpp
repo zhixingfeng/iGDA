@@ -1239,7 +1239,7 @@ void Assembler::filter_ann(string ann_file, double min_log_bf, double max_loci, 
     
 }
 
-void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or)
+void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double min_len_prop, double min_jaccard, bool is_or, int max_ndiff)
 {
     this->read_ann_results(ann_file);
     if (this->rl_ann_clust.size() == 0)
@@ -1358,11 +1358,11 @@ void Assembler::ann_to_graph(Graph &gp, string ann_file, double min_prop, double
             //cout << i << ',' << j << " : " << cur_jaccard << endl;
             
             if (is_or){
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= max_ndiff)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
                 //if ((!is_diff || (cur_jaccard >= min_jaccard || n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i || n_overlap > min_prop*n_cons_seq_j || overlap_len > min_len_prop*contig_len_i || overlap_len > min_len_prop*contig_len_j ))
                     boost::add_edge(i, j, gp);
             }else{
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && (n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j && overlap_len > min_len_prop*contig_len_i && overlap_len > min_len_prop*contig_len_j ))
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= max_ndiff)) && (n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j && overlap_len > min_len_prop*contig_len_i && overlap_len > min_len_prop*contig_len_j ))
                     boost::add_edge(i, j, gp);
             }
             
@@ -2841,7 +2841,7 @@ bool Assembler::check_pileup_recode(const vector<int> &pu_var_count, const vecto
 }
 
 
-void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min_jaccard)
+void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min_jaccard, int max_ndiff)
 {
     if (this->rl_ann_clust.size() == 0)
         return;
@@ -2942,7 +2942,7 @@ void Assembler::find_nccontigs(vector<int64_t> &idx, double min_prop, double min
                 }
                 
                 //if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
-                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= 1)) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
+                if ((!is_diff || (cur_jaccard >= min_jaccard && n_diff <= max_ndiff)) && n_overlap >= min_prop*n_cons_seq_i && n_overlap >= min_prop*n_cons_seq_j)
                 //if ((!is_diff || (cur_jaccard >= min_jaccard || n_diff <= 1)) && n_overlap > min_prop*n_cons_seq_i && n_overlap > min_prop*n_cons_seq_j)
                     is_nc = false;
                 

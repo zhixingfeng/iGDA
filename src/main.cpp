@@ -674,12 +674,13 @@ int main(int argc, const char * argv[])
             UnlabeledValueArg<string> outfileArg("outfile", "path of output file", true, "", "outfile", cmd);
             ValueArg<double> minpropArg("p","minprop","minimal proportion of overlaped SNVs (default 0.5)", false , 0.5, "minprop", cmd);
             ValueArg<double> minjaccardpArg("j","minjaccard","minimal jaccard index of the two contigs, default: 2 (i.e. not use jaccard)", false , 2, "minjaccard", cmd);
+            ValueArg<int> maxndiffpArg("d","max_ndiff","maximal number of different bases", false , 1, "max_ndiff", cmd);
             
             cmd.parse(argv2);
             Assembler assembler;
             assembler.read_ann_results(annfileArg.getValue());
             vector<int64_t> idx;
-            assembler.find_nccontigs(idx, minpropArg.getValue(), minjaccardpArg.getValue());
+            assembler.find_nccontigs(idx, minpropArg.getValue(), minjaccardpArg.getValue(), maxndiffpArg.getValue());
             assembler.print_rl_ann_clust(outfileArg.getValue() + ".igda_tmp", true, idx);
             string cmd = "sort -u -s -k2,2n -k3,3n -k1,1 " + outfileArg.getValue() + ".igda_tmp" + " > " + outfileArg.getValue();
             cout << cmd << endl; system(cmd.c_str());
@@ -882,6 +883,7 @@ int main(int argc, const char * argv[])
             ValueArg<double> minpropArg("p","minprop","minimal proportion of common variants between two contigs, default: 0.5", false , 0.5, "minprop", cmd);
             ValueArg<double> minlenpropArg("l","minlenprop","minimal proportion of overlaping length between two contigs, default: 0.5", false , 0.5, "minlenprop", cmd);
             ValueArg<double> minjaccardpArg("j","minjaccard","minimal jaccard index of the two contigs, default: 2 (i.e. not use jaccard)", false , 2, "minjaccard", cmd);
+            ValueArg<int> maxndiffpArg("d","max_ndiff","maximal number of different bases", false , 1, "max_ndiff", cmd);
             
             SwitchArg isorfArg("r", "or", "is use or in overlap cutoff", cmd, false);
             
@@ -890,7 +892,7 @@ int main(int argc, const char * argv[])
             // get overlap graph
             Assembler assembler;
             Graph gp_bgl;
-            assembler.ann_to_graph(gp_bgl, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue(), minjaccardpArg.getValue(), isorfArg.getValue());
+            assembler.ann_to_graph(gp_bgl, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue(), minjaccardpArg.getValue(), isorfArg.getValue(), maxndiffpArg.getValue());
             
             ofstream fs_graph(annfileArg.getValue() + ".dot");
             boost::write_graphviz(fs_graph, gp_bgl);
@@ -905,18 +907,6 @@ int main(int argc, const char * argv[])
             
             save_igda_graph_to_file(gp_tred, annfileArg.getValue() + ".tred.dot");
             
-            /*Assembler assembler;
-            Graph gp;
-            assembler.ann_to_graph(gp, annfileArg.getValue(), minpropArg.getValue(), minlenpropArg.getValue());
-            
-            ofstream fs_graph(annfileArg.getValue() + ".dot");
-            boost::write_graphviz(fs_graph, gp);
-            fs_graph.cloase();
-            
-            string cmd = "tred " + annfileArg.getValue() + ".dot";
-            cmd = cmd + " > " + annfileArg.getValue() + ".tred.dot";
-            cout << cmd << endl;
-            system(cmd.c_str());*/
         }
         
         if (strcmp(argv[1], "tred_legacy")==0){

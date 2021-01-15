@@ -160,7 +160,7 @@ public:
                                int max_iter = 1, bool is_recode = false, vector<int64_t> reads_id = vector<int64_t>());
     
     // get non-contained contigs
-    void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5, double min_jaccard = 2);
+    void find_nccontigs(vector<int64_t> &idx, double min_prop = 0.5, double min_jaccard = 2, int max_ndiff = 1);
     void find_nccontigs_legacy(vector<int64_t> &idx);
     
     // print results
@@ -170,7 +170,7 @@ public:
     // read ann file
     void read_ann_results(string ann_file, bool is_ref = false);
     void filter_ann(string ann_file, double min_log_bf = 5, double max_loci = 10, double min_rr = 5);
-    void ann_to_graph(Graph &gp, string ann_file, double min_prop = 0.5, double min_len_prop = 0.5, double min_jaccard = 2, bool is_or = false);
+    void ann_to_graph(Graph &gp, string ann_file, double min_prop = 0.5, double min_len_prop = 0.5, double min_jaccard = 2, bool is_or = false, int max_ndiff = 1);
     
     // test each contig
     void test_contigs(const vector<vector<int> > &recode_data, const vector<vector<int> > &recode_ref_data, const vector<ReadRange> &reads_range);
