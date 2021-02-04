@@ -38,45 +38,31 @@ using namespace TCLAP;
 
 void print_usage()
 {
-    cout << "Version 0.9.3" << endl << endl;
-    cout << "To detect low-frequency SNVs, use:" << endl;
-    cout << "(PacBio data) igda_pipe_detect_pb infile(bam or sam file) reffile contextmodel outdir" << endl;
-    cout << "(Nanopore data) igda_pipe_detect_ont infile(bam or sam file) reffile contextmodel outdir" << endl << endl;
+    cout << "Version 1.0.1" << endl << endl;
+    cout << "To detect minor SNVs, use:" << endl;
+    cout << "(PacBio data) igda_pipe_detect -m pb bamfile reffile contextmodel outdir" << endl;
+    cout << "(Nanopore data) igda_pipe_detect -m ont bamfile reffile contextmodel outdir" << endl << endl;
     
-    cout << "to detect combination of  low-frequency SNVs, use:" << endl;
-    cout << "(PacBio data) igda_pipe_phase_pb indir(output of igda_pipe_detect_pb) reffile outdir" << endl;
-    cout << "(Nanopore data) igda_pipe_phase_ont indir(output of igda_pipe_detect_ont) reffile outdir" << endl << endl;
+    cout << "To phase minor SNVs, use:" << endl;
+    cout << "(PacBio data) igda_pipe_phase -m pb indir(outdir of igda_pipe_detect) reffile outdir" << endl;
+    cout << "(Nanopore data) igda_pipe_phase -m ont indir(outdir of igda_pipe_detect) reffile outdir" << endl << endl;
     
-    cout << "Please note that reffile is the reference fasta file. Current version assumes there is only one contig in samfile and reffile." << endl << endl;
-    cout << "contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel" << endl;
+    cout << "bamfile is the aligned bam file (indexed)." << endl;
+    cout << "reffile is the reference fasta file." << endl;
+    cout << "contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel" << endl << endl;;
     
-    cout << "Output format:" << endl;
-    cout << "For detecting low-frequency SNVs, realign.var in outdir is the final result." << endl;
-    cout << "Column 1 is the locus of detected SNVs." << endl;
-    cout << "Column 2 is the alternative base of detected SNVs." << endl;
+    cout << "Output:" << endl << endl;
+    cout << "For detecting minor SNVs, realign.vcf in outdir is the final result." << endl << endl;
+    
+    cout << "For phasing minor SNVs, contigs.sam, contigs.fa, and contigs.ann are the final results." << endl;
+    cout << "In the contigs.ann file, each row is a contig." << endl;
+    cout << "Column 1 is chromosome name." << endl;
+    cout << "Column 2 is the SNVs of the contig. It is encoded, for each integer x, floor(x/4) = 0-based locus, and x modulo 4 = base (0=A, 1=C, 2=G, 3=T)" << endl;
+    cout << "Column 3 is start locus (0-based)" << endl;
+    cout << "Column 4 is end locus (0-based)" << endl;
     cout << "The other columns are reserved for internal use" << endl << endl;
     
-    cout << "For detecting combinations of low-frequency SNVs, realign.ann.tested.ft.count.ft.assembled.count.nc.ft in outdir is the final result." << endl;
-    cout << "Each row is a contig" << endl;
-    cout << "Column 1 is the SNVs of the contigs. It is encoded, for each integer x, floor(x/4) = 0-based locus, and x modulo 4 = base" << endl;
-    cout << "Column 2 is start locus (0-based)" << endl;
-    cout << "Column 3 is end locus (0-based)" << endl;
-    cout << "Column 4 is number of reads aligned to the contig" << endl;
-    cout << "Column 5 is coverage of the contig" << endl;
-    cout << "The other columns are reserved for internal use" << endl << endl;
-    
-    cout << "For any questions, inquiry of source code or example data, contact zhixing.feng@mssm.edu" << endl;
-    /*cout << "igda [command]" << endl;
-    cout << "command = encode : binary coding SNVs of each aligned read." << endl;
-    cout << "          cmpreads : pairwise comparison of encoded reads."<< endl;
-    cout << "          dforest : detecting SNVs by dforest algorithm (unable to detect SNVs if no reads cover multiple real SNVs)." << endl;
-    cout << "          contexteffect : pileup reads and get context effect." << endl;
-    cout << "          detectsingle : detecting SNVs locus by locus (lower sensitivity compared to dforest but able to detect SNVs if no reads cover multiple real SNVs)." << endl;
-    cout << "          rdim : removing undetected SNVs from encoded reads." << endl;
-    cout << "          ann : clustering reads by adaptive nearest neighbor clustering." << endl;*/
-    
-    //cout << "command = samtofa, bamtofa, m5tofa, encode, cmpreads, bin2txt, txt2bin, dforest, sort, filter, contexteffect, merge, mergeall, dist, pileup_var, pileup_reads, samtom5" << endl;
-
+    cout << "For any questions, contact zhixing.feng@mssm.edu or zxfeng.thu@gmail.com" << endl;
 }
 
 int main(int argc, const char * argv[])
