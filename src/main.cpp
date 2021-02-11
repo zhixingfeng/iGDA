@@ -52,7 +52,7 @@ void print_usage()
     cout << "contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel" << endl << endl;;
     
     cout << "Output:" << endl << endl;
-    cout << "For detecting minor SNVs, realign.vcf in outdir is the final result." << endl << endl;
+    cout << "For detecting minor SNVs, detected_snv.vcf in outdir is the final result." << endl << endl;
     
     cout << "For phasing minor SNVs, contigs.sam, contigs.fa, and contigs.ann are the final results." << endl;
     cout << "In the contigs.ann file, each row is a contig." << endl;
