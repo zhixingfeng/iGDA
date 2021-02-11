@@ -71,9 +71,9 @@ contextmodel is the context effect model trained on independent data. They can b
 
 **Output format:**
 
-**For phasing minor SNVs, contigs.sam, contigs.fa, and contigs.ann are the final results.**
+**For detecting minor SNVs, detected_snv.vcf in outdir is the final result.**
 
-****
+**For phasing minor SNVs, contigs.sam, contigs.fa, and contigs.ann are the final results.**
 
 In the contigs.ann file, each row is a contig.
 
