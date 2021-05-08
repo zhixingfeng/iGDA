@@ -128,7 +128,7 @@ Example data and code can be download from the following link, which includes:
 
 https://www.dropbox.com/sh/umi03t3eendcktf/AABhXy2cNfQAr0wBike87Kc0a?dl=0
 
-The run time of demo 1~3 is expected to be several minutes with 16 cores, but may vary depending on the specific machines and their working conditions. It takes about 5 hours to finish demo 4 with 32 cores due to its size.
+The run time of demo 1~3 is expected to be several minutes with 16 cores, but may vary depending on the specific machines and their working conditions. It might take about several hours to finish demo 4 with 32 cores due to its size.
 
 # Maintainer
 
