@@ -85,7 +85,7 @@ Sort and convert realign samfile to bamfile:
 
 ```contextmodel``` is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
 
-## To phase minor SNVs:
+## Phase minor SNVs:
 
 (PacBio data) ```igda_pipe_phase -m pb indir(outdir of igda_pipe_detect) reffile outdir```
 
