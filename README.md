@@ -11,7 +11,7 @@
 - [License](./LICENSE)
 
 # Overview 
-Cellular genetic heterogeneity is common in many biological conditions including cancer, microbiome, co-infection of multiple pathogens. Detecting and phasing minor variants, which is to determine whether multiple variants are from the same haplotype, play an instrumental role in deciphering cellular genetic heterogeneity, but are still difficult because of technological limitations. Recently, long-read sequencing technologies, including those by Pacific Biosciences and Oxford Nanopore, have provided an unprecedented opportunity to tackle these challenges. However, high error rates make it difficult to take full advantage of these technologies. To fill this gap, we introduce iGDA, an open-source tool that can accurately detect and phase minor single-nucleotide variants (SNVs), whose frequencies are as low as 0.2%, from raw long-read sequencing data. We also demonstrated that iGDA can accurately reconstruct haplotypes in closely-related strains of the same species (divergence >= 0.011%) from long-read metagenomic data. Our approach, therefore, presents a significant advance towards the complete deciphering of cellular genetic heterogeneity. 
+Cellular genetic heterogeneity is common in many biological conditions including cancer, microbiome, and co-infection of multiple pathogens. Detecting and phasing minor variants, which is to determine whether multiple variants are from the same haplotype, play an instrumental role in deciphering cellular genetic heterogeneity, but are still difficult because of technological limitations. Recently, long-read sequencing technologies, including those by Pacific Biosciences and Oxford Nanopore, have provided an unprecedented opportunity to tackle these challenges. However, high error rates make it difficult to take full advantage of these technologies. To fill this gap, we introduce iGDA, an open-source tool that can accurately detect and phase minor single-nucleotide variants (SNVs), whose frequencies are as low as 0.2%, from raw long-read sequencing data. We also demonstrated that iGDA can accurately reconstruct haplotypes in closely-related strains of the same species (divergence >= 0.011%) from long-read metagenomic data. 
 
 # System Requirements
 
@@ -33,8 +33,8 @@ Linux: CentOS Linux release 7.6.1810 (Core)
 
 # Installation Guide
 
-## Install via *Conda* (recommended, need *Conda*)
-conda install -c zhixingfeng igda
+## Install via Conda (recommended, need Conda)
+```conda install -c zhixingfeng igda```
 
 ## Compile from source code (not recommended)
 ### Install dependencies
@@ -49,33 +49,55 @@ Download the source code of iGDA from *Release*, unzip it, enter the directory a
 Download https://github.com/zhixingfeng/shell/archive/0.9.3.tar.gz, unzip it and add the folder to your PATH.
 
 # Usage 
-**To detect minor SNVs, use:**
+## Preprocessing:
 
-(PacBio data) igda_pipe_detect -m pb bamfile reffile contextmodel outdir
+Convert lower case letters to upper case in reference fasta file:
 
-(Nanopore data) igda_pipe_detect -m ont bamfile reffile contextmodel outdir
+```fasta2upper infasta outfasta```
 
-**To phase minor SNVs, use:**
+Convert wildcard letters to N in reference fasta file:
 
-(PacBio data) igda_pipe_phase -m pb indir(outdir of igda_pipe_detect) reffile outdir
+```fastaclean fastafile outfafile```
 
-(Nanopore data) igda_pipe_phase -m ont indir(outdir of igda_pipe_detect) reffile outdir
+Realign reads aligned to the negative strand:
 
-**Please note**
+(PacBio data) ```igda_align_pb infile(bam or sam file) reffile outfile nthread```
 
-bamfile is the aligned bam file (indexed).
+(PacBio data with no QV, like Sequel or Sequel II) ```igda_align_pb_fa infile(bam or sam file) reffile outfile nthread```
 
-reffile is the reference fasta file.
+(Nanopore data) ```igda_align_ont infile(bam or sam file) reffile outfile nthread```
 
-contextmodel is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
+Sort and convert realign samfile to bamfile:
 
-**Output format:**
+```sam2bam samfile nthread```
 
-**For detecting minor SNVs, detected_snv.vcf in outdir is the final result.**
+## Detect minor SNVs:
 
-**For phasing minor SNVs, contigs.sam, contigs.fa, and contigs.ann are the final results.**
+(PacBio data) ```igda_pipe_detect -m pb bamfile reffile contextmodel outdir```
 
-In the contigs.ann file, each row is a contig.
+(Nanopore data) ```igda_pipe_detect -m ont bamfile reffile contextmodel outdir```
+
+**Please note:**
+
+```bamfile``` is the aligned bam file (sorted and indexed).
+
+```reffile``` is the reference fasta file.
+
+```contextmodel``` is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
+
+## To phase minor SNVs:
+
+(PacBio data) ```igda_pipe_phase -m pb indir(outdir of igda_pipe_detect) reffile outdir```
+
+(Nanopore data) ```igda_pipe_phase -m ont indir(outdir of igda_pipe_detect) reffile outdir```
+
+## Output format:
+
+For detecting minor SNVs, ```detected_snv.vcf``` in outdir is the final result.
+
+For phasing minor SNVs, ```contigs.sam```, ```contigs.fa```, and ```contigs.ann are``` the final results.
+
+In the ```contigs.ann file```, each row is a contig.
 
 Column 1 is chromosome name.
 
@@ -86,6 +108,14 @@ Column 3 is start locus (0-based)
 Column 4 is end locus (0-based)
 
 The other columns are reserved for internal use
+
+## Parameter tuning:
+
+It is difficult to find an universally optimal parameter setting. Here are some tips for parameter tuning if the default one does not have the expected performance:
+
+* By default, ```igda_pipe_detect``` discards reads with aligned length < 1000 because it can reduce the impact read-maping ambiguity. Use ```igda_pipe_detect -l 0 ``` instead if the data have lots of aligned reads shorter than 1000.
+
+* In ```igda_pipe_detect```, ```-r``` and ```-c``` are the two major parameters affecting the accuracy. ```-r``` is "Minimal depth for each SNV" and ```-c``` is "Minimal maximal conditional substitution rate". By default, ```igda_pipe_detect``` uses ```-r 25 -c 0.65```, which is a conservative aiming to achieve a low false discover rate (FDR). These parameters might have a low sensitivity if the sequencing depth corresponding to a minor SNV is lower or close to 25. It is possible to increase sensitivity by decreasing ```-r```, but FDR might increase. 
 
 # Demo
 
