@@ -115,7 +115,7 @@ It is difficult to find an universally optimal parameter setting. Here are some 
 
 * By default, ```igda_pipe_detect``` discards reads with aligned length < 1000 because it can reduce the impact read-maping ambiguity. Use ```igda_pipe_detect -l 0 ``` instead if the data have lots of aligned reads shorter than 1000.
 
-* In ```igda_pipe_detect```, ```-r``` and ```-c``` are the two major parameters affecting the accuracy. ```-r``` is "Minimal depth for each SNV" and ```-c``` is "Minimal maximal conditional substitution rate". By default, ```igda_pipe_detect``` uses ```-r 25 -c 0.65```, which is a conservative aiming to achieve a low false discover rate (FDR). These parameters might have a low sensitivity if the sequencing depth corresponding to a minor SNV is lower or close to 25. It is possible to increase sensitivity by decreasing ```-r```, but FDR might increase. 
+* In ```igda_pipe_detect```, ```-r``` and ```-c``` are the two major parameters affecting the accuracy. ```-r``` is "Minimal depth for each SNV" and ```-c``` is "Minimal maximal conditional substitution rate". By default, ```igda_pipe_detect``` uses ```-r 25 -c 0.65```, which is a conservative setting aiming to achieve a low false discover rate (FDR). These parameters might have a low sensitivity if the sequencing depth corresponding to a minor SNV is lower or close to 25. It is possible to increase sensitivity by decreasing ```-r```, but FDR might increase. 
 
 # Demo
 
