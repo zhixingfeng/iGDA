@@ -7,6 +7,7 @@
 - [Installation Guide](#installation-guide)
 - [Usage](#usage)
 - [Demo](#demo)
+- [Citation](#citation)
 - [Maintainer](#maintainer)
 - [License](./LICENSE)
 
@@ -129,6 +130,11 @@ Example data and code can be download from the following link, which includes:
 https://www.dropbox.com/sh/umi03t3eendcktf/AABhXy2cNfQAr0wBike87Kc0a?dl=0
 
 The run time of demo 1~3 is expected to be several minutes with 16 cores, but may vary depending on the specific machines and their working conditions. It might take about several hours to finish demo 4 with 32 cores due to its size.
+
+# Citation
+Feng, Z., Clemente, J.C., Wong, B. et al. Detecting and phasing minor single-nucleotide variants from long-read sequencing data. Nat Commun 12, 3032 (2021). 
+
+DOI: https://doi.org/10.1038/s41467-021-23289-4
 
 # Maintainer
 
