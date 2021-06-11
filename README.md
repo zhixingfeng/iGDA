@@ -35,7 +35,7 @@ Linux: CentOS Linux release 7.6.1810 (Core)
 # Installation Guide
 
 ## Install via Conda (recommended, need Conda)
-```conda install -c bioconda -c conda-forge -c zhixingfeng igda```
+```conda install -c zhixingfeng igda```
 
 Or
 
