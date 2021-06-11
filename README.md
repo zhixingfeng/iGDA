@@ -37,6 +37,12 @@ Linux: CentOS Linux release 7.6.1810 (Core)
 ## Install via Conda (recommended, need Conda)
 ```conda install -c bioconda -c conda-forge -c zhixingfeng igda```
 
+Or
+
+```conda install -c bioconda -c conda-forge -c zhixingfeng igda``` 
+
+if you don't have biconda or conda-forge in your channel list.
+
 ## Compile from source code (not recommended)
 ### Install dependencies
 1. xgboost 0.90
