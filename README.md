@@ -90,7 +90,9 @@ Sort and convert realign samfile to bamfile:
 
 ```reffile``` is the reference fasta file.
 
-```contextmodel``` is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel
+```contextmodel``` is the context effect model trained on independent data. They can be download in https://github.com/zhixingfeng/igda_contextmodel. For PacBio, qvx_NCTC_P6_C4 is the models corresponding to different QV thresholds to mask bases with QV < x as N (Use qv0_NCTC_P6_C4 if your reads have no QV). For ONT, If your data is preprocessed by discarding reads with average QV < x and masking bases with QV < y by "N", use the model named "ont_context_effect_read_qv_x_base_qv_y". "qv_0" means no masking. The "sam_maskqv" command released with iGDA can do the low QV base masking (should be available if you install iGDA using conda), but you could also use any in-house or third-party tools. Many QC tools dealing with FASTQ files can do low average QV reads filtering.
+
+
 
 ## Phase minor SNVs:
 
